@@ -1,0 +1,53 @@
+package com.calore.tracker.ui
+
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.calore.tracker.AppContainer
+import com.calore.tracker.CaloreApp
+import com.calore.tracker.ui.addfood.AddFoodViewModel
+import com.calore.tracker.ui.calculator.CalculatorViewModel
+import com.calore.tracker.ui.customfood.CustomFoodViewModel
+import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
+import com.calore.tracker.ui.goals.GoalsViewModel
+import com.calore.tracker.ui.today.TodayViewModel
+import com.calore.tracker.ui.weight.WeightViewModel
+
+/** Builds every ViewModel from the app-wide [AppContainer]. */
+object AppViewModelProvider {
+    val Factory = viewModelFactory {
+        initializer {
+            val c = container()
+            TodayViewModel(createSavedStateHandle(), c.diaryRepository, c.goalsRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            AddFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            FoodDetailViewModel(createSavedStateHandle(), c.foodRepository, c.diaryRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            CustomFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            GoalsViewModel(c.goalsRepository)
+        }
+        initializer {
+            val c = container()
+            CalculatorViewModel(c.goalsRepository, c.weightRepository)
+        }
+        initializer {
+            val c = container()
+            WeightViewModel(c.weightRepository, c.clock)
+        }
+    }
+
+    // The manifest names CaloreApp as the Application class, so this cast always holds.
+    private fun CreationExtras.container(): AppContainer = (this[APPLICATION_KEY] as CaloreApp).container
+}

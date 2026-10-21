@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calore</string>
+
+    <!-- Common -->
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="undo">Undo</string>
+    <string name="retry">Retry</string>
+    <string name="more_options">More options</string>
+    <string name="unit_kcal">kcal</string>
+    <string name="unit_g">g</string>
+    <string name="unit_kg">kg</string>
+    <string name="value_kcal">%1$s kcal</string>
+    <string name="value_g">%1$s g</string>
+    <string name="value_kg">%1$s kg</string>
+
+    <!-- Navigation -->
+    <string name="nav_diary">Diary</string>
+    <string name="nav_weight">Weight</string>
+    <string name="nav_goals">Goals</string>
+
+    <!-- Meals -->
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_snack">Snacks</string>
+
+    <!-- Nutrients -->
+    <string name="nutrient_calories">Calories</string>
+    <string name="nutrient_protein">Protein</string>
+    <string name="nutrient_carbs">Carbs</string>
+    <string name="nutrient_sugar">of which sugar</string>
+    <string name="nutrient_fat">Fat</string>
+    <string name="nutrient_fiber">Fiber</string>
+
+    <!-- Diary -->
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+    <string name="date_tomorrow">Tomorrow</string>
+    <string name="previous_day">Previous day</string>
+    <string name="next_day">Next day</string>
+    <string name="summary_left">kcal left</string>
+    <string name="summary_over">kcal over</string>
+    <string name="summary_eaten">Eaten %1$s</string>
+    <string name="summary_goal">Goal %1$s</string>
+    <string name="summary_macro">%1$s / %2$s g</string>
+    <string name="summary_fiber_sugar">Fiber %1$s g · Sugar %2$s g</string>
+    <string name="meal_add">Add food to %1$s</string>
+    <string name="meal_empty">Nothing logged yet</string>
+    <string name="entry_subtitle">%1$s g · %2$s kcal</string>
+    <string name="entry_macros">P %1$s · C %2$s · F %3$s</string>
+    <string name="entry_edit_title">Edit portion</string>
+    <string name="entry_removed">Removed %1$s</string>
+    <string name="amount_label">Amount (g)</string>
+    <string name="error_amount">Enter an amount above 0 and up to 10,000 g</string>
+
+    <!-- Add food -->
+    <string name="add_food_title">Add to %1$s</string>
+    <string name="search_hint">Search foods</string>
+    <string name="clear_search">Clear search</string>
+    <string name="section_recent">Recent</string>
+    <string name="section_my_foods">My foods</string>
+    <string name="section_online">Open Food Facts</string>
+    <string name="no_recent">Foods you log show up here for quick access.</string>
+    <string name="create_custom_food">Create custom food</string>
+    <string name="online_hint">Type at least 2 letters to search Open Food Facts.</string>
+    <string name="online_loading">Searching Open Food Facts…</string>
+    <string name="online_offline">Couldn\'t reach Open Food Facts. Check your connection.</string>
+    <string name="online_service_error">Open Food Facts sent an unexpected answer. Try again in a moment.</string>
+    <string name="online_no_results">No matches on Open Food Facts.</string>
+    <string name="food_per_100g">%1$s kcal per 100 g</string>
+    <string name="food_per_100g_brand">%1$s · %2$s kcal per 100 g</string>
+
+    <!-- Food detail -->
+    <string name="food_not_found">This food no longer exists.</string>
+    <string name="per_100g">Per 100 g</string>
+    <string name="this_portion">This portion</string>
+    <string name="serving_chip">1 serving (%1$s g)</string>
+    <string name="hundred_g_chip">100 g</string>
+    <string name="meal_label">Meal</string>
+    <string name="add_to_meal">Add to %1$s</string>
+    <string name="edit_food">Edit food</string>
+    <string name="delete_food">Delete food</string>
+    <string name="delete_food_confirm">Delete %1$s from your foods? Entries already in your diary stay as they are.</string>
+    <string name="source_off">Data from Open Food Facts (ODbL)</string>
+    <string name="source_custom">Your custom food</string>
+
+    <!-- Custom food -->
+    <string name="custom_food_new">New food</string>
+    <string name="custom_food_edit">Edit food</string>
+    <string name="field_name">Name</string>
+    <string name="field_brand">Brand (optional)</string>
+    <string name="field_kcal">Calories per 100 g</string>
+    <string name="field_protein">Protein per 100 g</string>
+    <string name="field_carbs">Carbs per 100 g</string>
+    <string name="field_fat">Fat per 100 g</string>
+    <string name="field_fiber">Fiber per 100 g</string>
+    <string name="field_sugar">Sugar per 100 g</string>
+    <string name="field_serving">Serving size (optional)</string>
+    <string name="custom_food_hint">Copy the values from the label. Fields you leave blank are saved as unknown, not zero.</string>
+    <string name="error_name">Enter a name</string>
+    <string name="error_kcal">Enter 0 to 1,000 kcal</string>
+    <string name="error_per_100g">Enter 0 to 100 g, and protein + carbs + fat can\'t exceed 100 g</string>
+    <string name="error_serving">Enter a size above 0 g</string>
+
+    <!-- Goals -->
+    <string name="goals_title">Daily goals</string>
+    <string name="goal_kcal">Calories</string>
+    <string name="goal_protein">Protein</string>
+    <string name="goal_carbs">Carbs</string>
+    <string name="goal_fat">Fat</string>
+    <string name="goals_macro_kcal">Your macro goals add up to %1$s kcal.</string>
+    <string name="goals_mismatch">That is more than a tenth away from your calorie goal.</string>
+    <string name="goals_saved">Goals saved</string>
+    <string name="goals_open_calculator">Calculate from my body</string>
+    <string name="goals_about">About Calore</string>
+    <string name="error_goal_kcal">Enter 500 to 10,000 kcal</string>
+    <string name="error_goal_macro">Enter 0 to 1,000 g</string>
+
+    <!-- Calculator -->
+    <string name="calculator_title">Calorie calculator</string>
+    <string name="sex_label">Sex</string>
+    <string name="sex_male">Male</string>
+    <string name="sex_female">Female</string>
+    <string name="age_label">Age (years)</string>
+    <string name="height_label">Height (cm)</string>
+    <string name="weight_label">Weight (kg)</string>
+    <string name="error_age">Enter 15 to 100 years</string>
+    <string name="error_height">Enter 100 to 250 cm</string>
+    <string name="error_weight">Enter 30 to 300 kg</string>
+    <string name="activity_label">Activity</string>
+    <string name="activity_sedentary">Sedentary</string>
+    <string name="activity_sedentary_desc">Desk job, little exercise</string>
+    <string name="activity_light">Lightly active</string>
+    <string name="activity_light_desc">Exercise 1 to 3 days a week</string>
+    <string name="activity_moderate">Moderately active</string>
+    <string name="activity_moderate_desc">Exercise 3 to 5 days a week</string>
+    <string name="activity_active">Very active</string>
+    <string name="activity_active_desc">Hard exercise 6 to 7 days a week</string>
+    <string name="activity_very_active">Extremely active</string>
+    <string name="activity_very_active_desc">Physical job plus daily training</string>
+    <string name="weight_goal_label">Goal</string>
+    <string name="weight_goal_lose">Lose</string>
+    <string name="weight_goal_maintain">Maintain</string>
+    <string name="weight_goal_gain">Gain</string>
+    <string name="split_label">Macro split (% of calories)</string>
+    <string name="split_protein">Protein %</string>
+    <string name="split_carbs">Carbs %</string>
+    <string name="split_fat">Fat %</string>
+    <string name="split_total">Total %1$d%%. It must add up to 100%%.</string>
+    <string name="result_bmr">Resting (BMR)</string>
+    <string name="result_tdee">Maintenance (TDEE)</string>
+    <string name="result_target">Daily target</string>
+    <string name="calculator_incomplete">Choose your sex and fill in age, height and weight to see your numbers.</string>
+    <string name="calculator_apply">Use these goals</string>
+    <string name="calculator_disclaimer">An estimate from the Mifflin-St Jeor equation, not medical advice. Weight-loss targets never go below 1,200 kcal (women) or 1,500 kcal (men).</string>
+
+    <!-- Weight -->
+    <string name="weight_title">Weight</string>
+    <string name="weight_input">Weight (kg)</string>
+    <string name="weight_date">Date: %1$s</string>
+    <string name="weight_save">Save weight</string>
+    <string name="weight_empty">No weights logged yet. Weigh yourself at the same time of day for the clearest trend.</string>
+    <string name="weight_chart_need_more">Log at least two days to see a chart.</string>
+    <string name="weight_change">%1$s kg since %2$s</string>
+    <string name="weight_range">Low %1$s kg · High %2$s kg</string>
+    <string name="weight_chart_description">Weight chart from %1$s kg on %2$s to %3$s kg on %4$s</string>
+    <string name="error_weight_entry">Enter 20 to 500 kg</string>
+    <string name="weight_removed">Weight removed</string>
+    <string name="delete_weight">Delete weight for %1$s</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_tagline">A calorie and macro tracker with no ads, no tracking and no account.</string>
+    <string name="about_privacy_title">Your data</string>
+    <string name="about_privacy">Everything you log stays on this phone. The app only goes online when you search Open Food Facts, and then it sends only the words you searched for.</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license">Calore is free software under the GNU General Public License, version 3. You may use, study, share and change it. Any changed version you share must stay free under the same license.</string>
+    <string name="about_data_title">Food data</string>
+    <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL).</string>
+</resources>

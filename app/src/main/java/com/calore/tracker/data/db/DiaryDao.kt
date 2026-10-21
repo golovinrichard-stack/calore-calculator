@@ -1,0 +1,25 @@
+package com.calore.tracker.data.db
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface DiaryDao {
+
+    @Query("SELECT * FROM diary_entries WHERE date = :date ORDER BY createdAt, id")
+    fun forDate(date: String): Flow<List<DiaryEntryEntity>>
+
+    /** Replaces on id conflict so an undone delete can restore the exact same row. */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entry: DiaryEntryEntity): Long
+
+    @Update
+    suspend fun update(entry: DiaryEntryEntity)
+
+    @Query("DELETE FROM diary_entries WHERE id = :id")
+    suspend fun delete(id: Long)
+}

@@ -1,0 +1,96 @@
+package com.calore.tracker.data.repository
+
+import com.calore.tracker.data.db.FoodDao
+import com.calore.tracker.data.db.toDomain
+import com.calore.tracker.data.db.toEntity
+import com.calore.tracker.data.remote.OpenFoodFactsClient
+import com.calore.tracker.data.remote.RemoteFood
+import com.calore.tracker.data.remote.RemoteResult
+import com.calore.tracker.domain.Food
+import com.calore.tracker.domain.FoodSource
+import com.calore.tracker.domain.Nutrients
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import java.time.Clock
+
+class FoodRepository(
+    private val foodDao: FoodDao,
+    private val client: OpenFoodFactsClient,
+    private val clock: Clock,
+) {
+
+    fun recentFoods(): Flow<List<Food>> =
+        foodDao.recent(RECENT_LIMIT).map { foods -> foods.map { it.toDomain() } }
+
+    suspend fun searchLocal(query: String): List<Food> {
+        val trimmed = query.trim()
+        if (trimmed.isEmpty()) return emptyList()
+        return foodDao.search(likePattern(trimmed), LOCAL_SEARCH_LIMIT).map { it.toDomain() }
+    }
+
+    suspend fun searchOnline(query: String): RemoteResult<List<RemoteFood>> = client.search(query.trim())
+
+    suspend fun getFood(id: Long): Food? = foodDao.getById(id)?.toDomain()
+
+    /** Emits the food and every later change to it; null once it is deleted or if it never existed. */
+    fun observeFood(id: Long): Flow<Food?> = foodDao.observeById(id).map { it?.toDomain() }
+
+    /** Stores a picked Open Food Facts product so it can be logged and found offline later. */
+    suspend fun saveRemote(remote: RemoteFood): Long {
+        val food = Food(
+            id = 0,
+            name = remote.name,
+            brand = remote.brand,
+            barcode = remote.barcode,
+            per100g = remote.per100g,
+            servingGrams = remote.servingGrams,
+            source = FoodSource.OPEN_FOOD_FACTS,
+        )
+        return foodDao.upsertByBarcode(food.toEntity(lastUsedAt = clock.millis()))
+    }
+
+    /** Creates a custom food, or updates it when [existingId] is given. Returns its id. */
+    suspend fun saveCustom(
+        existingId: Long?,
+        name: String,
+        brand: String?,
+        per100g: Nutrients,
+        servingGrams: Double?,
+    ): Long {
+        val existing = existingId?.let { foodDao.getById(it) }
+        val food = Food(
+            id = existing?.id ?: 0,
+            name = name,
+            brand = brand,
+            barcode = existing?.barcode,
+            per100g = per100g,
+            servingGrams = servingGrams,
+            source = existing?.toDomain()?.source ?: FoodSource.CUSTOM,
+        )
+        val entity = food.toEntity(lastUsedAt = clock.millis())
+        return if (existing == null) {
+            foodDao.insert(entity)
+        } else {
+            foodDao.update(entity)
+            existing.id
+        }
+    }
+
+    suspend fun markUsed(id: Long) = foodDao.touch(id, clock.millis())
+
+    /** Removes the food from the list. Diary entries keep their own copy and are unaffected. */
+    suspend fun deleteFood(id: Long) = foodDao.delete(id)
+
+    private companion object {
+        const val RECENT_LIMIT = 30
+        const val LOCAL_SEARCH_LIMIT = 50
+
+        fun likePattern(query: String): String {
+            val escaped = query
+                .replace("\\", "\\\\")
+                .replace("%", "\\%")
+                .replace("_", "\\_")
+            return "%$escaped%"
+        }
+    }
+}
