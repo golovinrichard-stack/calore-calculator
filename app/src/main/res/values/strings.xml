@@ -179,7 +179,7 @@
     <string name="about_privacy_title">Your data</string>
     <string name="about_privacy">Everything you log stays on this phone. The app only goes online when you search Open Food Facts, and then it sends only the words you searched for.</string>
     <string name="about_license_title">License</string>
-    <string name="about_license">Calore is free software under the GNU General Public License, version 3. You may use, study, share and change it. Any changed version you share must stay free under the same license.</string>
+    <string name="about_license">Calore is free and open source software under the BSD Zero Clause License (0BSD). You may use, copy, change, share and sell it for any purpose, with no conditions.</string>
     <string name="about_data_title">Food data</string>
     <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL).</string>
 </resources>

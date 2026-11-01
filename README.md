@@ -75,6 +75,6 @@ Bug reports, translations and pull requests are welcome. See [CONTRIBUTING.md](C
 
 ## License
 
-Calore is free software, released under the [GNU General Public License v3.0](LICENSE). You may use, study, share and modify it. Changed versions you distribute must also be released under the GPL, which keeps forks open and ad-free versions possible.
+Calore is free and open source software, released under the [BSD Zero Clause License (0BSD)](LICENSE). You may use, copy, modify, distribute and sell it for any purpose, with or without changes, without asking permission and without keeping any notice or attribution.
 
 Food data © Open Food Facts contributors, available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/).
