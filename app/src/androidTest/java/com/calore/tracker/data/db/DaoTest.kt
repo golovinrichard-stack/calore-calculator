@@ -220,4 +220,14 @@ class DaoTest {
         repo.restore(replaced)
         assertEquals(replaced, repo.entries().first().single())
     }
+
+    @Test
+    fun aProductScannedBeforeIsFoundOnThePhone() = runTest {
+        // Any network call would fail here, so the result must come from the phone.
+        val offline = com.calore.tracker.data.remote.OpenFoodFactsClient(userAgent = "test")
+        val foods = com.calore.tracker.data.repository.FoodRepository(db.foodDao(), offline, clock)
+        val id = db.foodDao().insert(food("Tvaroh", barcode = "85936126"))
+
+        assertEquals(com.calore.tracker.data.repository.BarcodeResult.Found(id), foods.findByBarcode("85936126"))
+    }
 }

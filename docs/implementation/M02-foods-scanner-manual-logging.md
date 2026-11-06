@@ -40,13 +40,13 @@
 
 ### M2.4 Barcode scanner
 
-- [ ] A scanner screen: CameraX preview, ZXing decoding (EAN-13, EAN-8, UPC-A, UPC-E, and QR codes for M11), torch button, and "Type the code" as a fallback.
-- [ ] Camera permission with a short explanation. Camera images are never saved or sent.
-- [ ] After a scan: look for the barcode in local foods first. If it isn't there, request `https://world.openfoodfacts.org/api/v2/product/<barcode>` with only the fields we parse. Then open the food detail screen, so the user can log it.
-- [ ] If the product is unknown: "Not found. Add it yourself?" opens the custom food form with the barcode filled in.
-- [ ] Entry points now: Add food. Later the pantry (M5) and product picking (M5) reuse the scanner.
+- [x] A scanner screen: CameraX preview, ZXing decoding (EAN-13, EAN-8, UPC-A, UPC-E, and QR codes for M11), torch button, and "Type the code" as a fallback.
+- [x] Camera permission with a short explanation. Camera images are never saved or sent.
+- [x] After a scan: look for the barcode in local foods first. If it isn't there, request `https://world.openfoodfacts.org/api/v2/product/<barcode>` with only the fields we parse. Then open the food detail screen, so the user can log it.
+- [x] If the product is unknown: "Not found. Add it yourself?" opens the custom food form with the barcode filled in.
+- [x] Entry points now: Add food. Later the pantry (M5) and product picking (M5) reuse the scanner.
 
-**Done when:** scanning a known product opens it in under about 2 seconds on a normal connection; offline, a scanned food that was used before still works; tests cover the barcode lookup parser.
+**Done when:** scanning a known product opens it in under about 2 seconds on a normal connection *(to check on a phone)*; offline, a scanned food that was used before still works; tests cover the barcode lookup parser.
 
 ### M2.5 Quick add
 

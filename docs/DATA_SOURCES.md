@@ -10,7 +10,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 
 | Data | Source | Licence | How the app gets it | Status |
 |---|---|---|---|---|
-| Branded products, barcodes, nutrition | Open Food Facts | ODbL | Online, from the phone | Search: in use. Barcode: planned (M2) |
+| Branded products, barcodes, nutrition | Open Food Facts | ODbL | Online, from the phone | Search and barcode: in use |
 | Basic foods (raw chicken, rice, vegetables …) | USDA FoodData Central | Public domain (CC0) | Shipped inside the app | In use (M2): 278 foods |
 | Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | In use (M2): 6 foods; NutriDatabaze waiting |
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
@@ -34,7 +34,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Request | Address | Since |
 |---|---|---|
 | Search | `https://search.openfoodfacts.org/search` | today |
-| One product by barcode | `https://world.openfoodfacts.org/api/v2/product/<barcode>` | M2 |
+| One product by barcode | `https://world.openfoodfacts.org/api/v2/product/<barcode>?fields=…` (only the fields Calore reads) | M2 (in use) |
 
 **What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; open-source calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
 
@@ -134,7 +134,7 @@ The app always says: **"A guide, not a guarantee. When in doubt, throw it out."*
 | Connection | When | What is sent | Since |
 |---|---|---|---|
 | Open Food Facts search | The user searches online | Search words, language | today |
-| Open Food Facts product | The user scans or opens an online product | Barcode | M2 |
+| Open Food Facts product | The user scans a barcode that is not on the phone yet | Barcode | M2 (in use) |
 | Household sync | Phones on the same home Wi-Fi, if a household was created | Shared data only (lists, pantry, boxes, recipes, plans, requests), encrypted, and it never leaves the home network | M11 |
 | Research server | Only if the user agreed, per category | Weekly summaries ([privacy policy, appendix A](PRIVACY_POLICY.md#appendix-a-research-report-fields)) | M10 |
 | Android backup | If the user has Android backup switched on | The app's data, handled by Android and the user's backup account | today |
