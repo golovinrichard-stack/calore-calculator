@@ -17,6 +17,7 @@ import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
 import com.calore.tracker.ui.goals.GoalsViewModel
 import com.calore.tracker.ui.profile.ProfileViewModel
+import com.calore.tracker.ui.scanner.ScannerViewModel
 import com.calore.tracker.ui.navigation.StartViewModel
 import com.calore.tracker.ui.setup.SetupViewModel
 import com.calore.tracker.ui.settings.SettingsViewModel
@@ -74,6 +75,10 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             BodyFatViewModel(c.memberRepository, c.bodyRepository, c.reminderSettings, c.clock)
+        }
+        initializer {
+            val c = container()
+            ScannerViewModel(createSavedStateHandle(), c.foodRepository, c.clock)
         }
         initializer {
             val c = container()

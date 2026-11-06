@@ -152,4 +152,32 @@ class OpenFoodFactsParserTest {
         assertEquals("kuřecí prsa", OpenFoodFactsClient.searchWords("kuřecí*  prsa?"))
         assertEquals("", OpenFoodFactsClient.searchWords(":::"))
     }
+
+    @Test
+    fun barcodeLookupReadsTheProduct() {
+        val lookup = OpenFoodFactsParser.parseProduct(fixture("product_tvaroh.json"), "85936126")
+        val food = (lookup as OpenFoodFactsParser.ProductLookup.Found).food
+        assertEquals("85936126", food.barcode)
+        assertEquals("Tvaroh z Poděbrad polotučný", food.name)
+        assertEquals("Milko", food.brand)
+        assertEquals(90.0, food.per100g.kcal, 0.0)
+        assertEquals(10.0, food.per100g.protein!!, 0.0)
+        assertEquals(250.0, food.packGrams!!, 0.0)
+        assertEquals(setOf(Allergen.MILK), food.allergens)
+        assertEquals(ShopSection.DAIRY, food.section)
+    }
+
+    @Test
+    fun unknownBarcodesAndBrokenBodies() {
+        assertEquals(
+            OpenFoodFactsParser.ProductLookup.NotFound,
+            OpenFoodFactsParser.parseProduct(fixture("product_not_found.json"), "8590000000000"),
+        )
+        assertEquals(
+            "a product without calories can't be logged",
+            OpenFoodFactsParser.ProductLookup.NotFound,
+            OpenFoodFactsParser.parseProduct("""{"status":1,"product":{"product_name":"X","nutriments":{}}}""", "1"),
+        )
+        assertEquals(OpenFoodFactsParser.ProductLookup.Unreadable, OpenFoodFactsParser.parseProduct("<html>", "1"))
+    }
 }

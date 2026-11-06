@@ -484,4 +484,21 @@ This is an estimate. It can be off by a few percent, but it is good for followin
         <item quantity="one">%1$d more weigh-in needed.</item>
         <item quantity="other">%1$d more weigh-ins needed.</item>
     </plurals>
+
+    <!-- Scanner -->
+    <string name="scanner_title">Scan a barcode</string>
+    <string name="scanner_hint">Hold the barcode inside the picture. It is read on the phone; pictures are never saved or sent.</string>
+    <string name="scanner_torch_on">Light</string>
+    <string name="scanner_torch_off">Light off</string>
+    <string name="scanner_permission_text">Calore uses the camera only to read barcodes. Pictures are never saved or sent. You can also type the code.</string>
+    <string name="scanner_permission_allow">Allow the camera</string>
+    <string name="scanner_looking_up">Looking for the product…</string>
+    <string name="scanner_type_code">Type the code</string>
+    <string name="scanner_code_label">Barcode (8 or 13 digits)</string>
+    <string name="scanner_code_invalid">This is not a valid barcode. Check the digits.</string>
+    <string name="scanner_look_up">Look up</string>
+    <string name="scanner_not_found">Product %1$s was not found. Add it yourself?</string>
+    <string name="scanner_add_yourself">Add it</string>
+    <string name="scanner_offline">You are offline, and this product is not on the phone yet. Try again when you are online, or add it yourself.</string>
+    <string name="scanner_scan_again">Scan again</string>
 </resources>

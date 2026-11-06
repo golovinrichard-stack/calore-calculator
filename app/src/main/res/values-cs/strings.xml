@@ -499,4 +499,21 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
         <item quantity="many">Chybí ještě %1$d vážení.</item>
         <item quantity="other">Chybí ještě %1$d vážení.</item>
     </plurals>
+
+    <!-- Scanner -->
+    <string name="scanner_title">Načíst čárový kód</string>
+    <string name="scanner_hint">Podržte čárový kód v obraze. Čte se přímo v telefonu; snímky se nikdy neukládají ani neodesílají.</string>
+    <string name="scanner_torch_on">Světlo</string>
+    <string name="scanner_torch_off">Zhasnout</string>
+    <string name="scanner_permission_text">Calore používá fotoaparát jen ke čtení čárových kódů. Snímky se nikdy neukládají ani neodesílají. Kód můžete také napsat.</string>
+    <string name="scanner_permission_allow">Povolit fotoaparát</string>
+    <string name="scanner_looking_up">Hledám výrobek…</string>
+    <string name="scanner_type_code">Napsat kód</string>
+    <string name="scanner_code_label">Čárový kód (8 nebo 13 číslic)</string>
+    <string name="scanner_code_invalid">Toto není platný čárový kód. Zkontrolujte číslice.</string>
+    <string name="scanner_look_up">Vyhledat</string>
+    <string name="scanner_not_found">Výrobek %1$s nebyl nalezen. Přidat ho sami?</string>
+    <string name="scanner_add_yourself">Přidat</string>
+    <string name="scanner_offline">Jste offline a tento výrobek zatím v telefonu není. Zkuste to znovu po připojení, nebo ho přidejte sami.</string>
+    <string name="scanner_scan_again">Načíst znovu</string>
 </resources>

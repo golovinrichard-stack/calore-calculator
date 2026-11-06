@@ -4,6 +4,7 @@ import com.calore.tracker.data.db.FoodDao
 import com.calore.tracker.data.db.toDomain
 import com.calore.tracker.data.db.toEntity
 import com.calore.tracker.data.remote.OpenFoodFactsClient
+import com.calore.tracker.data.remote.OpenFoodFactsParser
 import com.calore.tracker.data.remote.RemoteFood
 import com.calore.tracker.data.remote.RemoteResult
 import com.calore.tracker.domain.Food
@@ -59,6 +60,22 @@ class FoodRepository(
         return foodDao.upsertByBarcode(food.toEntity(lastUsedAt = now, updatedAt = now))
     }
 
+    /**
+     * Finds a scanned product (M2.4): on the phone first, so foods used before work offline,
+     * then on Open Food Facts, where a found product is saved for next time.
+     */
+    suspend fun findByBarcode(barcode: String): BarcodeResult {
+        foodDao.getByBarcode(barcode)?.let { return BarcodeResult.Found(it.id) }
+        return when (val result = client.product(barcode)) {
+            is RemoteResult.Success -> when (val lookup = result.value) {
+                is OpenFoodFactsParser.ProductLookup.Found -> BarcodeResult.Found(saveRemote(lookup.food))
+                else -> BarcodeResult.NotFound
+            }
+            RemoteResult.NetworkError -> BarcodeResult.Offline
+            RemoteResult.BadResponse -> BarcodeResult.Failed
+        }
+    }
+
     /** Creates a custom food, or updates it when [existingId] is given. Returns its id. */
     suspend fun saveCustom(
         existingId: Long?,
@@ -66,13 +83,14 @@ class FoodRepository(
         brand: String?,
         per100g: Nutrients,
         servingGrams: Double?,
+        barcode: String? = null,
     ): Long {
         val existing = existingId?.let { foodDao.getById(it) }
         val base = existing?.toDomain() ?: Food(
             id = 0,
             name = name,
             brand = brand,
-            barcode = null,
+            barcode = barcode,
             per100g = per100g,
             servingGrams = servingGrams,
             source = FoodSource.CUSTOM,
@@ -109,4 +127,17 @@ class FoodRepository(
             return "%$escaped%"
         }
     }
+}
+
+/** What a barcode scan found. */
+sealed interface BarcodeResult {
+    data class Found(val foodId: Long) : BarcodeResult
+
+    /** Not on the phone and not on Open Food Facts: the user can add it. */
+    data object NotFound : BarcodeResult
+
+    /** Not on the phone, and Open Food Facts couldn't be reached. */
+    data object Offline : BarcodeResult
+
+    data object Failed : BarcodeResult
 }

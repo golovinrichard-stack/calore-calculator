@@ -84,6 +84,12 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime.ktx)
+
+    // Barcode scanner (M2.4): CameraX for the preview, ZXing (Apache 2.0) to decode. No ML Kit.
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.zxing.core)
     implementation(libs.kotlinx.serialization.json)
     // Declared directly (not just via AndroidX) so app and test code agree on one coroutines version.
     implementation(libs.kotlinx.coroutines.android)

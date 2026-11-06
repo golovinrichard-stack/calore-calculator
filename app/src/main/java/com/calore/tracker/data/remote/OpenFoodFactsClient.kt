@@ -57,6 +57,20 @@ class OpenFoodFactsClient(
         }
     }
 
+    /** One product by barcode (M2.4). Only the barcode is sent, with the fields Calore reads. */
+    suspend fun product(barcode: String): RemoteResult<OpenFoodFactsParser.ProductLookup> = withContext(ioDispatcher) {
+        val url = URL("$PRODUCT_ENDPOINT/${URLEncoder.encode(barcode, "UTF-8")}?fields=${URLEncoder.encode(FIELDS, "UTF-8")}")
+        val body = try {
+            fetch(url, acceptNotFound = true)
+        } catch (e: IOException) {
+            return@withContext RemoteResult.NetworkError
+        } ?: return@withContext RemoteResult.BadResponse
+        when (val lookup = OpenFoodFactsParser.parseProduct(body, barcode)) {
+            OpenFoodFactsParser.ProductLookup.Unreadable -> RemoteResult.BadResponse
+            else -> RemoteResult.Success(lookup)
+        }
+    }
+
     private fun searchOnce(query: String, locale: Locale): RemoteResult<List<RemoteFood>> {
         val body = try {
             fetch(searchUrl(query, locale))
@@ -78,16 +92,24 @@ class OpenFoodFactsClient(
         return URL("$SEARCH_ENDPOINT?$params")
     }
 
-    /** Returns the body of a 200 response, or null for any other status or an oversized body. */
-    private fun fetch(url: URL): String? {
+    /**
+     * Returns the body of a 200 response (and of a 404 when [acceptNotFound], which the product
+     * endpoint uses for unknown barcodes), or null for any other status or an oversized body.
+     */
+    private fun fetch(url: URL, acceptNotFound: Boolean = false): String? {
         val connection = url.openConnection() as? HttpURLConnection ?: return null
         return try {
             connection.connectTimeout = CONNECT_TIMEOUT_MS
             connection.readTimeout = READ_TIMEOUT_MS
             connection.setRequestProperty("User-Agent", userAgent)
             connection.setRequestProperty("Accept", "application/json")
-            if (connection.responseCode != HttpURLConnection.HTTP_OK) return null
-            connection.inputStream.use { it.readCapped(MAX_BODY_BYTES) }?.toString(Charsets.UTF_8)
+            val code = connection.responseCode
+            val stream = when {
+                code == HttpURLConnection.HTTP_OK -> connection.inputStream
+                code == HttpURLConnection.HTTP_NOT_FOUND && acceptNotFound -> connection.errorStream ?: return """{"status":0}"""
+                else -> return null
+            }
+            stream.use { it.readCapped(MAX_BODY_BYTES) }?.toString(Charsets.UTF_8)
         } finally {
             connection.disconnect()
         }
@@ -107,6 +129,7 @@ class OpenFoodFactsClient(
 
     internal companion object {
         const val SEARCH_ENDPOINT = "https://search.openfoodfacts.org/search"
+        const val PRODUCT_ENDPOINT = "https://world.openfoodfacts.org/api/v2/product"
         const val FIELDS =
             "code,product_name,brands,nutriments,serving_quantity,serving_quantity_unit,serving_size," +
                 "quantity,product_quantity,product_quantity_unit,stores_tags,categories_tags,allergens_tags"

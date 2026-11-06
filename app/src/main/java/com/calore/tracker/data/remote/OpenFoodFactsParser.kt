@@ -95,6 +95,31 @@ object OpenFoodFactsParser {
         "en:molluscs" to Allergen.MOLLUSCS,
     )
 
+    /** The answer to a barcode lookup (M2.4). */
+    sealed interface ProductLookup {
+        data class Found(val food: RemoteFood) : ProductLookup
+
+        /** Open Food Facts doesn't know the barcode, or the product has no calories yet. */
+        data object NotFound : ProductLookup
+
+        data object Unreadable : ProductLookup
+    }
+
+    /** Reads `/api/v2/product/<barcode>`: `{"status": 1, "product": {...}}` or `status 0` for unknown. */
+    fun parseProduct(body: String, barcode: String): ProductLookup {
+        val root = try {
+            Json.parseToJsonElement(body) as? JsonObject
+        } catch (e: SerializationException) {
+            null
+        } ?: return ProductLookup.Unreadable
+        val status = (root["status"] as? JsonPrimitive)?.content
+        if (status == "0") return ProductLookup.NotFound
+        val product = root["product"] as? JsonObject ?: return ProductLookup.NotFound
+        // The product object of this endpoint has no "code"; use the one asked for.
+        val withCode = JsonObject(product + ("code" to JsonPrimitive(barcode)))
+        return parseProduct(withCode)?.let { ProductLookup.Found(it) } ?: ProductLookup.NotFound
+    }
+
     /** Returns null when the body is not a search response at all. */
     fun parseSearch(body: String): List<RemoteFood>? {
         val root = try {

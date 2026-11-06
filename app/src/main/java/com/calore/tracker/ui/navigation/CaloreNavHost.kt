@@ -38,6 +38,9 @@ import com.calore.tracker.ui.goals.GoalsScreen
 import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
 import com.calore.tracker.ui.profile.ProfileScreen
+import com.calore.tracker.ui.scanner.ScannerScreen
+import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.parseIsoDate
 import com.calore.tracker.ui.settings.SettingsScreen
 import com.calore.tracker.ui.setup.SetupScreen
 import com.calore.tracker.ui.AppViewModelProvider
@@ -125,6 +128,24 @@ fun CaloreNavHost(
                     onCreateCustom = { date, meal, name ->
                         navController.navigate(Routes.customFood(date, meal, name = name))
                     },
+                    onScan = { date, meal -> navController.navigate(Routes.scanner(date, meal)) },
+                )
+            }
+            composable(Routes.SCANNER, arguments = dateAndMealArgs) { entry ->
+                val date = parseIsoDate(entry.arguments?.getString(Routes.ARG_DATE)) ?: java.time.LocalDate.now()
+                val meal = MealType.entries.firstOrNull { it.name == entry.arguments?.getString(Routes.ARG_MEAL) } ?: MealType.SNACK
+                ScannerScreen(
+                    onBack = { navController.popBackStack() },
+                    onFound = { foodId ->
+                        navController.navigate(Routes.foodDetail(foodId, date, meal)) {
+                            popUpTo(Routes.SCANNER) { inclusive = true }
+                        }
+                    },
+                    onAddYourself = { barcode ->
+                        navController.navigate(Routes.customFood(date, meal, barcode = barcode)) {
+                            popUpTo(Routes.SCANNER) { inclusive = true }
+                        }
+                    },
                 )
             }
             composable(
@@ -148,6 +169,10 @@ fun CaloreNavHost(
                         defaultValue = Routes.NEW_FOOD_ID
                     },
                     navArgument(Routes.ARG_NAME) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                    navArgument(Routes.ARG_BARCODE) {
                         type = NavType.StringType
                         defaultValue = ""
                     },

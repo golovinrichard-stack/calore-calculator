@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,6 +60,7 @@ fun AddFoodScreen(
     onBack: () -> Unit,
     onFoodChosen: (foodId: Long, LocalDate, MealType) -> Unit,
     onCreateCustom: (LocalDate, MealType, name: String) -> Unit,
+    onScan: (LocalDate, MealType) -> Unit = { _, _ -> },
     viewModel: AddFoodViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -80,6 +82,11 @@ fun AddFoodScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onScan(viewModel.date, viewModel.meal) }) {
+                        Icon(painterResource(R.drawable.ic_barcode), stringResource(R.string.scanner_title))
                     }
                 },
             )
