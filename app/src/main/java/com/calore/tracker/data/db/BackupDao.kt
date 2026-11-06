@@ -17,6 +17,11 @@ data class DatabaseSnapshot(
     val recipes: List<RecipeEntity>? = emptyList(),
     val recipeIngredients: List<RecipeIngredientEntity>? = emptyList(),
     val recipeSteps: List<RecipeStepEntity>? = emptyList(),
+    val pots: List<PotEntity>? = emptyList(),
+    val batches: List<BatchEntity>? = emptyList(),
+    val batchIngredients: List<BatchIngredientEntity>? = emptyList(),
+    val boxes: List<BoxEntity>? = emptyList(),
+    val boxParts: List<BoxPartEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -68,6 +73,51 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertRecipeSteps(rows: List<RecipeStepEntity>)
 
+    @Query("SELECT * FROM pots ORDER BY createdAt, id")
+    protected abstract suspend fun allPots(): List<PotEntity>
+
+    @Query("DELETE FROM pots")
+    protected abstract suspend fun deleteAllPots()
+
+    @Insert
+    protected abstract suspend fun insertPots(rows: List<PotEntity>)
+
+    @Query("SELECT * FROM batches ORDER BY cookedAt, id")
+    protected abstract suspend fun allBatches(): List<BatchEntity>
+
+    @Query("DELETE FROM batches")
+    protected abstract suspend fun deleteAllBatches()
+
+    @Insert
+    protected abstract suspend fun insertBatches(rows: List<BatchEntity>)
+
+    @Query("SELECT * FROM batch_ingredients ORDER BY batchId, id")
+    protected abstract suspend fun allBatchIngredients(): List<BatchIngredientEntity>
+
+    @Query("DELETE FROM batch_ingredients")
+    protected abstract suspend fun deleteAllBatchIngredients()
+
+    @Insert
+    protected abstract suspend fun insertBatchIngredients(rows: List<BatchIngredientEntity>)
+
+    @Query("SELECT * FROM boxes ORDER BY createdAt, id")
+    protected abstract suspend fun allBoxes(): List<BoxEntity>
+
+    @Query("DELETE FROM boxes")
+    protected abstract suspend fun deleteAllBoxes()
+
+    @Insert
+    protected abstract suspend fun insertBoxes(rows: List<BoxEntity>)
+
+    @Query("SELECT * FROM box_parts ORDER BY boxId, id")
+    protected abstract suspend fun allBoxParts(): List<BoxPartEntity>
+
+    @Query("DELETE FROM box_parts")
+    protected abstract suspend fun deleteAllBoxParts()
+
+    @Insert
+    protected abstract suspend fun insertBoxParts(rows: List<BoxPartEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -115,6 +165,11 @@ abstract class BackupDao {
         recipes = allRecipes(),
         recipeIngredients = allRecipeIngredients(),
         recipeSteps = allRecipeSteps(),
+        pots = allPots(),
+        batches = allBatches(),
+        batchIngredients = allBatchIngredients(),
+        boxes = allBoxes(),
+        boxParts = allBoxParts(),
     )
 
     /**
@@ -153,6 +208,26 @@ abstract class BackupDao {
         snapshot.recipeSteps?.let {
             deleteAllRecipeSteps()
             insertRecipeSteps(it)
+        }
+        snapshot.pots?.let {
+            deleteAllPots()
+            insertPots(it)
+        }
+        snapshot.batches?.let {
+            deleteAllBatches()
+            insertBatches(it)
+        }
+        snapshot.batchIngredients?.let {
+            deleteAllBatchIngredients()
+            insertBatchIngredients(it)
+        }
+        snapshot.boxes?.let {
+            deleteAllBoxes()
+            insertBoxes(it)
+        }
+        snapshot.boxParts?.let {
+            deleteAllBoxParts()
+            insertBoxParts(it)
         }
     }
 }

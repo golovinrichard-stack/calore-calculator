@@ -98,6 +98,8 @@ data class DiaryEntryEntity(
     val recipeId: String? = null,
     /** A dish logged by servings (M3.5); null when logged by grams. */
     val servings: Double? = null,
+    /** An eaten prep box (M4.7): `boxes.id`. */
+    val boxId: String? = null,
 )
 
 /** At most one weight per day; saving again for the same date replaces it. */

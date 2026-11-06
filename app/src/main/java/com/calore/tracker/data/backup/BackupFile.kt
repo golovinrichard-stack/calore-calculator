@@ -7,6 +7,11 @@ import com.calore.tracker.data.db.FoodEntity
 import com.calore.tracker.data.db.JsonColumns
 import com.calore.tracker.data.db.MemberEntity
 import com.calore.tracker.data.db.RecipeEntity
+import com.calore.tracker.data.db.PotEntity
+import com.calore.tracker.data.db.BatchEntity
+import com.calore.tracker.data.db.BatchIngredientEntity
+import com.calore.tracker.data.db.BoxEntity
+import com.calore.tracker.data.db.BoxPartEntity
 import com.calore.tracker.data.db.RecipeIngredientEntity
 import com.calore.tracker.data.db.RecipeStepEntity
 import com.calore.tracker.data.db.WeightEntryEntity
@@ -50,6 +55,12 @@ data class BackupTables(
     val recipes: List<RecipeRow>? = null,
     @SerialName("recipe_ingredients") val recipeIngredients: List<RecipeIngredientRow>? = null,
     @SerialName("recipe_steps") val recipeSteps: List<RecipeStepRow>? = null,
+    // Since version 5 (M4).
+    val pots: List<PotRow>? = null,
+    val batches: List<BatchRow>? = null,
+    @SerialName("batch_ingredients") val batchIngredients: List<BatchIngredientRow>? = null,
+    val boxes: List<BoxRow>? = null,
+    @SerialName("box_parts") val boxParts: List<BoxPartRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -119,6 +130,8 @@ data class DiaryEntryRow(
     // Since version 4 (M3).
     val recipeId: String? = null,
     val servings: Double? = null,
+    // Since version 5 (M4).
+    val boxId: String? = null,
 )
 
 @Serializable
@@ -254,6 +267,79 @@ data class RecipeStepRow(
     val equipment: String? = null,
 )
 
+@Serializable
+data class PotRow(
+    val id: String,
+    val name: String,
+    val emptyGrams: Double,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class BatchRow(
+    val id: String,
+    val recipeId: String? = null,
+    val name: String,
+    val cookedAt: Long,
+    val cookedByMemberId: String? = null,
+    val rawGrams: Double,
+    val cookedGrams: Double,
+    val kcalPer100g: Double,
+    val proteinPer100g: Double? = null,
+    val carbsPer100g: Double? = null,
+    val fatPer100g: Double? = null,
+    val fiberPer100g: Double? = null,
+    val sugarPer100g: Double? = null,
+    val ironMgPer100g: Double? = null,
+    val magnesiumMgPer100g: Double? = null,
+    val vitaminCMgPer100g: Double? = null,
+    val costHalers: Long? = null,
+    val ownerMemberId: String? = null,
+    val visibility: String = "SHARED",
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class BatchIngredientRow(
+    val id: String,
+    val batchId: String,
+    val foodUuid: String,
+    val grams: Double,
+)
+
+@Serializable
+data class BoxRow(
+    val id: String,
+    val code: String,
+    val ownerMemberId: String? = null,
+    val visibility: String = "SHARED",
+    val storage: String,
+    val state: String,
+    val remainingFraction: Double = 1.0,
+    val eatByDate: String,
+    val frozenAt: Long? = null,
+    val thawedAt: Long? = null,
+    val plannedDate: String? = null,
+    val plannedMeal: String? = null,
+    val planSlotId: String? = null,
+    val wastedReason: String? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class BoxPartRow(
+    val id: String,
+    val boxId: String,
+    val batchId: String,
+    val grams: Double,
+)
+
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,
     uuid = uuid,
@@ -344,6 +430,7 @@ internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
     vitaminCMg = vitaminCMg,
     recipeId = recipeId,
     servings = servings,
+    boxId = boxId,
 )
 
 internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
@@ -368,6 +455,7 @@ internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
     vitaminCMg = vitaminCMg,
     recipeId = recipeId,
     servings = servings,
+    boxId = boxId,
 )
 
 internal fun WeightEntryEntity.toRow() = WeightEntryRow(id = id, uuid = uuid, date = date, kg = kg)
@@ -577,3 +665,139 @@ internal fun RecipeIngredientRow.toEntity() = RecipeIngredientEntity(id, recipeI
 internal fun RecipeStepEntity.toRow() = RecipeStepRow(id, recipeId, position, text, textCs, textEn, minutes, passive, equipment)
 
 internal fun RecipeStepRow.toEntity() = RecipeStepEntity(id, recipeId, position, text, textCs, textEn, minutes, passive, equipment)
+
+internal fun PotEntity.toRow() = PotRow(
+    id = id,
+    name = name,
+    emptyGrams = emptyGrams,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PotRow.toEntity() = PotEntity(
+    id = id,
+    name = name,
+    emptyGrams = emptyGrams,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BatchEntity.toRow() = BatchRow(
+    id = id,
+    recipeId = recipeId,
+    name = name,
+    cookedAt = cookedAt,
+    cookedByMemberId = cookedByMemberId,
+    rawGrams = rawGrams,
+    cookedGrams = cookedGrams,
+    kcalPer100g = kcalPer100g,
+    proteinPer100g = proteinPer100g,
+    carbsPer100g = carbsPer100g,
+    fatPer100g = fatPer100g,
+    fiberPer100g = fiberPer100g,
+    sugarPer100g = sugarPer100g,
+    ironMgPer100g = ironMgPer100g,
+    magnesiumMgPer100g = magnesiumMgPer100g,
+    vitaminCMgPer100g = vitaminCMgPer100g,
+    costHalers = costHalers,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BatchRow.toEntity() = BatchEntity(
+    id = id,
+    recipeId = recipeId,
+    name = name,
+    cookedAt = cookedAt,
+    cookedByMemberId = cookedByMemberId,
+    rawGrams = rawGrams,
+    cookedGrams = cookedGrams,
+    kcalPer100g = kcalPer100g,
+    proteinPer100g = proteinPer100g,
+    carbsPer100g = carbsPer100g,
+    fatPer100g = fatPer100g,
+    fiberPer100g = fiberPer100g,
+    sugarPer100g = sugarPer100g,
+    ironMgPer100g = ironMgPer100g,
+    magnesiumMgPer100g = magnesiumMgPer100g,
+    vitaminCMgPer100g = vitaminCMgPer100g,
+    costHalers = costHalers,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BatchIngredientEntity.toRow() = BatchIngredientRow(
+    id = id,
+    batchId = batchId,
+    foodUuid = foodUuid,
+    grams = grams,
+)
+
+internal fun BatchIngredientRow.toEntity() = BatchIngredientEntity(
+    id = id,
+    batchId = batchId,
+    foodUuid = foodUuid,
+    grams = grams,
+)
+
+internal fun BoxEntity.toRow() = BoxRow(
+    id = id,
+    code = code,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    storage = storage,
+    state = state,
+    remainingFraction = remainingFraction,
+    eatByDate = eatByDate,
+    frozenAt = frozenAt,
+    thawedAt = thawedAt,
+    plannedDate = plannedDate,
+    plannedMeal = plannedMeal,
+    planSlotId = planSlotId,
+    wastedReason = wastedReason,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BoxRow.toEntity() = BoxEntity(
+    id = id,
+    code = code,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    storage = storage,
+    state = state,
+    remainingFraction = remainingFraction,
+    eatByDate = eatByDate,
+    frozenAt = frozenAt,
+    thawedAt = thawedAt,
+    plannedDate = plannedDate,
+    plannedMeal = plannedMeal,
+    planSlotId = planSlotId,
+    wastedReason = wastedReason,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BoxPartEntity.toRow() = BoxPartRow(
+    id = id,
+    boxId = boxId,
+    batchId = batchId,
+    grams = grams,
+)
+
+internal fun BoxPartRow.toEntity() = BoxPartEntity(
+    id = id,
+    boxId = boxId,
+    batchId = batchId,
+    grams = grams,
+)

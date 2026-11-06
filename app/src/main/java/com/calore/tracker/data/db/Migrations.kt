@@ -147,5 +147,51 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
     }
 }
 
+/**
+ * Version 6 (M4.1): cooking. Pots, batches and what went into them, boxes and their parts;
+ * diary entries get `boxId` for eaten boxes (M4.7).
+ */
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `pots` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, " +
+                "`emptyGrams` REAL NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `batches` (`id` TEXT NOT NULL, `recipeId` TEXT, `name` TEXT NOT NULL, " +
+                "`cookedAt` INTEGER NOT NULL, `cookedByMemberId` TEXT, `rawGrams` REAL NOT NULL, " +
+                "`cookedGrams` REAL NOT NULL, `kcalPer100g` REAL NOT NULL, `proteinPer100g` REAL, " +
+                "`carbsPer100g` REAL, `fatPer100g` REAL, `fiberPer100g` REAL, `sugarPer100g` REAL, " +
+                "`ironMgPer100g` REAL, `magnesiumMgPer100g` REAL, `vitaminCMgPer100g` REAL, `costHalers` INTEGER, " +
+                "`ownerMemberId` TEXT, `visibility` TEXT NOT NULL DEFAULT 'SHARED', `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_batches_recipeId` ON `batches` (`recipeId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `batch_ingredients` (`id` TEXT NOT NULL, `batchId` TEXT NOT NULL, " +
+                "`foodUuid` TEXT NOT NULL, `grams` REAL NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_batch_ingredients_batchId` ON `batch_ingredients` (`batchId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `boxes` (`id` TEXT NOT NULL, `code` TEXT NOT NULL, " +
+                "`ownerMemberId` TEXT, `visibility` TEXT NOT NULL DEFAULT 'SHARED', `storage` TEXT NOT NULL, " +
+                "`state` TEXT NOT NULL, `remainingFraction` REAL NOT NULL DEFAULT 1.0, `eatByDate` TEXT NOT NULL, " +
+                "`frozenAt` INTEGER, `thawedAt` INTEGER, `plannedDate` TEXT, `plannedMeal` TEXT, " +
+                "`planSlotId` TEXT, `wastedReason` TEXT, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_boxes_state` ON `boxes` (`state`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_boxes_ownerMemberId` ON `boxes` (`ownerMemberId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `box_parts` (`id` TEXT NOT NULL, `boxId` TEXT NOT NULL, " +
+                "`batchId` TEXT NOT NULL, `grams` REAL NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_box_parts_boxId` ON `box_parts` (`boxId`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_box_parts_batchId` ON `box_parts` (`batchId`)")
+        db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN `boxId` TEXT")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)

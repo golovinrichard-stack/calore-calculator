@@ -10,8 +10,8 @@
 
 ### M4.1 Cooking data (database version 6)
 
-- [ ] Tables `pots`, `batches`, `batch_ingredients`, `boxes` and `box_parts`; `diary_entries.boxId` and `diary_entries.recipeId` (data-model M4).
-- [ ] Domain: batch nutrition and learned yield (A9), box splitting (A10), the box solver (A11), eat-by dates and colours (A12), freeze and thaw planning (A13).
+- [x] Tables `pots`, `batches`, `batch_ingredients`, `boxes` and `box_parts`; `diary_entries.boxId` (data-model M4; `recipeId` already came with version 5 in M3).
+- [x] Domain: batch nutrition and learned yield (A9), box splitting (A10), the box solver (A11), eat-by dates and colours (A12), freeze and thaw planning (A13).
 
 **Done when:** the A9–A13 test cases pass.
 

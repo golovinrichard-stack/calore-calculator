@@ -54,6 +54,11 @@ class BackupRepository(
                 recipes = snapshot.recipes.orEmpty().map { it.toRow() },
                 recipeIngredients = snapshot.recipeIngredients.orEmpty().map { it.toRow() },
                 recipeSteps = snapshot.recipeSteps.orEmpty().map { it.toRow() },
+                pots = snapshot.pots.orEmpty().map { it.toRow() },
+                batches = snapshot.batches.orEmpty().map { it.toRow() },
+                batchIngredients = snapshot.batchIngredients.orEmpty().map { it.toRow() },
+                boxes = snapshot.boxes.orEmpty().map { it.toRow() },
+                boxParts = snapshot.boxParts.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -89,6 +94,11 @@ class BackupRepository(
                 recipes = tables.recipes?.map { it.toEntity() },
                 recipeIngredients = tables.recipeIngredients?.map { it.toEntity() },
                 recipeSteps = tables.recipeSteps?.map { it.toEntity() },
+                pots = tables.pots?.map { it.toEntity() },
+                batches = tables.batches?.map { it.toEntity() },
+                batchIngredients = tables.batchIngredients?.map { it.toEntity() },
+                boxes = tables.boxes?.map { it.toEntity() },
+                boxParts = tables.boxParts?.map { it.toEntity() },
             ),
         )
     }

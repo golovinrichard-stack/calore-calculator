@@ -154,6 +154,35 @@ class BackupCodecTest {
         equipment = "STOVE",
     )
 
+    private val pot = PotRow(id = "6ba7b810-9dad-41d1-80b4-00c04fd430c8", name = "Velký hrnec", emptyGrams = 1850.0, createdAt = 7, updatedAt = 7)
+
+    private val batch = BatchRow(
+        id = "6ba7b811-9dad-41d1-80b4-00c04fd430c8",
+        recipeId = recipe.id,
+        name = "Chili",
+        cookedAt = 8,
+        cookedByMemberId = null,
+        rawGrams = 3200.0,
+        cookedGrams = 3000.0,
+        kcalPer100g = 120.0,
+        proteinPer100g = 9.0,
+        createdAt = 8,
+        updatedAt = 8,
+    )
+
+    private val box = BoxRow(
+        id = "6ba7b812-9dad-41d1-80b4-00c04fd430c8",
+        code = "C1",
+        ownerMemberId = me.id,
+        storage = "FRIDGE",
+        state = "READY",
+        eatByDate = "2026-11-11",
+        plannedDate = "2026-11-09",
+        plannedMeal = "LUNCH",
+        createdAt = 9,
+        updatedAt = 9,
+    )
+
     private fun backup(
         foods: List<FoodRow> = listOf(food),
         diary: List<DiaryEntryRow> = listOf(entry(1), entry(2), dish),
@@ -165,12 +194,20 @@ class BackupCodecTest {
         recipes: List<RecipeRow> = listOf(recipe),
         ingredients: List<RecipeIngredientRow> = listOf(ingredient),
         steps: List<RecipeStepRow> = listOf(step),
+        boxes: List<BoxRow> = listOf(box),
     ) = BackupFile(
         format = BackupCodec.FORMAT,
         version = version,
         exportedAt = "2026-11-06T18:00:00Z",
         appVersion = "0.2.0",
-        tables = BackupTables(foods, diary, weights, members, measurements, checkins, recipes, ingredients, steps),
+        tables = BackupTables(
+            foods, diary, weights, members, measurements, checkins, recipes, ingredients, steps,
+            pots = listOf(pot),
+            batches = listOf(batch),
+            batchIngredients = listOf(BatchIngredientRow("6ba7b813-9dad-41d1-80b4-00c04fd430c8", batch.id, food.uuid, 800.0)),
+            boxes = boxes,
+            boxParts = listOf(BoxPartRow("6ba7b814-9dad-41d1-80b4-00c04fd430c8", box.id, batch.id, 500.0)),
+        ),
     )
 
     private fun decode(backup: BackupFile) = BackupCodec.decode(BackupCodec.encode(backup))
@@ -191,6 +228,7 @@ class BackupCodecTest {
             setOf(
                 "foods", "diary_entries", "weight_entries", "members", "body_measurements", "checkins",
                 "recipes", "recipe_ingredients", "recipe_steps",
+                "pots", "batches", "batch_ingredients", "boxes", "box_parts",
             ),
             root["tables"]!!.jsonObject.keys,
         )
@@ -221,6 +259,8 @@ class BackupCodecTest {
             "negative grams" to backup(ingredients = listOf(ingredient.copy(grams = -5.0))),
             "duplicate step" to backup(steps = listOf(step, step)),
             "negative servings" to backup(diary = listOf(dish.copy(servings = -1.0))),
+            "box without eat-by date" to backup(boxes = listOf(box.copy(eatByDate = "soon"))),
+            "box more than full" to backup(boxes = listOf(box.copy(remainingFraction = 1.5))),
         )
         for ((name, broken) in cases) {
             assertEquals(name, BackupReadResult.Damaged, decode(broken))

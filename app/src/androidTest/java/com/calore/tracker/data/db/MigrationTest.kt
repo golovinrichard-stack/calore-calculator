@@ -139,6 +139,20 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration5To6AddsCookingTablesAndKeepsTheDiary() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 5, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 6, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf<String?>(null, null), db.nullableStrings("SELECT boxId FROM diary_entries ORDER BY id"))
+            for (table in listOf("pots", "batches", "batch_ingredients", "boxes", "box_parts")) {
+                assertEquals(table, listOf("0"), db.strings("SELECT COUNT(*) FROM $table"))
+            }
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }

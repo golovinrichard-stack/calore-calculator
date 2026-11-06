@@ -28,8 +28,9 @@ object BackupCodec {
      * 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1).
      * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
      * 4: + recipes, recipe ingredients and steps, diary recipeId and servings (M3).
+     * 5: + pots, batches, batch ingredients, boxes, box parts, diary boxId (M4).
      */
-    const val VERSION = 4
+    const val VERSION = 5
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -100,7 +101,26 @@ object BackupCodec {
             weights.isUnique { it.id } && weights.isUnique { it.uuid.lowercase() } && weights.isUnique { it.date } &&
             diary.all { it.memberId == null || uuidPattern.matches(it.memberId) } &&
             areProfilesConsistent(tables) &&
-            areRecipesConsistent(tables)
+            areRecipesConsistent(tables) &&
+            areCookingTablesConsistent(tables)
+    }
+
+    private fun areCookingTablesConsistent(tables: BackupTables): Boolean {
+        val pots = tables.pots.orEmpty()
+        val batches = tables.batches.orEmpty()
+        val ingredients = tables.batchIngredients.orEmpty()
+        val boxes = tables.boxes.orEmpty()
+        val parts = tables.boxParts.orEmpty()
+        return pots.all { uuidPattern.matches(it.id) && it.emptyGrams.isAmount() } && pots.isUnique { it.id.lowercase() } &&
+            batches.all { uuidPattern.matches(it.id) && it.rawGrams.isAmount() && it.cookedGrams > 0 && it.kcalPer100g.isAmount() } &&
+            batches.isUnique { it.id.lowercase() } &&
+            ingredients.all { uuidPattern.matches(it.id) && it.grams.isAmount() } && ingredients.isUnique { it.id.lowercase() } &&
+            boxes.all { box ->
+                uuidPattern.matches(box.id) && box.code.isNotBlank() && parseIsoDate(box.eatByDate) != null &&
+                    box.remainingFraction in 0.0..1.0 && (box.plannedDate == null || parseIsoDate(box.plannedDate) != null)
+            } &&
+            boxes.isUnique { it.id.lowercase() } &&
+            parts.all { uuidPattern.matches(it.id) && it.grams.isAmount() } && parts.isUnique { it.id.lowercase() }
     }
 
     private fun areRecipesConsistent(tables: BackupTables): Boolean {
