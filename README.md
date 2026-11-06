@@ -14,10 +14,14 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Daily diary** grouped into breakfast, lunch, dinner and snacks, with a running total against your goals. Move between days or jump to any date.
 - **Food search** in Open Food Facts, plus your own custom foods. Foods you use are kept on the phone, so they're there next time even offline.
 - **Portions in grams**, with one-tap serving sizes when the product has one. Tap a logged entry to change the amount or remove it (with undo).
-- **Daily goals** for calories, protein, carbs and fat.
-- **Calorie calculator** using the Mifflin-St Jeor equation, with activity level, a lose/maintain/gain goal and an adjustable macro split.
-- **Weight history** with a simple chart.
-- **Backup to a file:** export your foods, diary and weights, and import them on a new phone (Goals → Backup).
+- **Daily goals** for calories, protein, carbs and fat, with a short setup on the first start.
+- **Calorie calculator**: Mifflin-St Jeor, or Katch-McArdle when you know your body fat; goals by speed (lose, maintain, gain or recomp) showing kg per week and kcal per day; automatic macros from protein per kg, or your own split.
+- **Body**: weight history with a smoothed trend line, body fat from a tape measure (US Navy method, with a short how-to) or a number you know.
+- **Weekly check-in**: after a few weeks of logging, Calore compares your weight trend with what you ate and suggests a new target in small steps.
+- **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner later).
+- **Hide-numbers mode**: log food without seeing calories and macros.
+- **Optional reminders** for the weekly check-in and for measuring body fat.
+- **Backup to a file:** export your foods, diary and weights, and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 

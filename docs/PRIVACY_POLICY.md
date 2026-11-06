@@ -62,7 +62,7 @@ This policy covers the Calore app for Android and the Calore research server. It
 
 **Your control:**
 - Change or delete any entry in the app.
-- **Export** everything to a file (Me → Settings → Backup; until the Me tab arrives in M1, Goals → Backup), for example to move to a new phone. The file contains health data: keep it safe. Importing a backup replaces all Calore data on the phone.
+- **Export** everything to a file (Me → Settings → Backup), for example to move to a new phone. The file contains health data: keep it safe. Importing a backup replaces all Calore data on the phone.
 - **Delete all cycle data** with one button (Me → Cycle).
 - Uninstalling the app deletes all its data from the phone, except files you exported and Android backups.
 
@@ -172,7 +172,7 @@ If we want to collect anything new or use the data for a new purpose, the app as
 |---|---|---|
 | Internet | Open Food Facts search and barcodes; the research program if you take part | Granted at install |
 | Camera | Scanning barcodes and household QR codes. Camera images are never saved or sent. | The first time you scan |
-| Notifications | Reminders you switch on: boxes to eat, thawing, cooking timers, weekly check-in, supplements, household requests | When you switch on the first reminder |
+| Notifications | Reminders you switch on: weekly check-in, body-fat measuring, boxes to eat, thawing, cooking timers, supplements, household requests | When you switch on the first reminder |
 | Alarms and reminders (exact alarms) | Cooking timers that ring on time | Optional, only if you allow it in Android's settings |
 | Local network / nearby devices | Household sharing over Wi-Fi (Android 17 and later ask for it) | When you create or join a household |
 | Biometrics | App lock with fingerprint or face. Android handles this; we never see your fingerprint or face. | When you switch on the app lock |

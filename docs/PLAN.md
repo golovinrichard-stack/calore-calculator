@@ -1,6 +1,6 @@
 # Plan: Calore as a meal-prep and nutrition manager
 
-> **Status:** agreed plan, version 2, 6 November 2026. M0 (Czech language, backup to a file) is built; the rest is not built yet.
+> **Status:** agreed plan, version 2, 6 November 2026. M0 (Czech language, backup to a file) and M1 (profile, body and smart calorie tracking) are built; the rest is not built yet.
 > The owner's decisions are in [section 6](#6-decisions). The step-by-step build plan is in [`implementation/`](implementation/README.md).
 
 ## Contents

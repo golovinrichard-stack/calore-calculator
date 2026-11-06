@@ -17,8 +17,8 @@ android {
         minSdk = 26
         // Meets Google Play's current requirement. Raise to 37 after testing on Android 17.
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

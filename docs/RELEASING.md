@@ -57,4 +57,4 @@ Android only installs an update if it is signed with the same key as the install
 
 Open the release page on the phone, download the APK and open it. The first time, Android asks to allow installs from the browser or the Files app. Installing a newer release keeps all data.
 
-The first signed release can't be installed over a debug build or a build signed with another key: uninstall that first (make a backup in Goals → Backup before).
+The first signed release can't be installed over a debug build or a build signed with another key: uninstall that first (make a backup in Me → Settings → Backup before).
