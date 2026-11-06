@@ -204,6 +204,12 @@ One row per weekly check-in (algorithms A7).
 | `passive` | INTEGER | 1 = needs no attention (oven, simmering), so cook mode can run other steps meanwhile |
 | `equipment` | TEXT NULL | `Equipment`, or `STOVE` |
 
+### `diary_entries` (changed)
+
+| Change | Notes |
+|---|---|
+| Add `recipeId TEXT NULL` | `entryType = DISH` (M3.5). Added in version 5 rather than 6, because logging a dish by hand comes with M3. |
+
 ## M4: cooking and boxes (version 6)
 
 ### `pots` (shared)
@@ -258,7 +264,6 @@ A box holds one or more batches: `id`, `boxId`, `batchId`, `grams`.
 | Change | Notes |
 |---|---|
 | Add `boxId TEXT NULL` | `entryType = BOX` |
-| Add `recipeId TEXT NULL` | `entryType = DISH` |
 
 ## M5: plan, pantry and shopping (version 7)
 
