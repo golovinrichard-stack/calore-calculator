@@ -18,6 +18,8 @@ object Routes {
     const val WEIGHT = "weight"
     const val GOALS = "goals"
     const val SETTINGS = "settings"
+    const val SETUP = "setup"
+    const val PROFILE = "profile"
     const val CALCULATOR = "calculator"
     const val ABOUT = "about"
     const val BACKUP = "backup"

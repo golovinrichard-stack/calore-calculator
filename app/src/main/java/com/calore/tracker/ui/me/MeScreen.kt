@@ -23,6 +23,7 @@ import com.calore.tracker.R
 
 /** Where everything about the user lives (M1.9). Optional features add their rows here later. */
 enum class MeDestination(@StringRes val title: Int, @StringRes val description: Int, @DrawableRes val icon: Int) {
+    PROFILE(R.string.me_profile, R.string.me_profile_desc, R.drawable.ic_nav_me),
     GOALS(R.string.me_goals, R.string.me_goals_desc, R.drawable.ic_nav_goals),
     BODY(R.string.me_body, R.string.me_body_desc, R.drawable.ic_nav_weight),
     SETTINGS(R.string.me_settings, R.string.me_settings_desc, R.drawable.ic_settings),

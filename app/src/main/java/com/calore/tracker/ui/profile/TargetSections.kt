@@ -59,6 +59,7 @@ fun BodyBasicsSection(
     today: LocalDate,
     onChange: ((TargetForm) -> TargetForm) -> Unit,
     weightHint: String? = null,
+    showWeight: Boolean = true,
 ) {
     val invalid = form.invalidFields(today)
     var pickingBirthDate by rememberSaveable { mutableStateOf(false) }
@@ -117,12 +118,14 @@ fun BodyBasicsSection(
             label = stringResource(R.string.height_label),
             errorText = if (ProfileField.HEIGHT in invalid) stringResource(R.string.error_height) else null,
         )
-        NumberField(
-            value = form.weightKg,
-            onValueChange = { text -> onChange { it.copy(weightKg = text) } },
-            label = stringResource(R.string.weight_label),
-            errorText = if (ProfileField.WEIGHT in invalid) stringResource(R.string.error_weight) else weightHint,
-        )
+        if (showWeight) {
+            NumberField(
+                value = form.weightKg,
+                onValueChange = { text -> onChange { it.copy(weightKg = text) } },
+                label = stringResource(R.string.weight_label),
+                errorText = if (ProfileField.WEIGHT in invalid) stringResource(R.string.error_weight) else weightHint,
+            )
+        }
     }
 
     if (pickingBirthDate) {

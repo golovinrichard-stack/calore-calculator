@@ -13,6 +13,9 @@ import com.calore.tracker.ui.calculator.CalculatorViewModel
 import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
 import com.calore.tracker.ui.goals.GoalsViewModel
+import com.calore.tracker.ui.profile.ProfileViewModel
+import com.calore.tracker.ui.navigation.StartViewModel
+import com.calore.tracker.ui.setup.SetupViewModel
 import com.calore.tracker.ui.settings.SettingsViewModel
 import com.calore.tracker.ui.today.TodayViewModel
 import com.calore.tracker.ui.weight.WeightViewModel
@@ -22,7 +25,7 @@ object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             val c = container()
-            TodayViewModel(createSavedStateHandle(), c.diaryRepository, c.goalsRepository, c.clock)
+            TodayViewModel(createSavedStateHandle(), c.diaryRepository, c.goalsRepository, c.clock, c.appPrefs, c.memberRepository)
         }
         initializer {
             val c = container()
@@ -53,6 +56,18 @@ object AppViewModelProvider {
         }
         initializer {
             SettingsViewModel(container().appPrefs)
+        }
+        initializer {
+            val c = container()
+            ProfileViewModel(c.memberRepository, c.weightRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            StartViewModel(c.memberRepository, c.appPrefs)
+        }
+        initializer {
+            val c = container()
+            SetupViewModel(c.memberRepository, c.weightRepository, c.appPrefs, c.clock)
         }
     }
 

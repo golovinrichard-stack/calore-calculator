@@ -1,16 +1,18 @@
 package com.calore.tracker.ui.navigation
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.MainActivity
 import com.calore.tracker.R
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,14 +23,27 @@ import org.junit.runner.RunWith
 class NavigationTest {
 
     @get:Rule
-    val compose = createAndroidComposeRule<MainActivity>()
+    val compose = createEmptyComposeRule()
+
+    private lateinit var scenario: ActivityScenario<MainActivity>
 
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
     private fun text(id: Int) = context.getString(id)
 
+    /** The setup is skipped before the activity starts, so Today is the first screen. */
     @Before
-    fun skipFirstRunSetup() = runBlocking {
-        (context.applicationContext as CaloreApp).container.appPrefs.setFirstRunDone(true)
+    fun launchWithoutSetup() {
+        runBlocking {
+            val container = (context.applicationContext as CaloreApp).container
+            container.memberRepository.ensureMe()
+            container.appPrefs.setFirstRunDone(true)
+        }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+    }
+
+    @After
+    fun close() {
+        scenario.close()
     }
 
     private fun openMe() {

@@ -156,3 +156,20 @@ data class Checkin(
     val accepted: Boolean,
     val createdAt: Long,
 )
+
+/** Shop aisles; also used for liked and disliked kinds of food until M2 adds single foods. */
+enum class ShopSection {
+    VEGETABLES, FRUIT, MEAT, FISH, DAIRY, EGGS, BAKERY, GRAINS, LEGUMES, CANNED, FROZEN, SPICES_SAUCES, OILS,
+    SNACKS, DRINKS, SUPPLEMENTS, OTHER,
+    ;
+
+    companion object {
+        /** The sections that make sense as "foods I like / don't like". */
+        val FOOD_KINDS = listOf(VEGETABLES, FRUIT, MEAT, FISH, DAIRY, EGGS, GRAINS, LEGUMES)
+    }
+}
+
+/** Cuisine keys stored in `members.cuisines` (lower case, stable). */
+object Cuisines {
+    val ALL = listOf("czech", "italian", "mediterranean", "asian", "indian", "mexican", "middle_eastern", "american")
+}

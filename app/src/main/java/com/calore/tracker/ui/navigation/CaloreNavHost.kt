@@ -33,7 +33,12 @@ import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
 import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
+import com.calore.tracker.ui.profile.ProfileScreen
 import com.calore.tracker.ui.settings.SettingsScreen
+import com.calore.tracker.ui.setup.SetupScreen
+import com.calore.tracker.ui.AppViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
@@ -49,7 +54,12 @@ private val dateAndMealArgs = listOf(
 )
 
 @Composable
-fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
+fun CaloreNavHost(
+    navController: NavHostController = rememberNavController(),
+    startViewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
+) {
+    // The first screen depends on whether the setup has run; deciding takes a few milliseconds.
+    val startRoute = startViewModel.startRoute.collectAsStateWithLifecycle().value ?: return
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
@@ -75,11 +85,20 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.DIARY,
+            startDestination = startRoute,
             modifier = Modifier
                 .padding(padding)
                 .consumeWindowInsets(padding),
         ) {
+            composable(Routes.SETUP) {
+                SetupScreen(
+                    onDone = {
+                        navController.navigate(Routes.DIARY) {
+                            popUpTo(Routes.SETUP) { inclusive = true }
+                        }
+                    },
+                )
+            }
             composable(Routes.DIARY) {
                 TodayScreen(onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) })
             }
@@ -134,6 +153,7 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
                 MeScreen(
                     onOpen = { destination ->
                         val route = when (destination) {
+                            MeDestination.PROFILE -> Routes.PROFILE
                             MeDestination.GOALS -> Routes.GOALS
                             MeDestination.BODY -> Routes.WEIGHT
                             MeDestination.SETTINGS -> Routes.SETTINGS
@@ -150,6 +170,7 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
                     onOpenCalculator = { navController.navigate(Routes.CALCULATOR) },
                 )
             }
+            composable(Routes.PROFILE) { ProfileScreen(onBack = { navController.popBackStack() }) }
             composable(Routes.SETTINGS) {
                 SettingsScreen(
                     onBack = { navController.popBackStack() },

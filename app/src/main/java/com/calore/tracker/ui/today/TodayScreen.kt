@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -82,6 +83,7 @@ fun TodayScreen(
     val resources = LocalResources.current
     var editing by remember { mutableStateOf<DiaryEntry?>(null) }
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var changingBirthDate by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -113,6 +115,22 @@ fun TodayScreen(
             contentPadding = padding,
             onAddFood = { meal -> onAddFood(state.date, meal) },
             onEntryClick = { editing = it },
+            onDismissWhatsNew = viewModel::dismissWhatsNew,
+            onConfirmBirthDate = { state.birthDateToConfirm?.let(viewModel::confirmBirthDate) },
+            onChangeBirthDate = { changingBirthDate = true },
+        )
+    }
+
+    val guessedBirthDate = state.birthDateToConfirm
+    if (changingBirthDate && guessedBirthDate != null) {
+        DatePickerModal(
+            initial = guessedBirthDate,
+            latest = state.today,
+            onDismiss = { changingBirthDate = false },
+            onConfirm = { date ->
+                changingBirthDate = false
+                viewModel.confirmBirthDate(date)
+            },
         )
     }
 
@@ -155,6 +173,9 @@ fun TodayContent(
     contentPadding: PaddingValues,
     onAddFood: (MealType) -> Unit,
     onEntryClick: (DiaryEntry) -> Unit,
+    onDismissWhatsNew: () -> Unit = {},
+    onConfirmBirthDate: () -> Unit = {},
+    onChangeBirthDate: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -166,6 +187,14 @@ fun TodayContent(
         ),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        if (state.whatsNew) {
+            item(key = "whats_new") { WhatsNewCard(onDismiss = onDismissWhatsNew) }
+        }
+        state.birthDateToConfirm?.let { birthDate ->
+            item(key = "birth_date") {
+                BirthDateCard(birthDate = birthDate, onConfirm = onConfirmBirthDate, onChange = onChangeBirthDate)
+            }
+        }
         item(key = "summary") {
             SummaryCard(totals = state.summary.totals, goals = state.goals)
         }
@@ -344,4 +373,39 @@ private fun dateLabel(date: LocalDate, today: LocalDate): String = when (date) {
     today.minusDays(1) -> stringResource(R.string.date_yesterday)
     today.plusDays(1) -> stringResource(R.string.date_tomorrow)
     else -> date.format(rememberMediumDateFormatter())
+}
+
+@Composable
+private fun WhatsNewCard(onDismiss: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(stringResource(R.string.whats_new_title), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.whats_new_body), style = MaterialTheme.typography.bodyMedium)
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.got_it)) }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BirthDateCard(birthDate: LocalDate, onConfirm: () -> Unit, onChange: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                stringResource(R.string.birth_date_confirm, birthDate.format(rememberMediumDateFormatter())),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                TextButton(onClick = onChange) { Text(stringResource(R.string.change)) }
+                TextButton(onClick = onConfirm) { Text(stringResource(R.string.birth_date_correct)) }
+            }
+        }
+    }
 }

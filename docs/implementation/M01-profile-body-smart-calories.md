@@ -23,17 +23,17 @@
 
 ### M1.2 Setup and profile screens
 
-- [ ] **First run** (new install), 4 short steps that can be skipped:
+- [x] **First run** (new install), 4 short steps that can be skipped:
   1. sex, birth date, height, weight;
   2. activity;
   3. goal and speed, showing "−0.4 kg per week ≈ −440 kcal per day";
   4. the result: the targets, and "You can change this any time in Me".
   Skipping keeps today's default goals.
-- [ ] **Existing users** see a one-time "What's new" card and are asked to confirm the birth date.
-- [ ] **Profile screen** (Me → Profile), in groups. Fields that are only needed later show "Not set" until then:
+- [x] **Existing users** see a one-time "What's new" card and are asked to confirm the birth date.
+- [x] **Profile screen** (Me → Profile), in groups. Fields that are only needed later show "Not set" until then:
   - *Body:* sex, birth date, height, activity.
   - *Goal:* goal type, speed, protein per kg, macro mode (`AUTO` / `SPLIT`), meal split.
-  - *Food:* diet, allergens, liked and disliked foods (search picker), cuisines.
+  - *Food:* diet, allergens, liked and disliked foods (search picker), cuisines. *Until M2 adds basic foods with keys, liked and disliked foods are picked as kinds of food (shop sections such as meat, fish, legumes), which `likedFoods` already allows; the search picker for single foods comes with M2.*
   - *Cooking:* cooking sessions per week (1–7), cooking days (optional), minutes per session, which meals come from prep boxes, equipment, variety, weekly budget.
 
 **Done when:** a UI test completes setup and sees the new targets on Today; skipping keeps the defaults.
@@ -89,7 +89,7 @@
 ### M1.9 The Me tab
 
 - [x] Bottom bar: **Today · Me**. Today is the current diary screen.
-- [ ] Me: Profile, Goals and calculator, Body, Settings (hide numbers, backup, language), About.
+- [x] Me: Profile, Goals and calculator, Body, Settings (hide numbers, backup, language), About.
 
 **Done when:** every existing feature can still be reached; navigation tests pass.
 
