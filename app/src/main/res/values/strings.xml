@@ -93,6 +93,8 @@
     <string name="delete_food_confirm">Delete %1$s from your foods? Entries already in your diary stay as they are.</string>
     <string name="source_off">Data from Open Food Facts (ODbL)</string>
     <string name="source_custom">Your custom food</string>
+    <string name="source_generic_usda">Basic food. Data from USDA FoodData Central (public domain)</string>
+    <string name="source_generic_off">Basic food. Values from a typical Czech product label on Open Food Facts (ODbL)</string>
 
     <!-- Custom food -->
     <string name="custom_food_new">New food</string>
@@ -262,7 +264,7 @@
     <string name="about_license_title">License</string>
     <string name="about_license">Calore is free and open source software under the BSD Zero Clause License (0BSD). You may use, copy, change, share and sell it for any purpose, with no conditions.</string>
     <string name="about_data_title">Food data</string>
-    <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL).</string>
+    <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL). Basic foods: USDA FoodData Central (public domain) and typical Czech product labels from Open Food Facts.</string>
 
     <!-- Me -->
     <string name="me_title">Me</string>

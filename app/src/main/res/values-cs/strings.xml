@@ -94,6 +94,8 @@
     <string name="delete_food_confirm">Smazat „%1$s“ z vašich potravin? Záznamy, které už jsou v deníku, zůstanou beze změny.</string>
     <string name="source_off">Data z Open Food Facts (ODbL)</string>
     <string name="source_custom">Vaše vlastní potravina</string>
+    <string name="source_generic_usda">Základní potravina. Data z USDA FoodData Central (volné dílo)</string>
+    <string name="source_generic_off">Základní potravina. Hodnoty z typického českého výrobku v Open Food Facts (ODbL)</string>
 
     <!-- Custom food -->
     <string name="custom_food_new">Nová potravina</string>
@@ -271,7 +273,7 @@
     <string name="about_license_title">Licence</string>
     <string name="about_license">Calore je svobodný a otevřený software pod licencí BSD Zero Clause (0BSD). Můžete ho používat, kopírovat, upravovat, sdílet i prodávat k jakémukoli účelu, bez jakýchkoli podmínek.</string>
     <string name="about_data_title">Data o potravinách</string>
-    <string name="about_data">Výsledky hledání potravin pocházejí z Open Food Facts, volné databáze, kterou tvoří dobrovolníci. Data © přispěvatelé Open Food Facts, k dispozici pod licencí Open Database License (ODbL).</string>
+    <string name="about_data">Výsledky hledání potravin pocházejí z Open Food Facts, volné databáze, kterou tvoří dobrovolníci. Data © přispěvatelé Open Food Facts, k dispozici pod licencí Open Database License (ODbL). Základní potraviny: USDA FoodData Central (volné dílo) a typické české výrobky z Open Food Facts.</string>
 
     <!-- Me -->
     <string name="me_title">Já</string>

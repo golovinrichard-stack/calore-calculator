@@ -1,0 +1,17 @@
+{
+  "note": "Czech basic foods that USDA FoodData Central doesn't have. Values copied from one typical product label on Open Food Facts (ODbL), per 100 g. Checked on 2026-11-06.",
+  "foods": [
+    {"key": "generic:tvaroh_semi", "barcode": "8593807736873", "product": "Tvaroh polotučný (Boni)", "nameCs": "Tvaroh měkký polotučný", "nameEn": "Quark (curd cheese), semi-skimmed", "section": "DAIRY", "allergens": ["MILK"], "animalFlags": ["DAIRY"], "defaultPackGrams": 250, "storage": "FRIDGE", "shelfLifeDays": 14,
+     "per100g": {"kcal": 85, "protein": 9.8, "carbs": 3.5, "fat": 3.5, "sugar": 3.5}},
+    {"key": "generic:tvaroh_full", "barcode": "8594003967894", "product": "Tvaroh tučný (Clever)", "nameCs": "Tvaroh měkký tučný", "nameEn": "Quark (curd cheese), full fat", "section": "DAIRY", "allergens": ["MILK"], "animalFlags": ["DAIRY"], "defaultPackGrams": 250, "storage": "FRIDGE", "shelfLifeDays": 14,
+     "per100g": {"kcal": 131, "protein": 9.0, "carbs": 3.5, "fat": 9.0, "fiber": 0.0, "sugar": 3.5}},
+    {"key": "generic:tvaroh_low", "barcode": "8594003963391", "product": "Tvaroh odtučněný (Billa)", "nameCs": "Tvaroh měkký odtučněný", "nameEn": "Quark (curd cheese), low fat", "section": "DAIRY", "allergens": ["MILK"], "animalFlags": ["DAIRY"], "defaultPackGrams": 250, "storage": "FRIDGE", "shelfLifeDays": 14,
+     "per100g": {"kcal": 67, "protein": 12.0, "carbs": 4.0, "fat": 0.5, "sugar": 4.0}},
+    {"key": "generic:bread_czech", "barcode": "8590421059616", "product": "Mistrovský chléb (Albert)", "nameCs": "Chléb konzumní (pšenično-žitný)", "nameEn": "Czech wheat-rye bread", "section": "BAKERY", "allergens": ["GLUTEN"], "animalFlags": [], "defaultPackGrams": 1000, "storage": "CUPBOARD", "shelfLifeDays": 4,
+     "per100g": {"kcal": 234, "protein": 6.7, "carbs": 47.3, "fat": 1.0, "fiber": 6.0, "sugar": 1.9}},
+    {"key": "generic:bread_dumpling", "barcode": "8594017540939", "product": "Houskový knedlík", "nameCs": "Houskový knedlík", "nameEn": "Czech bread dumpling", "section": "BAKERY", "allergens": ["GLUTEN"], "animalFlags": [], "defaultPackGrams": 500, "storage": "FRIDGE", "shelfLifeDays": 14,
+     "per100g": {"kcal": 211, "protein": 6.4, "carbs": 43.0, "fat": 0.8, "sugar": 1.2}},
+    {"key": "generic:butter_spread", "barcode": "8594003219061", "product": "Choceňské tradiční pomazánkové", "nameCs": "Pomazánkové máslo", "nameEn": "Czech butter spread (pomazánkové máslo)", "section": "DAIRY", "allergens": ["MILK"], "animalFlags": ["DAIRY"], "defaultPackGrams": 150, "storage": "FRIDGE", "shelfLifeDays": 21,
+     "per100g": {"kcal": 314, "protein": 3.3, "carbs": 5.5, "fat": 31.0, "sugar": 3.4}}
+  ]
+}

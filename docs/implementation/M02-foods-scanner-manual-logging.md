@@ -18,16 +18,16 @@
 
 ### M2.2 Basic foods dataset
 
-- [ ] Tool in `tools/generic-foods/` (Python 3 or Kotlin, the builder's choice) that reads:
+- [x] Tool in `tools/generic-foods/` (Python 3 or Kotlin, the builder's choice) that reads:
   - the USDA FoodData Central downloads (Foundation Foods and SR Legacy, public domain), and
   - `tools/generic-foods/selection.csv`: `key, fdcId, nameCs, nameEn, section, allergens, animalFlags, defaultPackGrams, storage, shelfLifeDays, gramsPerPiece`,
 
   and writes `app/src/main/assets/foods/generic-cz.json` with nutrients per 100 g: energy (kcal), protein, carbohydrate, fat, fibre, sugars, iron, magnesium and vitamin C, plus a `datasetVersion` and a `sources` list.
-- [ ] Choose about **300 common foods** for Czech home cooking, spread over all `ShopSection`s.
-- [ ] Foods that USDA doesn't have (for example *tvaroh*, Czech breads) are added with values from a typical Czech product label on Open Food Facts, with `sourceRef = off:<barcode>`.
+- [x] Choose about **300 common foods** for Czech home cooking, spread over all `ShopSection`s. (Version 1: 284 foods, every section covered. Basic foods are read-only in the app and appear under Recent only after they are used.)
+- [x] Foods that USDA doesn't have (for example *tvaroh*, Czech breads) are added with values from a typical Czech product label on Open Food Facts, with `sourceRef = off:<barcode>`.
 - [ ] Optional: if ÚZEI allows it (owner input #2), use NutriDatabaze.cz values for Czech foods instead.
-- [ ] In the app, an importer runs on start when the asset's `datasetVersion` is newer than the stored one. It upserts by `key`, keeps uuids stable, and never touches the user's own foods.
-- [ ] Ask the owner to review the Czech names.
+- [x] In the app, an importer runs on start when the asset's `datasetVersion` is newer than the stored one. It upserts by `key`, keeps uuids stable, and never touches the user's own foods.
+- [x] Ask the owner to review the Czech names. (Asked in the pull request; the names are in `tools/generic-foods/selection.csv` and `off-foods.json`.)
 
 **Done when:** the JSON is committed together with its sources; an importer test passes (first import, re-import of a newer version, user foods untouched); a search for "kuřecí prsa" (Czech) and "chicken breast" (English) finds the same food.
 

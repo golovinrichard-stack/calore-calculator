@@ -153,7 +153,7 @@ private fun LazyListScope.localSection(state: AddFoodUiState, onFoodClick: (Food
         item(key = "no_recent") { HintText(stringResource(R.string.no_recent)) }
     }
     items(state.localFoods, key = { "local_${it.id}" }) { food ->
-        FoodRow(name = food.name, brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
+        FoodRow(name = food.displayName(), brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
     }
 }
 

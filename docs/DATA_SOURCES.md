@@ -11,8 +11,8 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Data | Source | Licence | How the app gets it | Status |
 |---|---|---|---|---|
 | Branded products, barcodes, nutrition | Open Food Facts | ODbL | Online, from the phone | Search: in use. Barcode: planned (M2) |
-| Basic foods (raw chicken, rice, vegetables …) | USDA FoodData Central | Public domain (CC0) | Shipped inside the app | Planned (M2) |
-| Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | Planned (M2); NutriDatabaze waiting |
+| Basic foods (raw chicken, rice, vegetables …) | USDA FoodData Central | Public domain (CC0) | Shipped inside the app | In use (M2): 278 foods |
+| Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | In use (M2): 6 foods; NutriDatabaze waiting |
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
 | List of shops | Written by us | 0BSD | Shipped seed file | Planned (M5) |
@@ -50,7 +50,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 
 **Used for:** about 300 basic foods with Czech and English names (M2.2), including iron, magnesium and vitamin C, which the cycle tips need (M7).
 
-**How:** the builder downloads the files once from <https://fdc.nal.usda.gov/>. A script in `tools/generic-foods/` picks the foods and writes `app/src/main/assets/foods/generic-cz.json`. **The app never connects to USDA.**
+**How:** the builder downloads the files once from <https://fdc.nal.usda.gov/>. A script in `tools/generic-foods/` picks the foods and writes `app/src/main/assets/foods/generic-cz.json`. **The app never connects to USDA.** Dataset version 1 (6 November 2026): 278 foods from SR Legacy (April 2018) and Foundation Foods (December 2025), plus 6 Czech foods from Open Food Facts labels: 284 in total. Every food records its source (`usda:<fdcId>` or `off:<barcode>`).
 
 **Licence:** public domain (CC0 1.0). No conditions; we still credit it in About.
 

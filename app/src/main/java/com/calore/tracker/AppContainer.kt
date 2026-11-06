@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.calore.tracker.data.backup.BackupRepository
 import com.calore.tracker.data.db.CaloreDatabase
+import com.calore.tracker.data.foods.GenericFoodImporter
 import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
@@ -63,6 +64,9 @@ class AppContainer(context: Context) {
     /** Background reminders; WorkManager initialises itself on first use. */
     val reminders: ReminderScheduler = WorkManagerReminders(context, clock)
     val reminderSettings = ReminderSettings(appPrefs, reminders, bodyRepository, clock)
+    private val genericFoods = GenericFoodImporter(database.foodDao(), appPrefs, clock) {
+        context.assets.open(GenericFoodImporter.ASSET_PATH)
+    }
     val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
@@ -74,6 +78,8 @@ class AppContainer(context: Context) {
     init {
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
         applicationScope.launch { memberRepository.ensureMe() }
+        // Bundled basic foods: imported once per dataset version, in the background.
+        applicationScope.launch { genericFoods.importIfNewer() }
         // The weekly check-in job; KEEP means this costs nothing once it is scheduled.
         reminders.scheduleWeeklyCheckin()
     }

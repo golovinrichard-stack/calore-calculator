@@ -1,0 +1,6518 @@
+{
+ "format": "calore-generic-foods",
+ "datasetVersion": 1,
+ "country": "CZ",
+ "sources": [
+  {
+   "name": "USDA FoodData Central, SR Legacy (April 2018)",
+   "licence": "CC0 1.0 (public domain)",
+   "url": "https://fdc.nal.usda.gov/"
+  },
+  {
+   "name": "USDA FoodData Central, Foundation Foods (December 2025)",
+   "licence": "CC0 1.0 (public domain)",
+   "url": "https://fdc.nal.usda.gov/"
+  },
+  {
+   "name": "Open Food Facts product labels (see sourceRef off:<barcode>)",
+   "licence": "ODbL 1.0",
+   "url": "https://world.openfoodfacts.org/"
+  }
+ ],
+ "foods": [
+  {
+   "key": "generic:potato_raw",
+   "nameCs": "Brambory, syrové",
+   "nameEn": "Potatoes, raw",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170026",
+   "defaultPackGrams": 2000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 30,
+   "gramsPerPiece": 150.0,
+   "per100g": {
+    "kcal": 77.0,
+    "protein": 2.05,
+    "carbs": 17.5,
+    "fat": 0.09,
+    "fiber": 2.1,
+    "sugar": 0.82,
+    "ironMg": 0.81,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 19.7
+   }
+  },
+  {
+   "key": "generic:potato_boiled",
+   "nameCs": "Brambory vařené",
+   "nameEn": "Potatoes, boiled",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170440",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 86.0,
+    "protein": 1.71,
+    "carbs": 20.0,
+    "fat": 0.1,
+    "fiber": 1.8,
+    "sugar": 0.89,
+    "ironMg": 0.31,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 7.4
+   }
+  },
+  {
+   "key": "generic:potato_mashed",
+   "nameCs": "Bramborová kaše",
+   "nameEn": "Mashed potatoes",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168555",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 113.0,
+    "protein": 1.86,
+    "carbs": 16.8,
+    "fat": 4.22,
+    "fiber": 1.5,
+    "sugar": 1.43,
+    "ironMg": 0.26,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 6.0
+   }
+  },
+  {
+   "key": "generic:sweet_potato_raw",
+   "nameCs": "Batáty, syrové",
+   "nameEn": "Sweet potato, raw",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168482",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 21,
+   "gramsPerPiece": 200.0,
+   "per100g": {
+    "kcal": 86.0,
+    "protein": 1.57,
+    "carbs": 20.1,
+    "fat": 0.05,
+    "fiber": 3.0,
+    "sugar": 4.18,
+    "ironMg": 0.61,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 2.4
+   }
+  },
+  {
+   "key": "generic:carrot_raw",
+   "nameCs": "Mrkev",
+   "nameEn": "Carrots",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170393",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "gramsPerPiece": 60.0,
+   "per100g": {
+    "kcal": 41.0,
+    "protein": 0.93,
+    "carbs": 9.58,
+    "fat": 0.24,
+    "fiber": 2.8,
+    "sugar": 4.74,
+    "ironMg": 0.3,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 5.9
+   }
+  },
+  {
+   "key": "generic:onion_raw",
+   "nameCs": "Cibule",
+   "nameEn": "Onions",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170000",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 30,
+   "gramsPerPiece": 110.0,
+   "per100g": {
+    "kcal": 40.0,
+    "protein": 1.1,
+    "carbs": 9.34,
+    "fat": 0.1,
+    "fiber": 1.7,
+    "sugar": 4.24,
+    "ironMg": 0.21,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 7.4
+   }
+  },
+  {
+   "key": "generic:garlic_raw",
+   "nameCs": "Česnek",
+   "nameEn": "Garlic",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169230",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 60,
+   "gramsPerPiece": 5.0,
+   "per100g": {
+    "kcal": 149.0,
+    "protein": 6.36,
+    "carbs": 33.1,
+    "fat": 0.5,
+    "fiber": 2.1,
+    "sugar": 1.0,
+    "ironMg": 1.7,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 31.2
+   }
+  },
+  {
+   "key": "generic:tomato_raw",
+   "nameCs": "Rajčata",
+   "nameEn": "Tomatoes",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170457",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 120.0,
+   "per100g": {
+    "kcal": 18.0,
+    "protein": 0.88,
+    "carbs": 3.89,
+    "fat": 0.2,
+    "fiber": 1.2,
+    "sugar": 2.63,
+    "ironMg": 0.27,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 13.7
+   }
+  },
+  {
+   "key": "generic:cherry_tomato",
+   "nameCs": "Cherry rajčata",
+   "nameEn": "Cherry tomatoes",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170457",
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 15.0,
+   "per100g": {
+    "kcal": 18.0,
+    "protein": 0.88,
+    "carbs": 3.89,
+    "fat": 0.2,
+    "fiber": 1.2,
+    "sugar": 2.63,
+    "ironMg": 0.27,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 13.7
+   }
+  },
+  {
+   "key": "generic:cucumber_raw",
+   "nameCs": "Okurka salátová",
+   "nameEn": "Cucumber",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168409",
+   "defaultPackGrams": 400.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 400.0,
+   "per100g": {
+    "kcal": 15.0,
+    "protein": 0.65,
+    "carbs": 3.63,
+    "fat": 0.11,
+    "fiber": 0.5,
+    "sugar": 1.67,
+    "ironMg": 0.28,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 2.8
+   }
+  },
+  {
+   "key": "generic:pepper_red",
+   "nameCs": "Paprika červená",
+   "nameEn": "Red pepper",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170108",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 160.0,
+   "per100g": {
+    "kcal": 26.0,
+    "protein": 0.99,
+    "carbs": 6.03,
+    "fat": 0.3,
+    "fiber": 2.1,
+    "sugar": 4.2,
+    "ironMg": 0.43,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 128.0
+   }
+  },
+  {
+   "key": "generic:pepper_green",
+   "nameCs": "Paprika zelená",
+   "nameEn": "Green pepper",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170427",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 160.0,
+   "per100g": {
+    "kcal": 20.0,
+    "protein": 0.86,
+    "carbs": 4.64,
+    "fat": 0.17,
+    "fiber": 1.7,
+    "sugar": 2.4,
+    "ironMg": 0.34,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 80.4
+   }
+  },
+  {
+   "key": "generic:pepper_yellow",
+   "nameCs": "Paprika žlutá",
+   "nameEn": "Yellow pepper",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169383",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 160.0,
+   "per100g": {
+    "kcal": 27.0,
+    "protein": 1.0,
+    "carbs": 6.32,
+    "fat": 0.21,
+    "fiber": 0.9,
+    "ironMg": 0.46,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 184.0
+   }
+  },
+  {
+   "key": "generic:broccoli_raw",
+   "nameCs": "Brokolice",
+   "nameEn": "Broccoli",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170379",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 34.0,
+    "protein": 2.82,
+    "carbs": 6.64,
+    "fat": 0.37,
+    "fiber": 2.6,
+    "sugar": 1.7,
+    "ironMg": 0.73,
+    "magnesiumMg": 21.0,
+    "vitaminCMg": 89.2
+   }
+  },
+  {
+   "key": "generic:broccoli_boiled",
+   "nameCs": "Brokolice vařená",
+   "nameEn": "Broccoli, boiled",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169967",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 35.0,
+    "protein": 2.38,
+    "carbs": 7.18,
+    "fat": 0.41,
+    "fiber": 3.3,
+    "sugar": 1.39,
+    "ironMg": 0.67,
+    "magnesiumMg": 21.0,
+    "vitaminCMg": 64.9
+   }
+  },
+  {
+   "key": "generic:cauliflower_raw",
+   "nameCs": "Květák",
+   "nameEn": "Cauliflower",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169986",
+   "defaultPackGrams": 600.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 25.0,
+    "protein": 1.92,
+    "carbs": 4.97,
+    "fat": 0.28,
+    "fiber": 2.0,
+    "sugar": 1.91,
+    "ironMg": 0.42,
+    "magnesiumMg": 15.0,
+    "vitaminCMg": 48.2
+   }
+  },
+  {
+   "key": "generic:cabbage_white",
+   "nameCs": "Zelí bílé",
+   "nameEn": "White cabbage",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169975",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 25.0,
+    "protein": 1.28,
+    "carbs": 5.8,
+    "fat": 0.1,
+    "fiber": 2.5,
+    "sugar": 3.2,
+    "ironMg": 0.47,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 36.6
+   }
+  },
+  {
+   "key": "generic:cabbage_red",
+   "nameCs": "Zelí červené",
+   "nameEn": "Red cabbage",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169977",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 31.0,
+    "protein": 1.43,
+    "carbs": 7.37,
+    "fat": 0.16,
+    "fiber": 2.1,
+    "sugar": 3.83,
+    "ironMg": 0.8,
+    "magnesiumMg": 16.0,
+    "vitaminCMg": 57.0
+   }
+  },
+  {
+   "key": "generic:sauerkraut",
+   "nameCs": "Kysané zelí",
+   "nameEn": "Sauerkraut",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169279",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 19.0,
+    "protein": 0.91,
+    "carbs": 4.28,
+    "fat": 0.14,
+    "fiber": 2.9,
+    "sugar": 1.78,
+    "ironMg": 1.47,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 14.7
+   }
+  },
+  {
+   "key": "generic:savoy_cabbage",
+   "nameCs": "Kapusta",
+   "nameEn": "Savoy cabbage",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170388",
+   "defaultPackGrams": 800.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "per100g": {
+    "kcal": 27.0,
+    "protein": 2.0,
+    "carbs": 6.1,
+    "fat": 0.1,
+    "fiber": 3.1,
+    "sugar": 2.27,
+    "ironMg": 0.4,
+    "magnesiumMg": 28.0,
+    "vitaminCMg": 31.0
+   }
+  },
+  {
+   "key": "generic:kohlrabi",
+   "nameCs": "Kedlubna",
+   "nameEn": "Kohlrabi",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168424",
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 300.0,
+   "per100g": {
+    "kcal": 27.0,
+    "protein": 1.7,
+    "carbs": 6.2,
+    "fat": 0.1,
+    "fiber": 3.6,
+    "sugar": 2.6,
+    "ironMg": 0.4,
+    "magnesiumMg": 19.0,
+    "vitaminCMg": 62.0
+   }
+  },
+  {
+   "key": "generic:zucchini",
+   "nameCs": "Cuketa",
+   "nameEn": "Zucchini",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169291",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 250.0,
+   "per100g": {
+    "kcal": 17.0,
+    "protein": 1.21,
+    "carbs": 3.11,
+    "fat": 0.32,
+    "fiber": 1.0,
+    "sugar": 2.5,
+    "ironMg": 0.37,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 17.9
+   }
+  },
+  {
+   "key": "generic:eggplant",
+   "nameCs": "Lilek",
+   "nameEn": "Aubergine",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169228",
+   "defaultPackGrams": 400.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 300.0,
+   "per100g": {
+    "kcal": 25.0,
+    "protein": 0.98,
+    "carbs": 5.88,
+    "fat": 0.18,
+    "fiber": 3.0,
+    "sugar": 3.53,
+    "ironMg": 0.23,
+    "magnesiumMg": 14.0,
+    "vitaminCMg": 2.2
+   }
+  },
+  {
+   "key": "generic:spinach_raw",
+   "nameCs": "Špenát",
+   "nameEn": "Spinach",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168462",
+   "defaultPackGrams": 125.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 23.0,
+    "protein": 2.86,
+    "carbs": 3.63,
+    "fat": 0.39,
+    "fiber": 2.2,
+    "sugar": 0.42,
+    "ironMg": 2.71,
+    "magnesiumMg": 79.0,
+    "vitaminCMg": 28.1
+   }
+  },
+  {
+   "key": "generic:lettuce_iceberg",
+   "nameCs": "Ledový salát",
+   "nameEn": "Iceberg lettuce",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169248",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 500.0,
+   "per100g": {
+    "kcal": 14.0,
+    "protein": 0.9,
+    "carbs": 2.97,
+    "fat": 0.14,
+    "fiber": 1.2,
+    "sugar": 1.97,
+    "ironMg": 0.41,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 2.8
+   }
+  },
+  {
+   "key": "generic:lettuce_green",
+   "nameCs": "Hlávkový salát",
+   "nameEn": "Green lettuce",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169249",
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 4,
+   "gramsPerPiece": 250.0,
+   "per100g": {
+    "kcal": 15.0,
+    "protein": 1.36,
+    "carbs": 2.87,
+    "fat": 0.15,
+    "fiber": 1.3,
+    "sugar": 0.78,
+    "ironMg": 0.86,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 9.2
+   }
+  },
+  {
+   "key": "generic:rocket",
+   "nameCs": "Rukola",
+   "nameEn": "Rocket",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169387",
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 25.0,
+    "protein": 2.58,
+    "carbs": 3.65,
+    "fat": 0.66,
+    "fiber": 1.6,
+    "sugar": 2.05,
+    "ironMg": 1.46,
+    "magnesiumMg": 47.0,
+    "vitaminCMg": 15.0
+   }
+  },
+  {
+   "key": "generic:celeriac",
+   "nameCs": "Celer bulvový",
+   "nameEn": "Celeriac",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170400",
+   "allergens": [
+    "CELERY"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "gramsPerPiece": 500.0,
+   "per100g": {
+    "kcal": 42.0,
+    "protein": 1.5,
+    "carbs": 9.2,
+    "fat": 0.3,
+    "fiber": 1.8,
+    "sugar": 1.6,
+    "ironMg": 0.7,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 8.0
+   }
+  },
+  {
+   "key": "generic:celery",
+   "nameCs": "Řapíkatý celer",
+   "nameEn": "Celery",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169988",
+   "allergens": [
+    "CELERY"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 14.0,
+    "protein": 0.69,
+    "carbs": 2.97,
+    "fat": 0.17,
+    "fiber": 1.6,
+    "sugar": 1.34,
+    "ironMg": 0.2,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 3.1
+   }
+  },
+  {
+   "key": "generic:parsnip",
+   "nameCs": "Pastinák",
+   "nameEn": "Parsnip",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170417",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 75.0,
+    "protein": 1.2,
+    "carbs": 18.0,
+    "fat": 0.3,
+    "fiber": 4.9,
+    "sugar": 4.8,
+    "ironMg": 0.59,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 17.0
+   }
+  },
+  {
+   "key": "generic:parsley",
+   "nameCs": "Petrželová nať",
+   "nameEn": "Parsley",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170416",
+   "defaultPackGrams": 30.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 36.0,
+    "protein": 2.97,
+    "carbs": 6.33,
+    "fat": 0.79,
+    "fiber": 3.3,
+    "sugar": 0.85,
+    "ironMg": 6.2,
+    "magnesiumMg": 50.0,
+    "vitaminCMg": 133.0
+   }
+  },
+  {
+   "key": "generic:dill",
+   "nameCs": "Kopr",
+   "nameEn": "Dill",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:172233",
+   "defaultPackGrams": 30.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 43.0,
+    "protein": 3.46,
+    "carbs": 7.02,
+    "fat": 1.12,
+    "fiber": 2.1,
+    "ironMg": 6.59,
+    "magnesiumMg": 55.0,
+    "vitaminCMg": 85.0
+   }
+  },
+  {
+   "key": "generic:chives",
+   "nameCs": "Pažitka",
+   "nameEn": "Chives",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169994",
+   "defaultPackGrams": 30.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 30.0,
+    "protein": 3.27,
+    "carbs": 4.35,
+    "fat": 0.73,
+    "fiber": 2.5,
+    "sugar": 1.85,
+    "ironMg": 1.6,
+    "magnesiumMg": 42.0,
+    "vitaminCMg": 58.1
+   }
+  },
+  {
+   "key": "generic:leek",
+   "nameCs": "Pórek",
+   "nameEn": "Leek",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169246",
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 300.0,
+   "per100g": {
+    "kcal": 61.0,
+    "protein": 1.5,
+    "carbs": 14.2,
+    "fat": 0.3,
+    "fiber": 1.8,
+    "sugar": 3.9,
+    "ironMg": 2.1,
+    "magnesiumMg": 28.0,
+    "vitaminCMg": 12.0
+   }
+  },
+  {
+   "key": "generic:beetroot",
+   "nameCs": "Červená řepa",
+   "nameEn": "Beetroot",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169145",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 43.0,
+    "protein": 1.61,
+    "carbs": 9.56,
+    "fat": 0.17,
+    "fiber": 2.8,
+    "sugar": 6.76,
+    "ironMg": 0.8,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 4.9
+   }
+  },
+  {
+   "key": "generic:radish",
+   "nameCs": "Ředkvičky",
+   "nameEn": "Radishes",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169276",
+   "defaultPackGrams": 150.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 10.0,
+   "per100g": {
+    "kcal": 16.0,
+    "protein": 0.68,
+    "carbs": 3.4,
+    "fat": 0.1,
+    "fiber": 1.6,
+    "sugar": 1.86,
+    "ironMg": 0.34,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 14.8
+   }
+  },
+  {
+   "key": "generic:mushrooms",
+   "nameCs": "Žampiony",
+   "nameEn": "Mushrooms",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169251",
+   "defaultPackGrams": 400.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 22.0,
+    "protein": 3.09,
+    "carbs": 3.26,
+    "fat": 0.34,
+    "fiber": 1.0,
+    "sugar": 1.98,
+    "ironMg": 0.5,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 2.1
+   }
+  },
+  {
+   "key": "generic:green_beans",
+   "nameCs": "Zelené fazolky",
+   "nameEn": "Green beans",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169961",
+   "defaultPackGrams": 400.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 31.0,
+    "protein": 1.83,
+    "carbs": 6.97,
+    "fat": 0.22,
+    "fiber": 2.7,
+    "sugar": 3.26,
+    "ironMg": 1.03,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 12.2
+   }
+  },
+  {
+   "key": "generic:peas_green",
+   "nameCs": "Hrášek zelený",
+   "nameEn": "Green peas",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170419",
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 81.0,
+    "protein": 5.42,
+    "carbs": 14.4,
+    "fat": 0.4,
+    "fiber": 5.7,
+    "sugar": 5.67,
+    "ironMg": 1.47,
+    "magnesiumMg": 33.0,
+    "vitaminCMg": 40.0
+   }
+  },
+  {
+   "key": "generic:sweet_corn",
+   "nameCs": "Kukuřice cukrová",
+   "nameEn": "Sweet corn",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169998",
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 86.0,
+    "protein": 3.27,
+    "carbs": 18.7,
+    "fat": 1.35,
+    "fiber": 2.0,
+    "sugar": 6.26,
+    "ironMg": 0.52,
+    "magnesiumMg": 37.0,
+    "vitaminCMg": 6.8
+   }
+  },
+  {
+   "key": "generic:pumpkin",
+   "nameCs": "Dýně",
+   "nameEn": "Pumpkin",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168448",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 26.0,
+    "protein": 1.0,
+    "carbs": 6.5,
+    "fat": 0.1,
+    "fiber": 0.5,
+    "sugar": 2.76,
+    "ironMg": 0.8,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 9.0
+   }
+  },
+  {
+   "key": "generic:asparagus",
+   "nameCs": "Chřest",
+   "nameEn": "Asparagus",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168389",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 20.0,
+    "protein": 2.2,
+    "carbs": 3.88,
+    "fat": 0.12,
+    "fiber": 2.1,
+    "sugar": 1.88,
+    "ironMg": 2.14,
+    "magnesiumMg": 14.0,
+    "vitaminCMg": 5.6
+   }
+  },
+  {
+   "key": "generic:brussels_sprouts",
+   "nameCs": "Růžičková kapusta",
+   "nameEn": "Brussels sprouts",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170383",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 43.0,
+    "protein": 3.38,
+    "carbs": 8.95,
+    "fat": 0.3,
+    "fiber": 3.8,
+    "sugar": 2.2,
+    "ironMg": 1.4,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 85.0
+   }
+  },
+  {
+   "key": "generic:kale",
+   "nameCs": "Kadeřávek",
+   "nameEn": "Kale",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:168421",
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 35.0,
+    "protein": 2.92,
+    "carbs": 4.42,
+    "fat": 1.49,
+    "fiber": 4.1,
+    "sugar": 0.99,
+    "ironMg": 1.6,
+    "magnesiumMg": 33.0,
+    "vitaminCMg": 93.4
+   }
+  },
+  {
+   "key": "generic:spring_onion",
+   "nameCs": "Jarní cibulka",
+   "nameEn": "Spring onion",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170005",
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 15.0,
+   "per100g": {
+    "kcal": 32.0,
+    "protein": 1.83,
+    "carbs": 7.34,
+    "fat": 0.19,
+    "fiber": 2.6,
+    "sugar": 2.33,
+    "ironMg": 1.48,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 18.8
+   }
+  },
+  {
+   "key": "generic:ginger",
+   "nameCs": "Zázvor",
+   "nameEn": "Ginger",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:169231",
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 80.0,
+    "protein": 1.82,
+    "carbs": 17.8,
+    "fat": 0.75,
+    "fiber": 2.0,
+    "sugar": 1.7,
+    "ironMg": 0.6,
+    "magnesiumMg": 43.0,
+    "vitaminCMg": 5.0
+   }
+  },
+  {
+   "key": "generic:chili_pepper",
+   "nameCs": "Chilli paprička",
+   "nameEn": "Chili pepper",
+   "section": "VEGETABLES",
+   "sourceRef": "usda:170106",
+   "defaultPackGrams": 50.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 10.0,
+   "per100g": {
+    "kcal": 40.0,
+    "protein": 1.87,
+    "carbs": 8.81,
+    "fat": 0.44,
+    "fiber": 1.5,
+    "sugar": 5.3,
+    "ironMg": 1.03,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 144.0
+   }
+  },
+  {
+   "key": "generic:mixed_veg_frozen",
+   "nameCs": "Zeleninová směs mražená",
+   "nameEn": "Mixed vegetables, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:170471",
+   "defaultPackGrams": 400.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 72.0,
+    "protein": 3.33,
+    "carbs": 13.5,
+    "fat": 0.52,
+    "fiber": 4.0,
+    "ironMg": 0.95,
+    "magnesiumMg": 24.0,
+    "vitaminCMg": 10.4
+   }
+  },
+  {
+   "key": "generic:spinach_frozen",
+   "nameCs": "Špenát mražený",
+   "nameEn": "Spinach, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:169287",
+   "defaultPackGrams": 450.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 29.0,
+    "protein": 3.63,
+    "carbs": 4.21,
+    "fat": 0.57,
+    "fiber": 2.9,
+    "sugar": 0.65,
+    "ironMg": 1.89,
+    "magnesiumMg": 75.0,
+    "vitaminCMg": 5.5
+   }
+  },
+  {
+   "key": "generic:peas_frozen",
+   "nameCs": "Hrášek mražený",
+   "nameEn": "Peas, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:170016",
+   "defaultPackGrams": 450.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 77.0,
+    "protein": 5.22,
+    "carbs": 13.6,
+    "fat": 0.4,
+    "fiber": 4.5,
+    "sugar": 5.0,
+    "ironMg": 1.53,
+    "magnesiumMg": 26.0,
+    "vitaminCMg": 18.0
+   }
+  },
+  {
+   "key": "generic:fries_frozen",
+   "nameCs": "Hranolky mražené",
+   "nameEn": "French fries, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:168442",
+   "defaultPackGrams": 750.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 147.0,
+    "protein": 2.24,
+    "carbs": 24.8,
+    "fat": 4.66,
+    "fiber": 1.9,
+    "sugar": 0.2,
+    "ironMg": 0.62,
+    "magnesiumMg": 21.0,
+    "vitaminCMg": 17.3
+   }
+  },
+  {
+   "key": "generic:tomatoes_canned",
+   "nameCs": "Rajčata loupaná v plechovce",
+   "nameEn": "Canned tomatoes",
+   "section": "CANNED",
+   "sourceRef": "usda:170051",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 16.0,
+    "protein": 0.79,
+    "carbs": 3.47,
+    "fat": 0.25,
+    "fiber": 1.9,
+    "sugar": 2.55,
+    "ironMg": 0.57,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 12.6
+   }
+  },
+  {
+   "key": "generic:tomato_paste",
+   "nameCs": "Rajčatový protlak",
+   "nameEn": "Tomato paste",
+   "section": "CANNED",
+   "sourceRef": "usda:170459",
+   "defaultPackGrams": 140.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 82.0,
+    "protein": 4.32,
+    "carbs": 18.9,
+    "fat": 0.47,
+    "fiber": 4.1,
+    "sugar": 12.2,
+    "ironMg": 2.98,
+    "magnesiumMg": 42.0,
+    "vitaminCMg": 21.9
+   }
+  },
+  {
+   "key": "generic:passata",
+   "nameCs": "Rajčatové pyré (passata)",
+   "nameEn": "Passata",
+   "section": "CANNED",
+   "sourceRef": "usda:170460",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 38.0,
+    "protein": 1.65,
+    "carbs": 8.98,
+    "fat": 0.21,
+    "fiber": 1.9,
+    "sugar": 4.83,
+    "ironMg": 1.78,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 10.6
+   }
+  },
+  {
+   "key": "generic:pickles",
+   "nameCs": "Sterilované okurky",
+   "nameEn": "Sweet pickles",
+   "section": "CANNED",
+   "sourceRef": "usda:169378",
+   "defaultPackGrams": 670.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 91.0,
+    "protein": 0.58,
+    "carbs": 21.2,
+    "fat": 0.41,
+    "fiber": 1.0,
+    "sugar": 18.3,
+    "ironMg": 0.25,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 0.7
+   }
+  },
+  {
+   "key": "generic:olives_black",
+   "nameCs": "Olivy černé",
+   "nameEn": "Black olives",
+   "section": "CANNED",
+   "sourceRef": "usda:169094",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 116.0,
+    "protein": 0.84,
+    "carbs": 6.04,
+    "fat": 10.9,
+    "fiber": 1.6,
+    "sugar": 0.0,
+    "ironMg": 6.28,
+    "magnesiumMg": 4.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:apple",
+   "nameCs": "Jablka",
+   "nameEn": "Apples",
+   "section": "FRUIT",
+   "sourceRef": "usda:171688",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "gramsPerPiece": 180.0,
+   "per100g": {
+    "kcal": 52.0,
+    "protein": 0.26,
+    "carbs": 13.8,
+    "fat": 0.17,
+    "fiber": 2.4,
+    "sugar": 10.4,
+    "ironMg": 0.12,
+    "magnesiumMg": 5.0,
+    "vitaminCMg": 4.6
+   }
+  },
+  {
+   "key": "generic:banana",
+   "nameCs": "Banány",
+   "nameEn": "Bananas",
+   "section": "FRUIT",
+   "sourceRef": "usda:173944",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 120.0,
+   "per100g": {
+    "kcal": 89.0,
+    "protein": 1.09,
+    "carbs": 22.8,
+    "fat": 0.33,
+    "fiber": 2.6,
+    "sugar": 12.2,
+    "ironMg": 0.26,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 8.7
+   }
+  },
+  {
+   "key": "generic:orange",
+   "nameCs": "Pomeranče",
+   "nameEn": "Oranges",
+   "section": "FRUIT",
+   "sourceRef": "usda:169097",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 140.0,
+   "per100g": {
+    "kcal": 47.0,
+    "protein": 0.94,
+    "carbs": 11.8,
+    "fat": 0.12,
+    "fiber": 2.4,
+    "sugar": 9.35,
+    "ironMg": 0.1,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 53.2
+   }
+  },
+  {
+   "key": "generic:mandarin",
+   "nameCs": "Mandarinky",
+   "nameEn": "Mandarins",
+   "section": "FRUIT",
+   "sourceRef": "usda:169105",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 75.0,
+   "per100g": {
+    "kcal": 53.0,
+    "protein": 0.81,
+    "carbs": 13.3,
+    "fat": 0.31,
+    "fiber": 1.8,
+    "sugar": 10.6,
+    "ironMg": 0.15,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 26.7
+   }
+  },
+  {
+   "key": "generic:lemon",
+   "nameCs": "Citrony",
+   "nameEn": "Lemons",
+   "section": "FRUIT",
+   "sourceRef": "usda:167746",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "gramsPerPiece": 60.0,
+   "per100g": {
+    "kcal": 29.0,
+    "protein": 1.1,
+    "carbs": 9.32,
+    "fat": 0.3,
+    "fiber": 2.8,
+    "sugar": 2.5,
+    "ironMg": 0.6,
+    "magnesiumMg": 8.0,
+    "vitaminCMg": 53.0
+   }
+  },
+  {
+   "key": "generic:lime",
+   "nameCs": "Limetky",
+   "nameEn": "Limes",
+   "section": "FRUIT",
+   "sourceRef": "usda:168155",
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 45.0,
+   "per100g": {
+    "kcal": 30.0,
+    "protein": 0.7,
+    "carbs": 10.5,
+    "fat": 0.2,
+    "fiber": 2.8,
+    "sugar": 1.69,
+    "ironMg": 0.6,
+    "magnesiumMg": 6.0,
+    "vitaminCMg": 29.1
+   }
+  },
+  {
+   "key": "generic:grapefruit",
+   "nameCs": "Grapefruit",
+   "nameEn": "Grapefruit",
+   "section": "FRUIT",
+   "sourceRef": "usda:174673",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 250.0,
+   "per100g": {
+    "kcal": 42.0,
+    "protein": 0.77,
+    "carbs": 10.7,
+    "fat": 0.14,
+    "fiber": 1.6,
+    "sugar": 6.89,
+    "ironMg": 0.08,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 31.2
+   }
+  },
+  {
+   "key": "generic:pear",
+   "nameCs": "Hrušky",
+   "nameEn": "Pears",
+   "section": "FRUIT",
+   "sourceRef": "usda:169118",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "gramsPerPiece": 170.0,
+   "per100g": {
+    "kcal": 57.0,
+    "protein": 0.36,
+    "carbs": 15.2,
+    "fat": 0.14,
+    "fiber": 3.1,
+    "sugar": 9.75,
+    "ironMg": 0.18,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 4.3
+   }
+  },
+  {
+   "key": "generic:grapes",
+   "nameCs": "Hroznové víno",
+   "nameEn": "Grapes",
+   "section": "FRUIT",
+   "sourceRef": "usda:174683",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 69.0,
+    "protein": 0.72,
+    "carbs": 18.1,
+    "fat": 0.16,
+    "fiber": 0.9,
+    "sugar": 15.5,
+    "ironMg": 0.36,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 3.2
+   }
+  },
+  {
+   "key": "generic:strawberries",
+   "nameCs": "Jahody",
+   "nameEn": "Strawberries",
+   "section": "FRUIT",
+   "sourceRef": "usda:167762",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 32.0,
+    "protein": 0.67,
+    "carbs": 7.68,
+    "fat": 0.3,
+    "fiber": 2.0,
+    "sugar": 4.89,
+    "ironMg": 0.41,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 58.8
+   }
+  },
+  {
+   "key": "generic:raspberries",
+   "nameCs": "Maliny",
+   "nameEn": "Raspberries",
+   "section": "FRUIT",
+   "sourceRef": "usda:167755",
+   "defaultPackGrams": 125.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 52.0,
+    "protein": 1.2,
+    "carbs": 11.9,
+    "fat": 0.65,
+    "fiber": 6.5,
+    "sugar": 4.42,
+    "ironMg": 0.69,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 26.2
+   }
+  },
+  {
+   "key": "generic:blueberries",
+   "nameCs": "Borůvky",
+   "nameEn": "Blueberries",
+   "section": "FRUIT",
+   "sourceRef": "usda:171711",
+   "defaultPackGrams": 125.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 57.0,
+    "protein": 0.74,
+    "carbs": 14.5,
+    "fat": 0.33,
+    "fiber": 2.4,
+    "sugar": 9.96,
+    "ironMg": 0.28,
+    "magnesiumMg": 6.0,
+    "vitaminCMg": 9.7
+   }
+  },
+  {
+   "key": "generic:cherries",
+   "nameCs": "Třešně",
+   "nameEn": "Cherries",
+   "section": "FRUIT",
+   "sourceRef": "usda:171719",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 63.0,
+    "protein": 1.06,
+    "carbs": 16.0,
+    "fat": 0.2,
+    "fiber": 2.1,
+    "sugar": 12.8,
+    "ironMg": 0.36,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 7.0
+   }
+  },
+  {
+   "key": "generic:sour_cherries",
+   "nameCs": "Višně",
+   "nameEn": "Sour cherries",
+   "section": "FRUIT",
+   "sourceRef": "usda:173954",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 50.0,
+    "protein": 1.0,
+    "carbs": 12.2,
+    "fat": 0.3,
+    "fiber": 1.6,
+    "sugar": 8.49,
+    "ironMg": 0.32,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 10.0
+   }
+  },
+  {
+   "key": "generic:plums",
+   "nameCs": "Švestky",
+   "nameEn": "Plums",
+   "section": "FRUIT",
+   "sourceRef": "usda:169949",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 46.0,
+    "protein": 0.7,
+    "carbs": 11.4,
+    "fat": 0.28,
+    "fiber": 1.4,
+    "sugar": 9.92,
+    "ironMg": 0.17,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 9.5
+   }
+  },
+  {
+   "key": "generic:apricots",
+   "nameCs": "Meruňky",
+   "nameEn": "Apricots",
+   "section": "FRUIT",
+   "sourceRef": "usda:171697",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 35.0,
+   "per100g": {
+    "kcal": 48.0,
+    "protein": 1.4,
+    "carbs": 11.1,
+    "fat": 0.39,
+    "fiber": 2.0,
+    "sugar": 9.24,
+    "ironMg": 0.39,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 10.0
+   }
+  },
+  {
+   "key": "generic:peaches",
+   "nameCs": "Broskve",
+   "nameEn": "Peaches",
+   "section": "FRUIT",
+   "sourceRef": "usda:169928",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 150.0,
+   "per100g": {
+    "kcal": 39.0,
+    "protein": 0.91,
+    "carbs": 9.54,
+    "fat": 0.25,
+    "fiber": 1.5,
+    "sugar": 8.39,
+    "ironMg": 0.25,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 6.6
+   }
+  },
+  {
+   "key": "generic:nectarines",
+   "nameCs": "Nektarinky",
+   "nameEn": "Nectarines",
+   "section": "FRUIT",
+   "sourceRef": "usda:169914",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 140.0,
+   "per100g": {
+    "kcal": 44.0,
+    "protein": 1.06,
+    "carbs": 10.6,
+    "fat": 0.32,
+    "fiber": 1.7,
+    "sugar": 7.89,
+    "ironMg": 0.28,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 5.4
+   }
+  },
+  {
+   "key": "generic:kiwi",
+   "nameCs": "Kiwi",
+   "nameEn": "Kiwi",
+   "section": "FRUIT",
+   "sourceRef": "usda:168153",
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 75.0,
+   "per100g": {
+    "kcal": 61.0,
+    "protein": 1.14,
+    "carbs": 14.7,
+    "fat": 0.52,
+    "fiber": 3.0,
+    "sugar": 8.99,
+    "ironMg": 0.31,
+    "magnesiumMg": 17.0,
+    "vitaminCMg": 92.7
+   }
+  },
+  {
+   "key": "generic:pineapple",
+   "nameCs": "Ananas",
+   "nameEn": "Pineapple",
+   "section": "FRUIT",
+   "sourceRef": "usda:169124",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 5,
+   "per100g": {
+    "kcal": 50.0,
+    "protein": 0.54,
+    "carbs": 13.1,
+    "fat": 0.12,
+    "fiber": 1.4,
+    "sugar": 9.85,
+    "ironMg": 0.29,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 47.8
+   }
+  },
+  {
+   "key": "generic:mango",
+   "nameCs": "Mango",
+   "nameEn": "Mango",
+   "section": "FRUIT",
+   "sourceRef": "usda:169910",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 300.0,
+   "per100g": {
+    "kcal": 60.0,
+    "protein": 0.82,
+    "carbs": 15.0,
+    "fat": 0.38,
+    "fiber": 1.6,
+    "sugar": 13.7,
+    "ironMg": 0.16,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 36.4
+   }
+  },
+  {
+   "key": "generic:watermelon",
+   "nameCs": "Meloun vodní",
+   "nameEn": "Watermelon",
+   "section": "FRUIT",
+   "sourceRef": "usda:167765",
+   "defaultPackGrams": 3000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 30.0,
+    "protein": 0.61,
+    "carbs": 7.55,
+    "fat": 0.15,
+    "fiber": 0.4,
+    "sugar": 6.2,
+    "ironMg": 0.24,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 8.1
+   }
+  },
+  {
+   "key": "generic:melon",
+   "nameCs": "Meloun cukrový",
+   "nameEn": "Cantaloupe melon",
+   "section": "FRUIT",
+   "sourceRef": "usda:169092",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 34.0,
+    "protein": 0.84,
+    "carbs": 8.16,
+    "fat": 0.19,
+    "fiber": 0.9,
+    "sugar": 7.86,
+    "ironMg": 0.21,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 36.7
+   }
+  },
+  {
+   "key": "generic:avocado",
+   "nameCs": "Avokádo",
+   "nameEn": "Avocado",
+   "section": "FRUIT",
+   "sourceRef": "usda:171705",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 150.0,
+   "per100g": {
+    "kcal": 160.0,
+    "protein": 2.0,
+    "carbs": 8.53,
+    "fat": 14.7,
+    "fiber": 6.7,
+    "sugar": 0.66,
+    "ironMg": 0.55,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 10.0
+   }
+  },
+  {
+   "key": "generic:pomegranate",
+   "nameCs": "Granátové jablko",
+   "nameEn": "Pomegranate",
+   "section": "FRUIT",
+   "sourceRef": "usda:169134",
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 83.0,
+    "protein": 1.67,
+    "carbs": 18.7,
+    "fat": 1.17,
+    "fiber": 4.0,
+    "sugar": 13.7,
+    "ironMg": 0.3,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 10.2
+   }
+  },
+  {
+   "key": "generic:dates",
+   "nameCs": "Datle",
+   "nameEn": "Dates",
+   "section": "FRUIT",
+   "sourceRef": "usda:168191",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "gramsPerPiece": 24.0,
+   "per100g": {
+    "kcal": 277.0,
+    "protein": 1.81,
+    "carbs": 75.0,
+    "fat": 0.15,
+    "fiber": 6.7,
+    "sugar": 66.5,
+    "ironMg": 0.9,
+    "magnesiumMg": 54.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:raisins",
+   "nameCs": "Rozinky",
+   "nameEn": "Raisins",
+   "section": "FRUIT",
+   "sourceRef": "usda:168165",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 299.0,
+    "protein": 3.3,
+    "carbs": 79.3,
+    "fat": 0.25,
+    "fiber": 4.5,
+    "sugar": 65.2,
+    "ironMg": 1.79,
+    "magnesiumMg": 36.0,
+    "vitaminCMg": 2.3
+   }
+  },
+  {
+   "key": "generic:prunes",
+   "nameCs": "Sušené švestky",
+   "nameEn": "Prunes",
+   "section": "FRUIT",
+   "sourceRef": "usda:168162",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 240.0,
+    "protein": 2.18,
+    "carbs": 63.9,
+    "fat": 0.38,
+    "fiber": 7.1,
+    "sugar": 38.1,
+    "ironMg": 0.93,
+    "magnesiumMg": 41.0,
+    "vitaminCMg": 0.6
+   }
+  },
+  {
+   "key": "generic:apricots_dried",
+   "nameCs": "Sušené meruňky",
+   "nameEn": "Dried apricots",
+   "section": "FRUIT",
+   "sourceRef": "usda:173941",
+   "allergens": [
+    "SULPHITES"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 241.0,
+    "protein": 3.39,
+    "carbs": 62.6,
+    "fat": 0.51,
+    "fiber": 7.3,
+    "sugar": 53.4,
+    "ironMg": 2.66,
+    "magnesiumMg": 32.0,
+    "vitaminCMg": 1.0
+   }
+  },
+  {
+   "key": "generic:cranberries_dried",
+   "nameCs": "Brusinky sušené",
+   "nameEn": "Dried cranberries",
+   "section": "FRUIT",
+   "sourceRef": "usda:171723",
+   "defaultPackGrams": 150.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 308.0,
+    "protein": 0.17,
+    "carbs": 82.8,
+    "fat": 1.09,
+    "fiber": 5.3,
+    "sugar": 72.6,
+    "ironMg": 0.39,
+    "magnesiumMg": 4.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:raspberries_frozen",
+   "nameCs": "Maliny mražené",
+   "nameEn": "Raspberries, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:168209",
+   "defaultPackGrams": 300.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 56.0,
+    "protein": 1.15,
+    "carbs": 12.6,
+    "fat": 0.81,
+    "fiber": 4.3,
+    "sugar": 6.54,
+    "ironMg": 0.76,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 17.6
+   }
+  },
+  {
+   "key": "generic:strawberries_frozen",
+   "nameCs": "Jahody mražené",
+   "nameEn": "Strawberries, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:168173",
+   "defaultPackGrams": 300.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 35.0,
+    "protein": 0.43,
+    "carbs": 9.13,
+    "fat": 0.11,
+    "fiber": 2.1,
+    "sugar": 4.56,
+    "ironMg": 0.75,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 41.2
+   }
+  },
+  {
+   "key": "generic:blueberries_frozen",
+   "nameCs": "Borůvky mražené",
+   "nameEn": "Blueberries, frozen",
+   "section": "FROZEN",
+   "sourceRef": "usda:173950",
+   "defaultPackGrams": 300.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 51.0,
+    "protein": 0.42,
+    "carbs": 12.2,
+    "fat": 0.64,
+    "fiber": 2.7,
+    "sugar": 8.45,
+    "ironMg": 0.18,
+    "magnesiumMg": 5.0,
+    "vitaminCMg": 2.5
+   }
+  },
+  {
+   "key": "generic:applesauce",
+   "nameCs": "Jablečné pyré",
+   "nameEn": "Applesauce",
+   "section": "CANNED",
+   "sourceRef": "usda:171695",
+   "defaultPackGrams": 350.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 42.0,
+    "protein": 0.17,
+    "carbs": 11.3,
+    "fat": 0.1,
+    "fiber": 1.1,
+    "sugar": 9.39,
+    "ironMg": 0.23,
+    "magnesiumMg": 3.0,
+    "vitaminCMg": 1.0
+   }
+  },
+  {
+   "key": "generic:peaches_canned",
+   "nameCs": "Broskve kompotované",
+   "nameEn": "Canned peaches",
+   "section": "CANNED",
+   "sourceRef": "usda:169112",
+   "defaultPackGrams": 420.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 74.0,
+    "protein": 0.45,
+    "carbs": 19.9,
+    "fat": 0.1,
+    "fiber": 1.3,
+    "sugar": 18.6,
+    "ironMg": 0.27,
+    "magnesiumMg": 5.0,
+    "vitaminCMg": 2.8
+   }
+  },
+  {
+   "key": "generic:pineapple_canned",
+   "nameCs": "Ananas v plechovce",
+   "nameEn": "Canned pineapple",
+   "section": "CANNED",
+   "sourceRef": "usda:169126",
+   "defaultPackGrams": 560.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 60.0,
+    "protein": 0.42,
+    "carbs": 15.7,
+    "fat": 0.08,
+    "fiber": 0.8,
+    "sugar": 14.4,
+    "ironMg": 0.28,
+    "magnesiumMg": 14.0,
+    "vitaminCMg": 9.5
+   }
+  },
+  {
+   "key": "generic:chicken_breast_raw",
+   "nameCs": "Kuřecí prsa bez kůže, syrová",
+   "nameEn": "Chicken breast, skinless, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:171077",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 120.0,
+    "protein": 22.5,
+    "carbs": 0.0,
+    "fat": 2.62,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.37,
+    "magnesiumMg": 28.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:chicken_breast_roasted",
+   "nameCs": "Kuřecí prsa pečená",
+   "nameEn": "Chicken breast, roasted",
+   "section": "MEAT",
+   "sourceRef": "usda:171477",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 165.0,
+    "protein": 31.0,
+    "carbs": 0.0,
+    "fat": 3.57,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.04,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:chicken_thigh_raw",
+   "nameCs": "Kuřecí stehenní řízky, syrové",
+   "nameEn": "Chicken thigh fillets, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:173627",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 121.0,
+    "protein": 19.7,
+    "carbs": 0.0,
+    "fat": 4.12,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.81,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:chicken_leg_raw",
+   "nameCs": "Kuřecí stehna s kůží, syrová",
+   "nameEn": "Chicken legs with skin, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:172378",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 214.0,
+    "protein": 16.4,
+    "carbs": 0.17,
+    "fat": 16.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.69,
+    "magnesiumMg": 19.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:chicken_whole_raw",
+   "nameCs": "Kuře celé, syrové",
+   "nameEn": "Whole chicken, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:171447",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 1300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 215.0,
+    "protein": 18.6,
+    "carbs": 0.0,
+    "fat": 15.1,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.9,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 1.6
+   }
+  },
+  {
+   "key": "generic:chicken_wings_raw",
+   "nameCs": "Kuřecí křídla, syrová",
+   "nameEn": "Chicken wings, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:172390",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 191.0,
+    "protein": 17.5,
+    "carbs": 0.0,
+    "fat": 12.8,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.46,
+    "magnesiumMg": 16.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:chicken_liver",
+   "nameCs": "Kuřecí játra",
+   "nameEn": "Chicken liver",
+   "section": "MEAT",
+   "sourceRef": "usda:171060",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 119.0,
+    "protein": 16.9,
+    "carbs": 0.73,
+    "fat": 4.83,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 8.99,
+    "magnesiumMg": 19.0,
+    "vitaminCMg": 17.9
+   }
+  },
+  {
+   "key": "generic:turkey_breast_raw",
+   "nameCs": "Krůtí prsa, syrová",
+   "nameEn": "Turkey breast, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:171098",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 114.0,
+    "protein": 23.7,
+    "carbs": 0.14,
+    "fat": 1.48,
+    "fiber": 0.0,
+    "sugar": 0.05,
+    "ironMg": 0.73,
+    "magnesiumMg": 28.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:turkey_mince",
+   "nameCs": "Mleté krůtí maso",
+   "nameEn": "Minced turkey",
+   "section": "MEAT",
+   "sourceRef": "usda:171505",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 148.0,
+    "protein": 19.7,
+    "carbs": 0.0,
+    "fat": 7.66,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.09,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pork_loin_raw",
+   "nameCs": "Vepřová kotleta bez kosti, libová",
+   "nameEn": "Pork loin, lean, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:168263",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 123.0,
+    "protein": 23.8,
+    "carbs": 0.0,
+    "fat": 3.09,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.48,
+    "magnesiumMg": 26.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pork_tenderloin_raw",
+   "nameCs": "Vepřová panenka",
+   "nameEn": "Pork tenderloin, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:168249",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 109.0,
+    "protein": 21.0,
+    "carbs": 0.0,
+    "fat": 2.17,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.98,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pork_shoulder_raw",
+   "nameCs": "Vepřová plec",
+   "nameEn": "Pork shoulder, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:167843",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 236.0,
+    "protein": 17.2,
+    "carbs": 0.0,
+    "fat": 18.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.05,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 0.7
+   }
+  },
+  {
+   "key": "generic:pork_belly_raw",
+   "nameCs": "Vepřový bok",
+   "nameEn": "Pork belly, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:167812",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 518.0,
+    "protein": 9.34,
+    "carbs": 0.0,
+    "fat": 53.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.52,
+    "magnesiumMg": 4.0,
+    "vitaminCMg": 0.3
+   }
+  },
+  {
+   "key": "generic:pork_mince",
+   "nameCs": "Mleté vepřové maso",
+   "nameEn": "Minced pork",
+   "section": "MEAT",
+   "sourceRef": "usda:168372",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 218.0,
+    "protein": 18.0,
+    "carbs": 0.44,
+    "fat": 16.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.88,
+    "magnesiumMg": 16.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beef_mince_15",
+   "nameCs": "Mleté hovězí maso",
+   "nameEn": "Minced beef",
+   "section": "MEAT",
+   "sourceRef": "usda:171796",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 215.0,
+    "protein": 18.6,
+    "carbs": 0.0,
+    "fat": 15.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 2.09,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beef_mince_5",
+   "nameCs": "Mleté hovězí maso libové",
+   "nameEn": "Minced beef, lean",
+   "section": "MEAT",
+   "sourceRef": "usda:171790",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 137.0,
+    "protein": 21.4,
+    "carbs": 0.0,
+    "fat": 5.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 2.38,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beef_round_raw",
+   "nameCs": "Hovězí zadní, libové",
+   "nameEn": "Beef top round, lean, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:171816",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 135.0,
+    "protein": 22.9,
+    "carbs": 0.0,
+    "fat": 4.09,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.99,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beef_shank_raw",
+   "nameCs": "Hovězí kližka",
+   "nameEn": "Beef shank, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:169441",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 128.0,
+    "protein": 21.8,
+    "carbs": 0.0,
+    "fat": 3.85,
+    "fiber": 0.0,
+    "ironMg": 2.32,
+    "magnesiumMg": 14.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beef_chuck_raw",
+   "nameCs": "Hovězí plec (na guláš)",
+   "nameEn": "Beef chuck, raw",
+   "section": "MEAT",
+   "sourceRef": "usda:174051",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 132.0,
+    "protein": 22.1,
+    "carbs": 0.0,
+    "fat": 4.19,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.93,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rabbit_raw",
+   "nameCs": "Králík",
+   "nameEn": "Rabbit",
+   "section": "MEAT",
+   "sourceRef": "usda:172521",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 1200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 136.0,
+    "protein": 20.0,
+    "carbs": 0.0,
+    "fat": 5.55,
+    "fiber": 0.0,
+    "ironMg": 1.57,
+    "magnesiumMg": 19.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:duck_raw",
+   "nameCs": "Kachna",
+   "nameEn": "Duck",
+   "section": "MEAT",
+   "sourceRef": "usda:172408",
+   "animalFlags": [
+    "MEAT"
+   ],
+   "defaultPackGrams": 2000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 404.0,
+    "protein": 11.5,
+    "carbs": 0.0,
+    "fat": 39.3,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 2.4,
+    "magnesiumMg": 15.0,
+    "vitaminCMg": 2.8
+   }
+  },
+  {
+   "key": "generic:ham_cooked",
+   "nameCs": "Šunka dušená",
+   "nameEn": "Cooked ham",
+   "section": "MEAT",
+   "sourceRef": "usda:173864",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 164.0,
+    "protein": 16.6,
+    "carbs": 3.63,
+    "fat": 8.8,
+    "fiber": 1.3,
+    "sugar": 1.0,
+    "ironMg": 1.02,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 4.0
+   }
+  },
+  {
+   "key": "generic:bacon",
+   "nameCs": "Slanina",
+   "nameEn": "Bacon",
+   "section": "MEAT",
+   "sourceRef": "usda:168277",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 393.0,
+    "protein": 13.7,
+    "carbs": 0.0,
+    "fat": 37.1,
+    "fiber": 0.0,
+    "sugar": 0.35,
+    "ironMg": 0.38,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:frankfurters",
+   "nameCs": "Párky",
+   "nameEn": "Frankfurters",
+   "section": "MEAT",
+   "sourceRef": "usda:172968",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "gramsPerPiece": 50.0,
+   "per100g": {
+    "kcal": 290.0,
+    "protein": 10.3,
+    "carbs": 4.17,
+    "fat": 25.8,
+    "fiber": 0.0,
+    "ironMg": 1.09,
+    "magnesiumMg": 15.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:salami",
+   "nameCs": "Trvanlivý salám",
+   "nameEn": "Salami",
+   "section": "MEAT",
+   "sourceRef": "usda:174603",
+   "animalFlags": [
+    "MEAT",
+    "PORK"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 425.0,
+    "protein": 21.7,
+    "carbs": 1.2,
+    "fat": 37.0,
+    "fiber": 0.0,
+    "sugar": 1.2,
+    "ironMg": 1.52,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:salmon_raw",
+   "nameCs": "Losos",
+   "nameEn": "Salmon",
+   "section": "FISH",
+   "sourceRef": "usda:175167",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 208.0,
+    "protein": 20.4,
+    "carbs": 0.0,
+    "fat": 13.4,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.34,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 3.9
+   }
+  },
+  {
+   "key": "generic:salmon_baked",
+   "nameCs": "Losos pečený",
+   "nameEn": "Salmon, baked",
+   "section": "FISH",
+   "sourceRef": "usda:175168",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 206.0,
+    "protein": 22.1,
+    "carbs": 0.0,
+    "fat": 12.4,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.34,
+    "magnesiumMg": 30.0,
+    "vitaminCMg": 3.7
+   }
+  },
+  {
+   "key": "generic:cod_raw",
+   "nameCs": "Treska",
+   "nameEn": "Cod",
+   "section": "FISH",
+   "sourceRef": "usda:171955",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 400.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 82.0,
+    "protein": 17.8,
+    "carbs": 0.0,
+    "fat": 0.67,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.38,
+    "magnesiumMg": 32.0,
+    "vitaminCMg": 1.0
+   }
+  },
+  {
+   "key": "generic:pollock_raw",
+   "nameCs": "Aljašská treska (filé)",
+   "nameEn": "Alaska pollock fillet",
+   "section": "FISH",
+   "sourceRef": "usda:173725",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 400.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 76.0,
+    "protein": 17.2,
+    "carbs": 0.0,
+    "fat": 0.82,
+    "ironMg": 0.27,
+    "magnesiumMg": 34.0
+   }
+  },
+  {
+   "key": "generic:mackerel_raw",
+   "nameCs": "Makrela",
+   "nameEn": "Mackerel",
+   "section": "FISH",
+   "sourceRef": "usda:175119",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 205.0,
+    "protein": 18.6,
+    "carbs": 0.0,
+    "fat": 13.9,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.63,
+    "magnesiumMg": 76.0,
+    "vitaminCMg": 0.4
+   }
+  },
+  {
+   "key": "generic:trout_raw",
+   "nameCs": "Pstruh",
+   "nameEn": "Trout",
+   "section": "FISH",
+   "sourceRef": "usda:173717",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 141.0,
+    "protein": 19.9,
+    "carbs": 0.0,
+    "fat": 6.18,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.31,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 2.9
+   }
+  },
+  {
+   "key": "generic:carp_raw",
+   "nameCs": "Kapr",
+   "nameEn": "Carp",
+   "section": "FISH",
+   "sourceRef": "usda:171952",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 2,
+   "per100g": {
+    "kcal": 127.0,
+    "protein": 17.8,
+    "carbs": 0.0,
+    "fat": 5.6,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.24,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 1.6
+   }
+  },
+  {
+   "key": "generic:tilapia_raw",
+   "nameCs": "Tilápie",
+   "nameEn": "Tilapia",
+   "section": "FISH",
+   "sourceRef": "usda:175176",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 400.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 96.0,
+    "protein": 20.1,
+    "carbs": 0.0,
+    "fat": 1.7,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.56,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:herring_pickled",
+   "nameCs": "Zavináče (marinovaný sleď)",
+   "nameEn": "Pickled herring",
+   "section": "FISH",
+   "sourceRef": "usda:175118",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 300.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 262.0,
+    "protein": 14.2,
+    "carbs": 9.64,
+    "fat": 18.0,
+    "fiber": 0.0,
+    "sugar": 7.71,
+    "ironMg": 1.22,
+    "magnesiumMg": 8.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:shrimp_raw",
+   "nameCs": "Krevety",
+   "nameEn": "Shrimp",
+   "section": "FISH",
+   "sourceRef": "usda:175179",
+   "allergens": [
+    "CRUSTACEANS"
+   ],
+   "animalFlags": [
+    "SHELLFISH"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 85.0,
+    "protein": 20.1,
+    "carbs": 0.0,
+    "fat": 0.51,
+    "ironMg": 0.52,
+    "magnesiumMg": 35.0
+   }
+  },
+  {
+   "key": "generic:tuna_water",
+   "nameCs": "Tuňák ve vlastní šťávě",
+   "nameEn": "Tuna in water",
+   "section": "CANNED",
+   "sourceRef": "usda:334194",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 130.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 90.0,
+    "protein": 19.0,
+    "carbs": 0.08,
+    "fat": 0.94,
+    "ironMg": 1.67,
+    "magnesiumMg": 22.7
+   }
+  },
+  {
+   "key": "generic:tuna_oil",
+   "nameCs": "Tuňák v oleji",
+   "nameEn": "Tuna in oil",
+   "section": "CANNED",
+   "sourceRef": "usda:173708",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 130.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 198.0,
+    "protein": 29.1,
+    "carbs": 0.0,
+    "fat": 8.21,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 1.39,
+    "magnesiumMg": 31.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:sardines_oil",
+   "nameCs": "Sardinky v oleji",
+   "nameEn": "Sardines in oil",
+   "section": "CANNED",
+   "sourceRef": "usda:175139",
+   "allergens": [
+    "FISH"
+   ],
+   "animalFlags": [
+    "FISH"
+   ],
+   "defaultPackGrams": 90.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 208.0,
+    "protein": 24.6,
+    "carbs": 0.0,
+    "fat": 11.4,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 2.92,
+    "magnesiumMg": 39.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:milk_whole",
+   "nameCs": "Mléko plnotučné",
+   "nameEn": "Whole milk",
+   "section": "DAIRY",
+   "sourceRef": "usda:171265",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 61.0,
+    "protein": 3.15,
+    "carbs": 4.8,
+    "fat": 3.25,
+    "fiber": 0.0,
+    "sugar": 5.05,
+    "ironMg": 0.03,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:milk_semi",
+   "nameCs": "Mléko polotučné",
+   "nameEn": "Semi-skimmed milk",
+   "section": "DAIRY",
+   "sourceRef": "usda:171267",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 50.0,
+    "protein": 3.3,
+    "carbs": 4.8,
+    "fat": 1.98,
+    "fiber": 0.0,
+    "sugar": 5.06,
+    "ironMg": 0.02,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:milk_skim",
+   "nameCs": "Mléko odtučněné",
+   "nameEn": "Skimmed milk",
+   "section": "DAIRY",
+   "sourceRef": "usda:171269",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 34.0,
+    "protein": 3.37,
+    "carbs": 4.96,
+    "fat": 0.08,
+    "fiber": 0.0,
+    "sugar": 5.09,
+    "ironMg": 0.03,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:yogurt_whole",
+   "nameCs": "Bílý jogurt",
+   "nameEn": "Plain yogurt",
+   "section": "DAIRY",
+   "sourceRef": "usda:171284",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 150.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 61.0,
+    "protein": 3.47,
+    "carbs": 4.66,
+    "fat": 3.25,
+    "fiber": 0.0,
+    "sugar": 4.66,
+    "ironMg": 0.05,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.5
+   }
+  },
+  {
+   "key": "generic:yogurt_low",
+   "nameCs": "Bílý jogurt nízkotučný",
+   "nameEn": "Plain yogurt, low fat",
+   "section": "DAIRY",
+   "sourceRef": "usda:170886",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 150.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 63.0,
+    "protein": 5.25,
+    "carbs": 7.04,
+    "fat": 1.55,
+    "fiber": 0.0,
+    "sugar": 7.04,
+    "ironMg": 0.08,
+    "magnesiumMg": 17.0,
+    "vitaminCMg": 0.8
+   }
+  },
+  {
+   "key": "generic:greek_yogurt",
+   "nameCs": "Řecký jogurt",
+   "nameEn": "Greek yogurt",
+   "section": "DAIRY",
+   "sourceRef": "usda:171304",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 97.0,
+    "protein": 9.0,
+    "carbs": 3.98,
+    "fat": 5.0,
+    "fiber": 0.0,
+    "sugar": 4.0,
+    "ironMg": 0.0,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:greek_yogurt_0",
+   "nameCs": "Řecký jogurt bez tuku",
+   "nameEn": "Greek yogurt, fat free",
+   "section": "DAIRY",
+   "sourceRef": "usda:330137",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 61.0,
+    "protein": 10.3,
+    "carbs": 3.64,
+    "fat": 0.37,
+    "ironMg": 0.07,
+    "magnesiumMg": 10.7
+   }
+  },
+  {
+   "key": "generic:kefir",
+   "nameCs": "Kefír",
+   "nameEn": "Kefir",
+   "section": "DAIRY",
+   "sourceRef": "usda:170904",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 43.0,
+    "protein": 3.79,
+    "carbs": 4.77,
+    "fat": 1.02,
+    "fiber": 0.0,
+    "sugar": 4.61,
+    "ironMg": 0.04,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:sour_cream",
+   "nameCs": "Zakysaná smetana",
+   "nameEn": "Sour cream",
+   "section": "DAIRY",
+   "sourceRef": "usda:171257",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 198.0,
+    "protein": 2.44,
+    "carbs": 4.63,
+    "fat": 19.4,
+    "fiber": 0.0,
+    "sugar": 3.41,
+    "ironMg": 0.07,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:cream_whipping",
+   "nameCs": "Smetana ke šlehání",
+   "nameEn": "Whipping cream",
+   "section": "DAIRY",
+   "sourceRef": "usda:170859",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 340.0,
+    "protein": 2.84,
+    "carbs": 2.84,
+    "fat": 36.1,
+    "fiber": 0.0,
+    "sugar": 2.92,
+    "ironMg": 0.1,
+    "magnesiumMg": 7.0,
+    "vitaminCMg": 0.6
+   }
+  },
+  {
+   "key": "generic:cream_cooking",
+   "nameCs": "Smetana na vaření",
+   "nameEn": "Cooking cream",
+   "section": "DAIRY",
+   "sourceRef": "usda:171255",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 131.0,
+    "protein": 3.13,
+    "carbs": 4.3,
+    "fat": 11.5,
+    "fiber": 0.0,
+    "sugar": 4.13,
+    "ironMg": 0.05,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:butter",
+   "nameCs": "Máslo",
+   "nameEn": "Butter",
+   "section": "DAIRY",
+   "sourceRef": "usda:173430",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 717.0,
+    "protein": 0.85,
+    "carbs": 0.06,
+    "fat": 81.1,
+    "fiber": 0.0,
+    "sugar": 0.06,
+    "ironMg": 0.02,
+    "magnesiumMg": 2.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:cottage_cheese",
+   "nameCs": "Cottage sýr",
+   "nameEn": "Cottage cheese",
+   "section": "DAIRY",
+   "sourceRef": "usda:172182",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 180.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 81.0,
+    "protein": 10.4,
+    "carbs": 4.76,
+    "fat": 2.27,
+    "fiber": 0.0,
+    "sugar": 4.0,
+    "ironMg": 0.13,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:cream_cheese",
+   "nameCs": "Smetanový sýr",
+   "nameEn": "Cream cheese",
+   "section": "DAIRY",
+   "sourceRef": "usda:173418",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 150.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 350.0,
+    "protein": 6.15,
+    "carbs": 5.52,
+    "fat": 34.4,
+    "fiber": 0.0,
+    "sugar": 3.76,
+    "ironMg": 0.11,
+    "magnesiumMg": 9.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:mozzarella",
+   "nameCs": "Mozzarella",
+   "nameEn": "Mozzarella",
+   "section": "DAIRY",
+   "sourceRef": "usda:170845",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 125.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 299.0,
+    "protein": 22.2,
+    "carbs": 2.4,
+    "fat": 22.1,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.44,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:mozzarella_light",
+   "nameCs": "Mozzarella light",
+   "nameEn": "Mozzarella, light",
+   "section": "DAIRY",
+   "sourceRef": "usda:170847",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 125.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 254.0,
+    "protein": 24.3,
+    "carbs": 2.77,
+    "fat": 15.9,
+    "fiber": 0.0,
+    "sugar": 1.13,
+    "ironMg": 0.22,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:edam",
+   "nameCs": "Eidam",
+   "nameEn": "Edam cheese",
+   "section": "DAIRY",
+   "sourceRef": "usda:173419",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 357.0,
+    "protein": 25.0,
+    "carbs": 1.43,
+    "fat": 28.6,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.44,
+    "magnesiumMg": 30.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:gouda",
+   "nameCs": "Gouda",
+   "nameEn": "Gouda",
+   "section": "DAIRY",
+   "sourceRef": "usda:171241",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 356.0,
+    "protein": 24.9,
+    "carbs": 2.22,
+    "fat": 27.4,
+    "fiber": 0.0,
+    "sugar": 2.22,
+    "ironMg": 0.24,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:cheddar",
+   "nameCs": "Čedar",
+   "nameEn": "Cheddar",
+   "section": "DAIRY",
+   "sourceRef": "usda:328637",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 408.0,
+    "protein": 23.3,
+    "carbs": 2.44,
+    "fat": 34.0,
+    "ironMg": 0.16,
+    "magnesiumMg": 26.8
+   }
+  },
+  {
+   "key": "generic:emmental",
+   "nameCs": "Ementál",
+   "nameEn": "Emmental",
+   "section": "DAIRY",
+   "sourceRef": "usda:171251",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 393.0,
+    "protein": 27.0,
+    "carbs": 1.44,
+    "fat": 31.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.13,
+    "magnesiumMg": 33.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:parmesan",
+   "nameCs": "Parmazán",
+   "nameEn": "Parmesan",
+   "section": "DAIRY",
+   "sourceRef": "usda:170848",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 60,
+   "per100g": {
+    "kcal": 392.0,
+    "protein": 35.8,
+    "carbs": 3.22,
+    "fat": 25.0,
+    "fiber": 0.0,
+    "sugar": 0.11,
+    "ironMg": 0.82,
+    "magnesiumMg": 44.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:feta",
+   "nameCs": "Feta",
+   "nameEn": "Feta",
+   "section": "DAIRY",
+   "sourceRef": "usda:173420",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 265.0,
+    "protein": 14.2,
+    "carbs": 3.88,
+    "fat": 21.5,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.65,
+    "magnesiumMg": 19.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:ricotta",
+   "nameCs": "Ricotta",
+   "nameEn": "Ricotta",
+   "section": "DAIRY",
+   "sourceRef": "usda:170851",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 10,
+   "per100g": {
+    "kcal": 150.0,
+    "protein": 7.54,
+    "carbs": 7.27,
+    "fat": 10.2,
+    "fiber": 0.0,
+    "sugar": 0.27,
+    "ironMg": 0.13,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:brie",
+   "nameCs": "Hermelín / brie",
+   "nameEn": "Brie",
+   "section": "DAIRY",
+   "sourceRef": "usda:172177",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 334.0,
+    "protein": 20.8,
+    "carbs": 0.45,
+    "fat": 27.7,
+    "fiber": 0.0,
+    "sugar": 0.45,
+    "ironMg": 0.5,
+    "magnesiumMg": 20.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:whey_protein",
+   "nameCs": "Syrovátkový protein (izolát)",
+   "nameEn": "Whey protein isolate",
+   "section": "SUPPLEMENTS",
+   "sourceRef": "usda:173177",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 359.0,
+    "protein": 58.1,
+    "carbs": 29.1,
+    "fat": 1.16,
+    "fiber": 0.0,
+    "sugar": 1.16,
+    "ironMg": 1.26,
+    "magnesiumMg": 233.0,
+    "vitaminCMg": 34.9
+   }
+  },
+  {
+   "key": "generic:egg",
+   "nameCs": "Vejce",
+   "nameEn": "Eggs",
+   "section": "EGGS",
+   "sourceRef": "usda:171287",
+   "allergens": [
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 28,
+   "gramsPerPiece": 50.0,
+   "per100g": {
+    "kcal": 143.0,
+    "protein": 12.6,
+    "carbs": 0.72,
+    "fat": 9.51,
+    "fiber": 0.0,
+    "sugar": 0.37,
+    "ironMg": 1.75,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:egg_boiled",
+   "nameCs": "Vejce natvrdo",
+   "nameEn": "Hard-boiled egg",
+   "section": "EGGS",
+   "sourceRef": "usda:173424",
+   "allergens": [
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 50.0,
+   "per100g": {
+    "kcal": 155.0,
+    "protein": 12.6,
+    "carbs": 1.12,
+    "fat": 10.6,
+    "fiber": 0.0,
+    "sugar": 1.12,
+    "ironMg": 1.19,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:egg_white",
+   "nameCs": "Vaječný bílek",
+   "nameEn": "Egg white",
+   "section": "EGGS",
+   "sourceRef": "usda:172183",
+   "allergens": [
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "shelfLifeDays": 2,
+   "gramsPerPiece": 33.0,
+   "per100g": {
+    "kcal": 52.0,
+    "protein": 10.9,
+    "carbs": 0.73,
+    "fat": 0.17,
+    "fiber": 0.0,
+    "sugar": 0.71,
+    "ironMg": 0.08,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:egg_yolk",
+   "nameCs": "Vaječný žloutek",
+   "nameEn": "Egg yolk",
+   "section": "EGGS",
+   "sourceRef": "usda:172184",
+   "allergens": [
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "shelfLifeDays": 2,
+   "gramsPerPiece": 17.0,
+   "per100g": {
+    "kcal": 322.0,
+    "protein": 15.9,
+    "carbs": 3.59,
+    "fat": 26.5,
+    "fiber": 0.0,
+    "sugar": 0.56,
+    "ironMg": 2.73,
+    "magnesiumMg": 5.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:bread_wholewheat",
+   "nameCs": "Chléb celozrnný",
+   "nameEn": "Wholemeal bread",
+   "section": "BAKERY",
+   "sourceRef": "usda:172688",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 252.0,
+    "protein": 12.4,
+    "carbs": 42.7,
+    "fat": 3.5,
+    "fiber": 6.0,
+    "sugar": 4.34,
+    "ironMg": 2.47,
+    "magnesiumMg": 75.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:bread_rye",
+   "nameCs": "Chléb žitný",
+   "nameEn": "Rye bread",
+   "section": "BAKERY",
+   "sourceRef": "usda:172684",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 259.0,
+    "protein": 8.5,
+    "carbs": 48.3,
+    "fat": 3.3,
+    "fiber": 5.8,
+    "sugar": 3.85,
+    "ironMg": 2.83,
+    "magnesiumMg": 40.0,
+    "vitaminCMg": 0.4
+   }
+  },
+  {
+   "key": "generic:bread_multigrain",
+   "nameCs": "Chléb vícezrnný",
+   "nameEn": "Multigrain bread",
+   "section": "BAKERY",
+   "sourceRef": "usda:168013",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 265.0,
+    "protein": 13.4,
+    "carbs": 43.3,
+    "fat": 4.23,
+    "fiber": 7.4,
+    "sugar": 6.39,
+    "ironMg": 2.5,
+    "magnesiumMg": 78.0,
+    "vitaminCMg": 0.1
+   }
+  },
+  {
+   "key": "generic:toast_white",
+   "nameCs": "Toustový chléb",
+   "nameEn": "White toast bread",
+   "section": "BAKERY",
+   "sourceRef": "usda:174924",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 7,
+   "gramsPerPiece": 25.0,
+   "per100g": {
+    "kcal": 266.0,
+    "protein": 8.85,
+    "carbs": 49.4,
+    "fat": 3.33,
+    "fiber": 2.7,
+    "sugar": 5.67,
+    "ironMg": 3.61,
+    "magnesiumMg": 23.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:tortilla",
+   "nameCs": "Tortilla pšeničná",
+   "nameEn": "Wheat tortilla",
+   "section": "BAKERY",
+   "sourceRef": "usda:175037",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 320.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 30,
+   "gramsPerPiece": 40.0,
+   "per100g": {
+    "kcal": 306.0,
+    "protein": 8.2,
+    "carbs": 49.4,
+    "fat": 7.99,
+    "fiber": 3.5,
+    "sugar": 3.71,
+    "ironMg": 3.63,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pita",
+   "nameCs": "Pita",
+   "nameEn": "Pita bread",
+   "section": "BAKERY",
+   "sourceRef": "usda:174915",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 300.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 5,
+   "gramsPerPiece": 60.0,
+   "per100g": {
+    "kcal": 275.0,
+    "protein": 9.1,
+    "carbs": 55.7,
+    "fat": 1.2,
+    "fiber": 2.2,
+    "sugar": 1.3,
+    "ironMg": 2.62,
+    "magnesiumMg": 26.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:crispbread",
+   "nameCs": "Knäckebrot žitný",
+   "nameEn": "Rye crispbread",
+   "section": "BAKERY",
+   "sourceRef": "usda:172744",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "gramsPerPiece": 10.0,
+   "per100g": {
+    "kcal": 334.0,
+    "protein": 9.6,
+    "carbs": 80.4,
+    "fat": 0.9,
+    "fiber": 22.9,
+    "sugar": 1.01,
+    "ironMg": 5.94,
+    "magnesiumMg": 121.0,
+    "vitaminCMg": 0.1
+   }
+  },
+  {
+   "key": "generic:croissant",
+   "nameCs": "Croissant",
+   "nameEn": "Croissant",
+   "section": "BAKERY",
+   "sourceRef": "usda:174987",
+   "allergens": [
+    "GLUTEN",
+    "MILK",
+    "EGGS"
+   ],
+   "animalFlags": [
+    "DAIRY",
+    "EGG"
+   ],
+   "shelfLifeDays": 3,
+   "gramsPerPiece": 60.0,
+   "per100g": {
+    "kcal": 406.0,
+    "protein": 8.2,
+    "carbs": 45.8,
+    "fat": 21.0,
+    "fiber": 2.6,
+    "sugar": 11.3,
+    "ironMg": 2.03,
+    "magnesiumMg": 16.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:breadcrumbs",
+   "nameCs": "Strouhanka",
+   "nameEn": "Breadcrumbs",
+   "section": "BAKERY",
+   "sourceRef": "usda:174928",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 395.0,
+    "protein": 13.4,
+    "carbs": 72.0,
+    "fat": 5.3,
+    "fiber": 4.5,
+    "sugar": 6.2,
+    "ironMg": 4.83,
+    "magnesiumMg": 43.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rice_white_raw",
+   "nameCs": "Rýže bílá dlouhozrnná, syrová",
+   "nameEn": "White rice, raw",
+   "section": "GRAINS",
+   "sourceRef": "usda:169756",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 365.0,
+    "protein": 7.13,
+    "carbs": 80.0,
+    "fat": 0.66,
+    "fiber": 1.3,
+    "sugar": 0.12,
+    "ironMg": 0.8,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rice_white_cooked",
+   "nameCs": "Rýže bílá, vařená",
+   "nameEn": "White rice, cooked",
+   "section": "GRAINS",
+   "sourceRef": "usda:169757",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 130.0,
+    "protein": 2.69,
+    "carbs": 28.2,
+    "fat": 0.28,
+    "fiber": 0.4,
+    "sugar": 0.05,
+    "ironMg": 0.2,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rice_brown_raw",
+   "nameCs": "Rýže natural, syrová",
+   "nameEn": "Brown rice, raw",
+   "section": "GRAINS",
+   "sourceRef": "usda:169703",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 367.0,
+    "protein": 7.54,
+    "carbs": 76.2,
+    "fat": 3.2,
+    "fiber": 3.6,
+    "sugar": 0.66,
+    "ironMg": 1.29,
+    "magnesiumMg": 116.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rice_brown_cooked",
+   "nameCs": "Rýže natural, vařená",
+   "nameEn": "Brown rice, cooked",
+   "section": "GRAINS",
+   "sourceRef": "usda:169704",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 123.0,
+    "protein": 2.74,
+    "carbs": 25.6,
+    "fat": 0.97,
+    "fiber": 1.6,
+    "sugar": 0.24,
+    "ironMg": 0.56,
+    "magnesiumMg": 39.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pasta_dry",
+   "nameCs": "Těstoviny, suché",
+   "nameEn": "Pasta, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:168927",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 371.0,
+    "protein": 13.0,
+    "carbs": 74.7,
+    "fat": 1.51,
+    "fiber": 3.2,
+    "sugar": 2.67,
+    "ironMg": 1.3,
+    "magnesiumMg": 53.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pasta_cooked",
+   "nameCs": "Těstoviny, vařené",
+   "nameEn": "Pasta, cooked",
+   "section": "GRAINS",
+   "sourceRef": "usda:168928",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 158.0,
+    "protein": 5.8,
+    "carbs": 30.9,
+    "fat": 0.93,
+    "fiber": 1.8,
+    "sugar": 0.56,
+    "ironMg": 0.5,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pasta_wholewheat",
+   "nameCs": "Celozrnné těstoviny, suché",
+   "nameEn": "Wholewheat pasta, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:169738",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 352.0,
+    "protein": 13.9,
+    "carbs": 73.4,
+    "fat": 2.93,
+    "fiber": 9.2,
+    "sugar": 2.74,
+    "ironMg": 3.62,
+    "magnesiumMg": 128.0
+   }
+  },
+  {
+   "key": "generic:egg_noodles",
+   "nameCs": "Vaječné nudle, suché",
+   "nameEn": "Egg noodles, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:169755",
+   "allergens": [
+    "GLUTEN",
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 384.0,
+    "protein": 14.2,
+    "carbs": 71.3,
+    "fat": 4.44,
+    "fiber": 3.3,
+    "sugar": 1.88,
+    "ironMg": 1.9,
+    "magnesiumMg": 58.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:oats",
+   "nameCs": "Ovesné vločky",
+   "nameEn": "Rolled oats",
+   "section": "GRAINS",
+   "sourceRef": "usda:173904",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 379.0,
+    "protein": 13.2,
+    "carbs": 67.7,
+    "fat": 6.52,
+    "fiber": 10.1,
+    "sugar": 0.99,
+    "ironMg": 4.25,
+    "magnesiumMg": 138.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:couscous_dry",
+   "nameCs": "Kuskus, suchý",
+   "nameEn": "Couscous, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:169699",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 376.0,
+    "protein": 12.8,
+    "carbs": 77.4,
+    "fat": 0.64,
+    "fiber": 5.0,
+    "ironMg": 1.08,
+    "magnesiumMg": 44.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:couscous_cooked",
+   "nameCs": "Kuskus, vařený",
+   "nameEn": "Couscous, cooked",
+   "section": "GRAINS",
+   "sourceRef": "usda:169700",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 112.0,
+    "protein": 3.79,
+    "carbs": 23.2,
+    "fat": 0.16,
+    "fiber": 1.4,
+    "sugar": 0.1,
+    "ironMg": 0.38,
+    "magnesiumMg": 8.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:bulgur",
+   "nameCs": "Bulgur, suchý",
+   "nameEn": "Bulgur, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:170688",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 342.0,
+    "protein": 12.3,
+    "carbs": 75.9,
+    "fat": 1.33,
+    "fiber": 12.5,
+    "sugar": 0.41,
+    "ironMg": 2.46,
+    "magnesiumMg": 164.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:quinoa_raw",
+   "nameCs": "Quinoa, suchá",
+   "nameEn": "Quinoa, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:168874",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 368.0,
+    "protein": 14.1,
+    "carbs": 64.2,
+    "fat": 6.07,
+    "fiber": 7.0,
+    "ironMg": 4.57,
+    "magnesiumMg": 197.0
+   }
+  },
+  {
+   "key": "generic:quinoa_cooked",
+   "nameCs": "Quinoa, vařená",
+   "nameEn": "Quinoa, cooked",
+   "section": "GRAINS",
+   "sourceRef": "usda:168917",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 120.0,
+    "protein": 4.4,
+    "carbs": 21.3,
+    "fat": 1.92,
+    "fiber": 2.8,
+    "sugar": 0.87,
+    "ironMg": 1.49,
+    "magnesiumMg": 64.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:buckwheat",
+   "nameCs": "Pohanka, suchá",
+   "nameEn": "Buckwheat, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:170685",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 346.0,
+    "protein": 11.7,
+    "carbs": 75.0,
+    "fat": 2.71,
+    "fiber": 10.3,
+    "ironMg": 2.47,
+    "magnesiumMg": 221.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:millet",
+   "nameCs": "Jáhly, suché",
+   "nameEn": "Millet, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:169702",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 378.0,
+    "protein": 11.0,
+    "carbs": 72.8,
+    "fat": 4.22,
+    "fiber": 8.5,
+    "ironMg": 3.01,
+    "magnesiumMg": 114.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:barley",
+   "nameCs": "Kroupy, suché",
+   "nameEn": "Pearl barley, dry",
+   "section": "GRAINS",
+   "sourceRef": "usda:170284",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 352.0,
+    "protein": 9.91,
+    "carbs": 77.7,
+    "fat": 1.16,
+    "fiber": 15.6,
+    "sugar": 0.8,
+    "ironMg": 2.5,
+    "magnesiumMg": 79.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:flour_wheat",
+   "nameCs": "Pšeničná mouka hladká",
+   "nameEn": "Plain wheat flour",
+   "section": "GRAINS",
+   "sourceRef": "usda:169761",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 364.0,
+    "protein": 10.3,
+    "carbs": 76.3,
+    "fat": 0.98,
+    "fiber": 2.7,
+    "sugar": 0.27,
+    "ironMg": 1.17,
+    "magnesiumMg": 22.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:flour_wholewheat",
+   "nameCs": "Celozrnná pšeničná mouka",
+   "nameEn": "Wholemeal wheat flour",
+   "section": "GRAINS",
+   "sourceRef": "usda:790085",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 370.0,
+    "protein": 15.1,
+    "carbs": 71.2,
+    "fat": 2.73,
+    "fiber": 10.6,
+    "ironMg": 3.86,
+    "magnesiumMg": 136.0
+   }
+  },
+  {
+   "key": "generic:flour_rye",
+   "nameCs": "Žitná mouka",
+   "nameEn": "Rye flour",
+   "section": "GRAINS",
+   "sourceRef": "usda:168886",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 349.0,
+    "protein": 10.9,
+    "carbs": 75.4,
+    "fat": 1.52,
+    "fiber": 11.8,
+    "sugar": 1.1,
+    "ironMg": 2.54,
+    "magnesiumMg": 63.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:semolina",
+   "nameCs": "Krupice",
+   "nameEn": "Semolina",
+   "section": "GRAINS",
+   "sourceRef": "usda:168933",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 360.0,
+    "protein": 12.7,
+    "carbs": 72.8,
+    "fat": 1.05,
+    "fiber": 3.9,
+    "ironMg": 1.23,
+    "magnesiumMg": 47.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:cornstarch",
+   "nameCs": "Kukuřičný škrob",
+   "nameEn": "Cornflour (starch)",
+   "section": "GRAINS",
+   "sourceRef": "usda:169698",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 381.0,
+    "protein": 0.26,
+    "carbs": 91.3,
+    "fat": 0.05,
+    "fiber": 0.9,
+    "sugar": 0.0,
+    "ironMg": 0.47,
+    "magnesiumMg": 3.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:polenta",
+   "nameCs": "Polenta (kukuřičná krupice)",
+   "nameEn": "Polenta (cornmeal)",
+   "section": "GRAINS",
+   "sourceRef": "usda:168929",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 370.0,
+    "protein": 7.11,
+    "carbs": 79.4,
+    "fat": 1.75,
+    "fiber": 3.9,
+    "sugar": 1.61,
+    "ironMg": 1.1,
+    "magnesiumMg": 32.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:granola",
+   "nameCs": "Granola (zapékané müsli)",
+   "nameEn": "Granola",
+   "section": "GRAINS",
+   "sourceRef": "usda:171646",
+   "allergens": [
+    "GLUTEN",
+    "NUTS"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 489.0,
+    "protein": 13.7,
+    "carbs": 53.9,
+    "fat": 24.3,
+    "fiber": 8.9,
+    "sugar": 19.8,
+    "ironMg": 3.95,
+    "magnesiumMg": 168.0,
+    "vitaminCMg": 1.2
+   }
+  },
+  {
+   "key": "generic:lentils_brown",
+   "nameCs": "Čočka hnědá, suchá",
+   "nameEn": "Brown lentils, dry",
+   "section": "LEGUMES",
+   "sourceRef": "usda:172420",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 352.0,
+    "protein": 24.6,
+    "carbs": 63.4,
+    "fat": 1.06,
+    "fiber": 10.7,
+    "sugar": 2.03,
+    "ironMg": 6.51,
+    "magnesiumMg": 47.0,
+    "vitaminCMg": 4.5
+   }
+  },
+  {
+   "key": "generic:lentils_red",
+   "nameCs": "Čočka červená, suchá",
+   "nameEn": "Red lentils, dry",
+   "section": "LEGUMES",
+   "sourceRef": "usda:174284",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 358.0,
+    "protein": 23.9,
+    "carbs": 63.1,
+    "fat": 2.17,
+    "fiber": 10.8,
+    "ironMg": 7.39,
+    "magnesiumMg": 59.0,
+    "vitaminCMg": 1.7
+   }
+  },
+  {
+   "key": "generic:lentils_cooked",
+   "nameCs": "Čočka, vařená",
+   "nameEn": "Lentils, cooked",
+   "section": "LEGUMES",
+   "sourceRef": "usda:172421",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 116.0,
+    "protein": 9.02,
+    "carbs": 20.1,
+    "fat": 0.38,
+    "fiber": 7.9,
+    "sugar": 1.8,
+    "ironMg": 3.33,
+    "magnesiumMg": 36.0,
+    "vitaminCMg": 1.5
+   }
+  },
+  {
+   "key": "generic:chickpeas_dry",
+   "nameCs": "Cizrna, suchá",
+   "nameEn": "Chickpeas, dry",
+   "section": "LEGUMES",
+   "sourceRef": "usda:173756",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 378.0,
+    "protein": 20.5,
+    "carbs": 63.0,
+    "fat": 6.04,
+    "fiber": 12.2,
+    "sugar": 10.7,
+    "ironMg": 4.31,
+    "magnesiumMg": 79.0,
+    "vitaminCMg": 4.0
+   }
+  },
+  {
+   "key": "generic:chickpeas_canned",
+   "nameCs": "Cizrna, sterilovaná",
+   "nameEn": "Chickpeas, canned",
+   "section": "CANNED",
+   "sourceRef": "usda:173801",
+   "defaultPackGrams": 240.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 138.0,
+    "protein": 7.04,
+    "carbs": 22.9,
+    "fat": 2.47,
+    "fiber": 6.3,
+    "sugar": 4.0,
+    "ironMg": 0.98,
+    "magnesiumMg": 24.0,
+    "vitaminCMg": 0.1
+   }
+  },
+  {
+   "key": "generic:beans_kidney_dry",
+   "nameCs": "Fazole červené, suché",
+   "nameEn": "Red kidney beans, dry",
+   "section": "LEGUMES",
+   "sourceRef": "usda:173744",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 337.0,
+    "protein": 22.5,
+    "carbs": 61.3,
+    "fat": 1.06,
+    "fiber": 15.2,
+    "sugar": 2.1,
+    "ironMg": 6.69,
+    "magnesiumMg": 138.0,
+    "vitaminCMg": 4.5
+   }
+  },
+  {
+   "key": "generic:beans_kidney_canned",
+   "nameCs": "Fazole červené, sterilované",
+   "nameEn": "Red kidney beans, canned",
+   "section": "CANNED",
+   "sourceRef": "usda:174285",
+   "defaultPackGrams": 240.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 124.0,
+    "protein": 7.98,
+    "carbs": 21.5,
+    "fat": 1.05,
+    "fiber": 5.5,
+    "sugar": 3.8,
+    "ironMg": 1.5,
+    "magnesiumMg": 30.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:beans_white_dry",
+   "nameCs": "Fazole bílé, suché",
+   "nameEn": "White beans, dry",
+   "section": "LEGUMES",
+   "sourceRef": "usda:175202",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 333.0,
+    "protein": 23.4,
+    "carbs": 60.3,
+    "fat": 0.85,
+    "fiber": 15.2,
+    "sugar": 2.11,
+    "ironMg": 10.4,
+    "magnesiumMg": 190.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beans_black_canned",
+   "nameCs": "Černé fazole, sterilované",
+   "nameEn": "Black beans, canned",
+   "section": "CANNED",
+   "sourceRef": "usda:175238",
+   "defaultPackGrams": 240.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 91.0,
+    "protein": 6.03,
+    "carbs": 16.6,
+    "fat": 0.29,
+    "fiber": 6.9,
+    "sugar": 0.23,
+    "ironMg": 1.9,
+    "magnesiumMg": 35.0,
+    "vitaminCMg": 2.7
+   }
+  },
+  {
+   "key": "generic:beans_baked",
+   "nameCs": "Fazole v tomatové omáčce",
+   "nameEn": "Baked beans",
+   "section": "CANNED",
+   "sourceRef": "usda:175182",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 94.0,
+    "protein": 4.75,
+    "carbs": 21.1,
+    "fat": 0.37,
+    "fiber": 4.1,
+    "sugar": 7.96,
+    "ironMg": 1.19,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:peas_split_cooked",
+   "nameCs": "Hrách, vařený",
+   "nameEn": "Split peas, cooked",
+   "section": "LEGUMES",
+   "sourceRef": "usda:172429",
+   "shelfLifeDays": 3,
+   "per100g": {
+    "kcal": 118.0,
+    "protein": 8.34,
+    "carbs": 21.1,
+    "fat": 0.39,
+    "fiber": 8.3,
+    "sugar": 2.9,
+    "ironMg": 1.29,
+    "magnesiumMg": 36.0,
+    "vitaminCMg": 0.4
+   }
+  },
+  {
+   "key": "generic:tofu",
+   "nameCs": "Tofu natural",
+   "nameEn": "Tofu, firm",
+   "section": "LEGUMES",
+   "sourceRef": "usda:172475",
+   "allergens": [
+    "SOY"
+   ],
+   "defaultPackGrams": 180.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 144.0,
+    "protein": 17.3,
+    "carbs": 2.78,
+    "fat": 8.72,
+    "fiber": 2.3,
+    "ironMg": 2.66,
+    "magnesiumMg": 58.0,
+    "vitaminCMg": 0.2
+   }
+  },
+  {
+   "key": "generic:tempeh",
+   "nameCs": "Tempeh",
+   "nameEn": "Tempeh",
+   "section": "LEGUMES",
+   "sourceRef": "usda:174272",
+   "allergens": [
+    "SOY"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 192.0,
+    "protein": 20.3,
+    "carbs": 7.64,
+    "fat": 10.8,
+    "ironMg": 2.7,
+    "magnesiumMg": 81.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:peanut_butter",
+   "nameCs": "Arašídové máslo",
+   "nameEn": "Peanut butter",
+   "section": "OTHER",
+   "sourceRef": "usda:172470",
+   "allergens": [
+    "PEANUTS"
+   ],
+   "defaultPackGrams": 350.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 598.0,
+    "protein": 22.2,
+    "carbs": 22.3,
+    "fat": 51.4,
+    "fiber": 5.0,
+    "sugar": 10.5,
+    "ironMg": 1.74,
+    "magnesiumMg": 168.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:almonds",
+   "nameCs": "Mandle",
+   "nameEn": "Almonds",
+   "section": "OTHER",
+   "sourceRef": "usda:170567",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 579.0,
+    "protein": 21.2,
+    "carbs": 21.6,
+    "fat": 49.9,
+    "fiber": 12.5,
+    "sugar": 4.35,
+    "ironMg": 3.71,
+    "magnesiumMg": 270.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:walnuts",
+   "nameCs": "Vlašské ořechy",
+   "nameEn": "Walnuts",
+   "section": "OTHER",
+   "sourceRef": "usda:170187",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 654.0,
+    "protein": 15.2,
+    "carbs": 13.7,
+    "fat": 65.2,
+    "fiber": 6.7,
+    "sugar": 2.61,
+    "ironMg": 2.91,
+    "magnesiumMg": 158.0,
+    "vitaminCMg": 1.3
+   }
+  },
+  {
+   "key": "generic:hazelnuts",
+   "nameCs": "Lískové ořechy",
+   "nameEn": "Hazelnuts",
+   "section": "OTHER",
+   "sourceRef": "usda:170581",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 628.0,
+    "protein": 15.0,
+    "carbs": 16.7,
+    "fat": 60.8,
+    "fiber": 9.7,
+    "sugar": 4.34,
+    "ironMg": 4.7,
+    "magnesiumMg": 163.0,
+    "vitaminCMg": 6.3
+   }
+  },
+  {
+   "key": "generic:cashews",
+   "nameCs": "Kešu ořechy",
+   "nameEn": "Cashews",
+   "section": "OTHER",
+   "sourceRef": "usda:170162",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 553.0,
+    "protein": 18.2,
+    "carbs": 30.2,
+    "fat": 43.8,
+    "fiber": 3.3,
+    "sugar": 5.91,
+    "ironMg": 6.68,
+    "magnesiumMg": 292.0,
+    "vitaminCMg": 0.5
+   }
+  },
+  {
+   "key": "generic:pistachios",
+   "nameCs": "Pistácie",
+   "nameEn": "Pistachios",
+   "section": "OTHER",
+   "sourceRef": "usda:170184",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 560.0,
+    "protein": 20.2,
+    "carbs": 27.2,
+    "fat": 45.3,
+    "fiber": 10.6,
+    "sugar": 7.66,
+    "ironMg": 3.92,
+    "magnesiumMg": 121.0,
+    "vitaminCMg": 5.6
+   }
+  },
+  {
+   "key": "generic:peanuts_roasted",
+   "nameCs": "Arašídy pražené, nesolené",
+   "nameEn": "Roasted peanuts, unsalted",
+   "section": "OTHER",
+   "sourceRef": "usda:173806",
+   "allergens": [
+    "PEANUTS"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 587.0,
+    "protein": 24.4,
+    "carbs": 21.3,
+    "fat": 49.7,
+    "fiber": 8.4,
+    "sugar": 4.9,
+    "ironMg": 1.58,
+    "magnesiumMg": 178.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:sunflower_seeds",
+   "nameCs": "Slunečnicová semínka",
+   "nameEn": "Sunflower seeds",
+   "section": "OTHER",
+   "sourceRef": "usda:170562",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 584.0,
+    "protein": 20.8,
+    "carbs": 20.0,
+    "fat": 51.5,
+    "fiber": 8.6,
+    "sugar": 2.62,
+    "ironMg": 5.25,
+    "magnesiumMg": 325.0,
+    "vitaminCMg": 1.4
+   }
+  },
+  {
+   "key": "generic:pumpkin_seeds",
+   "nameCs": "Dýňová semínka",
+   "nameEn": "Pumpkin seeds",
+   "section": "OTHER",
+   "sourceRef": "usda:170556",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 559.0,
+    "protein": 30.2,
+    "carbs": 10.7,
+    "fat": 49.0,
+    "fiber": 6.0,
+    "sugar": 1.4,
+    "ironMg": 8.82,
+    "magnesiumMg": 592.0,
+    "vitaminCMg": 1.9
+   }
+  },
+  {
+   "key": "generic:chia",
+   "nameCs": "Chia semínka",
+   "nameEn": "Chia seeds",
+   "section": "OTHER",
+   "sourceRef": "usda:170554",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 486.0,
+    "protein": 16.5,
+    "carbs": 42.1,
+    "fat": 30.7,
+    "fiber": 34.4,
+    "ironMg": 7.72,
+    "magnesiumMg": 335.0,
+    "vitaminCMg": 1.6
+   }
+  },
+  {
+   "key": "generic:flaxseed",
+   "nameCs": "Lněné semínko",
+   "nameEn": "Flaxseed",
+   "section": "OTHER",
+   "sourceRef": "usda:169414",
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 534.0,
+    "protein": 18.3,
+    "carbs": 28.9,
+    "fat": 42.2,
+    "fiber": 27.3,
+    "sugar": 1.55,
+    "ironMg": 5.73,
+    "magnesiumMg": 392.0,
+    "vitaminCMg": 0.6
+   }
+  },
+  {
+   "key": "generic:sesame",
+   "nameCs": "Sezam",
+   "nameEn": "Sesame seeds",
+   "section": "OTHER",
+   "sourceRef": "usda:170150",
+   "allergens": [
+    "SESAME"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 573.0,
+    "protein": 17.7,
+    "carbs": 23.4,
+    "fat": 49.7,
+    "fiber": 11.8,
+    "sugar": 0.3,
+    "ironMg": 14.6,
+    "magnesiumMg": 351.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:coconut_desiccated",
+   "nameCs": "Kokos strouhaný",
+   "nameEn": "Desiccated coconut",
+   "section": "OTHER",
+   "sourceRef": "usda:170170",
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 660.0,
+    "protein": 6.88,
+    "carbs": 23.6,
+    "fat": 64.5,
+    "fiber": 16.3,
+    "sugar": 7.35,
+    "ironMg": 3.32,
+    "magnesiumMg": 90.0,
+    "vitaminCMg": 1.5
+   }
+  },
+  {
+   "key": "generic:poppy_seeds",
+   "nameCs": "Mák",
+   "nameEn": "Poppy seeds",
+   "section": "OTHER",
+   "sourceRef": "usda:171330",
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 525.0,
+    "protein": 18.0,
+    "carbs": 28.1,
+    "fat": 41.6,
+    "fiber": 19.5,
+    "sugar": 2.99,
+    "ironMg": 9.76,
+    "magnesiumMg": 347.0,
+    "vitaminCMg": 1.0
+   }
+  },
+  {
+   "key": "generic:olive_oil",
+   "nameCs": "Olivový olej",
+   "nameEn": "Olive oil",
+   "section": "OILS",
+   "sourceRef": "usda:171413",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 884.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.56,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:sunflower_oil",
+   "nameCs": "Slunečnicový olej",
+   "nameEn": "Sunflower oil",
+   "section": "OILS",
+   "sourceRef": "usda:171017",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 884.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.03,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rapeseed_oil",
+   "nameCs": "Řepkový olej",
+   "nameEn": "Rapeseed oil",
+   "section": "OILS",
+   "sourceRef": "usda:172336",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 884.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.0,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:coconut_oil",
+   "nameCs": "Kokosový tuk",
+   "nameEn": "Coconut oil",
+   "section": "OILS",
+   "sourceRef": "usda:171412",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 892.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 99.1,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.05,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:lard",
+   "nameCs": "Vepřové sádlo",
+   "nameEn": "Lard",
+   "section": "OILS",
+   "sourceRef": "usda:171401",
+   "animalFlags": [
+    "PORK",
+    "MEAT"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 60,
+   "per100g": {
+    "kcal": 902.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 100.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.0,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:margarine",
+   "nameCs": "Margarín (rostlinný tuk)",
+   "nameEn": "Margarine",
+   "section": "OILS",
+   "sourceRef": "usda:172349",
+   "defaultPackGrams": 250.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 60,
+   "per100g": {
+    "kcal": 713.0,
+    "protein": 0.22,
+    "carbs": 0.75,
+    "fat": 80.2,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.0,
+    "magnesiumMg": 1.0,
+    "vitaminCMg": 0.1
+   }
+  },
+  {
+   "key": "generic:ghee",
+   "nameCs": "Přepuštěné máslo (ghí)",
+   "nameEn": "Ghee",
+   "section": "OILS",
+   "sourceRef": "usda:173412",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 876.0,
+    "protein": 0.28,
+    "carbs": 0.0,
+    "fat": 99.5,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.0,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:salt",
+   "nameCs": "Sůl",
+   "nameEn": "Salt",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:173468",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 3650,
+   "per100g": {
+    "kcal": 0.0,
+    "protein": 0.0,
+    "carbs": 0.0,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.33,
+    "magnesiumMg": 1.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:sugar",
+   "nameCs": "Cukr krupice",
+   "nameEn": "Sugar",
+   "section": "OTHER",
+   "sourceRef": "usda:169655",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 3650,
+   "per100g": {
+    "kcal": 387.0,
+    "protein": 0.0,
+    "carbs": 100.0,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 99.8,
+    "ironMg": 0.05,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:sugar_powdered",
+   "nameCs": "Cukr moučka",
+   "nameEn": "Icing sugar",
+   "section": "OTHER",
+   "sourceRef": "usda:169656",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 3650,
+   "per100g": {
+    "kcal": 389.0,
+    "protein": 0.0,
+    "carbs": 99.8,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 97.8,
+    "ironMg": 0.06,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:honey",
+   "nameCs": "Med",
+   "nameEn": "Honey",
+   "section": "OTHER",
+   "sourceRef": "usda:169640",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 304.0,
+    "protein": 0.3,
+    "carbs": 82.4,
+    "fat": 0.0,
+    "fiber": 0.2,
+    "sugar": 82.1,
+    "ironMg": 0.42,
+    "magnesiumMg": 2.0,
+    "vitaminCMg": 0.5
+   }
+  },
+  {
+   "key": "generic:jam",
+   "nameCs": "Džem",
+   "nameEn": "Jam",
+   "section": "OTHER",
+   "sourceRef": "usda:169641",
+   "defaultPackGrams": 340.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 278.0,
+    "protein": 0.37,
+    "carbs": 68.9,
+    "fat": 0.07,
+    "fiber": 1.1,
+    "sugar": 48.5,
+    "ironMg": 0.49,
+    "magnesiumMg": 4.0,
+    "vitaminCMg": 8.8
+   }
+  },
+  {
+   "key": "generic:cocoa",
+   "nameCs": "Kakao",
+   "nameEn": "Cocoa powder",
+   "section": "OTHER",
+   "sourceRef": "usda:169593",
+   "defaultPackGrams": 150.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 228.0,
+    "protein": 19.6,
+    "carbs": 57.9,
+    "fat": 13.7,
+    "fiber": 37.0,
+    "sugar": 1.75,
+    "ironMg": 13.9,
+    "magnesiumMg": 499.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:baking_powder",
+   "nameCs": "Prášek do pečiva",
+   "nameEn": "Baking powder",
+   "section": "OTHER",
+   "sourceRef": "usda:172803",
+   "defaultPackGrams": 12.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 53.0,
+    "protein": 0.0,
+    "carbs": 27.7,
+    "fat": 0.0,
+    "fiber": 0.2,
+    "sugar": 0.0,
+    "ironMg": 11.0,
+    "magnesiumMg": 27.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:yeast",
+   "nameCs": "Droždí",
+   "nameEn": "Fresh yeast",
+   "section": "OTHER",
+   "sourceRef": "usda:175042",
+   "defaultPackGrams": 42.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 105.0,
+    "protein": 8.4,
+    "carbs": 18.1,
+    "fat": 1.9,
+    "fiber": 8.1,
+    "sugar": 0.0,
+    "ironMg": 3.25,
+    "magnesiumMg": 40.0,
+    "vitaminCMg": 0.1
+   }
+  },
+  {
+   "key": "generic:ketchup",
+   "nameCs": "Kečup",
+   "nameEn": "Ketchup",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:168556",
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 101.0,
+    "protein": 1.04,
+    "carbs": 27.4,
+    "fat": 0.1,
+    "fiber": 0.3,
+    "sugar": 21.3,
+    "ironMg": 0.35,
+    "magnesiumMg": 13.0,
+    "vitaminCMg": 4.1
+   }
+  },
+  {
+   "key": "generic:mustard",
+   "nameCs": "Hořčice",
+   "nameEn": "Mustard",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:172234",
+   "allergens": [
+    "MUSTARD"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 60.0,
+    "protein": 3.74,
+    "carbs": 5.83,
+    "fat": 3.34,
+    "fiber": 4.0,
+    "sugar": 0.92,
+    "ironMg": 1.61,
+    "magnesiumMg": 48.0,
+    "vitaminCMg": 0.3
+   }
+  },
+  {
+   "key": "generic:mayonnaise",
+   "nameCs": "Majonéza",
+   "nameEn": "Mayonnaise",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171009",
+   "allergens": [
+    "EGGS"
+   ],
+   "animalFlags": [
+    "EGG"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 680.0,
+    "protein": 0.96,
+    "carbs": 0.57,
+    "fat": 74.8,
+    "fiber": 0.0,
+    "sugar": 0.57,
+    "ironMg": 0.21,
+    "magnesiumMg": 1.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:soy_sauce",
+   "nameCs": "Sójová omáčka",
+   "nameEn": "Soy sauce",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:174277",
+   "allergens": [
+    "SOY",
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 150.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 53.0,
+    "protein": 8.14,
+    "carbs": 4.93,
+    "fat": 0.57,
+    "fiber": 0.8,
+    "sugar": 0.4,
+    "ironMg": 1.45,
+    "magnesiumMg": 74.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:vinegar",
+   "nameCs": "Ocet",
+   "nameEn": "Vinegar",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:172237",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 3650,
+   "per100g": {
+    "kcal": 18.0,
+    "protein": 0.0,
+    "carbs": 0.04,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.04,
+    "ironMg": 0.03,
+    "magnesiumMg": 1.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:balsamic",
+   "nameCs": "Balzamikový ocet",
+   "nameEn": "Balsamic vinegar",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:172241",
+   "allergens": [
+    "SULPHITES"
+   ],
+   "defaultPackGrams": 250.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 1095,
+   "per100g": {
+    "kcal": 88.0,
+    "protein": 0.49,
+    "carbs": 17.0,
+    "fat": 0.0,
+    "sugar": 15.0,
+    "ironMg": 0.72,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pasta_sauce",
+   "nameCs": "Rajčatová omáčka na těstoviny",
+   "nameEn": "Tomato pasta sauce",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171192",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 50.0,
+    "protein": 1.39,
+    "carbs": 7.43,
+    "fat": 1.61,
+    "fiber": 1.8,
+    "sugar": 4.91,
+    "ironMg": 0.73,
+    "magnesiumMg": 18.0,
+    "vitaminCMg": 2.0
+   }
+  },
+  {
+   "key": "generic:pesto",
+   "nameCs": "Pesto",
+   "nameEn": "Pesto",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171579",
+   "allergens": [
+    "MILK",
+    "NUTS"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 190.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 30,
+   "per100g": {
+    "kcal": 418.0,
+    "protein": 9.83,
+    "carbs": 10.1,
+    "fat": 37.6,
+    "fiber": 1.8,
+    "sugar": 6.33,
+    "ironMg": 0.57,
+    "magnesiumMg": 47.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:hummus",
+   "nameCs": "Hummus",
+   "nameEn": "Hummus",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:174289",
+   "allergens": [
+    "SESAME"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 237.0,
+    "protein": 7.78,
+    "carbs": 15.0,
+    "fat": 17.8,
+    "fiber": 5.5,
+    "sugar": 0.62,
+    "ironMg": 2.54,
+    "magnesiumMg": 75.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:coconut_milk",
+   "nameCs": "Kokosové mléko",
+   "nameEn": "Coconut milk",
+   "section": "CANNED",
+   "sourceRef": "usda:170173",
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 197.0,
+    "protein": 2.02,
+    "carbs": 2.81,
+    "fat": 21.3,
+    "ironMg": 3.3,
+    "magnesiumMg": 46.0,
+    "vitaminCMg": 1.0
+   }
+  },
+  {
+   "key": "generic:bouillon",
+   "nameCs": "Bujón",
+   "nameEn": "Stock cube",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171613",
+   "allergens": [
+    "CELERY"
+   ],
+   "defaultPackGrams": 66.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "gramsPerPiece": 10.0,
+   "per100g": {
+    "kcal": 438.0,
+    "protein": 16.7,
+    "carbs": 64.9,
+    "fat": 13.9,
+    "fiber": 0.2,
+    "sugar": 14.5,
+    "ironMg": 1.03,
+    "magnesiumMg": 56.0,
+    "vitaminCMg": 1.1
+   }
+  },
+  {
+   "key": "generic:paprika_spice",
+   "nameCs": "Paprika sladká mletá",
+   "nameEn": "Sweet paprika",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171329",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 282.0,
+    "protein": 14.1,
+    "carbs": 54.0,
+    "fat": 12.9,
+    "fiber": 34.9,
+    "sugar": 10.3,
+    "ironMg": 21.1,
+    "magnesiumMg": 178.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:caraway",
+   "nameCs": "Kmín",
+   "nameEn": "Caraway",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170918",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 333.0,
+    "protein": 19.8,
+    "carbs": 49.9,
+    "fat": 14.6,
+    "fiber": 38.0,
+    "sugar": 0.64,
+    "ironMg": 16.2,
+    "magnesiumMg": 258.0,
+    "vitaminCMg": 21.0
+   }
+  },
+  {
+   "key": "generic:black_pepper",
+   "nameCs": "Pepř černý",
+   "nameEn": "Black pepper",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170931",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 251.0,
+    "protein": 10.4,
+    "carbs": 64.0,
+    "fat": 3.26,
+    "fiber": 25.3,
+    "sugar": 0.64,
+    "ironMg": 9.71,
+    "magnesiumMg": 171.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:marjoram",
+   "nameCs": "Majoránka",
+   "nameEn": "Marjoram",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170928",
+   "defaultPackGrams": 10.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 271.0,
+    "protein": 12.7,
+    "carbs": 60.6,
+    "fat": 7.04,
+    "fiber": 40.3,
+    "sugar": 4.09,
+    "ironMg": 82.7,
+    "magnesiumMg": 346.0,
+    "vitaminCMg": 51.4
+   }
+  },
+  {
+   "key": "generic:oregano",
+   "nameCs": "Oregano",
+   "nameEn": "Oregano",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171328",
+   "defaultPackGrams": 10.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 265.0,
+    "protein": 9.0,
+    "carbs": 68.9,
+    "fat": 4.28,
+    "fiber": 42.5,
+    "sugar": 4.09,
+    "ironMg": 36.8,
+    "magnesiumMg": 270.0,
+    "vitaminCMg": 2.3
+   }
+  },
+  {
+   "key": "generic:basil_dried",
+   "nameCs": "Bazalka sušená",
+   "nameEn": "Basil, dried",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171317",
+   "defaultPackGrams": 10.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 233.0,
+    "protein": 23.0,
+    "carbs": 47.8,
+    "fat": 4.07,
+    "fiber": 37.7,
+    "sugar": 1.71,
+    "ironMg": 89.8,
+    "magnesiumMg": 711.0,
+    "vitaminCMg": 0.8
+   }
+  },
+  {
+   "key": "generic:cinnamon",
+   "nameCs": "Skořice",
+   "nameEn": "Cinnamon",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171320",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 247.0,
+    "protein": 3.99,
+    "carbs": 80.6,
+    "fat": 1.24,
+    "fiber": 53.1,
+    "sugar": 2.17,
+    "ironMg": 8.32,
+    "magnesiumMg": 60.0,
+    "vitaminCMg": 3.8
+   }
+  },
+  {
+   "key": "generic:curry",
+   "nameCs": "Kari koření",
+   "nameEn": "Curry powder",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170924",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 325.0,
+    "protein": 14.3,
+    "carbs": 55.8,
+    "fat": 14.0,
+    "fiber": 53.2,
+    "sugar": 2.76,
+    "ironMg": 19.1,
+    "magnesiumMg": 255.0,
+    "vitaminCMg": 0.7
+   }
+  },
+  {
+   "key": "generic:cumin",
+   "nameCs": "Římský kmín",
+   "nameEn": "Cumin",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170923",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 375.0,
+    "protein": 17.8,
+    "carbs": 44.2,
+    "fat": 22.3,
+    "fiber": 10.5,
+    "sugar": 2.25,
+    "ironMg": 66.4,
+    "magnesiumMg": 366.0,
+    "vitaminCMg": 7.7
+   }
+  },
+  {
+   "key": "generic:garlic_powder",
+   "nameCs": "Česnek sušený",
+   "nameEn": "Garlic powder",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171325",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 331.0,
+    "protein": 16.6,
+    "carbs": 72.7,
+    "fat": 0.73,
+    "fiber": 9.0,
+    "sugar": 2.43,
+    "ironMg": 5.65,
+    "magnesiumMg": 77.0,
+    "vitaminCMg": 1.2
+   }
+  },
+  {
+   "key": "generic:bay_leaf",
+   "nameCs": "Bobkový list",
+   "nameEn": "Bay leaf",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:170917",
+   "defaultPackGrams": 5.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 313.0,
+    "protein": 7.61,
+    "carbs": 75.0,
+    "fat": 8.36,
+    "fiber": 26.3,
+    "ironMg": 43.0,
+    "magnesiumMg": 120.0,
+    "vitaminCMg": 46.5
+   }
+  },
+  {
+   "key": "generic:chili_powder",
+   "nameCs": "Chilli koření",
+   "nameEn": "Chili powder",
+   "section": "SPICES_SAUCES",
+   "sourceRef": "usda:171319",
+   "defaultPackGrams": 50.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 282.0,
+    "protein": 13.5,
+    "carbs": 49.7,
+    "fat": 14.3,
+    "fiber": 34.8,
+    "sugar": 7.19,
+    "ironMg": 17.3,
+    "magnesiumMg": 149.0,
+    "vitaminCMg": 0.7
+   }
+  },
+  {
+   "key": "generic:dark_chocolate",
+   "nameCs": "Hořká čokoláda 70–85 %",
+   "nameEn": "Dark chocolate 70–85%",
+   "section": "SNACKS",
+   "sourceRef": "usda:170273",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 598.0,
+    "protein": 7.79,
+    "carbs": 45.9,
+    "fat": 42.6,
+    "fiber": 10.9,
+    "sugar": 24.0,
+    "ironMg": 11.9,
+    "magnesiumMg": 228.0
+   }
+  },
+  {
+   "key": "generic:milk_chocolate",
+   "nameCs": "Mléčná čokoláda",
+   "nameEn": "Milk chocolate",
+   "section": "SNACKS",
+   "sourceRef": "usda:167587",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 535.0,
+    "protein": 7.65,
+    "carbs": 59.4,
+    "fat": 29.7,
+    "fiber": 3.4,
+    "sugar": 51.5,
+    "ironMg": 2.35,
+    "magnesiumMg": 63.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:hazelnut_spread",
+   "nameCs": "Lískooříšková pomazánka s kakaem",
+   "nameEn": "Chocolate hazelnut spread",
+   "section": "SNACKS",
+   "sourceRef": "usda:168000",
+   "allergens": [
+    "NUTS",
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 400.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 539.0,
+    "protein": 5.41,
+    "carbs": 62.4,
+    "fat": 29.7,
+    "fiber": 5.4,
+    "sugar": 54.0,
+    "ironMg": 4.38,
+    "magnesiumMg": 64.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:potato_chips",
+   "nameCs": "Bramborové lupínky",
+   "nameEn": "Potato crisps",
+   "section": "SNACKS",
+   "sourceRef": "usda:169677",
+   "defaultPackGrams": 150.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 532.0,
+    "protein": 6.39,
+    "carbs": 53.8,
+    "fat": 34.0,
+    "fiber": 3.1,
+    "sugar": 0.33,
+    "ironMg": 1.28,
+    "magnesiumMg": 63.0,
+    "vitaminCMg": 21.6
+   }
+  },
+  {
+   "key": "generic:popcorn",
+   "nameCs": "Popcorn",
+   "nameEn": "Popcorn",
+   "section": "SNACKS",
+   "sourceRef": "usda:167959",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 387.0,
+    "protein": 12.9,
+    "carbs": 77.8,
+    "fat": 4.54,
+    "fiber": 14.5,
+    "sugar": 0.87,
+    "ironMg": 3.19,
+    "magnesiumMg": 144.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:pretzels",
+   "nameCs": "Preclíky",
+   "nameEn": "Pretzels",
+   "section": "SNACKS",
+   "sourceRef": "usda:167555",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 384.0,
+    "protein": 10.0,
+    "carbs": 80.4,
+    "fat": 2.93,
+    "fiber": 3.4,
+    "sugar": 2.21,
+    "ironMg": 4.58,
+    "magnesiumMg": 29.0,
+    "vitaminCMg": 2.1
+   }
+  },
+  {
+   "key": "generic:butter_cookies",
+   "nameCs": "Máslové sušenky",
+   "nameEn": "Butter biscuits",
+   "section": "SNACKS",
+   "sourceRef": "usda:174950",
+   "allergens": [
+    "GLUTEN",
+    "MILK",
+    "EGGS"
+   ],
+   "animalFlags": [
+    "DAIRY",
+    "EGG"
+   ],
+   "defaultPackGrams": 200.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 467.0,
+    "protein": 6.1,
+    "carbs": 68.9,
+    "fat": 18.8,
+    "fiber": 0.8,
+    "sugar": 20.2,
+    "ironMg": 2.22,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:rice_cakes",
+   "nameCs": "Rýžové chlebíčky",
+   "nameEn": "Rice cakes",
+   "section": "SNACKS",
+   "sourceRef": "usda:170250",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "gramsPerPiece": 9.0,
+   "per100g": {
+    "kcal": 387.0,
+    "protein": 8.2,
+    "carbs": 81.5,
+    "fat": 2.8,
+    "fiber": 4.2,
+    "sugar": 0.88,
+    "ironMg": 1.49,
+    "magnesiumMg": 131.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:granola_bar",
+   "nameCs": "Müsli tyčinka",
+   "nameEn": "Granola bar",
+   "section": "SNACKS",
+   "sourceRef": "usda:167542",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 25.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "gramsPerPiece": 25.0,
+   "per100g": {
+    "kcal": 471.0,
+    "protein": 10.1,
+    "carbs": 64.4,
+    "fat": 19.8,
+    "fiber": 5.3,
+    "sugar": 28.6,
+    "ironMg": 2.95,
+    "magnesiumMg": 97.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:gummy_candies",
+   "nameCs": "Želé bonbony",
+   "nameEn": "Gummy sweets",
+   "section": "SNACKS",
+   "sourceRef": "usda:167989",
+   "defaultPackGrams": 100.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 365,
+   "per100g": {
+    "kcal": 396.0,
+    "protein": 0.0,
+    "carbs": 98.9,
+    "fat": 0.0,
+    "fiber": 0.1,
+    "sugar": 59.0,
+    "ironMg": 0.4,
+    "magnesiumMg": 1.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:ice_cream",
+   "nameCs": "Zmrzlina vanilková",
+   "nameEn": "Vanilla ice cream",
+   "section": "FROZEN",
+   "sourceRef": "usda:167575",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "FREEZER",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 207.0,
+    "protein": 3.5,
+    "carbs": 23.6,
+    "fat": 11.0,
+    "fiber": 0.7,
+    "sugar": 21.2,
+    "ironMg": 0.09,
+    "magnesiumMg": 14.0,
+    "vitaminCMg": 0.6
+   }
+  },
+  {
+   "key": "generic:orange_juice",
+   "nameCs": "Pomerančový džus 100 %",
+   "nameEn": "Orange juice",
+   "section": "DRINKS",
+   "sourceRef": "usda:169100",
+   "defaultPackGrams": 1000.0,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 7,
+   "per100g": {
+    "kcal": 49.0,
+    "protein": 0.68,
+    "carbs": 11.5,
+    "fat": 0.12,
+    "fiber": 0.3,
+    "sugar": 8.31,
+    "ironMg": 0.13,
+    "magnesiumMg": 11.0,
+    "vitaminCMg": 33.6
+   }
+  },
+  {
+   "key": "generic:apple_juice",
+   "nameCs": "Jablečný džus 100 %",
+   "nameEn": "Apple juice",
+   "section": "DRINKS",
+   "sourceRef": "usda:173933",
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 46.0,
+    "protein": 0.1,
+    "carbs": 11.3,
+    "fat": 0.13,
+    "fiber": 0.2,
+    "sugar": 9.62,
+    "ironMg": 0.12,
+    "magnesiumMg": 5.0,
+    "vitaminCMg": 0.9
+   }
+  },
+  {
+   "key": "generic:cola",
+   "nameCs": "Kola (slazená)",
+   "nameEn": "Cola",
+   "section": "DRINKS",
+   "sourceRef": "usda:174852",
+   "defaultPackGrams": 1500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 42.0,
+    "protein": 0.0,
+    "carbs": 10.4,
+    "fat": 0.25,
+    "fiber": 0.0,
+    "sugar": 9.94,
+    "ironMg": 0.02,
+    "magnesiumMg": 0.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:beer",
+   "nameCs": "Pivo (ležák)",
+   "nameEn": "Beer (lager)",
+   "section": "DRINKS",
+   "sourceRef": "usda:168746",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 43.0,
+    "protein": 0.46,
+    "carbs": 3.55,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.02,
+    "magnesiumMg": 6.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:wine_red",
+   "nameCs": "Víno červené",
+   "nameEn": "Red wine",
+   "section": "DRINKS",
+   "sourceRef": "usda:173190",
+   "allergens": [
+    "SULPHITES"
+   ],
+   "defaultPackGrams": 750.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 85.0,
+    "protein": 0.07,
+    "carbs": 2.61,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.62,
+    "ironMg": 0.46,
+    "magnesiumMg": 12.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:wine_white",
+   "nameCs": "Víno bílé",
+   "nameEn": "White wine",
+   "section": "DRINKS",
+   "sourceRef": "usda:174837",
+   "allergens": [
+    "SULPHITES"
+   ],
+   "defaultPackGrams": 750.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 730,
+   "per100g": {
+    "kcal": 82.0,
+    "protein": 0.07,
+    "carbs": 2.6,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.96,
+    "ironMg": 0.27,
+    "magnesiumMg": 10.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:coffee",
+   "nameCs": "Káva černá",
+   "nameEn": "Black coffee",
+   "section": "DRINKS",
+   "sourceRef": "usda:171890",
+   "shelfLifeDays": 1,
+   "per100g": {
+    "kcal": 1.0,
+    "protein": 0.12,
+    "carbs": 0.0,
+    "fat": 0.02,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.01,
+    "magnesiumMg": 3.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:tea",
+   "nameCs": "Čaj černý",
+   "nameEn": "Black tea",
+   "section": "DRINKS",
+   "sourceRef": "usda:173227",
+   "shelfLifeDays": 1,
+   "per100g": {
+    "kcal": 1.0,
+    "protein": 0.0,
+    "carbs": 0.3,
+    "fat": 0.0,
+    "fiber": 0.0,
+    "sugar": 0.0,
+    "ironMg": 0.02,
+    "magnesiumMg": 3.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:soy_drink",
+   "nameCs": "Sójový nápoj",
+   "nameEn": "Soy drink",
+   "section": "DRINKS",
+   "sourceRef": "usda:172446",
+   "allergens": [
+    "SOY"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 54.0,
+    "protein": 3.27,
+    "carbs": 6.28,
+    "fat": 1.75,
+    "fiber": 0.6,
+    "sugar": 3.99,
+    "ironMg": 0.64,
+    "magnesiumMg": 25.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:almond_drink",
+   "nameCs": "Mandlový nápoj",
+   "nameEn": "Almond drink",
+   "section": "DRINKS",
+   "sourceRef": "usda:174832",
+   "allergens": [
+    "NUTS"
+   ],
+   "defaultPackGrams": 1000.0,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 180,
+   "per100g": {
+    "kcal": 15.0,
+    "protein": 0.4,
+    "carbs": 1.31,
+    "fat": 0.96,
+    "fiber": 0.2,
+    "sugar": 0.81,
+    "ironMg": 0.28,
+    "magnesiumMg": 6.0,
+    "vitaminCMg": 0.0
+   }
+  },
+  {
+   "key": "generic:tvaroh_semi",
+   "nameCs": "Tvaroh měkký polotučný",
+   "nameEn": "Quark (curd cheese), semi-skimmed",
+   "section": "DAIRY",
+   "sourceRef": "off:8593807736873",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 85.0,
+    "protein": 9.8,
+    "carbs": 3.5,
+    "fat": 3.5,
+    "sugar": 3.5
+   }
+  },
+  {
+   "key": "generic:tvaroh_full",
+   "nameCs": "Tvaroh měkký tučný",
+   "nameEn": "Quark (curd cheese), full fat",
+   "section": "DAIRY",
+   "sourceRef": "off:8594003967894",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 131.0,
+    "protein": 9.0,
+    "carbs": 3.5,
+    "fat": 9.0,
+    "fiber": 0.0,
+    "sugar": 3.5
+   }
+  },
+  {
+   "key": "generic:tvaroh_low",
+   "nameCs": "Tvaroh měkký odtučněný",
+   "nameEn": "Quark (curd cheese), low fat",
+   "section": "DAIRY",
+   "sourceRef": "off:8594003963391",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 250,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 67.0,
+    "protein": 12.0,
+    "carbs": 4.0,
+    "fat": 0.5,
+    "sugar": 4.0
+   }
+  },
+  {
+   "key": "generic:bread_czech",
+   "nameCs": "Chléb konzumní (pšenično-žitný)",
+   "nameEn": "Czech wheat-rye bread",
+   "section": "BAKERY",
+   "sourceRef": "off:8590421059616",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 1000,
+   "storage": "CUPBOARD",
+   "shelfLifeDays": 4,
+   "per100g": {
+    "kcal": 234.0,
+    "protein": 6.7,
+    "carbs": 47.3,
+    "fat": 1.0,
+    "fiber": 6.0,
+    "sugar": 1.9
+   }
+  },
+  {
+   "key": "generic:bread_dumpling",
+   "nameCs": "Houskový knedlík",
+   "nameEn": "Czech bread dumpling",
+   "section": "BAKERY",
+   "sourceRef": "off:8594017540939",
+   "allergens": [
+    "GLUTEN"
+   ],
+   "defaultPackGrams": 500,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 14,
+   "per100g": {
+    "kcal": 211.0,
+    "protein": 6.4,
+    "carbs": 43.0,
+    "fat": 0.8,
+    "sugar": 1.2
+   }
+  },
+  {
+   "key": "generic:butter_spread",
+   "nameCs": "Pomazánkové máslo",
+   "nameEn": "Czech butter spread (pomazánkové máslo)",
+   "section": "DAIRY",
+   "sourceRef": "off:8594003219061",
+   "allergens": [
+    "MILK"
+   ],
+   "animalFlags": [
+    "DAIRY"
+   ],
+   "defaultPackGrams": 150,
+   "storage": "FRIDGE",
+   "shelfLifeDays": 21,
+   "per100g": {
+    "kcal": 314.0,
+    "protein": 3.3,
+    "carbs": 5.5,
+    "fat": 31.0,
+    "sugar": 3.4
+   }
+  }
+ ]
+}
