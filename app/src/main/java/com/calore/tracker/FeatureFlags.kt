@@ -15,13 +15,13 @@ package com.calore.tracker
  */
 object FeatureFlags {
 
-    // No unfinished features right now: everything in M0 is finished.
+    /** M3: the Plan tab with recipes, and logging a dish. */
+    val recipes: Boolean = unfinished()
 
     /**
      * True only in debug builds. [BuildConfig.DEBUG] is a constant, so R8 removes code behind a
      * false flag from release builds completely.
      */
-    @Suppress("unused") // Used by the flags above as soon as a milestone adds one.
     private fun unfinished(): Boolean = isVisible(finished = false, debugBuild = BuildConfig.DEBUG)
 
     /** The rule behind every flag: finished features always show; unfinished ones only in debug builds. */

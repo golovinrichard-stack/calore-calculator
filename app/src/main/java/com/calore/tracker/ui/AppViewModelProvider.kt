@@ -1,5 +1,8 @@
 package com.calore.tracker.ui
 
+import com.calore.tracker.ui.recipes.RecipeDetailViewModel
+import com.calore.tracker.ui.recipes.RecipeEditViewModel
+import com.calore.tracker.ui.recipes.RecipeListViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -87,6 +90,18 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             StartViewModel(c.memberRepository, c.appPrefs)
+        }
+        initializer {
+            val c = container()
+            RecipeListViewModel(c.recipeRepository, c.memberRepository)
+        }
+        initializer {
+            val c = container()
+            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository)
+        }
+        initializer {
+            val c = container()
+            RecipeEditViewModel(createSavedStateHandle(), c.recipeRepository, c.foodRepository)
         }
         initializer {
             val c = container()

@@ -10,6 +10,10 @@ object Routes {
     const val ARG_FOOD_ID = "foodId"
     const val ARG_NAME = "name"
     const val ARG_BARCODE = "barcode"
+    const val ARG_RECIPE_ID = "recipeId"
+
+    /** Where a picked food's row id goes back to the screen below (the recipe editor). */
+    const val RESULT_PICKED_FOOD_ID = "picked_food_id"
 
     /** Food id value meaning "create a new food" in the custom food route. */
     const val NEW_FOOD_ID = -1L
@@ -27,12 +31,24 @@ object Routes {
     const val CALCULATOR = "calculator"
     const val ABOUT = "about"
     const val BACKUP = "backup"
+    const val PLAN = "plan"
+    const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
+    const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
+    const val SCANNER_PICK = "scanner_pick"
+    const val CUSTOM_FOOD_PICK = "custom_food_pick?$ARG_NAME={$ARG_NAME}&$ARG_BARCODE={$ARG_BARCODE}"
 
     const val ADD_FOOD = "add_food/{$ARG_DATE}/{$ARG_MEAL}"
     const val FOOD_DETAIL = "food/{$ARG_FOOD_ID}/{$ARG_DATE}/{$ARG_MEAL}"
     const val CUSTOM_FOOD =
         "custom_food/{$ARG_DATE}/{$ARG_MEAL}?$ARG_FOOD_ID={$ARG_FOOD_ID}&$ARG_NAME={$ARG_NAME}&$ARG_BARCODE={$ARG_BARCODE}"
     const val SCANNER = "scanner/{$ARG_DATE}/{$ARG_MEAL}"
+
+    fun recipe(id: String) = "recipe/$id"
+
+    fun recipeEdit(id: String? = null) = if (id == null) "recipe_edit" else "recipe_edit?$ARG_RECIPE_ID=$id"
+
+    fun customFoodPick(name: String = "", barcode: String = "") =
+        "custom_food_pick?$ARG_NAME=${Uri.encode(name)}&$ARG_BARCODE=${Uri.encode(barcode)}"
 
     fun scanner(date: LocalDate, meal: MealType) = "scanner/$date/${meal.name}"
 

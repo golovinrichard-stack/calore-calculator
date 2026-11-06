@@ -18,21 +18,21 @@
 
 ### M3.2 Recipe builder
 
-- [ ] Name, servings, short code (suggested from the name).
-- [ ] Ingredients: food search (basic foods first) or the scanner, grams, note, optional.
-- [ ] Steps: text, minutes, "needs no attention" (passive), equipment.
-- [ ] Storage: fridge days (default 3), freezable, freezer months (default 3), reheating note.
-- [ ] Meal types, cuisine, tags, equipment, "good for meal prep".
-- [ ] A nutrition summary that updates live (total and per serving), plus allergens.
-- [ ] Validation: a name, at least one ingredient, grams > 0.
+- [x] Name, servings, short code (suggested from the name).
+- [x] Ingredients: food search (basic foods first) or the scanner, grams, note, optional.
+- [x] Steps: text, minutes, "needs no attention" (passive), equipment.
+- [x] Storage: fridge days (default 3), freezable, freezer months (default 3), reheating note.
+- [x] Meal types, cuisine, tags, equipment, "good for meal prep".
+- [x] A nutrition summary that updates live (total and per serving), plus allergens.
+- [x] Validation: a name, at least one ingredient, grams > 0.
 
 **Done when:** a UI test creates, edits and deletes a recipe.
 
 ### M3.3 Recipes in the Plan tab
 
-- [ ] Bottom bar: **Today · Plan · Me**. For now, Plan shows the recipe list (the week plan joins in M5).
-- [ ] Search, and filters for meal type and "fits my diet".
-- [ ] Recipes with one of my allergens are hidden by default, with a "Show all" switch.
+- [x] Bottom bar: **Today · Plan · Me**. For now, Plan shows the recipe list (the week plan joins in M5).
+- [x] Search, and filters for meal type and "fits my diet".
+- [x] Recipes with one of my allergens are hidden by default, with a "Show all" switch.
 - [ ] Recipe detail: ingredients, steps, nutrition per serving, allergens, storage. Buttons: **Log a portion** (M3.5), **Cook** (M4).
 
 ### M3.4 Starter pack
