@@ -53,7 +53,7 @@ As built: a step without minutes counts as 5 minutes (*tunable*); starting a pas
 
 ### M4.6 The Kitchen tab
 
-- [ ] Bottom bar: **Today · Plan · Kitchen · Me**.
+- [x] Bottom bar: **Today · Plan · Kitchen · Me**.
 - [x] Boxes in two sections, **Fridge** and **Freezer**, sorted by eat-by date (eat first at the top), each with its green, yellow or red colour, code, contents and owner.
 - [x] Filters: mine, everyone's.
 - [x] Box detail: contents and grams per part, nutrients, cooked date, eat-by date, (cost in M5).
@@ -65,7 +65,7 @@ When someone eats a box and taps **Ate it**, the app does everything at once:
 
 - [x] creates a diary entry (`entryType = BOX`, `boxId`) with the nutrients of the eaten part (snapshot), in the meal of the planned slot (or the meal matching the time of day), for the box's owner (`memberId`);
 - [x] marks the box `EATEN`, or `PART_EATEN` with the new `remainingFraction` for **Ate part** (grams or %);
-- [ ] marks the plan slot done (once M5 exists);
+- [ ] marks the plan slot done (once M5 exists; comes with M5);
 - [x] updates Today's totals, and what's left for the day;
 - [x] offers **Undo**, which restores the diary entry, the box and the slot together.
 
@@ -89,6 +89,15 @@ Entry points: Kitchen, the box detail, the Today card (M4.9) and later the widge
 
 - [x] **Throw away** sets `WASTED` with a reason (`EXPIRED`, `SPOILED`, `DIDNT_LIKE`, `OTHER`).
 - [x] Kitchen → **Thrown away**: a history with this month's count and calories. Money comes in M5.
+
+## As built (decisions)
+
+- The cook flow handles one or more recipes and single foods in one cook. Cook mode opens from its "Cooking" step.
+- Box codes use the recipe's short code; if another recipe's active boxes already use it, two letters (A10). A single food uses its first letter.
+- Planning days at filling time is "one box a day from a date, for one meal"; anything finer comes with the plan (M5). Boxes for the whole household (no owner) also show under "Mine".
+- A batch's eat-by date counts from the day it was cooked, so a box mixing older and newer batches takes the earliest date (A12).
+- Freshness and thaw reminders are off until switched on in Settings (they need notification permission).
+- "Ate it" puts the entry in the planned meal, or the meal for the time of day (before 10:30 breakfast, before 15:00 lunch, before 17:30 snack, then dinner), in the box owner's diary; boxes for the whole household go to the phone's user.
 
 ## Out of scope
 

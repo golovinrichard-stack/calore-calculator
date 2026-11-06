@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** M1.9 and M3.3: every feature can be reached through Today, Plan and Me. */
+/** M1.9, M3.3 and M4.6: every feature can be reached through Today, Plan, Kitchen and Me. */
 @RunWith(AndroidJUnit4::class)
 class NavigationTest {
 
@@ -69,6 +69,26 @@ class NavigationTest {
         compose.onNodeWithText(text(R.string.recipe_new_title)).assertIsDisplayed()
         back()
         compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+    }
+
+    @Test
+    fun kitchenShowsBoxesAndTheWasteLog() {
+        compose.onNodeWithText(text(R.string.nav_kitchen)).performClick()
+        compose.onNodeWithText(text(R.string.kitchen_filter_mine)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.kitchen_thrown_away)).performClick()
+        compose.onNodeWithText(text(R.string.kitchen_thrown_away)).assertIsDisplayed()
+        back()
+    }
+
+    @Test
+    fun peopleAndPotsAreReachable() {
+        openMe()
+        compose.onNodeWithText(text(R.string.people_title)).performClick()
+        compose.onNodeWithText(text(R.string.people_add)).assertIsDisplayed()
+        back()
+        compose.onNodeWithText(text(R.string.me_settings)).performClick()
+        compose.onNodeWithText(text(R.string.pots_title)).performClick()
+        compose.onNodeWithText(text(R.string.pots_add)).assertIsDisplayed()
     }
 
     @Test

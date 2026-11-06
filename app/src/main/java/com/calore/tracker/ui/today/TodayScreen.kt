@@ -59,7 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
@@ -134,7 +133,7 @@ fun TodayScreen(
             onDismissWhatsNew = viewModel::dismissWhatsNew,
             onConfirmBirthDate = { state.birthDateToConfirm?.let(viewModel::confirmBirthDate) },
             onChangeBirthDate = { changingBirthDate = true },
-            eatFirst = if (FeatureFlags.kitchen && state.date == state.today) {
+            eatFirst = if (state.date == state.today) {
                 { EatFirst(snackbarHostState) }
             } else {
                 null

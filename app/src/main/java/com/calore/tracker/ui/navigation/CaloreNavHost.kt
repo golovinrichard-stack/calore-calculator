@@ -25,7 +25,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
@@ -62,19 +61,12 @@ import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
 /** The bottom bar: Today · Plan · Me (M3). Kitchen and Shop join in M4–M5. */
-private enum class TopLevel(
-    val route: String,
-    @StringRes val label: Int,
-    @DrawableRes val icon: Int,
-    val visible: Boolean = true,
-) {
+private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
     TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
     PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan),
-    KITCHEN(Routes.KITCHEN, R.string.nav_kitchen, R.drawable.ic_nav_kitchen, visible = FeatureFlags.kitchen),
+    KITCHEN(Routes.KITCHEN, R.string.nav_kitchen, R.drawable.ic_nav_kitchen),
     ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
-
-private val topLevelTabs = TopLevel.entries.filter { it.visible }
 
 private val dateAndMealArgs = listOf(
     navArgument(Routes.ARG_DATE) { type = NavType.StringType },
@@ -100,7 +92,7 @@ fun CaloreNavHost(
         if (openRoute != null) onOpened()
     }
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = topLevelTabs.any { it.route == currentRoute }
+    val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
 
     // Each screen has its own Scaffold for its top bar; this outer one only hosts the
     // bottom navigation, so it leaves window insets to the inner screens.
@@ -109,7 +101,7 @@ fun CaloreNavHost(
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
-                    topLevelTabs.forEach { destination ->
+                    TopLevel.entries.forEach { destination ->
                         NavigationBarItem(
                             selected = currentRoute == destination.route,
                             onClick = { navController.navigateToTopLevel(destination.route) },
@@ -256,41 +248,7 @@ fun CaloreNavHost(
                     onOpenPots = { navController.navigate(Routes.POTS) },
                 )
             }
-            if (FeatureFlags.kitchen) {
-                composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
-                composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
-                composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
-                composable(Routes.PEOPLE) {
-                    PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })
-                }
-                composable(
-                    Routes.PERSON,
-                    arguments = listOf(
-                        navArgument(Routes.ARG_MEMBER_ID) {
-                            type = NavType.StringType
-                            defaultValue = ""
-                        },
-                    ),
-                ) { PersonScreen(onBack = { navController.popBackStack() }) }
-                composable(
-                    Routes.COOK,
-                    arguments = listOf(
-                        navArgument(Routes.ARG_RECIPE_ID) {
-                            type = NavType.StringType
-                            defaultValue = ""
-                        },
-                    ),
-                ) {
-                    CookScreen(
-                        onBack = { navController.popBackStack() },
-                        onDone = { navController.navigateToTopLevel(Routes.KITCHEN) },
-                        onOpenCookMode = { ids -> navController.navigate(Routes.cookMode(ids)) },
-                    )
-                }
-                composable(Routes.COOK_MODE, arguments = listOf(navArgument(Routes.ARG_RECIPE_IDS) { type = NavType.StringType })) {
-                    CookModeScreen(onBack = { navController.popBackStack() }, onFinished = { navController.popBackStack() })
-                }
-            }
+            kitchenRoutes(navController)
             composable(Routes.CALCULATOR) {
                 CalculatorScreen(
                     onBack = { navController.popBackStack() },
@@ -305,6 +263,43 @@ fun CaloreNavHost(
             }
             recipeRoutes(navController)
         }
+    }
+}
+
+/** Cooking, boxes, pots and people (M4). */
+private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
+    composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
+    composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.PEOPLE) {
+        PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })
+    }
+    composable(
+        Routes.PERSON,
+        arguments = listOf(
+            navArgument(Routes.ARG_MEMBER_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) { PersonScreen(onBack = { navController.popBackStack() }) }
+    composable(
+        Routes.COOK,
+        arguments = listOf(
+            navArgument(Routes.ARG_RECIPE_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) {
+        CookScreen(
+            onBack = { navController.popBackStack() },
+            onDone = { navController.navigateToTopLevel(Routes.KITCHEN) },
+            onOpenCookMode = { ids -> navController.navigate(Routes.cookMode(ids)) },
+        )
+    }
+    composable(Routes.COOK_MODE, arguments = listOf(navArgument(Routes.ARG_RECIPE_IDS) { type = NavType.StringType })) {
+        CookModeScreen(onBack = { navController.popBackStack() }, onFinished = { navController.popBackStack() })
     }
 }
 
@@ -323,7 +318,7 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
             onEdit = { id -> navController.navigate(Routes.recipeEdit(id)) },
             onDeleted = { navController.popBackStack() },
             onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
-            onCook = if (FeatureFlags.kitchen) ({ id -> navController.navigate(Routes.cook(id)) }) else null,
+            onCook = { id -> navController.navigate(Routes.cook(id)) },
         )
     }
     composable(
