@@ -7,8 +7,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [FoodEntity::class, DiaryEntryEntity::class, WeightEntryEntity::class],
-    version = 2,
+    entities = [
+        FoodEntity::class,
+        DiaryEntryEntity::class,
+        WeightEntryEntity::class,
+        MemberEntity::class,
+        BodyMeasurementEntity::class,
+        CheckinEntity::class,
+    ],
+    version = 3,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -17,6 +24,8 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun diaryDao(): DiaryDao
     abstract fun weightDao(): WeightDao
     abstract fun backupDao(): BackupDao
+    abstract fun memberDao(): MemberDao
+    abstract fun bodyDao(): BodyDao
 
     companion object {
         private const val FILE_NAME = "calore.db"

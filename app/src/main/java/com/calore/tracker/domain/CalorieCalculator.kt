@@ -19,6 +19,21 @@ enum class WeightGoal(val dailyKcalDelta: Int) {
     GAIN(300),
 }
 
+/** Algorithms A3, "old settings": lose becomes a 0.5 % cut, gain a 0.25 % build. */
+val WeightGoal.goalType: GoalType
+    get() = when (this) {
+        WeightGoal.LOSE -> GoalType.CUT
+        WeightGoal.MAINTAIN -> GoalType.MAINTAIN
+        WeightGoal.GAIN -> GoalType.BUILD
+    }
+
+val WeightGoal.goalRatePct: Double?
+    get() = when (this) {
+        WeightGoal.LOSE -> 0.5
+        WeightGoal.MAINTAIN -> null
+        WeightGoal.GAIN -> 0.25
+    }
+
 data class BodyProfile(
     val sex: Sex,
     val ageYears: Int,

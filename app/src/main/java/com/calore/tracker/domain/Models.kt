@@ -39,6 +39,8 @@ data class DiaryEntry(
     val loggedAt: Long,
     /** Stable id that stays the same on every phone (see [newId]). */
     val uuid: String,
+    /** Who ate it; null is the phone's user. */
+    val memberId: String? = null,
 )
 
 data class WeightEntry(

@@ -41,7 +41,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CalculatorViewModel(c.goalsRepository, c.weightRepository)
+            CalculatorViewModel(c.memberRepository, c.weightRepository, c.clock)
         }
         initializer {
             val c = container()

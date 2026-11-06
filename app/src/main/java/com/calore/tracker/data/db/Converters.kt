@@ -1,10 +1,14 @@
 package com.calore.tracker.data.db
 
 import androidx.room.TypeConverter
+import com.calore.tracker.domain.Allergen
+import com.calore.tracker.domain.Equipment
+import com.calore.tracker.domain.MealType
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import java.time.DayOfWeek
 
 /**
  * Small lists and maps stored as JSON text (data-model.md, Conventions), for example a list of
@@ -79,4 +83,34 @@ class Converters {
 
     @TypeConverter
     fun jsonToStringIntMap(value: String?): Map<String, Int> = JsonColumns.decodeIntMap(value)
+
+    @TypeConverter
+    fun mealIntMapToJson(value: Map<MealType, Int>): String = JsonColumns.encodeEnumIntMap(value)
+
+    @TypeConverter
+    fun jsonToMealIntMap(value: String?): Map<MealType, Int> = JsonColumns.decodeEnumIntMap(value)
+
+    @TypeConverter
+    fun mealListToJson(value: List<MealType>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToMealList(value: String?): List<MealType> = JsonColumns.decodeEnums(value)
+
+    @TypeConverter
+    fun allergenListToJson(value: List<Allergen>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToAllergenList(value: String?): List<Allergen> = JsonColumns.decodeEnums(value)
+
+    @TypeConverter
+    fun equipmentListToJson(value: List<Equipment>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToEquipmentList(value: String?): List<Equipment> = JsonColumns.decodeEnums(value)
+
+    @TypeConverter
+    fun dayListToJson(value: List<DayOfWeek>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToDayList(value: String?): List<DayOfWeek> = JsonColumns.decodeEnums(value)
 }

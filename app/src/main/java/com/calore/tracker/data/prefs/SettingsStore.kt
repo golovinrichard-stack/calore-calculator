@@ -14,6 +14,7 @@ import com.calore.tracker.domain.Sex
 import com.calore.tracker.domain.WeightGoal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
@@ -28,6 +29,20 @@ data class CalculatorInputs(
     val split: MacroSplit = MacroSplit.DEFAULT,
 )
 
+/**
+ * What the old settings held, read once when the profile moves to the `members` table (M1.1).
+ * [hasAnyValue] is false for a fresh install.
+ */
+data class LegacyProfile(
+    val goals: NutritionGoals?,
+    val inputs: CalculatorInputs,
+    val hasAnyValue: Boolean,
+)
+
+/**
+ * The 0.x settings: goals and calculator inputs. Since M1 they are only read once, copied into
+ * the ME row of `members` and then cleared.
+ */
 class SettingsStore(private val dataStore: DataStore<Preferences>) {
 
     /** An unreadable preferences file falls back to defaults instead of crashing the app. */
@@ -83,6 +98,22 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
             prefs[SPLIT_CARBS] = inputs.split.carbsPercent
             prefs[SPLIT_FAT] = inputs.split.fatPercent
         }
+    }
+
+    /** Everything stored, for the one-time move to the `members` table. */
+    suspend fun legacyProfile(): LegacyProfile {
+        val prefs = preferences.first()
+        val hasGoals = listOf(GOAL_KCAL, GOAL_PROTEIN, GOAL_CARBS, GOAL_FAT).all { it in prefs }
+        return LegacyProfile(
+            goals = if (hasGoals) goals.first() else null,
+            inputs = calculatorInputs.first(),
+            hasAnyValue = prefs.asMap().isNotEmpty(),
+        )
+    }
+
+    /** Removes every old key; call only after the copy has been saved. */
+    suspend fun clear() {
+        dataStore.edit { it.clear() }
     }
 
     private fun <T> androidx.datastore.preferences.core.MutablePreferences.setOrRemove(

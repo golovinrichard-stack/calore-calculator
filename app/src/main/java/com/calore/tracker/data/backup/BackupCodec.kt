@@ -24,7 +24,8 @@ sealed interface BackupReadResult {
 /** Turns backups into JSON text and back, and checks a file completely before it is imported. */
 object BackupCodec {
     const val FORMAT = "calore-backup"
-    const val VERSION = 1
+    /** 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1). */
+    const val VERSION = 2
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -91,7 +92,29 @@ object BackupCodec {
                 weight.id > 0 && uuidPattern.matches(weight.uuid) && parseIsoDate(weight.date) != null &&
                     weight.kg.isFinite() && weight.kg > 0
             } &&
-            weights.isUnique { it.id } && weights.isUnique { it.uuid.lowercase() } && weights.isUnique { it.date }
+            weights.isUnique { it.id } && weights.isUnique { it.uuid.lowercase() } && weights.isUnique { it.date } &&
+            diary.all { it.memberId == null || uuidPattern.matches(it.memberId) } &&
+            areProfilesConsistent(tables)
+    }
+
+    private fun areProfilesConsistent(tables: BackupTables): Boolean {
+        val members = tables.members.orEmpty()
+        val measurements = tables.bodyMeasurements.orEmpty()
+        val checkins = tables.checkins.orEmpty()
+        return members.all { member ->
+            uuidPattern.matches(member.id) && (member.birthDate == null || parseIsoDate(member.birthDate) != null) &&
+                listOfNotNull(member.heightCm, member.weightKg, member.goalRatePct, member.proteinPerKg).all { it.isAmount() }
+        } &&
+            members.isUnique { it.id.lowercase() } &&
+            measurements.all { row ->
+                uuidPattern.matches(row.id) && uuidPattern.matches(row.memberId) && parseIsoDate(row.date) != null &&
+                    listOfNotNull(row.neckCm, row.waistCm, row.hipCm, row.bodyFatPct).all { it.isAmount() }
+            } &&
+            measurements.isUnique { it.id.lowercase() } &&
+            checkins.all { row ->
+                uuidPattern.matches(row.id) && uuidPattern.matches(row.memberId) && parseIsoDate(row.weekStart) != null
+            } &&
+            checkins.isUnique { it.id.lowercase() } && checkins.isUnique { it.memberId to it.weekStart }
     }
 
     private fun FoodRow.isValidUuid() = uuidPattern.matches(uuid)

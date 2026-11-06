@@ -2,17 +2,22 @@ package com.calore.tracker.ui.calculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.calore.tracker.data.prefs.CalculatorInputs
-import com.calore.tracker.data.repository.GoalsRepository
+import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.domain.ActivityLevel
 import com.calore.tracker.domain.BodyProfile
 import com.calore.tracker.domain.CalculatorResult
 import com.calore.tracker.domain.CalorieCalculator
+import com.calore.tracker.domain.GoalType
+import com.calore.tracker.domain.MacroMode
 import com.calore.tracker.domain.MacroSplit
 import com.calore.tracker.domain.ProfileField
 import com.calore.tracker.domain.Sex
 import com.calore.tracker.domain.WeightGoal
+import com.calore.tracker.domain.ageOn
+import com.calore.tracker.domain.birthDateFromAge
+import com.calore.tracker.domain.goalRatePct
+import com.calore.tracker.domain.goalType
 import com.calore.tracker.domain.parseDecimal
 import com.calore.tracker.domain.parseWholeIn
 import com.calore.tracker.ui.formatEditable
@@ -25,6 +30,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Clock
+import java.time.LocalDate
 
 data class CalculatorForm(
     val sex: Sex? = null,
@@ -85,20 +92,14 @@ data class CalculatorForm(
             return CalorieCalculator.calculate(body, goal, macroSplit)
         }
 
-    fun toInputs(): CalculatorInputs = CalculatorInputs(
-        sex = sex,
-        ageYears = ageValue,
-        heightCm = heightValue,
-        weightKg = weightValue,
-        activity = activity,
-        weightGoal = goal,
-        split = split?.takeIf { it.isValid } ?: MacroSplit.DEFAULT,
-    )
+    /** The age as typed, when it is a whole number. */
+    val ageYears: Int? get() = ageValue
 }
 
 class CalculatorViewModel(
-    private val goals: GoalsRepository,
+    private val members: MemberRepository,
     private val weights: WeightRepository,
+    private val clock: Clock,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(CalculatorForm())
@@ -109,19 +110,22 @@ class CalculatorViewModel(
 
     init {
         viewModelScope.launch {
-            val saved = goals.calculatorInputs.first()
-            // Prefer the most recent logged weight over the one typed here last time.
-            val latestKg = weights.latest()?.kg ?: saved.weightKg
+            val me = members.me().first()
+            val split = me.effectiveSplit
             state.value = CalculatorForm(
-                sex = saved.sex,
-                age = saved.ageYears?.toString().orEmpty(),
-                heightCm = formatEditable(saved.heightCm),
-                weightKg = formatEditable(latestKg),
-                activity = saved.activity ?: ActivityLevel.LIGHT,
-                goal = saved.weightGoal ?: WeightGoal.MAINTAIN,
-                proteinPercent = saved.split.proteinPercent.toString(),
-                carbsPercent = saved.split.carbsPercent.toString(),
-                fatPercent = saved.split.fatPercent.toString(),
+                sex = me.sex,
+                age = me.birthDate?.let { ageOn(it, LocalDate.now(clock)) }?.toString().orEmpty(),
+                heightCm = formatEditable(me.heightCm),
+                weightKg = formatEditable(weights.latest()?.kg),
+                activity = me.activity ?: ActivityLevel.LIGHT,
+                goal = when (me.goalType) {
+                    GoalType.CUT -> WeightGoal.LOSE
+                    GoalType.BUILD -> WeightGoal.GAIN
+                    GoalType.MAINTAIN, GoalType.RECOMP, null -> WeightGoal.MAINTAIN
+                },
+                proteinPercent = split.proteinPercent.toString(),
+                carbsPercent = split.carbsPercent.toString(),
+                fatPercent = split.fatPercent.toString(),
             )
         }
     }
@@ -134,8 +138,24 @@ class CalculatorViewModel(
         val current = state.value
         val result = current.result ?: return
         viewModelScope.launch {
-            goals.setCalculatorInputs(current.toInputs())
-            goals.setGoals(result.goals)
+            val today = LocalDate.now(clock)
+            members.updateMe { me ->
+                val keepBirthDate = me.birthDate?.let { ageOn(it, today) } == current.ageYears
+                me.copy(
+                    sex = current.sex,
+                    birthDate = if (keepBirthDate) me.birthDate else current.ageYears?.let { birthDateFromAge(it, today) },
+                    heightCm = current.profile?.heightCm,
+                    activity = current.activity,
+                    goalType = current.goal.goalType,
+                    goalRatePct = current.goal.goalRatePct,
+                    macroMode = MacroMode.SPLIT,
+                    split = current.split?.takeIf { it.isValid } ?: MacroSplit.DEFAULT,
+                    targets = result.goals,
+                )
+            }
+            // The weight log is the source of body weight; start it if it is still empty.
+            val typedKg = current.profile?.weightKg
+            if (typedKg != null && weights.latest() == null) weights.save(today, typedKg)
             appliedChannel.send(Unit)
         }
     }

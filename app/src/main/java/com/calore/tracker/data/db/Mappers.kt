@@ -69,6 +69,7 @@ internal fun DiaryEntryEntity.toDomain(): DiaryEntry? {
         nutrients = Nutrients(kcal = kcal, protein = protein, carbs = carbs, fat = fat, fiber = fiber, sugar = sugar),
         loggedAt = createdAt,
         uuid = uuid,
+        memberId = memberId,
     )
 }
 
@@ -87,6 +88,7 @@ internal fun DiaryEntry.toEntity(): DiaryEntryEntity = DiaryEntryEntity(
     sugar = nutrients.sugar,
     createdAt = loggedAt,
     uuid = uuid,
+    memberId = memberId,
 )
 
 internal fun WeightEntryEntity.toDomain(): WeightEntry? {

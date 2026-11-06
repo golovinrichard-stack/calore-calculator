@@ -10,6 +10,10 @@ data class DatabaseSnapshot(
     val foods: List<FoodEntity>,
     val diaryEntries: List<DiaryEntryEntity>,
     val weightEntries: List<WeightEntryEntity>,
+    /** In [BackupDao.replaceAll], null keeps the table as it is (a backup made before it existed). */
+    val members: List<MemberEntity>? = emptyList(),
+    val bodyMeasurements: List<BodyMeasurementEntity>? = emptyList(),
+    val checkins: List<CheckinEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -24,6 +28,33 @@ abstract class BackupDao {
 
     @Query("SELECT * FROM weight_entries ORDER BY id")
     protected abstract suspend fun allWeightEntries(): List<WeightEntryEntity>
+
+    @Query("SELECT * FROM members ORDER BY createdAt, id")
+    protected abstract suspend fun allMembers(): List<MemberEntity>
+
+    @Query("SELECT * FROM body_measurements ORDER BY date, id")
+    protected abstract suspend fun allBodyMeasurements(): List<BodyMeasurementEntity>
+
+    @Query("SELECT * FROM checkins ORDER BY weekStart, id")
+    protected abstract suspend fun allCheckins(): List<CheckinEntity>
+
+    @Query("DELETE FROM members")
+    protected abstract suspend fun deleteAllMembers()
+
+    @Query("DELETE FROM body_measurements")
+    protected abstract suspend fun deleteAllBodyMeasurements()
+
+    @Query("DELETE FROM checkins")
+    protected abstract suspend fun deleteAllCheckins()
+
+    @Insert
+    protected abstract suspend fun insertMembers(rows: List<MemberEntity>)
+
+    @Insert
+    protected abstract suspend fun insertBodyMeasurements(rows: List<BodyMeasurementEntity>)
+
+    @Insert
+    protected abstract suspend fun insertCheckins(rows: List<CheckinEntity>)
 
     @Query("DELETE FROM foods")
     protected abstract suspend fun deleteAllFoods()
@@ -44,11 +75,18 @@ abstract class BackupDao {
     protected abstract suspend fun insertWeightEntries(rows: List<WeightEntryEntity>)
 
     @Transaction
-    open suspend fun snapshot(): DatabaseSnapshot =
-        DatabaseSnapshot(allFoods(), allDiaryEntries(), allWeightEntries())
+    open suspend fun snapshot(): DatabaseSnapshot = DatabaseSnapshot(
+        foods = allFoods(),
+        diaryEntries = allDiaryEntries(),
+        weightEntries = allWeightEntries(),
+        members = allMembers(),
+        bodyMeasurements = allBodyMeasurements(),
+        checkins = allCheckins(),
+    )
 
     /**
-     * Deletes every row and inserts [snapshot] instead, keeping ids and uuids. All in one
+     * Deletes every row and inserts [snapshot] instead, keeping ids and uuids. Tables that are
+     * null in [snapshot] are left as they are. All in one
      * transaction: if any insert fails (for example a duplicate id), nothing changes.
      */
     @Transaction
@@ -59,5 +97,17 @@ abstract class BackupDao {
         insertFoods(snapshot.foods)
         insertDiaryEntries(snapshot.diaryEntries)
         insertWeightEntries(snapshot.weightEntries)
+        snapshot.members?.let {
+            deleteAllMembers()
+            insertMembers(it)
+        }
+        snapshot.bodyMeasurements?.let {
+            deleteAllBodyMeasurements()
+            insertBodyMeasurements(it)
+        }
+        snapshot.checkins?.let {
+            deleteAllCheckins()
+            insertCheckins(it)
+        }
     }
 }

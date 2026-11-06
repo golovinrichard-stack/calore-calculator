@@ -65,6 +65,8 @@ data class DiaryEntryEntity(
     val sugar: Double?,
     val createdAt: Long,
     @ColumnInfo(defaultValue = "") val uuid: String,
+    /** The member who ate it; null is the phone's user (ME). */
+    val memberId: String? = null,
 )
 
 /** At most one weight per day; saving again for the same date replaces it. */

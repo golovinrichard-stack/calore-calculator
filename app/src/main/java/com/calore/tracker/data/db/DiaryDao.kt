@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DiaryDao {
 
-    @Query("SELECT * FROM diary_entries WHERE date = :date ORDER BY createdAt, id")
+    /** The phone's user's entries (memberId NULL) for one day. */
+    @Query("SELECT * FROM diary_entries WHERE date = :date AND memberId IS NULL ORDER BY createdAt, id")
     fun forDate(date: String): Flow<List<DiaryEntryEntity>>
 
     /** Replaces on id conflict so an undone delete can restore the exact same row. */

@@ -59,7 +59,7 @@ ME is private. MANAGED rows sync in M11 only if their owner shares them.
 |---|---|---|
 | `id` | TEXT PK | |
 | `kind` | TEXT | `MemberKind` |
-| `name` | TEXT | "Me" until the user sets a name |
+| `name` | TEXT | Empty until the user sets a name; the app then shows "Me" ("Já") |
 | `colour` | INTEGER | ARGB, for name labels on boxes |
 | `sex` | TEXT NULL | `Sex` (existing enum) |
 | `birthDate` | TEXT NULL | ISO date. Replaces the stored age. |

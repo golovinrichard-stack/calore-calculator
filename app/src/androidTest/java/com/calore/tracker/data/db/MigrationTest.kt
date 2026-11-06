@@ -95,6 +95,24 @@ class MigrationTest {
         assertEquals(80.5, weight.kg, 0.0)
     }
 
+    @Test
+    fun migration2To3AddsProfileTablesAndKeepsTheDiary() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 2, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 3, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats (Brand)", "Soup"), db.strings("SELECT name FROM diary_entries ORDER BY id"))
+            assertEquals("diary entries belong to the phone's user", listOf<String?>(null, null), db.nullableStrings("SELECT memberId FROM diary_entries"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM members"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM body_measurements"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM checkins"))
+        }
+    }
+
+    private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
+        buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
+    }
+
     private fun SupportSQLiteDatabase.strings(sql: String): List<String> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(cursor.getString(0)) }
     }

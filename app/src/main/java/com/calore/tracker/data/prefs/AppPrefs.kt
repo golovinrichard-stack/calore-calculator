@@ -20,8 +20,12 @@ data class AppSettings(
     val country: String = DEFAULT_COUNTRY,
     /** ISO 4217 currency code for prices. */
     val currency: String = DEFAULT_CURRENCY,
-    /** Set once the first-run setup has been completed (M1). */
+    /** Set once the first-run setup has been completed or skipped (M1.2). */
     val firstRunDone: Boolean = false,
+    /** Show the one-time "What's new" card to people who updated from 0.x (M1.2). */
+    val whatsNewPending: Boolean = false,
+    /** The birth date was guessed from the old age field and should be confirmed (M1.1). */
+    val birthDateToConfirm: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -40,6 +44,8 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 country = prefs[COUNTRY] ?: AppSettings.DEFAULT_COUNTRY,
                 currency = prefs[CURRENCY] ?: AppSettings.DEFAULT_CURRENCY,
                 firstRunDone = prefs[FIRST_RUN_DONE] ?: false,
+                whatsNewPending = prefs[WHATS_NEW_PENDING] ?: false,
+                birthDateToConfirm = prefs[BIRTH_DATE_TO_CONFIRM] ?: false,
             )
         }
 
@@ -55,11 +61,30 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[FIRST_RUN_DONE] = done }
     }
 
+    suspend fun setWhatsNewPending(pending: Boolean) {
+        dataStore.edit { it[WHATS_NEW_PENDING] = pending }
+    }
+
+    suspend fun setBirthDateToConfirm(toConfirm: Boolean) {
+        dataStore.edit { it[BIRTH_DATE_TO_CONFIRM] = toConfirm }
+    }
+
+    /** The flags set once when the profile moves out of the old settings (M1.1), in one write. */
+    suspend fun markProfileMoved(existingUser: Boolean, birthDateToConfirm: Boolean) {
+        dataStore.edit {
+            it[FIRST_RUN_DONE] = existingUser
+            it[WHATS_NEW_PENDING] = existingUser
+            it[BIRTH_DATE_TO_CONFIRM] = birthDateToConfirm
+        }
+    }
+
     companion object {
         const val FILE_NAME = "app_prefs"
 
         private val COUNTRY = stringPreferencesKey("country")
         private val CURRENCY = stringPreferencesKey("currency")
         private val FIRST_RUN_DONE = booleanPreferencesKey("first_run_done")
+        private val WHATS_NEW_PENDING = booleanPreferencesKey("whats_new_pending")
+        private val BIRTH_DATE_TO_CONFIRM = booleanPreferencesKey("birth_date_to_confirm")
     }
 }

@@ -29,5 +29,50 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
+/**
+ * Version 3 (M1.1): people and body. New tables `members`, `body_measurements` and `checkins`,
+ * and `diary_entries.memberId` (NULL = the phone's user). The ME row itself is created by the
+ * app on first start, because the old profile lives in DataStore, not in SQLite.
+ */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `members` (`id` TEXT NOT NULL, `kind` TEXT NOT NULL, `name` TEXT NOT NULL, " +
+                "`colour` INTEGER NOT NULL, `sex` TEXT, `birthDate` TEXT, `heightCm` REAL, `weightKg` REAL, " +
+                "`activity` TEXT, `goalType` TEXT, `goalRatePct` REAL, `macroMode` TEXT NOT NULL DEFAULT 'AUTO', " +
+                "`proteinPerKg` REAL, `fatPct` INTEGER, `splitProteinPct` INTEGER, `splitCarbsPct` INTEGER, " +
+                "`splitFatPct` INTEGER, `targetKcal` INTEGER, `targetProteinG` INTEGER, `targetCarbsG` INTEGER, " +
+                "`targetFatG` INTEGER, `mealSplit` TEXT NOT NULL, `diet` TEXT NOT NULL DEFAULT 'OMNIVORE', " +
+                "`allergens` TEXT NOT NULL, `likedFoods` TEXT NOT NULL, `dislikedFoods` TEXT NOT NULL, " +
+                "`cuisines` TEXT NOT NULL, `equipment` TEXT NOT NULL, `variety` INTEGER NOT NULL DEFAULT 2, " +
+                "`weeklyBudgetHalers` INTEGER, `cookSessionsPerWeek` INTEGER NOT NULL DEFAULT 2, " +
+                "`cookDays` TEXT NOT NULL, `minutesPerSession` INTEGER NOT NULL DEFAULT 120, " +
+                "`preppedMeals` TEXT NOT NULL, `sharesTargets` INTEGER NOT NULL DEFAULT 0, " +
+                "`createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `body_measurements` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, " +
+                "`date` TEXT NOT NULL, `neckCm` REAL, `waistCm` REAL, `hipCm` REAL, `bodyFatPct` REAL, " +
+                "`method` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS `index_body_measurements_memberId_date` " +
+                "ON `body_measurements` (`memberId`, `date`)",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `checkins` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, " +
+                "`weekStart` TEXT NOT NULL, `trendStartKg` REAL, `trendEndKg` REAL, `avgIntakeKcal` REAL, " +
+                "`countedDays` INTEGER NOT NULL, `estimatedMaintenanceKcal` INTEGER, `oldTargetKcal` INTEGER NOT NULL, " +
+                "`proposedTargetKcal` INTEGER NOT NULL, `accepted` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, " +
+                "PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE UNIQUE INDEX IF NOT EXISTS `index_checkins_memberId_weekStart` ON `checkins` (`memberId`, `weekStart`)",
+        )
+        db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN `memberId` TEXT")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3)

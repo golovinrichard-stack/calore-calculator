@@ -10,14 +10,14 @@
 
 ### M1.1 `members` table and moving the profile (database version 3)
 
-- [ ] Create `members`, `body_measurements` and `checkins`, and add `diary_entries.memberId` (data-model M1). Also add `members.weightKg REAL NULL`, used only for `MANAGED` members (the phone's user keeps using `weight_entries`).
-- [ ] On the first start after the update, copy `SettingsStore` into the `ME` row:
+- [x] Create `members`, `body_measurements` and `checkins`, and add `diary_entries.memberId` (data-model M1). Also add `members.weightKg REAL NULL`, used only for `MANAGED` members (the phone's user keeps using `weight_entries`).
+- [x] On the first start after the update, copy `SettingsStore` into the `ME` row (`MemberRepository.ensureMe`; macro mode becomes `SPLIT` for updated users so the targets stay exactly the same):
   - sex, height, activity, macro split and goals as they are;
   - age → `birthDate` = 1 July of (this year − age), and remember that the user should confirm it (M1.2);
   - `WeightGoal` → `goalType` and `goalRatePct` (A3: `LOSE` → `CUT` 0.5 %, `GAIN` → `BUILD` 0.25 %);
   - the calculator's weight → a weight entry dated today, only if `weight_entries` is empty.
-- [ ] Remove the old DataStore keys only after the copy has succeeded.
-- [ ] `MemberRepository` with `me(): Flow<Member>`, `managed()`, `save()`.
+- [x] Remove the old DataStore keys only after the copy has succeeded.
+- [x] `MemberRepository` with `me(): Flow<Member>`, `managed()`, `save()`. The backup goes to version 2 and includes the three new tables; a version-1 backup leaves them as they are.
 
 **Done when:** the migration test passes; an upgrade test from v0.1 with saved calculator inputs shows the same targets afterwards.
 

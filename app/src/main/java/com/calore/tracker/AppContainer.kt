@@ -11,16 +11,25 @@ import com.calore.tracker.data.remote.OpenFoodFactsClient
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.GoalsRepository
+import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.WeightRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.time.Clock
 
 /** Wires the app's dependencies by hand. One instance lives for the whole process. */
 class AppContainer(context: Context) {
     val clock: Clock = Clock.systemDefaultZone()
 
+    /** Work that must finish even when the screen that started it closes. */
+    val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
     private val database = CaloreDatabase.build(context)
 
-    private val settings = SettingsStore(
+    /** The 0.x goals and calculator inputs, read once and moved into `members` (M1.1). */
+    private val legacySettings = SettingsStore(
         PreferenceDataStoreFactory.create { context.preferencesDataStoreFile("settings") },
     )
 
@@ -36,11 +45,23 @@ class AppContainer(context: Context) {
     val foodRepository = FoodRepository(database.foodDao(), openFoodFacts, clock)
     val diaryRepository = DiaryRepository(database.diaryDao(), clock)
     val weightRepository = WeightRepository(database.weightDao())
-    val goalsRepository = GoalsRepository(settings)
+    val memberRepository = MemberRepository(
+        memberDao = database.memberDao(),
+        weightDao = database.weightDao(),
+        legacySettings = legacySettings,
+        appPrefs = appPrefs,
+        clock = clock,
+    )
+    val goalsRepository = GoalsRepository(memberRepository)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
         contentResolver = context.contentResolver,
         clock = clock,
         appVersion = BuildConfig.VERSION_NAME,
     )
+
+    init {
+        // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
+        applicationScope.launch { memberRepository.ensureMe() }
+    }
 }

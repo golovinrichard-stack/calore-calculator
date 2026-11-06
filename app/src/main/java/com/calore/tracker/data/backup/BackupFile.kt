@@ -1,8 +1,16 @@
 package com.calore.tracker.data.backup
 
+import com.calore.tracker.data.db.BodyMeasurementEntity
+import com.calore.tracker.data.db.CheckinEntity
 import com.calore.tracker.data.db.DiaryEntryEntity
 import com.calore.tracker.data.db.FoodEntity
+import com.calore.tracker.data.db.JsonColumns
+import com.calore.tracker.data.db.MemberEntity
 import com.calore.tracker.data.db.WeightEntryEntity
+import com.calore.tracker.domain.Allergen
+import com.calore.tracker.domain.Equipment
+import com.calore.tracker.domain.MealType
+import java.time.DayOfWeek
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,6 +38,10 @@ data class BackupTables(
     val foods: List<FoodRow> = emptyList(),
     @SerialName("diary_entries") val diaryEntries: List<DiaryEntryRow> = emptyList(),
     @SerialName("weight_entries") val weightEntries: List<WeightEntryRow> = emptyList(),
+    /** Since version 2 (M1). Null in a version-1 file: the import leaves these tables as they are. */
+    val members: List<MemberRow>? = null,
+    @SerialName("body_measurements") val bodyMeasurements: List<BodyMeasurementRow>? = null,
+    val checkins: List<CheckinRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -72,6 +84,8 @@ data class DiaryEntryRow(
     val fiber: Double? = null,
     val sugar: Double? = null,
     val createdAt: Long,
+    /** Since version 2; null is the phone's user. */
+    val memberId: String? = null,
 )
 
 @Serializable
@@ -80,6 +94,79 @@ data class WeightEntryRow(
     val uuid: String,
     val date: String,
     val kg: Double,
+)
+
+@Serializable
+data class MemberRow(
+    val id: String,
+    val kind: String,
+    val name: String,
+    val colour: Int,
+    val sex: String? = null,
+    val birthDate: String? = null,
+    val heightCm: Double? = null,
+    val weightKg: Double? = null,
+    val activity: String? = null,
+    val goalType: String? = null,
+    val goalRatePct: Double? = null,
+    val macroMode: String,
+    val proteinPerKg: Double? = null,
+    val fatPct: Int? = null,
+    val splitProteinPct: Int? = null,
+    val splitCarbsPct: Int? = null,
+    val splitFatPct: Int? = null,
+    val targetKcal: Int? = null,
+    val targetProteinG: Int? = null,
+    val targetCarbsG: Int? = null,
+    val targetFatG: Int? = null,
+    val mealSplit: Map<String, Int>,
+    val diet: String,
+    val allergens: List<String>,
+    val likedFoods: List<String>,
+    val dislikedFoods: List<String>,
+    val cuisines: List<String>,
+    val equipment: List<String>,
+    val variety: Int,
+    val weeklyBudgetHalers: Long? = null,
+    val cookSessionsPerWeek: Int,
+    val cookDays: List<String>,
+    val minutesPerSession: Int,
+    val preppedMeals: List<String>,
+    val sharesTargets: Boolean,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class BodyMeasurementRow(
+    val id: String,
+    val memberId: String,
+    val date: String,
+    val neckCm: Double? = null,
+    val waistCm: Double? = null,
+    val hipCm: Double? = null,
+    val bodyFatPct: Double? = null,
+    val method: String,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class CheckinRow(
+    val id: String,
+    val memberId: String,
+    val weekStart: String,
+    val trendStartKg: Double? = null,
+    val trendEndKg: Double? = null,
+    val avgIntakeKcal: Double? = null,
+    val countedDays: Int,
+    val estimatedMaintenanceKcal: Int? = null,
+    val oldTargetKcal: Int,
+    val proposedTargetKcal: Int,
+    val accepted: Boolean,
+    val createdAt: Long,
 )
 
 internal fun FoodEntity.toRow() = FoodRow(
@@ -133,6 +220,7 @@ internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
     fiber = fiber,
     sugar = sugar,
     createdAt = createdAt,
+    memberId = memberId,
 )
 
 internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
@@ -150,8 +238,151 @@ internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
     sugar = sugar,
     createdAt = createdAt,
     uuid = uuid,
+    memberId = memberId,
 )
 
 internal fun WeightEntryEntity.toRow() = WeightEntryRow(id = id, uuid = uuid, date = date, kg = kg)
 
 internal fun WeightEntryRow.toEntity() = WeightEntryEntity(id = id, date = date, kg = kg, uuid = uuid)
+
+private fun <E : Enum<E>> List<E>.names() = map { it.name }
+
+internal fun MemberEntity.toRow() = MemberRow(
+    id = id,
+    kind = kind,
+    name = name,
+    colour = colour,
+    sex = sex,
+    birthDate = birthDate,
+    heightCm = heightCm,
+    weightKg = weightKg,
+    activity = activity,
+    goalType = goalType,
+    goalRatePct = goalRatePct,
+    macroMode = macroMode,
+    proteinPerKg = proteinPerKg,
+    fatPct = fatPct,
+    splitProteinPct = splitProteinPct,
+    splitCarbsPct = splitCarbsPct,
+    splitFatPct = splitFatPct,
+    targetKcal = targetKcal,
+    targetProteinG = targetProteinG,
+    targetCarbsG = targetCarbsG,
+    targetFatG = targetFatG,
+    mealSplit = mealSplit.mapKeys { it.key.name },
+    diet = diet,
+    allergens = allergens.names(),
+    likedFoods = likedFoods,
+    dislikedFoods = dislikedFoods,
+    cuisines = cuisines,
+    equipment = equipment.names(),
+    variety = variety,
+    weeklyBudgetHalers = weeklyBudgetHalers,
+    cookSessionsPerWeek = cookSessionsPerWeek,
+    cookDays = cookDays.names(),
+    minutesPerSession = minutesPerSession,
+    preppedMeals = preppedMeals.names(),
+    sharesTargets = sharesTargets,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun MemberRow.toEntity() = MemberEntity(
+    id = id,
+    kind = kind,
+    name = name,
+    colour = colour,
+    sex = sex,
+    birthDate = birthDate,
+    heightCm = heightCm,
+    weightKg = weightKg,
+    activity = activity,
+    goalType = goalType,
+    goalRatePct = goalRatePct,
+    macroMode = macroMode,
+    proteinPerKg = proteinPerKg,
+    fatPct = fatPct,
+    splitProteinPct = splitProteinPct,
+    splitCarbsPct = splitCarbsPct,
+    splitFatPct = splitFatPct,
+    targetKcal = targetKcal,
+    targetProteinG = targetProteinG,
+    targetCarbsG = targetCarbsG,
+    targetFatG = targetFatG,
+    mealSplit = mealSplit.mapNotNull { (name, pct) -> JsonColumns.enumByName<MealType>(name)?.let { it to pct } }.toMap(),
+    diet = diet,
+    allergens = allergens.mapNotNull { JsonColumns.enumByName<Allergen>(it) },
+    likedFoods = likedFoods,
+    dislikedFoods = dislikedFoods,
+    cuisines = cuisines,
+    equipment = equipment.mapNotNull { JsonColumns.enumByName<Equipment>(it) },
+    variety = variety,
+    weeklyBudgetHalers = weeklyBudgetHalers,
+    cookSessionsPerWeek = cookSessionsPerWeek,
+    cookDays = cookDays.mapNotNull { JsonColumns.enumByName<DayOfWeek>(it) },
+    minutesPerSession = minutesPerSession,
+    preppedMeals = preppedMeals.mapNotNull { JsonColumns.enumByName<MealType>(it) },
+    sharesTargets = sharesTargets,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BodyMeasurementEntity.toRow() = BodyMeasurementRow(
+    id = id,
+    memberId = memberId,
+    date = date,
+    neckCm = neckCm,
+    waistCm = waistCm,
+    hipCm = hipCm,
+    bodyFatPct = bodyFatPct,
+    method = method,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun BodyMeasurementRow.toEntity() = BodyMeasurementEntity(
+    id = id,
+    memberId = memberId,
+    date = date,
+    neckCm = neckCm,
+    waistCm = waistCm,
+    hipCm = hipCm,
+    bodyFatPct = bodyFatPct,
+    method = method,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun CheckinEntity.toRow() = CheckinRow(
+    id = id,
+    memberId = memberId,
+    weekStart = weekStart,
+    trendStartKg = trendStartKg,
+    trendEndKg = trendEndKg,
+    avgIntakeKcal = avgIntakeKcal,
+    countedDays = countedDays,
+    estimatedMaintenanceKcal = estimatedMaintenanceKcal,
+    oldTargetKcal = oldTargetKcal,
+    proposedTargetKcal = proposedTargetKcal,
+    accepted = accepted,
+    createdAt = createdAt,
+)
+
+internal fun CheckinRow.toEntity() = CheckinEntity(
+    id = id,
+    memberId = memberId,
+    weekStart = weekStart,
+    trendStartKg = trendStartKg,
+    trendEndKg = trendEndKg,
+    avgIntakeKcal = avgIntakeKcal,
+    countedDays = countedDays,
+    estimatedMaintenanceKcal = estimatedMaintenanceKcal,
+    oldTargetKcal = oldTargetKcal,
+    proposedTargetKcal = proposedTargetKcal,
+    accepted = accepted,
+    createdAt = createdAt,
+)
