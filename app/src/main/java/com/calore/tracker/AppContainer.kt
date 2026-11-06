@@ -22,6 +22,7 @@ import com.calore.tracker.notifications.WorkManagerReminders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.Clock
 
@@ -48,7 +49,7 @@ class AppContainer(context: Context) {
         userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; open-source calorie tracker)",
     )
 
-    val foodRepository = FoodRepository(database.foodDao(), openFoodFacts, clock)
+    val foodRepository = FoodRepository(database.foodDao(), openFoodFacts, clock) { appPrefs.settings.first().country }
     val diaryRepository = DiaryRepository(database.diaryDao(), clock)
     val weightRepository = WeightRepository(database.weightDao())
     val memberRepository = MemberRepository(

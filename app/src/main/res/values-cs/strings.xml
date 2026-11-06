@@ -80,6 +80,7 @@
     <string name="online_no_results">V Open Food Facts nic nenalezeno.</string>
     <string name="food_per_100g">%1$s kcal na 100 g</string>
     <string name="food_per_100g_brand">%1$s · %2$s kcal na 100 g</string>
+    <string name="section_basic_foods">Základní potraviny</string>
 
     <!-- Food detail -->
     <string name="food_not_found">Tato potravina už neexistuje.</string>

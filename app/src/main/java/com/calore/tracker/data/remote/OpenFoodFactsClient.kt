@@ -31,18 +31,40 @@ class OpenFoodFactsClient(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-    suspend fun search(query: String, locale: Locale = Locale.getDefault()): RemoteResult<List<RemoteFood>> =
-        withContext(ioDispatcher) {
-            val body = try {
-                fetch(searchUrl(query, locale))
-            } catch (e: IOException) {
-                return@withContext RemoteResult.NetworkError
-            } ?: return@withContext RemoteResult.BadResponse
+    /**
+     * Searches by name. With a [country] (an ISO code such as "CZ"), products sold there come
+     * first; when there are only a few, the rest of the world fills the list (M2.3). Only the
+     * query, the languages and the country are sent.
+     */
+    suspend fun search(
+        query: String,
+        locale: Locale = Locale.getDefault(),
+        country: String? = null,
+    ): RemoteResult<List<RemoteFood>> = withContext(ioDispatcher) {
+        val tag = country?.let { COUNTRY_TAGS[it.uppercase()] }
+        val words = searchWords(query)
+        if (tag == null || words.isEmpty()) return@withContext searchOnce(query, locale)
 
-            OpenFoodFactsParser.parseSearch(body)
-                ?.let { RemoteResult.Success(it) }
-                ?: RemoteResult.BadResponse
+        val local = searchOnce("$words countries_tags:\"$tag\"", locale)
+        if (local is RemoteResult.Success && local.value.size >= MIN_LOCAL_RESULTS) return@withContext local
+        if (local is RemoteResult.NetworkError) return@withContext local
+        when (val everywhere = searchOnce(query, locale)) {
+            is RemoteResult.Success -> {
+                val first = (local as? RemoteResult.Success)?.value.orEmpty()
+                RemoteResult.Success((first + everywhere.value).distinctBy { it.barcode }.take(PAGE_SIZE))
+            }
+            else -> if (local is RemoteResult.Success) local else everywhere
         }
+    }
+
+    private fun searchOnce(query: String, locale: Locale): RemoteResult<List<RemoteFood>> {
+        val body = try {
+            fetch(searchUrl(query, locale))
+        } catch (e: IOException) {
+            return RemoteResult.NetworkError
+        } ?: return RemoteResult.BadResponse
+        return OpenFoodFactsParser.parseSearch(body)?.let { RemoteResult.Success(it) } ?: RemoteResult.BadResponse
+    }
 
     private fun searchUrl(query: String, locale: Locale): URL {
         val language = locale.language.takeIf { it.isNotBlank() && it != "en" }
@@ -83,10 +105,21 @@ class OpenFoodFactsClient(
         return out.toByteArray()
     }
 
-    private companion object {
+    internal companion object {
         const val SEARCH_ENDPOINT = "https://search.openfoodfacts.org/search"
         const val FIELDS =
-            "code,product_name,brands,nutriments,serving_quantity,serving_quantity_unit,serving_size"
+            "code,product_name,brands,nutriments,serving_quantity,serving_quantity_unit,serving_size," +
+                "quantity,product_quantity,product_quantity_unit,stores_tags,categories_tags,allergens_tags"
+
+        /** Fewer local results than this and the search also looks worldwide. */
+        const val MIN_LOCAL_RESULTS = 10
+
+        /** Open Food Facts country tags for the countries Calore supports. */
+        val COUNTRY_TAGS = mapOf("CZ" to "en:czech-republic")
+
+        /** The user's words without characters that have a meaning in the search syntax. */
+        fun searchWords(query: String): String =
+            query.replace(Regex("""[:"()\[\]{}^~*?\\/!+\-&|<>=]"""), " ").trim().replace(Regex("""\s+"""), " ")
         const val PAGE_SIZE = 25
         const val CONNECT_TIMEOUT_MS = 10_000
         const val READ_TIMEOUT_MS = 15_000

@@ -33,10 +33,10 @@
 
 ### M2.3 Better food search
 
-- [ ] Local search also matches `nameCs` and `nameEn`.
-- [ ] Result order: **Basic foods**, then **Your foods**, then **Open Food Facts**.
-- [ ] Open Food Facts requests prefer products sold in the Czech Republic: languages `cs,en` (already from the locale), plus a country filter if the search API supports it. Check the current API and note what works in `DATA_SOURCES.md`.
-- [ ] The parser also reads `quantity` / `product_quantity` (pack size), `stores_tags`, `categories_tags` (mapped to `ShopSection`, best effort) and `allergens_tags` (mapped to `Allergen`). Add fixtures and tests like the existing ones.
+- [x] Local search also matches `nameCs` and `nameEn`.
+- [x] Result order: **Basic foods**, then **Your foods**, then **Open Food Facts**.
+- [x] Open Food Facts requests prefer products sold in the Czech Republic: languages `cs,en` (already from the locale), plus a country filter if the search API supports it. Check the current API and note what works in `DATA_SOURCES.md`.
+- [x] The parser also reads `quantity` / `product_quantity` (pack size), `stores_tags`, `categories_tags` (mapped to `ShopSection`, best effort) and `allergens_tags` (mapped to `Allergen`). Add fixtures and tests like the existing ones.
 
 ### M2.4 Barcode scanner
 

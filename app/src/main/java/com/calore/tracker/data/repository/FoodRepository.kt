@@ -18,6 +18,8 @@ class FoodRepository(
     private val foodDao: FoodDao,
     private val client: OpenFoodFactsClient,
     private val clock: Clock,
+    /** The app's country (M0.6), so online search can prefer products sold there (M2.3). */
+    private val country: suspend () -> String? = { null },
 ) {
 
     fun recentFoods(): Flow<List<Food>> =
@@ -29,7 +31,8 @@ class FoodRepository(
         return foodDao.search(likePattern(trimmed), LOCAL_SEARCH_LIMIT).map { it.toDomain() }
     }
 
-    suspend fun searchOnline(query: String): RemoteResult<List<RemoteFood>> = client.search(query.trim())
+    suspend fun searchOnline(query: String): RemoteResult<List<RemoteFood>> =
+        client.search(query.trim(), country = country())
 
     suspend fun getFood(id: Long): Food? = foodDao.getById(id)?.toDomain()
 
@@ -47,6 +50,10 @@ class FoodRepository(
             servingGrams = remote.servingGrams,
             source = FoodSource.OPEN_FOOD_FACTS,
             uuid = newId(),
+            section = remote.section,
+            sourceRef = "off:${remote.barcode}",
+            allergens = remote.allergens,
+            defaultPackGrams = remote.packGrams,
         )
         val now = clock.millis()
         return foodDao.upsertByBarcode(food.toEntity(lastUsedAt = now, updatedAt = now))

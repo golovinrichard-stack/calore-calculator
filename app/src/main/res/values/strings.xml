@@ -79,6 +79,7 @@
     <string name="online_no_results">No matches on Open Food Facts.</string>
     <string name="food_per_100g">%1$s kcal per 100 g</string>
     <string name="food_per_100g_brand">%1$s · %2$s kcal per 100 g</string>
+    <string name="section_basic_foods">Basic foods</string>
 
     <!-- Food detail -->
     <string name="food_not_found">This food no longer exists.</string>

@@ -1,6 +1,8 @@
 package com.calore.tracker.data.remote
 
 import org.junit.Assert.assertEquals
+import com.calore.tracker.domain.ShopSection
+import com.calore.tracker.domain.Allergen
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -105,5 +107,49 @@ class OpenFoodFactsParserTest {
     @Test
     fun emptyHitsIsAnEmptyList() {
         assertEquals(emptyList<RemoteFood>(), OpenFoodFactsParser.parseSearch("""{"hits": []}"""))
+    }
+
+    @Test
+    fun czechSearchReadsPackSizeSectionAndAllergens() {
+        val foods = parse("search_tvaroh_cz.json")
+        assertEquals("one of the four real products has no nutrition data and is skipped", 3, foods.size)
+        val first = foods.first()
+        assertEquals("Tvaroh z Poděbrad polotučný", first.name)
+        assertEquals(250.0, first.packGrams!!, 0.0)
+        assertEquals(ShopSection.DAIRY, first.section)
+        assertEquals(setOf(Allergen.MILK), first.allergens)
+        assertEquals("no categories", ShopSection.OTHER, foods.last().section)
+    }
+
+    @Test
+    fun packSizesStoresAllergensAndMicronutrients() {
+        val foods = parse("search_details.json").associateBy { it.barcode }
+
+        val biscuits = foods.getValue("1111111111116")
+        assertEquals("kg is not g or ml, so the quantity text is used", 1500.0, biscuits.packGrams!!, 1e-9)
+        assertEquals(listOf("lidl", "albert"), biscuits.stores)
+        assertEquals("unknown allergen tags are skipped", setOf(Allergen.GLUTEN, Allergen.SOY), biscuits.allergens)
+        assertEquals(ShopSection.SNACKS, biscuits.section)
+        assertEquals("grams become milligrams", 2.1, biscuits.per100g.ironMg!!, 1e-9)
+        assertEquals(50.0, biscuits.per100g.vitaminCMg!!, 1e-9)
+        assertNull("20 g of magnesium per 100 g is impossible", biscuits.per100g.magnesiumMg)
+
+        val milk = foods.getValue("2222222222222")
+        assertEquals(500.0, milk.packGrams!!, 0.0)
+        assertEquals(ShopSection.DAIRY, milk.section)
+
+        val water = foods.getValue("3333333333338")
+        assertEquals(1500.0, water.packGrams!!, 1e-9)
+        assertEquals(ShopSection.DRINKS, water.section)
+
+        assertNull(foods.getValue("4444444444444").packGrams)
+    }
+
+    @Test
+    fun searchWordsDropQuerySyntax() {
+        assertEquals("tvaroh", OpenFoodFactsClient.searchWords("  tvaroh  "))
+        assertEquals("brands Milko tvaroh", OpenFoodFactsClient.searchWords("brands:\"Milko\" (tvaroh)"))
+        assertEquals("kuřecí prsa", OpenFoodFactsClient.searchWords("kuřecí*  prsa?"))
+        assertEquals("", OpenFoodFactsClient.searchWords(":::"))
     }
 }

@@ -141,20 +141,44 @@ fun AddFoodScreen(
 
 private fun LazyListScope.localSection(state: AddFoodUiState, onFoodClick: (Food) -> Unit) {
     val isSearching = state.query.isNotBlank()
-    if (!isSearching || state.localFoods.isNotEmpty()) {
-        item(key = "local_header") {
+    if (!isSearching) {
+        item(key = "recent_header") {
             SectionHeader(
-                text = stringResource(if (isSearching) R.string.section_my_foods else R.string.section_recent),
+                text = stringResource(R.string.section_recent),
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
             )
         }
+        if (state.localFoods.isEmpty()) {
+            item(key = "no_recent") { HintText(stringResource(R.string.no_recent)) }
+        }
+        items(state.localFoods, key = { "local_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
+        return
     }
-    if (!isSearching && state.localFoods.isEmpty()) {
-        item(key = "no_recent") { HintText(stringResource(R.string.no_recent)) }
+    // While searching (M2.3): basic foods first, then the user's own foods.
+    val (basic, mine) = state.localFoods.partition { it.isGeneric }
+    if (basic.isNotEmpty()) {
+        item(key = "basic_header") {
+            SectionHeader(
+                text = stringResource(R.string.section_basic_foods),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            )
+        }
+        items(basic, key = { "basic_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
     }
-    items(state.localFoods, key = { "local_${it.id}" }) { food ->
-        FoodRow(name = food.displayName(), brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
+    if (mine.isNotEmpty()) {
+        item(key = "mine_header") {
+            SectionHeader(
+                text = stringResource(R.string.section_my_foods),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            )
+        }
+        items(mine, key = { "mine_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
     }
+}
+
+@Composable
+private fun LocalFoodRow(food: Food, onFoodClick: (Food) -> Unit) {
+    FoodRow(name = food.displayName(), brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
 }
 
 private fun LazyListScope.onlineSection(

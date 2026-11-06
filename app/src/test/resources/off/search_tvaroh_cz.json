@@ -1,0 +1,86 @@
+{
+ "hits": [
+  {
+   "code": "85936126",
+   "brands": [
+    "Milko"
+   ],
+   "quantity": "250 g",
+   "categories_tags": [
+    "en:dairies",
+    "en:fermented-foods",
+    "en:fermented-milk-products",
+    "en:quarks"
+   ],
+   "allergens_tags": [
+    "en:milk"
+   ],
+   "nutriments": {
+    "sugars_100g": 4,
+    "fiber_100g": 0,
+    "proteins_100g": 10,
+    "fat_100g": 3.8,
+    "carbohydrates_100g": 4,
+    "energy-kj_100g": 379,
+    "energy-kcal_100g": 90
+   },
+   "product_name": "Tvaroh z Poděbrad polotučný"
+  },
+  {
+   "code": "4056489413905",
+   "brands": [
+    "Pilos"
+   ],
+   "quantity": "250 g",
+   "categories_tags": [
+    "en:dairies",
+    "en:fermented-foods",
+    "en:fermented-milk-products",
+    "en:desserts",
+    "en:dairy-desserts"
+   ],
+   "product_name": "Tvaroh tučný",
+   "nutriments": {}
+  },
+  {
+   "code": "8594003963391",
+   "brands": [
+    "Billa",
+    "Polabské Mlékárny"
+   ],
+   "quantity": "250 g",
+   "categories_tags": [
+    "en:dairies",
+    "en:fermented-foods",
+    "en:fermented-milk-products",
+    "en:quarks"
+   ],
+   "nutriments": {
+    "carbohydrates_100g": 4,
+    "energy-kcal_100g": 67,
+    "sugars_100g": 4,
+    "proteins_100g": 12,
+    "fat_100g": 0.5
+   },
+   "product_name": "Tvaroh odtučněný"
+  },
+  {
+   "code": "8594006848213",
+   "brands": [
+    "Tatra"
+   ],
+   "quantity": "250 g",
+   "nutriments": {
+    "energy-kcal_100g": 86,
+    "carbohydrates_100g": 3.5,
+    "fiber_100g": 3.5,
+    "proteins_100g": 10,
+    "sugars_100g": 3.5,
+    "fat_100g": 3.5
+   },
+   "product_name": "Tvaroh",
+   "categories_tags": []
+  }
+ ],
+ "count": 4
+}

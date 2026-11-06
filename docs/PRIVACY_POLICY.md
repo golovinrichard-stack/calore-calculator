@@ -75,7 +75,7 @@ There are only these cases.
 ### 4.1 Open Food Facts (food search and barcodes)
 
 - **When:** you search for a food online, scan a barcode, or open a product that isn't on your phone yet.
-- **What is sent:** the words you typed or the barcode, the language of your phone, and the app's name and version. Nothing about you, your diary or your health.
+- **What is sent:** the words you typed or the barcode, the language of your phone, the country set in the app (so products sold there come first), and the app's name and version. Nothing about you, your diary or your health.
 - **To whom:** Open Food Facts, a non-profit association in France that runs an open food database. Like any website, they see your phone's internet address. See their privacy policy at <https://world.openfoodfacts.org/privacy>.
 - **We receive nothing:** your phone talks to Open Food Facts directly.
 

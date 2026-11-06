@@ -36,13 +36,13 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Search | `https://search.openfoodfacts.org/search` | today |
 | One product by barcode | `https://world.openfoodfacts.org/api/v2/product/<barcode>` | M2 |
 
-**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); and the app name in the user agent (`Calore/<version> (Android; open-source calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
+**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; open-source calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
 
 **Licence:** the database is under the Open Database License (ODbL); single entries under the Database Contents License; product photos under CC BY-SA. We must credit "Food data © Open Food Facts contributors" (README and the About screen). Data we derive from it and ship, such as Czech basic foods taken from labels, stays under ODbL.
 
 **Quality:** anyone can edit Open Food Facts, so values can be missing or wrong, and Czech products are not all there. Missing values show as "—", never as zero. Users can fix products on openfoodfacts.org, and can always create their own foods.
 
-**Country filter:** M2.3 will check whether the search API can filter by country (for example `countries_tags`) and note the result here.
+**Country filter (checked 6 November 2026, M2.3):** the search API (search-a-licious) accepts a filter inside the query: `q=tvaroh countries_tags:"en:czech-republic"` returns only products sold in Czechia. Calore searches with this filter first; if it finds fewer than 10 products, it searches again without the filter and lists the other products after the Czech ones. Characters with a meaning in the query syntax (`: " ( ) *` …) are removed from what the user typed. The `langs` parameter must include `en`: `langs=cs` alone returns nothing, `langs=cs,en` works. The parser also reads the pack size (`product_quantity` or `quantity`), `stores_tags`, `categories_tags` (mapped to a shop section, best effort) and `allergens_tags`.
 
 ## 2. USDA FoodData Central
 
