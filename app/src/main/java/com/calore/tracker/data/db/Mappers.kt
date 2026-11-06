@@ -119,6 +119,7 @@ internal fun DiaryEntryEntity.toDomain(): DiaryEntry? {
         memberId = memberId,
         entryType = enumOr(entryType, EntryType.FOOD),
         recipeId = recipeId,
+        servings = servings,
     )
 }
 
@@ -143,6 +144,7 @@ internal fun DiaryEntry.toEntity(): DiaryEntryEntity = DiaryEntryEntity(
     magnesiumMg = nutrients.magnesiumMg,
     vitaminCMg = nutrients.vitaminCMg,
     recipeId = recipeId,
+    servings = servings,
 )
 
 internal fun WeightEntryEntity.toDomain(): WeightEntry? {

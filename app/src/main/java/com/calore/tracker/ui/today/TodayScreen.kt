@@ -54,6 +54,7 @@ import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
 import com.calore.tracker.domain.QuickAddDraft
+import com.calore.tracker.domain.Dishes
 import com.calore.tracker.domain.EntryType
 import com.calore.tracker.domain.MealSummary
 import com.calore.tracker.domain.MealType
@@ -68,6 +69,7 @@ import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.formatGrams
 import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.ui.labelRes
 import com.calore.tracker.ui.rememberMediumDateFormatter
@@ -164,8 +166,9 @@ fun TodayScreen(
         EditEntryDialog(
             entry = entry,
             onDismiss = { editing = null },
-            onSave = { grams ->
-                viewModel.changeGrams(entry, grams)
+            onSave = { amount ->
+                // A dish logged by servings changes its servings; everything else its grams.
+                if (entry.servings != null) viewModel.changeServings(entry, amount) else viewModel.changeGrams(entry, amount)
                 editing = null
             },
             onDelete = {
@@ -351,8 +354,11 @@ private fun EntryRow(entry: DiaryEntry, onClick: () -> Unit, hideNumbers: Boolea
         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
         headlineContent = { Text(entry.displayName(LocalResources.current), maxLines = 2, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
+            val servings = entry.servings
             if (entry.entryType == EntryType.QUICK_ADD) {
                 Text(stringResource(R.string.entry_subtitle_quick, formatKcal(entry.nutrients.kcal)))
+            } else if (servings != null) {
+                Text(stringResource(R.string.entry_subtitle_servings, formatNumber(servings, decimals = 2), formatKcal(entry.nutrients.kcal)))
             } else {
                 Text(stringResource(R.string.entry_subtitle, formatGrams(entry.grams), formatKcal(entry.nutrients.kcal)))
             }
@@ -378,9 +384,11 @@ private fun EditEntryDialog(
     onSave: (Double) -> Unit,
     onDelete: () -> Unit,
 ) {
-    var gramsText by rememberSaveable(entry.id) { mutableStateOf(formatEditable(entry.grams)) }
-    val grams = parsePortionGrams(gramsText)
-    val previewKcal = grams?.let { entry.nutrients.kcal * it / entry.grams }
+    val oldServings = entry.servings
+    val byServings = oldServings != null
+    var amountText by rememberSaveable(entry.id) { mutableStateOf(formatEditable(oldServings ?: entry.grams)) }
+    val amount = if (oldServings != null) Dishes.parseServings(amountText) else parsePortionGrams(amountText)
+    val previewKcal = amount?.let { entry.nutrients.kcal * it / (oldServings ?: entry.grams) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -388,13 +396,22 @@ private fun EditEntryDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(entry.name, style = MaterialTheme.typography.bodyLarge)
-                NumberField(
-                    value = gramsText,
-                    onValueChange = { gramsText = it },
-                    label = stringResource(R.string.amount_label),
-                    suffix = stringResource(R.string.unit_g),
-                    errorText = if (grams == null) stringResource(R.string.error_amount) else null,
-                )
+                if (byServings) {
+                    NumberField(
+                        value = amountText,
+                        onValueChange = { amountText = it },
+                        label = stringResource(R.string.recipe_servings_label),
+                        errorText = if (amount == null) stringResource(R.string.error_servings) else null,
+                    )
+                } else {
+                    NumberField(
+                        value = amountText,
+                        onValueChange = { amountText = it },
+                        label = stringResource(R.string.amount_label),
+                        suffix = stringResource(R.string.unit_g),
+                        errorText = if (amount == null) stringResource(R.string.error_amount) else null,
+                    )
+                }
                 if (!LocalHideNumbers.current) {
                     previewKcal?.let {
                         Text(stringResource(R.string.value_kcal, formatKcal(it)), style = MaterialTheme.typography.titleMedium)
@@ -403,7 +420,7 @@ private fun EditEntryDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = { grams?.let(onSave) }, enabled = grams != null) {
+            TextButton(onClick = { amount?.let(onSave) }, enabled = amount != null) {
                 Text(stringResource(R.string.save))
             }
         },

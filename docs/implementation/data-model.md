@@ -209,6 +209,7 @@ One row per weekly check-in (algorithms A7).
 | Change | Notes |
 |---|---|
 | Add `recipeId TEXT NULL` | `entryType = DISH` (M3.5). Added in version 5 rather than 6, because logging a dish by hand comes with M3. |
+| Add `servings REAL NULL` | `entryType = DISH` logged by servings (M3.5); null when logged by grams, then `grams` holds the cooked grams eaten. Editing scales the snapshot like grams do. |
 
 ## M4: cooking and boxes (version 6)
 

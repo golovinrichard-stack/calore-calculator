@@ -132,6 +132,7 @@ class MigrationTest {
         helper.runMigrationsAndValidate(TEST_DB, 5, true, *ALL_MIGRATIONS).use { db ->
             assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
             assertEquals(listOf<String?>(null, null), db.nullableStrings("SELECT recipeId FROM diary_entries ORDER BY id"))
+            assertEquals(listOf<String?>(null, null), db.nullableStrings("SELECT servings FROM diary_entries ORDER BY id"))
             assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM recipes"))
             assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM recipe_ingredients"))
             assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM recipe_steps"))

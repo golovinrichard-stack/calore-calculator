@@ -1,5 +1,24 @@
 package com.calore.tracker.ui.recipes
 
+import com.calore.tracker.ui.formatNumber
+import com.calore.tracker.ui.formatEditable
+import com.calore.tracker.ui.components.NumberField
+import com.calore.tracker.ui.UNKNOWN_VALUE
+import com.calore.tracker.ui.LocalHideNumbers
+import com.calore.tracker.domain.parsePortionGrams
+import com.calore.tracker.domain.parseDecimalIn
+import com.calore.tracker.domain.Recipes
+import com.calore.tracker.domain.Food
+import androidx.compose.ui.platform.LocalResources
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Button
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,15 +80,32 @@ fun RecipeDetailScreen(
     onBack: () -> Unit,
     onEdit: (id: String) -> Unit,
     onDeleted: () -> Unit,
-    bottomBar: @Composable (RecipeDetails) -> Unit = {},
+    onOpenRecipe: (id: String) -> Unit = {},
     viewModel: RecipeDetailViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val load by viewModel.uiState.collectAsStateWithLifecycle()
     var menuOpen by rememberSaveable { mutableStateOf(false) }
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
+    var loggingPortion by rememberSaveable { mutableStateOf(false) }
+    var scale by rememberSaveable { mutableDoubleStateOf(1.0) }
+    // Swapping: which ingredient, then which food (M3.6).
+    var swapIndex by rememberSaveable { mutableStateOf<Int?>(null) }
+    var swapFood by remember { mutableStateOf<Food?>(null) }
     val loaded = load as? RecipeLoad.Loaded
+    val snackbarHostState = remember { SnackbarHostState() }
+    val resources = LocalResources.current
 
-    LaunchedEffect(viewModel) { viewModel.deleted.collect { onDeleted() } }
+    LaunchedEffect(viewModel) {
+        viewModel.events.collect { event ->
+            when (event) {
+                RecipeEvent.Deleted -> onDeleted()
+                is RecipeEvent.Copied -> onOpenRecipe(event.id)
+                is RecipeEvent.Logged -> snackbarHostState.showSnackbar(
+                    resources.getString(R.string.dish_logged, resources.getString(event.meal.labelRes())),
+                )
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -106,7 +142,18 @@ fun RecipeDetailScreen(
                 },
             )
         },
-        bottomBar = { loaded?.let { bottomBar(it.details) } },
+        bottomBar = {
+            if (loaded != null) {
+                Button(
+                    onClick = { loggingPortion = true },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(16.dp),
+                ) { Text(stringResource(R.string.dish_log_portion)) }
+            }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         when (val current = load) {
             RecipeLoad.Loading -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
@@ -115,7 +162,18 @@ fun RecipeDetailScreen(
             RecipeLoad.NotFound -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 Text(stringResource(R.string.recipe_not_found))
             }
-            is RecipeLoad.Loaded -> RecipeContent(current.details, current.myAllergens, Modifier.padding(padding))
+            is RecipeLoad.Loaded -> RecipeContent(
+                details = current.details,
+                myAllergens = current.myAllergens,
+                scale = scale,
+                onScaleChange = { scale = it },
+                onSwap = { index ->
+                    viewModel.picker?.onQueryChange("")
+                    swapIndex = index
+                },
+                canSwap = viewModel.picker != null,
+                modifier = Modifier.padding(padding),
+            )
         }
     }
 
@@ -132,10 +190,68 @@ fun RecipeDetailScreen(
             dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
+    if (loggingPortion && loaded != null) {
+        LogDishDialog(
+            name = loaded.details.recipe.displayName(),
+            nutrition = loaded.details.nutrition,
+            meal = viewModel.mealNow(),
+            chooseMeal = true,
+            onLog = { servings, grams, meal ->
+                loggingPortion = false
+                viewModel.logPortion(loaded.details, servings, grams, meal)
+            },
+            onDismiss = { loggingPortion = false },
+        )
+    }
+    val index = swapIndex
+    val picker = viewModel.picker
+    if (index != null && loaded != null && picker != null && index in loaded.details.ingredients.indices) {
+        val food = swapFood
+        if (food == null) {
+            val search by picker.state.collectAsStateWithLifecycle()
+            FoodPickerDialog(
+                query = search.query,
+                results = search.results,
+                onQueryChange = picker::onQueryChange,
+                onPick = { swapFood = it },
+                onCreate = null,
+                onDismiss = { swapIndex = null },
+            )
+        } else {
+            val copyName = stringResource(R.string.recipe_copy_name, loaded.details.recipe.displayName())
+            SwapDialog(
+                details = loaded.details,
+                index = index,
+                newFood = food,
+                onApply = { grams ->
+                    viewModel.swapInRecipe(loaded.details, index, food, grams)
+                    swapIndex = null
+                    swapFood = null
+                },
+                onCopy = { grams ->
+                    viewModel.swapAsCopy(loaded.details, index, food, grams, copyName)
+                    swapIndex = null
+                    swapFood = null
+                },
+                onDismiss = {
+                    swapIndex = null
+                    swapFood = null
+                },
+            )
+        }
+    }
 }
 
 @Composable
-private fun RecipeContent(details: RecipeDetails, myAllergens: Set<Allergen>, modifier: Modifier) {
+private fun RecipeContent(
+    details: RecipeDetails,
+    myAllergens: Set<Allergen>,
+    scale: Double,
+    onScaleChange: (Double) -> Unit,
+    onSwap: (index: Int) -> Unit,
+    canSwap: Boolean,
+    modifier: Modifier,
+) {
     val recipe = details.recipe
     val nutrition = details.nutrition
     Column(
@@ -169,30 +285,18 @@ private fun RecipeContent(details: RecipeDetails, myAllergens: Set<Allergen>, mo
             AllergenText(details.allergens, myAllergens)
         }
 
+        ScaleSection(recipe.servings, scale, onScaleChange)
+
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SectionHeader(stringResource(R.string.recipe_ingredients))
-            details.ingredients.forEach { ingredient ->
-                val food = details.foods[ingredient.foodUuid]
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            food?.displayName() ?: stringResource(R.string.recipe_missing_food),
-                            color = if (food == null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
-                        )
-                        val extra = listOfNotNull(
-                            ingredient.note,
-                            if (ingredient.optional) stringResource(R.string.recipe_optional) else null,
-                        )
-                        if (extra.isNotEmpty()) {
-                            Text(
-                                extra.joinToString(" · "),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                    Text(stringResource(R.string.value_g, formatGrams(ingredient.grams)))
-                }
+            details.ingredients.forEachIndexed { index, ingredient ->
+                IngredientLine(
+                    name = details.foods[ingredient.foodUuid]?.displayName(),
+                    grams = ingredient.grams * scale,
+                    note = ingredient.note,
+                    optional = ingredient.optional,
+                    onSwap = if (canSwap) ({ onSwap(index) }) else null,
+                )
             }
         }
 
@@ -228,6 +332,146 @@ private fun RecipeContent(details: RecipeDetails, myAllergens: Set<Allergen>, mo
         }
     }
 }
+
+/** Scale for one cook (M3.6): a factor, or the servings to cook. The saved recipe doesn't change. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ScaleSection(servings: Int, scale: Double, onScaleChange: (Double) -> Unit) {
+    var servingsText by rememberSaveable(servings) { mutableStateOf(servings.toString()) }
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        SectionHeader(stringResource(R.string.recipe_scale))
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.Center) {
+            listOf(0.5, 1.0, 1.5, 2.0, 3.0).forEach { factor ->
+                FilterChip(
+                    selected = scale == factor,
+                    onClick = {
+                        onScaleChange(factor)
+                        servingsText = formatEditable(servings * factor)
+                    },
+                    label = { Text("×" + formatNumber(factor, decimals = 1)) },
+                )
+            }
+        }
+        NumberField(
+            value = servingsText,
+            onValueChange = { text ->
+                servingsText = text
+                parseDecimalIn(text, 0.1..(servings * Recipes.SCALE_RANGE.endInclusive))?.let {
+                    onScaleChange(Recipes.scaleFactor(servings, it).coerceIn(Recipes.SCALE_RANGE))
+                }
+            },
+            label = stringResource(R.string.recipe_scale_servings),
+            modifier = Modifier.width(200.dp),
+        )
+        if (scale != 1.0) {
+            Text(
+                stringResource(R.string.recipe_scaled_note, formatNumber(scale, decimals = 2)),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun IngredientLine(name: String?, grams: Double, note: String?, optional: Boolean, onSwap: (() -> Unit)?) {
+    var menuOpen by remember { mutableStateOf(false) }
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                name ?: stringResource(R.string.recipe_missing_food),
+                color = if (name == null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
+            )
+            val extra = listOfNotNull(note, if (optional) stringResource(R.string.recipe_optional) else null)
+            if (extra.isNotEmpty()) {
+                Text(extra.joinToString(" · "), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        Text(stringResource(R.string.value_g, formatGrams(grams)))
+        if (onSwap != null) {
+            Box {
+                IconButton(onClick = { menuOpen = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.more_options)) }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(text = { Text(stringResource(R.string.recipe_swap)) }, onClick = {
+                        menuOpen = false
+                        onSwap()
+                    })
+                }
+            }
+        }
+    }
+}
+
+/** Swap one ingredient (M3.6): same grams by default, nutrition per serving before and after. */
+@Composable
+private fun SwapDialog(
+    details: RecipeDetails,
+    index: Int,
+    newFood: Food,
+    onApply: (grams: Double) -> Unit,
+    onCopy: (grams: Double) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val ingredient = details.ingredients[index]
+    var gramsText by rememberSaveable { mutableStateOf(formatEditable(ingredient.grams)) }
+    val grams = parsePortionGrams(gramsText)
+    val recipe = details.recipe
+    val before = details.nutrition.perServing
+    val after = grams?.let {
+        Recipes.nutrition(
+            Recipes.swapped(details.ingredients, index, newFood.uuid, it),
+            details.foods + (newFood.uuid to newFood),
+            recipe.servings,
+            recipe.learnedYield,
+        ).perServing
+    }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(stringResource(R.string.recipe_swap_title, details.foods[ingredient.foodUuid]?.displayName() ?: stringResource(R.string.recipe_missing_food)))
+        },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.recipe_swap_for, newFood.displayName()), style = MaterialTheme.typography.bodyLarge)
+                NumberField(
+                    value = gramsText,
+                    onValueChange = { gramsText = it },
+                    label = stringResource(R.string.recipe_raw_grams),
+                    suffix = stringResource(R.string.unit_g),
+                    errorText = if (grams == null) stringResource(R.string.error_recipe_grams) else null,
+                )
+                if (!LocalHideNumbers.current) {
+                    Text(stringResource(R.string.recipe_per_serving), style = MaterialTheme.typography.labelLarge)
+                    BeforeAfterRow("", stringResource(R.string.recipe_swap_before), stringResource(R.string.recipe_swap_after), bold = true)
+                    BeforeAfterRow(stringResource(R.string.nutrient_calories), formatKcal(before.kcal), after?.let { formatKcal(it.kcal) })
+                    BeforeAfterRow(stringResource(R.string.nutrient_protein), gramsOrDash(before.protein), after?.let { gramsOrDash(it.protein) })
+                    BeforeAfterRow(stringResource(R.string.nutrient_carbs), gramsOrDash(before.carbs), after?.let { gramsOrDash(it.carbs) })
+                    BeforeAfterRow(stringResource(R.string.nutrient_fat), gramsOrDash(before.fat), after?.let { gramsOrDash(it.fat) })
+                }
+            }
+        },
+        confirmButton = {
+            Column(horizontalAlignment = Alignment.End) {
+                TextButton(onClick = { grams?.let(onApply) }, enabled = grams != null) { Text(stringResource(R.string.recipe_swap_apply)) }
+                TextButton(onClick = { grams?.let(onCopy) }, enabled = grams != null) { Text(stringResource(R.string.recipe_swap_copy)) }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
+            }
+        },
+    )
+}
+
+@Composable
+private fun BeforeAfterRow(label: String, before: String, after: String?, bold: Boolean = false) {
+    val weight = if (bold) FontWeight.Bold else FontWeight.Normal
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Text(label, modifier = Modifier.weight(1.4f), fontWeight = weight)
+        Text(before, modifier = Modifier.weight(1f), fontWeight = weight)
+        Text(after ?: UNKNOWN_VALUE, modifier = Modifier.weight(1f), fontWeight = weight)
+    }
+}
+
+@Composable
+private fun gramsOrDash(value: Double?): String = value?.let { stringResource(R.string.value_g, formatGrams(it)) } ?: UNKNOWN_VALUE
 
 /** Per serving (always), the whole recipe, and per 100 g cooked once a yield is known. */
 @Composable

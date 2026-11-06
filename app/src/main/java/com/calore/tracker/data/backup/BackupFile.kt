@@ -118,6 +118,7 @@ data class DiaryEntryRow(
     val vitaminCMg: Double? = null,
     // Since version 4 (M3).
     val recipeId: String? = null,
+    val servings: Double? = null,
 )
 
 @Serializable
@@ -342,6 +343,7 @@ internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
     magnesiumMg = magnesiumMg,
     vitaminCMg = vitaminCMg,
     recipeId = recipeId,
+    servings = servings,
 )
 
 internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
@@ -365,6 +367,7 @@ internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
     magnesiumMg = magnesiumMg,
     vitaminCMg = vitaminCMg,
     recipeId = recipeId,
+    servings = servings,
 )
 
 internal fun WeightEntryEntity.toRow() = WeightEntryRow(id = id, uuid = uuid, date = date, kg = kg)

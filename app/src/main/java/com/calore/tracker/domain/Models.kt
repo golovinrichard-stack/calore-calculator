@@ -72,6 +72,8 @@ data class DiaryEntry(
     val entryType: EntryType = EntryType.FOOD,
     /** A logged dish (M3.5): the recipe it came from. */
     val recipeId: String? = null,
+    /** A dish logged by servings; null when logged by grams. */
+    val servings: Double? = null,
 )
 
 data class WeightEntry(

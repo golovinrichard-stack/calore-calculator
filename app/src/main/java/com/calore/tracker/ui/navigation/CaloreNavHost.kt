@@ -277,6 +277,7 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
             onBack = { navController.popBackStack() },
             onEdit = { id -> navController.navigate(Routes.recipeEdit(id)) },
             onDeleted = { navController.popBackStack() },
+            onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
         )
     }
     composable(

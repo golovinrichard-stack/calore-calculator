@@ -95,6 +95,7 @@ fun RecipeEditScreen(
     viewModel: RecipeEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val picker by viewModel.picker.state.collectAsStateWithLifecycle()
     var picking by rememberSaveable { mutableStateOf(false) }
     var confirmDiscard by rememberSaveable { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -142,7 +143,7 @@ fun RecipeEditScreen(
                 state = state,
                 viewModel = viewModel,
                 onAddIngredient = {
-                    viewModel.onPickerQueryChange("")
+                    viewModel.picker.onQueryChange("")
                     picking = true
                 },
                 onScanIngredient = onScanIngredient,
@@ -153,16 +154,16 @@ fun RecipeEditScreen(
 
     if (picking) {
         FoodPickerDialog(
-            query = state.pickerQuery,
-            results = state.pickerResults,
-            onQueryChange = viewModel::onPickerQueryChange,
+            query = picker.query,
+            results = picker.results,
+            onQueryChange = viewModel.picker::onQueryChange,
             onPick = { food ->
                 picking = false
                 viewModel.addFood(food)
             },
             onCreate = {
                 picking = false
-                onCreateFood(state.pickerQuery.trim())
+                onCreateFood(picker.query.trim())
             },
             onDismiss = { picking = false },
         )
@@ -557,14 +558,14 @@ private fun SwitchRow(label: String, checked: Boolean, onChange: (Boolean) -> Un
     )
 }
 
-/** Recent foods, or a search with basic foods first (M3.2). */
+/** Recent foods, or a search with basic foods first (M3.2). [onCreate] is left out where a new food can't be made. */
 @Composable
-private fun FoodPickerDialog(
+internal fun FoodPickerDialog(
     query: String,
     results: List<Food>,
     onQueryChange: (String) -> Unit,
     onPick: (Food) -> Unit,
-    onCreate: () -> Unit,
+    onCreate: (() -> Unit)?,
     onDismiss: () -> Unit,
 ) {
     val hideNumbers = LocalHideNumbers.current
@@ -599,12 +600,14 @@ private fun FoodPickerDialog(
                             modifier = Modifier.clickable { onPick(food) },
                         )
                     }
-                    item(key = "create") {
-                        ListItem(
-                            leadingContent = { Icon(Icons.Filled.Add, contentDescription = null) },
-                            headlineContent = { Text(stringResource(R.string.create_custom_food)) },
-                            modifier = Modifier.clickable(onClick = onCreate),
-                        )
+                    if (onCreate != null) {
+                        item(key = "create") {
+                            ListItem(
+                                leadingContent = { Icon(Icons.Filled.Add, contentDescription = null) },
+                                headlineContent = { Text(stringResource(R.string.create_custom_food)) },
+                                modifier = Modifier.clickable(onClick = onCreate),
+                            )
+                        }
                     }
                 }
             }

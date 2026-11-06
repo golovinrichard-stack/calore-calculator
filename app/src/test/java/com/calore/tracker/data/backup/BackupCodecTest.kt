@@ -46,6 +46,16 @@ class BackupCodecTest {
         createdAt = 1_762_400_000_000 + id,
     )
 
+    /** A dish logged by servings (M3.5). */
+    private val dish = entry(3).copy(
+        foodId = null,
+        name = "Kuře na paprice",
+        grams = 0.0,
+        entryType = "DISH",
+        recipeId = "3b241101-e2bb-4255-8caf-4136c566a962",
+        servings = 1.5,
+    )
+
     private val weight = WeightEntryRow(id = 1, uuid = "7c9e6679-7425-40de-944b-e07fc1f90ae7", date = "2026-11-06", kg = 80.4)
 
     private val me = MemberRow(
@@ -146,7 +156,7 @@ class BackupCodecTest {
 
     private fun backup(
         foods: List<FoodRow> = listOf(food),
-        diary: List<DiaryEntryRow> = listOf(entry(1), entry(2)),
+        diary: List<DiaryEntryRow> = listOf(entry(1), entry(2), dish),
         weights: List<WeightEntryRow> = listOf(weight),
         version: Int = BackupCodec.VERSION,
         members: List<MemberRow> = listOf(me),
@@ -210,6 +220,7 @@ class BackupCodecTest {
             ),
             "negative grams" to backup(ingredients = listOf(ingredient.copy(grams = -5.0))),
             "duplicate step" to backup(steps = listOf(step, step)),
+            "negative servings" to backup(diary = listOf(dish.copy(servings = -1.0))),
         )
         for ((name, broken) in cases) {
             assertEquals(name, BackupReadResult.Damaged, decode(broken))

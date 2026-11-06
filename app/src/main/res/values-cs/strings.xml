@@ -631,4 +631,25 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="error_recipe_days">Zadejte 1 až 14</string>
     <string name="error_recipe_months">Zadejte 1 až 12</string>
     <string name="recipe_fix_errors">Opravte prosím označená pole.</string>
+    <string name="tab_foods">Potraviny</string>
+    <string name="tab_dishes">Jídla</string>
+    <string name="dishes_none_yet">Zatím tu nejsou žádné recepty. Vytvořte je v záložce Plán.</string>
+    <string name="dish_by_servings">Porce</string>
+    <string name="dish_by_grams">Hotové jídlo v gramech</string>
+    <string name="dish_grams_label">Hmotnost hotového jídla</string>
+    <string name="error_servings">Zadejte 0,1 až 20 porcí</string>
+    <string name="dish_log_portion">Zapsat porci</string>
+    <string name="dish_logged">Zapsáno: %1$s</string>
+    <string name="entry_subtitle_servings">Porce: %1$s · %2$s kcal</string>
+    <string name="recipe_scale">Přepočítat pro toto vaření</string>
+    <string name="recipe_scale_servings">Počet porcí k uvaření</string>
+    <string name="recipe_scaled_note">Množství krát %1$s. Uložený recept se nemění.</string>
+    <string name="recipe_swap">Nahradit jinou potravinou</string>
+    <string name="recipe_swap_title">Nahradit: %1$s</string>
+    <string name="recipe_swap_for">Za: %1$s</string>
+    <string name="recipe_swap_before">Před</string>
+    <string name="recipe_swap_after">Po</string>
+    <string name="recipe_swap_apply">Změnit tento recept</string>
+    <string name="recipe_swap_copy">Uložit jako kopii</string>
+    <string name="recipe_copy_name">%1$s (kopie)</string>
 </resources>

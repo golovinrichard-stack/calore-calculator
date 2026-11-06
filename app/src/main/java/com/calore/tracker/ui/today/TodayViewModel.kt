@@ -92,6 +92,10 @@ class TodayViewModel(
 
     fun goToToday() = selectDate(LocalDate.now(clock))
 
+    fun changeServings(entry: DiaryEntry, servings: Double) {
+        viewModelScope.launch { diary.changeServings(entry, servings) }
+    }
+
     fun changeGrams(entry: DiaryEntry, grams: Double) {
         viewModelScope.launch { diary.changeGrams(entry, grams) }
     }

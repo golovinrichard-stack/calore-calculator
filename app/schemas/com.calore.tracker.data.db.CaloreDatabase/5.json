@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "87ffe2bc14de5828209d517ed5eda042",
+    "identityHash": "40ccd32f8ceac3763c46c05853bd4052",
     "entities": [
       {
         "tableName": "foods",
@@ -228,7 +228,7 @@
       },
       {
         "tableName": "diary_entries",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `meal` TEXT NOT NULL, `foodId` INTEGER, `name` TEXT NOT NULL, `grams` REAL NOT NULL, `kcal` REAL NOT NULL, `protein` REAL, `carbs` REAL, `fat` REAL, `fiber` REAL, `sugar` REAL, `createdAt` INTEGER NOT NULL, `uuid` TEXT NOT NULL DEFAULT '', `memberId` TEXT, `entryType` TEXT NOT NULL DEFAULT 'FOOD', `ironMg` REAL, `magnesiumMg` REAL, `vitaminCMg` REAL, `recipeId` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `meal` TEXT NOT NULL, `foodId` INTEGER, `name` TEXT NOT NULL, `grams` REAL NOT NULL, `kcal` REAL NOT NULL, `protein` REAL, `carbs` REAL, `fat` REAL, `fiber` REAL, `sugar` REAL, `createdAt` INTEGER NOT NULL, `uuid` TEXT NOT NULL DEFAULT '', `memberId` TEXT, `entryType` TEXT NOT NULL DEFAULT 'FOOD', `ironMg` REAL, `magnesiumMg` REAL, `vitaminCMg` REAL, `recipeId` TEXT, `servings` REAL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -340,6 +340,11 @@
             "fieldPath": "recipeId",
             "columnName": "recipeId",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "servings",
+            "columnName": "servings",
+            "affinity": "REAL"
           }
         ],
         "primaryKey": {
@@ -1139,7 +1144,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '87ffe2bc14de5828209d517ed5eda042')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '40ccd32f8ceac3763c46c05853bd4052')"
     ]
   }
 }

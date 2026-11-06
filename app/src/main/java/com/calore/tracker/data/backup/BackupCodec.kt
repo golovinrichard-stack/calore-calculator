@@ -27,7 +27,7 @@ object BackupCodec {
     /**
      * 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1).
      * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
-     * 4: + recipes, recipe ingredients and steps, diary recipeId (M3).
+     * 4: + recipes, recipe ingredients and steps, diary recipeId and servings (M3).
      */
     const val VERSION = 4
 
@@ -90,7 +90,7 @@ object BackupCodec {
             diary.all { entry ->
                 entry.id > 0 && uuidPattern.matches(entry.uuid) && parseIsoDate(entry.date) != null &&
                     entry.grams.isAmount() && entry.kcal.isAmount() &&
-                    listOf(entry.protein, entry.carbs, entry.fat, entry.fiber, entry.sugar).all { it == null || it.isAmount() }
+                    listOf(entry.protein, entry.carbs, entry.fat, entry.fiber, entry.sugar, entry.servings).all { it == null || it.isAmount() }
             } &&
             diary.isUnique { it.id } && diary.isUnique { it.uuid.lowercase() } &&
             weights.all { weight ->

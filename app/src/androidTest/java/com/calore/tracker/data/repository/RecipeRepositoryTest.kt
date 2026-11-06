@@ -1,5 +1,9 @@
 package com.calore.tracker.data.repository
 
+
+import java.time.LocalDate
+import com.calore.tracker.domain.Recipes
+import com.calore.tracker.domain.EntryType
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -110,5 +114,59 @@ class RecipeRepositoryTest {
         )
         assertNotEquals("", id)
         assertTrue(recipes.details(id)!!.recipe.userEdited)
+    }
+
+    @Test
+    fun aDishIsLoggedAsExactlyServingsTimesAServingAndEditsScale() = runTest {
+        val beef = foods.getFood(foods.saveCustom(null, "Hovězí", null, Nutrients(215.0, 18.6, 0.0, 15.0, null, null), null))!!
+        val rice = foods.getFood(foods.saveCustom(null, "Rýže", null, Nutrients(365.0, 7.1, 80.0, 0.7, null, null), null))!!
+        val id = recipes.save(
+            Recipe(id = "", name = "Chili", shortCode = "CH", servings = 6),
+            listOf(ingredient(beef.uuid, 800.0), ingredient(rice.uuid, 420.0)),
+            emptyList(),
+        )
+        val details = recipes.details(id)!!
+        val diary = DiaryRepository(db.diaryDao(), clock)
+        val day = LocalDate.of(2026, 11, 6)
+
+        diary.logDish(details.recipe, details.nutrition, servings = 1.5, grams = null, meal = MealType.LUNCH, date = day)
+        val entry = diary.entriesFor(day).first().single()
+        val serving = details.nutrition.perServing
+        assertEquals(EntryType.DISH, entry.entryType)
+        assertEquals(id, entry.recipeId)
+        assertEquals(1.5, entry.servings!!, 0.0)
+        assertEquals(serving.kcal * 1.5, entry.nutrients.kcal, 0.0)
+        assertEquals(serving.protein!! * 1.5, entry.nutrients.protein!!, 0.0)
+        assertEquals("Chili", entry.name)
+
+        diary.changeServings(entry, 3.0)
+        val edited = diary.entriesFor(day).first().single()
+        assertEquals(3.0, edited.servings!!, 0.0)
+        assertEquals(serving.kcal * 3.0, edited.nutrients.kcal, 1e-9)
+
+        assertNull("no grams without a learned yield", diary.logDish(details.recipe, details.nutrition, null, 300.0, MealType.DINNER, day))
+    }
+
+    @Test
+    fun aSwapSavedAsACopyKeepsTheOriginal() = runTest {
+        val beef = foods.getFood(foods.saveCustom(null, "Hovězí", null, Nutrients(kcal = 215.0), null))!!
+        val turkey = foods.getFood(foods.saveCustom(null, "Krůtí", null, Nutrients(kcal = 148.0), null))!!
+        val id = recipes.save(
+            Recipe(id = "", key = "starter:cz:x", name = "Ragú", nameCs = "Ragú", nameEn = "Ragù", shortCode = "R", servings = 4),
+            listOf(ingredient(beef.uuid, 500.0)),
+            listOf(RecipeStep(id = "", recipeId = "", position = 0, text = "Vařte.", textCs = "Vařte.", textEn = "Cook.")),
+        )
+        val original = recipes.details(id)!!
+        val copyId = recipes.saveCopy(original, Recipes.swapped(original.ingredients, 0, turkey.uuid), "Ragú (kopie)")
+
+        assertNotEquals(id, copyId)
+        assertEquals(beef.uuid, recipes.details(id)!!.ingredients.single().foodUuid)
+        val copy = recipes.details(copyId)!!
+        assertEquals(turkey.uuid, copy.ingredients.single().foodUuid)
+        assertEquals(500.0, copy.ingredients.single().grams, 0.0)
+        assertEquals("Ragú (kopie)", copy.recipe.name)
+        assertNull("a copy is the user's own recipe", copy.recipe.key)
+        assertEquals("Cook.", copy.steps.single().textEn)
+        assertEquals(148.0 * 5 / 4, copy.nutrition.perServing.kcal, 1e-9)
     }
 }

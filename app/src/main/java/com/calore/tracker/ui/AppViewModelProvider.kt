@@ -36,7 +36,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            AddFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock, c.diaryRepository)
+            AddFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock, c.diaryRepository, c.recipeRepository)
         }
         initializer {
             val c = container()
@@ -97,7 +97,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository)
+            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock)
         }
         initializer {
             val c = container()

@@ -606,4 +606,25 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="error_recipe_days">Enter 1 to 14</string>
     <string name="error_recipe_months">Enter 1 to 12</string>
     <string name="recipe_fix_errors">Please fix the marked fields.</string>
+    <string name="tab_foods">Foods</string>
+    <string name="tab_dishes">Dishes</string>
+    <string name="dishes_none_yet">No recipes yet. Create one in the Plan tab.</string>
+    <string name="dish_by_servings">Servings</string>
+    <string name="dish_by_grams">Cooked weight</string>
+    <string name="dish_grams_label">Cooked weight</string>
+    <string name="error_servings">Enter 0.1 to 20 servings</string>
+    <string name="dish_log_portion">Log a portion</string>
+    <string name="dish_logged">Logged: %1$s</string>
+    <string name="entry_subtitle_servings">Servings: %1$s · %2$s kcal</string>
+    <string name="recipe_scale">Scale for this cook</string>
+    <string name="recipe_scale_servings">Servings to cook</string>
+    <string name="recipe_scaled_note">Amounts times %1$s. The saved recipe doesn\'t change.</string>
+    <string name="recipe_swap">Swap for another food</string>
+    <string name="recipe_swap_title">Swap %1$s</string>
+    <string name="recipe_swap_for">For: %1$s</string>
+    <string name="recipe_swap_before">Before</string>
+    <string name="recipe_swap_after">After</string>
+    <string name="recipe_swap_apply">Change this recipe</string>
+    <string name="recipe_swap_copy">Save as a copy</string>
+    <string name="recipe_copy_name">%1$s (copy)</string>
 </resources>

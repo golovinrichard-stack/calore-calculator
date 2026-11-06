@@ -10,14 +10,11 @@ import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.navigation.Routes
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,8 +30,6 @@ data class RecipeEditUiState(
     val saving: Boolean = false,
     /** Something differs from what was loaded, so leaving asks first. */
     val changed: Boolean = false,
-    val pickerQuery: String = "",
-    val pickerResults: List<Food> = emptyList(),
 )
 
 /** The recipe builder (M3.2): a new recipe, or changes to one. */
@@ -51,7 +46,6 @@ class RecipeEditViewModel(
 
     private var initial: RecipeForm = RecipeForm()
     private var takenCodes: Set<String> = emptySet()
-    private var pickerJob: Job? = null
 
     private val savedChannel = Channel<String>(Channel.BUFFERED)
 
@@ -74,7 +68,6 @@ class RecipeEditViewModel(
             }
             initial = form
             state.update { it.copy(loading = false, form = form) }
-            onPickerQueryChange("")
         }
     }
 
@@ -135,21 +128,8 @@ class RecipeEditViewModel(
     fun onEquipmentToggle(equipment: Equipment) = edit { it.copy(equipment = it.equipment.toggled(equipment)) }
     fun onMealPrepChange(on: Boolean) = edit { it.copy(mealPrepFriendly = on) }
 
-    // The food picker: recent foods, or a search with basic foods first.
-
-    fun onPickerQueryChange(query: String) {
-        state.update { it.copy(pickerQuery = query) }
-        pickerJob?.cancel()
-        pickerJob = viewModelScope.launch {
-            val results = if (query.isBlank()) {
-                foods.recentFoods().first()
-            } else {
-                delay(SEARCH_DEBOUNCE_MS)
-                foods.searchLocal(query)
-            }
-            state.update { it.copy(pickerResults = results) }
-        }
-    }
+    /** The food picker: recent foods, or a search with basic foods first. */
+    val picker = FoodSearch(foods, viewModelScope)
 
     fun save() {
         val current = state.value
@@ -170,7 +150,6 @@ class RecipeEditViewModel(
 
     private companion object {
         const val DEFAULT_INGREDIENT_GRAMS = 100.0
-        const val SEARCH_DEBOUNCE_MS = 200L
 
         fun <T> List<T>.without(index: Int): List<T> = filterIndexed { i, _ -> i != index }
 

@@ -25,6 +25,8 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -48,7 +50,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
+import com.calore.tracker.data.repository.RecipeDetails
+import com.calore.tracker.ui.recipes.LogDishDialog
 import com.calore.tracker.data.remote.RemoteFood
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
@@ -70,7 +75,23 @@ fun AddFoodScreen(
     viewModel: AddFoodViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val dishes by viewModel.dishes.collectAsStateWithLifecycle()
     var quickAdding by rememberSaveable { mutableStateOf(false) }
+    var showDishes by rememberSaveable { mutableStateOf(false) }
+    var loggingDish by remember { mutableStateOf<RecipeDetails?>(null) }
+    loggingDish?.let { details ->
+        LogDishDialog(
+            name = details.recipe.displayName(),
+            nutrition = details.nutrition,
+            meal = viewModel.meal,
+            chooseMeal = false,
+            onLog = { servings, grams, _ ->
+                loggingDish = null
+                viewModel.logDish(details, servings, grams)
+            },
+            onDismiss = { loggingDish = null },
+        )
+    }
 
     LaunchedEffect(viewModel) {
         viewModel.quickAddDone.collect { onQuickAdded() }
@@ -142,6 +163,17 @@ fun AddFoodScreen(
                     .focusRequester(searchFocus),
             )
             if (state.isSaving) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            // Foods or dishes (M3.5); dishes come with the recipes.
+            if (FeatureFlags.recipes) {
+                PrimaryTabRow(selectedTabIndex = if (showDishes) 1 else 0) {
+                    Tab(selected = !showDishes, onClick = { showDishes = false }, text = { Text(stringResource(R.string.tab_foods)) })
+                    Tab(selected = showDishes, onClick = { showDishes = true }, text = { Text(stringResource(R.string.tab_dishes)) })
+                }
+            }
+            if (showDishes) {
+                DishList(dishes, hasQuery = state.query.isNotBlank(), onDishClick = { loggingDish = it })
+                return@Column
+            }
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -288,6 +320,27 @@ private fun FoodRow(name: String, brand: String?, kcalPer100g: Double, onClick: 
             )
         },
     )
+}
+
+@Composable
+private fun DishList(dishes: List<RecipeDetails>, hasQuery: Boolean, onDishClick: (RecipeDetails) -> Unit) {
+    val hideNumbers = LocalHideNumbers.current
+    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
+        if (dishes.isEmpty()) {
+            item(key = "none") { HintText(stringResource(if (hasQuery) R.string.recipes_no_match else R.string.dishes_none_yet)) }
+        }
+        items(dishes, key = { it.recipe.id }) { details ->
+            ListItem(
+                modifier = Modifier.clickable { onDishClick(details) },
+                headlineContent = { Text(details.recipe.displayName(), maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                supportingContent = if (hideNumbers) {
+                    null
+                } else {
+                    { Text(stringResource(R.string.recipe_kcal_per_serving, formatKcal(details.nutrition.perServing.kcal))) }
+                },
+            )
+        }
+    }
 }
 
 @Composable

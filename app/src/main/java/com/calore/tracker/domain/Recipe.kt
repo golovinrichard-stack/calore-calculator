@@ -141,6 +141,22 @@ object Recipes {
         Diet.NO_PORK -> AnimalFlag.PORK !in flags
     }
 
+    /** Scaling for one cook (M3.6): from ×0.1 to ×10. */
+    val SCALE_RANGE = 0.1..10.0
+
+    /** The factor that turns a recipe for [servings] into one for [targetServings]. */
+    fun scaleFactor(servings: Int, targetServings: Double): Double = targetServings / servings.coerceAtLeast(1)
+
+    /** Every ingredient times [factor], for one cook; the saved recipe doesn't change (M3.6). */
+    fun scaled(ingredients: List<RecipeIngredient>, factor: Double): List<RecipeIngredient> =
+        ingredients.map { it.copy(grams = it.grams * factor) }
+
+    /** The ingredient at [index] swapped for another food, with the same grams unless given (M3.6). */
+    fun swapped(ingredients: List<RecipeIngredient>, index: Int, foodUuid: String, grams: Double? = null): List<RecipeIngredient> =
+        ingredients.mapIndexed { i, ingredient ->
+            if (i == index) ingredient.copy(foodUuid = foodUuid, grams = grams ?: ingredient.grams) else ingredient
+        }
+
     /** A suggested box code from the name: the first letter, or the first letters of two words. */
     fun suggestShortCode(name: String, taken: Set<String> = emptySet()): String {
         val words = name.trim().split(Regex("""\s+""")).filter { it.isNotEmpty() }

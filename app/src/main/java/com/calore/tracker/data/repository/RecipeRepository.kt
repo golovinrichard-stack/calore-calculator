@@ -109,6 +109,26 @@ class RecipeRepository(
         return id
     }
 
+    /**
+     * Saves [details] with [ingredients] as a new recipe of the user's own named [name] (M3.6
+     * "Save as a copy"); the original stays as it is. Returns the new id.
+     */
+    suspend fun saveCopy(details: RecipeDetails, ingredients: List<RecipeIngredient>, name: String): String {
+        val copy = details.recipe.copy(
+            id = "",
+            key = null,
+            name = name,
+            nameCs = null,
+            nameEn = null,
+            userEdited = false,
+            shortCode = Recipes.suggestShortCode(name, shortCodes()),
+            // Different ingredients cook down differently; the copy learns its own yield.
+            learnedYield = null,
+            learnedYieldCount = 0,
+        )
+        return save(copy, ingredients.map { it.copy(id = "") }, details.steps.map { it.copy(id = "") })
+    }
+
     /** Writes a recipe as given, timestamps included (the starter pack importer). */
     internal suspend fun saveExactly(recipe: Recipe, ingredients: List<RecipeIngredient>, steps: List<RecipeStep>) {
         recipeDao.save(storedRecipe(recipe, ingredients, steps))

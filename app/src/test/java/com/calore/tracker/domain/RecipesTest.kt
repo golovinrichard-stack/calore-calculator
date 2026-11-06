@@ -109,4 +109,29 @@ class RecipesTest {
         val step = RecipeStep(id = "s", recipeId = "r", position = 0, text = "", textCs = "Osmahněte cibuli.", textEn = "Fry the onion.")
         assertEquals("Fry the onion.", step.displayText(Locale.ENGLISH))
     }
+
+    @Test
+    fun scalingForOneCookMultipliesEveryIngredient() {
+        val ingredients = listOf(
+            RecipeIngredient(id = "a", recipeId = "r", position = 0, foodUuid = "x", grams = 800.0),
+            RecipeIngredient(id = "b", recipeId = "r", position = 1, foodUuid = "y", grams = 420.0, optional = true),
+        )
+        assertEquals(1.5, Recipes.scaleFactor(servings = 4, targetServings = 6.0), 0.0)
+        val scaled = Recipes.scaled(ingredients, 1.5)
+        assertEquals(listOf(1200.0, 630.0), scaled.map { it.grams })
+        assertEquals("ids and flags stay", ingredients.map { it.id to it.optional }, scaled.map { it.id to it.optional })
+    }
+
+    @Test
+    fun swappingKeepsTheGramsUnlessGiven() {
+        val ingredients = listOf(
+            RecipeIngredient(id = "a", recipeId = "r", position = 0, foodUuid = "beef", grams = 500.0),
+            RecipeIngredient(id = "b", recipeId = "r", position = 1, foodUuid = "rice", grams = 300.0),
+        )
+        val turkey = Recipes.swapped(ingredients, 0, "turkey")
+        assertEquals(listOf("turkey", "rice"), turkey.map { it.foodUuid })
+        assertEquals(500.0, turkey[0].grams, 0.0)
+        assertEquals(450.0, Recipes.swapped(ingredients, 0, "turkey", grams = 450.0)[0].grams, 0.0)
+        assertEquals("the original list is unchanged", "beef", ingredients[0].foodUuid)
+    }
 }

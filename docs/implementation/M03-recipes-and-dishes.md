@@ -33,7 +33,7 @@
 - [x] Bottom bar: **Today · Plan · Me**. For now, Plan shows the recipe list (the week plan joins in M5).
 - [x] Search, and filters for meal type and "fits my diet".
 - [x] Recipes with one of my allergens are hidden by default, with a "Show all" switch.
-- [ ] Recipe detail: ingredients, steps, nutrition per serving, allergens, storage. Buttons: **Log a portion** (M3.5), **Cook** (M4).
+- [x] Recipe detail: ingredients, steps, nutrition per serving, allergens, storage. Buttons: **Log a portion** (M3.5), **Cook** (M4; the button comes with cook mode).
 
 ### M3.4 Starter pack
 
@@ -95,15 +95,15 @@ As built: `tags` are empty in the starter pack (tags are free text the user type
 
 ### M3.5 Log a dish by hand
 
-- [ ] Add food gets a **Dishes** tab: pick a recipe, then enter **servings** (default 1) or **grams** (only when the recipe has a learned yield).
-- [ ] Saved as `entryType = DISH` with `recipeId` and a nutrient snapshot. Editing changes servings or grams and scales the snapshot, like portions today.
+- [x] Add food gets a **Dishes** tab: pick a recipe, then enter **servings** (default 1) or **grams** (only when the recipe has a learned yield).
+- [x] Saved as `entryType = DISH` with `recipeId` and a nutrient snapshot. Editing changes servings or grams and scales the snapshot, like portions today.
 
 **Done when:** logging 1.5 servings of a recipe adds exactly 1.5 × the per-serving values.
 
 ### M3.6 Scale and swap
 
-- [ ] **Scale** a recipe for one cook (× factor, or "for N servings"). This doesn't change the saved recipe.
-- [ ] **Swap** an ingredient for another food (same grams by default), with nutrition shown before and after. **Save as a copy** keeps the original.
+- [x] **Scale** a recipe for one cook (× factor, or "for N servings"). This doesn't change the saved recipe.
+- [x] **Swap** an ingredient for another food (same grams by default), with nutrition shown before and after. **Save as a copy** keeps the original.
 
 ## Out of scope
 

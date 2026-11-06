@@ -112,7 +112,7 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
 
 /**
  * Version 5 (M3.1): recipes. Three new tables (recipes, their ingredients and steps); diary entries
- * get `recipeId` for logged dishes (M3.5).
+ * get `recipeId` and `servings` for logged dishes (M3.5).
  */
 val MIGRATION_4_5 = object : Migration(4, 5) {
     override fun migrate(db: SupportSQLiteDatabase) {
@@ -143,6 +143,7 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         )
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_recipe_steps_recipeId` ON `recipe_steps` (`recipeId`)")
         db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN `recipeId` TEXT")
+        db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN `servings` REAL")
     }
 }
 
