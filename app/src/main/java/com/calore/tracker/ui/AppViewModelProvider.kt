@@ -13,6 +13,7 @@ import com.calore.tracker.ui.calculator.CalculatorViewModel
 import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
 import com.calore.tracker.ui.goals.GoalsViewModel
+import com.calore.tracker.ui.settings.SettingsViewModel
 import com.calore.tracker.ui.today.TodayViewModel
 import com.calore.tracker.ui.weight.WeightViewModel
 
@@ -49,6 +50,9 @@ object AppViewModelProvider {
         }
         initializer {
             BackupViewModel(container().backupRepository)
+        }
+        initializer {
+            SettingsViewModel(container().appPrefs)
         }
     }
 

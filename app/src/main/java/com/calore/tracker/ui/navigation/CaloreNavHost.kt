@@ -31,13 +31,16 @@ import com.calore.tracker.ui.calculator.CalculatorScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
+import com.calore.tracker.ui.me.MeDestination
+import com.calore.tracker.ui.me.MeScreen
+import com.calore.tracker.ui.settings.SettingsScreen
 import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
+/** The bottom bar (M1.9): Today and Me. Plan, Kitchen and Shop join in M3–M5. */
 private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
-    DIARY(Routes.DIARY, R.string.nav_diary, R.drawable.ic_nav_diary),
-    WEIGHT(Routes.WEIGHT, R.string.nav_weight, R.drawable.ic_nav_weight),
-    GOALS(Routes.GOALS, R.string.nav_goals, R.drawable.ic_nav_goals),
+    TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
+    ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
 
 private val dateAndMealArgs = listOf(
@@ -127,11 +130,29 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
                     onUpdated = { navController.popBackStack() },
                 )
             }
-            composable(Routes.WEIGHT) { WeightScreen() }
+            composable(Routes.ME) {
+                MeScreen(
+                    onOpen = { destination ->
+                        val route = when (destination) {
+                            MeDestination.GOALS -> Routes.GOALS
+                            MeDestination.BODY -> Routes.WEIGHT
+                            MeDestination.SETTINGS -> Routes.SETTINGS
+                            MeDestination.ABOUT -> Routes.ABOUT
+                        }
+                        navController.navigate(route)
+                    },
+                )
+            }
+            composable(Routes.WEIGHT) { WeightScreen(onBack = { navController.popBackStack() }) }
             composable(Routes.GOALS) {
                 GoalsScreen(
+                    onBack = { navController.popBackStack() },
                     onOpenCalculator = { navController.navigate(Routes.CALCULATOR) },
-                    onOpenAbout = { navController.navigate(Routes.ABOUT) },
+                )
+            }
+            composable(Routes.SETTINGS) {
+                SettingsScreen(
+                    onBack = { navController.popBackStack() },
                     onOpenBackup = { navController.navigate(Routes.BACKUP) },
                 )
             }

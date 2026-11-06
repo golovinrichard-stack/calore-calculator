@@ -14,8 +14,10 @@ object Routes {
     const val NEW_FOOD_ID = -1L
 
     const val DIARY = "diary"
+    const val ME = "me"
     const val WEIGHT = "weight"
     const val GOALS = "goals"
+    const val SETTINGS = "settings"
     const val CALCULATOR = "calculator"
     const val ABOUT = "about"
     const val BACKUP = "backup"

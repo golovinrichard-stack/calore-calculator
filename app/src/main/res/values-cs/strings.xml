@@ -19,15 +19,14 @@
     <string name="value_kg">%1$s kg</string>
 
     <!-- Navigation -->
-    <string name="nav_diary">Deník</string>
-    <string name="nav_weight">Váha</string>
-    <string name="nav_goals">Cíle</string>
 
     <!-- Meals -->
     <string name="meal_breakfast">Snídaně</string>
     <string name="meal_lunch">Oběd</string>
     <string name="meal_dinner">Večeře</string>
     <string name="meal_snack">Svačiny</string>
+    <string name="nav_today">Dnes</string>
+    <string name="nav_me">Já</string>
 
     <!-- Nutrients -->
     <string name="nutrient_calories">Energie</string>
@@ -117,7 +116,6 @@
     <string name="goals_mismatch">To se od vašeho cíle kalorií liší o víc než desetinu.</string>
     <string name="goals_saved">Cíle uloženy</string>
     <string name="goals_open_calculator">Vypočítat podle mého těla</string>
-    <string name="goals_about">O aplikaci Calore</string>
     <string name="error_goal_kcal">Zadejte 500 až 10 000 kcal</string>
     <string name="error_goal_macro">Zadejte 0 až 1 000 g</string>
 
@@ -258,4 +256,24 @@
     <string name="about_license">Calore je svobodný a otevřený software pod licencí BSD Zero Clause (0BSD). Můžete ho používat, kopírovat, upravovat, sdílet i prodávat k jakémukoli účelu, bez jakýchkoli podmínek.</string>
     <string name="about_data_title">Data o potravinách</string>
     <string name="about_data">Výsledky hledání potravin pocházejí z Open Food Facts, volné databáze, kterou tvoří dobrovolníci. Data © přispěvatelé Open Food Facts, k dispozici pod licencí Open Database License (ODbL).</string>
+
+    <!-- Me -->
+    <string name="me_title">Já</string>
+    <string name="me_profile">Profil</string>
+    <string name="me_profile_desc">Tělo, cíl, jídlo a vaření</string>
+    <string name="me_goals">Cíle a kalkulačka</string>
+    <string name="me_goals_desc">Denní kalorie a živiny</string>
+    <string name="me_body">Tělo</string>
+    <string name="me_body_desc">Váha, tělesný tuk a týdenní kontroly</string>
+    <string name="me_settings">Nastavení</string>
+    <string name="me_settings_desc">Skrytí čísel, záloha, jazyk</string>
+    <string name="me_about">O aplikaci</string>
+    <string name="me_about_desc">Verze, soukromí, licence</string>
+    <string name="settings_title">Nastavení</string>
+    <string name="settings_hide_numbers">Skrýt kalorie a živiny</string>
+    <string name="settings_hide_numbers_desc">Zapisujte jídlo bez zobrazení čísel.</string>
+    <string name="settings_backup_desc">Export nebo import všech dat</string>
+    <string name="settings_language">Jazyk</string>
+    <string name="settings_language_desc">Jazyk Calore vyberete v nastavení Androidu</string>
+    <string name="settings_language_desc_system">Calore používá jazyk telefonu.</string>
 </resources>

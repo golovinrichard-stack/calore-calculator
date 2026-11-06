@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -52,7 +53,10 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeightScreen(viewModel: WeightViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
+fun WeightScreen(
+    onBack: () -> Unit,
+    viewModel: WeightViewModel = viewModel(factory = AppViewModelProvider.Factory),
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -62,7 +66,16 @@ fun WeightScreen(viewModel: WeightViewModel = viewModel(factory = AppViewModelPr
     val newestFirst = remember(state.entries) { state.entries.asReversed() }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.weight_title)) }) },
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.weight_title)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
+                    }
+                },
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         LazyColumn(

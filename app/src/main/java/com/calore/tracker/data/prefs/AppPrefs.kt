@@ -26,6 +26,8 @@ data class AppSettings(
     val whatsNewPending: Boolean = false,
     /** The birth date was guessed from the old age field and should be confirmed (M1.1). */
     val birthDateToConfirm: Boolean = false,
+    /** Log food without seeing calories and macros (M1.8). */
+    val hideNumbers: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -46,6 +48,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 firstRunDone = prefs[FIRST_RUN_DONE] ?: false,
                 whatsNewPending = prefs[WHATS_NEW_PENDING] ?: false,
                 birthDateToConfirm = prefs[BIRTH_DATE_TO_CONFIRM] ?: false,
+                hideNumbers = prefs[HIDE_NUMBERS] ?: false,
             )
         }
 
@@ -69,6 +72,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[BIRTH_DATE_TO_CONFIRM] = toConfirm }
     }
 
+    suspend fun setHideNumbers(hide: Boolean) {
+        dataStore.edit { it[HIDE_NUMBERS] = hide }
+    }
+
     /** The flags set once when the profile moves out of the old settings (M1.1), in one write. */
     suspend fun markProfileMoved(existingUser: Boolean, birthDateToConfirm: Boolean) {
         dataStore.edit {
@@ -86,5 +93,6 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val FIRST_RUN_DONE = booleanPreferencesKey("first_run_done")
         private val WHATS_NEW_PENDING = booleanPreferencesKey("whats_new_pending")
         private val BIRTH_DATE_TO_CONFIRM = booleanPreferencesKey("birth_date_to_confirm")
+        private val HIDE_NUMBERS = booleanPreferencesKey("hide_numbers")
     }
 }

@@ -88,7 +88,7 @@
 
 ### M1.9 The Me tab
 
-- [ ] Bottom bar: **Today · Me**. Today is the current diary screen.
+- [x] Bottom bar: **Today · Me**. Today is the current diary screen.
 - [ ] Me: Profile, Goals and calculator, Body, Settings (hide numbers, backup, language), About.
 
 **Done when:** every existing feature can still be reached; navigation tests pass.

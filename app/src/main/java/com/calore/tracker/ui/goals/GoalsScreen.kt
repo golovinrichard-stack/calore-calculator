@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,9 +41,8 @@ import com.calore.tracker.ui.formatKcal
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalsScreen(
+    onBack: () -> Unit,
     onOpenCalculator: () -> Unit,
-    onOpenAbout: () -> Unit,
-    onOpenBackup: () -> Unit,
     viewModel: GoalsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -66,9 +65,9 @@ fun GoalsScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.goals_title)) },
-                actions = {
-                    IconButton(onClick = onOpenAbout) {
-                        Icon(Icons.Outlined.Info, stringResource(R.string.goals_about))
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
                     }
                 },
             )
@@ -143,9 +142,6 @@ fun GoalsScreen(
             }
             OutlinedButton(onClick = onOpenCalculator, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.goals_open_calculator))
-            }
-            OutlinedButton(onClick = onOpenBackup, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.backup_title))
             }
         }
     }
