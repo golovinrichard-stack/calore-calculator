@@ -17,7 +17,7 @@
 
 ### M0.2 Sync-ready ids on existing tables (database version 2)
 
-- [ ] Migration 1 → 2 as in data-model M0. Add each column with a default, fill it, then add the unique index:
+- [x] Migration 1 → 2 as in data-model M0. Add each column with a default, fill it, then add the unique index:
 
 ```sql
 ALTER TABLE foods ADD COLUMN uuid TEXT NOT NULL DEFAULT '';
@@ -30,8 +30,8 @@ ALTER TABLE foods ADD COLUMN updatedAt INTEGER NOT NULL DEFAULT 0;
 UPDATE foods SET updatedAt = lastUsedAt;
 ```
 
-- [ ] Declare the same defaults in the entities (`@ColumnInfo(defaultValue = "")` and `"0"`), otherwise Room's schema check fails.
-- [ ] Entities, mappers and domain models carry the uuid; new rows get one from `domain/Ids.kt`.
+- [x] Declare the same defaults in the entities (`@ColumnInfo(defaultValue = "")` and `"0"`), otherwise Room's schema check fails.
+- [x] Entities, mappers and domain models carry the uuid; new rows get one from `domain/Ids.kt`.
 
 **Done when:** the migration test passes, the existing `DaoTest` passes, and upgrading an installed v0.1 app keeps every food, diary entry and weight (check by hand once).
 

@@ -74,7 +74,7 @@ class WeightViewModel(
     }
 
     fun restore(entry: WeightEntry) {
-        viewModelScope.launch { repository.save(entry.date, entry.kg) }
+        viewModelScope.launch { repository.restore(entry) }
     }
 
     private companion object {

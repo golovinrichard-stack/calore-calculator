@@ -40,8 +40,8 @@ class TodayContentTest {
     fun showsRemainingCaloriesAndEntries() {
         Locale.setDefault(Locale.US)
         val entries = listOf(
-            DiaryEntry(1, day, MealType.BREAKFAST, null, "Porridge", 250.0, Nutrients(400.0, 15.0, 60.0, 9.0), 1),
-            DiaryEntry(2, day, MealType.LUNCH, null, "Chicken salad", 300.0, Nutrients(450.0, 40.0, 10.0, 25.0), 2),
+            DiaryEntry(1, day, MealType.BREAKFAST, null, "Porridge", 250.0, Nutrients(400.0, 15.0, 60.0, 9.0), 1, "uuid-1"),
+            DiaryEntry(2, day, MealType.LUNCH, null, "Chicken salad", 300.0, Nutrients(450.0, 40.0, 10.0, 25.0), 2, "uuid-2"),
         )
 
         compose.setContent {
@@ -61,7 +61,7 @@ class TodayContentTest {
     fun overGoalIsShown() {
         Locale.setDefault(Locale.US)
         val entries = listOf(
-            DiaryEntry(1, day, MealType.DINNER, null, "Pizza", 800.0, Nutrients(2200.0), 1),
+            DiaryEntry(1, day, MealType.DINNER, null, "Pizza", 800.0, Nutrients(2200.0), 1, "uuid-1"),
         )
 
         compose.setContent {

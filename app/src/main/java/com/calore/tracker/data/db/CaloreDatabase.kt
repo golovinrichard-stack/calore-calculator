@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [FoodEntity::class, DiaryEntryEntity::class, WeightEntryEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 abstract class CaloreDatabase : RoomDatabase() {
@@ -19,6 +19,8 @@ abstract class CaloreDatabase : RoomDatabase() {
         private const val FILE_NAME = "calore.db"
 
         fun build(context: Context): CaloreDatabase =
-            Room.databaseBuilder(context, CaloreDatabase::class.java, FILE_NAME).build()
+            Room.databaseBuilder(context, CaloreDatabase::class.java, FILE_NAME)
+                .addMigrations(*ALL_MIGRATIONS)
+                .build()
     }
 }

@@ -15,6 +15,8 @@ data class Food(
     val per100g: Nutrients,
     val servingGrams: Double?,
     val source: FoodSource,
+    /** Stable id that stays the same on every phone (see [newId]). */
+    val uuid: String,
 ) {
     /** Name for the diary: adds the brand in parentheses unless the name already mentions it. */
     val diaryName: String
@@ -35,12 +37,16 @@ data class DiaryEntry(
     val nutrients: Nutrients,
     /** Epoch millis when it was logged; orders entries within a meal. */
     val loggedAt: Long,
+    /** Stable id that stays the same on every phone (see [newId]). */
+    val uuid: String,
 )
 
 data class WeightEntry(
     val id: Long,
     val date: LocalDate,
     val kg: Double,
+    /** Stable id that stays the same on every phone (see [newId]). */
+    val uuid: String,
 )
 
 data class NutritionGoals(

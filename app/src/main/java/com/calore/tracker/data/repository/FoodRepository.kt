@@ -9,6 +9,7 @@ import com.calore.tracker.data.remote.RemoteResult
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.FoodSource
 import com.calore.tracker.domain.Nutrients
+import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.Clock
@@ -45,8 +46,10 @@ class FoodRepository(
             per100g = remote.per100g,
             servingGrams = remote.servingGrams,
             source = FoodSource.OPEN_FOOD_FACTS,
+            uuid = newId(),
         )
-        return foodDao.upsertByBarcode(food.toEntity(lastUsedAt = clock.millis()))
+        val now = clock.millis()
+        return foodDao.upsertByBarcode(food.toEntity(lastUsedAt = now, updatedAt = now))
     }
 
     /** Creates a custom food, or updates it when [existingId] is given. Returns its id. */
@@ -66,8 +69,10 @@ class FoodRepository(
             per100g = per100g,
             servingGrams = servingGrams,
             source = existing?.toDomain()?.source ?: FoodSource.CUSTOM,
+            uuid = existing?.uuid ?: newId(),
         )
-        val entity = food.toEntity(lastUsedAt = clock.millis())
+        val now = clock.millis()
+        val entity = food.toEntity(lastUsedAt = now, updatedAt = now)
         return if (existing == null) {
             foodDao.insert(entity)
         } else {

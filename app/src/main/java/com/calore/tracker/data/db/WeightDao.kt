@@ -12,6 +12,9 @@ interface WeightDao {
     @Query("SELECT * FROM weight_entries ORDER BY date ASC")
     fun all(): Flow<List<WeightEntryEntity>>
 
+    @Query("SELECT * FROM weight_entries WHERE date = :date")
+    suspend fun forDate(date: String): WeightEntryEntity?
+
     @Query("SELECT * FROM weight_entries ORDER BY date DESC LIMIT 1")
     suspend fun latest(): WeightEntryEntity?
 

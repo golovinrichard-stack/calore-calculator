@@ -50,7 +50,8 @@ abstract class FoodDao {
     open suspend fun upsertByBarcode(food: FoodEntity): Long {
         val barcode = food.barcode ?: return insert(food)
         val existing = getByBarcode(barcode) ?: return insert(food)
-        update(food.copy(id = existing.id))
+        // Keep the stored row's identity; only its contents are refreshed.
+        update(food.copy(id = existing.id, uuid = existing.uuid))
         return existing.id
     }
 }

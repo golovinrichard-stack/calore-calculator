@@ -35,9 +35,10 @@ internal fun FoodEntity.toDomain(): Food = Food(
     ),
     servingGrams = servingGrams,
     source = sourceFromStored(source),
+    uuid = uuid,
 )
 
-internal fun Food.toEntity(lastUsedAt: Long): FoodEntity = FoodEntity(
+internal fun Food.toEntity(lastUsedAt: Long, updatedAt: Long): FoodEntity = FoodEntity(
     id = id,
     name = name,
     brand = brand,
@@ -51,6 +52,8 @@ internal fun Food.toEntity(lastUsedAt: Long): FoodEntity = FoodEntity(
     servingGrams = servingGrams,
     source = source.name,
     lastUsedAt = lastUsedAt,
+    uuid = uuid,
+    updatedAt = updatedAt,
 )
 
 /** Returns null when the stored date is unreadable so one bad row can't break a whole day. */
@@ -65,6 +68,7 @@ internal fun DiaryEntryEntity.toDomain(): DiaryEntry? {
         grams = grams,
         nutrients = Nutrients(kcal = kcal, protein = protein, carbs = carbs, fat = fat, fiber = fiber, sugar = sugar),
         loggedAt = createdAt,
+        uuid = uuid,
     )
 }
 
@@ -82,9 +86,13 @@ internal fun DiaryEntry.toEntity(): DiaryEntryEntity = DiaryEntryEntity(
     fiber = nutrients.fiber,
     sugar = nutrients.sugar,
     createdAt = loggedAt,
+    uuid = uuid,
 )
 
 internal fun WeightEntryEntity.toDomain(): WeightEntry? {
     val parsedDate = parseStoredDate(date) ?: return null
-    return WeightEntry(id = id, date = parsedDate, kg = kg)
+    return WeightEntry(id = id, date = parsedDate, kg = kg, uuid = uuid)
 }
+
+internal fun WeightEntry.toEntity(): WeightEntryEntity =
+    WeightEntryEntity(id = id, date = date.toStored(), kg = kg, uuid = uuid)

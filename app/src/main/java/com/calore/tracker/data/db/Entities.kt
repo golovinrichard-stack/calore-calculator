@@ -1,5 +1,6 @@
 package com.calore.tracker.data.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey
     indices = [
         Index(value = ["barcode"], unique = true),
         Index(value = ["lastUsedAt"]),
+        Index(value = ["uuid"], unique = true),
     ],
 )
 data class FoodEntity(
@@ -28,6 +30,10 @@ data class FoodEntity(
     val source: String,
     /** Epoch millis; drives the "recent foods" list. */
     val lastUsedAt: Long,
+    /** Stable id shared across phones. New tables reference foods by this, as `foodUuid`. */
+    @ColumnInfo(defaultValue = "") val uuid: String,
+    /** Epoch millis of the last change to the food itself. Using a food changes only [lastUsedAt]. */
+    @ColumnInfo(defaultValue = "0") val updatedAt: Long,
 )
 
 /**
@@ -37,7 +43,10 @@ data class FoodEntity(
  */
 @Entity(
     tableName = "diary_entries",
-    indices = [Index(value = ["date"])],
+    indices = [
+        Index(value = ["date"]),
+        Index(value = ["uuid"], unique = true),
+    ],
 )
 data class DiaryEntryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
@@ -55,15 +64,20 @@ data class DiaryEntryEntity(
     val fiber: Double?,
     val sugar: Double?,
     val createdAt: Long,
+    @ColumnInfo(defaultValue = "") val uuid: String,
 )
 
 /** At most one weight per day; saving again for the same date replaces it. */
 @Entity(
     tableName = "weight_entries",
-    indices = [Index(value = ["date"], unique = true)],
+    indices = [
+        Index(value = ["date"], unique = true),
+        Index(value = ["uuid"], unique = true),
+    ],
 )
 data class WeightEntryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val date: String,
     val kg: Double,
+    @ColumnInfo(defaultValue = "") val uuid: String,
 )

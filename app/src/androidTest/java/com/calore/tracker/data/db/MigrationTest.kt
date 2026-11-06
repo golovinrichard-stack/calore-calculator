@@ -1,12 +1,21 @@
 package com.calore.tracker.data.db
 
+import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.calore.tracker.domain.MealType
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.LocalDate
 
 /**
  * Creates databases from the exported schemas in app/schemas, fills them with rows the way an
@@ -41,7 +50,56 @@ class MigrationTest {
         }
     }
 
-    private fun insertVersion1Rows(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+    @Test
+    fun migration1To2KeepsEveryRowAndGivesEachAUniqueUuid() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+
+        helper.runMigrationsAndValidate(TEST_DB, 2, true, *ALL_MIGRATIONS).use { db ->
+            for (table in listOf("foods", "diary_entries", "weight_entries")) {
+                val uuids = db.strings("SELECT uuid FROM $table")
+                assertTrue("$table has rows", uuids.isNotEmpty())
+                uuids.forEach { assertTrue("$it in $table looks like a UUID", UUID_V4.matches(it)) }
+                assertEquals("uuids in $table are unique", uuids.size, uuids.toSet().size)
+            }
+            assertEquals(listOf("1000", "2000"), db.strings("SELECT updatedAt FROM foods ORDER BY id"))
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("Oats (Brand)", "Soup"), db.strings("SELECT name FROM diary_entries ORDER BY id"))
+            assertEquals(listOf("80.5"), db.strings("SELECT kg FROM weight_entries"))
+        }
+    }
+
+    @Test
+    fun migratedDatabaseOpensInTheAppAndKeepsHistory() = runTest {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+
+        val room = Room.databaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            CaloreDatabase::class.java,
+            TEST_DB,
+        ).addMigrations(*ALL_MIGRATIONS).build()
+        helper.closeWhenFinished(room)
+
+        val oats = room.foodDao().getById(1)!!.toDomain()
+        assertEquals("Oats", oats.name)
+        assertEquals(370.0, oats.per100g.kcal, 0.0)
+        assertEquals(40.0, oats.servingGrams!!, 0.0)
+
+        val day = LocalDate.of(2026, 10, 21)
+        val entries = room.diaryDao().forDate(day.toString()).first().mapNotNull { it.toDomain() }
+        assertEquals(listOf(MealType.BREAKFAST, MealType.DINNER), entries.map { it.meal })
+        assertEquals(185.0, entries[0].nutrients.kcal, 0.0)
+        assertNull("unknown stays unknown", entries[1].nutrients.protein)
+        assertTrue(entries.all { UUID_V4.matches(it.uuid) })
+
+        val weight = room.weightDao().latest()!!.toDomain()!!
+        assertEquals(80.5, weight.kg, 0.0)
+    }
+
+    private fun SupportSQLiteDatabase.strings(sql: String): List<String> = query(sql).use { cursor ->
+        buildList { while (cursor.moveToNext()) add(cursor.getString(0)) }
+    }
+
+    private fun insertVersion1Rows(db: SupportSQLiteDatabase) {
         db.execSQL(
             """
             INSERT INTO foods (id, name, brand, barcode, kcalPer100g, proteinPer100g, carbsPer100g, fatPer100g,
@@ -62,5 +120,6 @@ class MigrationTest {
 
     private companion object {
         const val TEST_DB = "migration-test.db"
+        val UUID_V4 = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$")
     }
 }

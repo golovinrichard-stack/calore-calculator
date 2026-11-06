@@ -13,6 +13,7 @@ class FoodTest {
         per100g = Nutrients(kcal = 100.0),
         servingGrams = null,
         source = FoodSource.OPEN_FOOD_FACTS,
+        uuid = newId(),
     )
 
     @Test

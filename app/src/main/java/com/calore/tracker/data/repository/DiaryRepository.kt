@@ -7,6 +7,7 @@ import com.calore.tracker.data.db.toStored
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.Clock
@@ -31,6 +32,7 @@ class DiaryRepository(
             grams = grams,
             nutrients = food.per100g.forGramsOfPer100g(grams),
             loggedAt = clock.millis(),
+            uuid = newId(),
         )
         return diaryDao.insert(entry.toEntity())
     }
