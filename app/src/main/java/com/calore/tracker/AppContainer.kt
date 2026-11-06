@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.calore.tracker.data.backup.BackupRepository
 import com.calore.tracker.data.db.CaloreDatabase
+import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
 import com.calore.tracker.data.repository.DiaryRepository
@@ -21,6 +22,11 @@ class AppContainer(context: Context) {
 
     private val settings = SettingsStore(
         PreferenceDataStoreFactory.create { context.preferencesDataStoreFile("settings") },
+    )
+
+    /** App-wide settings that are not about a person: country, currency, first run (M0.6). */
+    val appPrefs = AppPrefs(
+        PreferenceDataStoreFactory.create { context.preferencesDataStoreFile(AppPrefs.FILE_NAME) },
     )
 
     private val openFoodFacts = OpenFoodFactsClient(

@@ -74,8 +74,8 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 ### M0.6 App preferences
 
-- [ ] New DataStore `app_prefs` for settings that are not about a person: `country` (`CZ`), `currency` (`CZK`), `firstRunDone`, and later `hideNumbers` (M1) and others.
-- [ ] Leave `SettingsStore` (goals and calculator inputs) alone until M1 moves it.
+- [x] New DataStore `app_prefs` for settings that are not about a person: `country` (`CZ`), `currency` (`CZK`), `firstRunDone`, and later `hideNumbers` (M1) and others.
+- [x] Leave `SettingsStore` (goals and calculator inputs) alone until M1 moves it.
 
 ### M0.7 Feature flags
 
