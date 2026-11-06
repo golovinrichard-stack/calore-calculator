@@ -87,10 +87,10 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 The app is shared as an APK on GitHub for now.
 
-- [ ] GitHub Actions workflow: on every pull request run `./gradlew testDebugUnitTest lintDebug assembleDebug`.
-- [ ] On a version tag (`v*`), build `assembleRelease`, sign it with a keystore stored in GitHub Actions secrets, and attach the APK to a GitHub release. Document for the owner how to create the keystore and add the secrets. Never commit the keystore.
+- [x] GitHub Actions workflow: on every pull request run `./gradlew testDebugUnitTest lintDebug assembleDebug`. (`.github/workflows/ci.yml`; it also compiles the instrumented tests and attaches the debug APK.)
+- [x] On a version tag (`v*`), build `assembleRelease`, sign it with a keystore stored in GitHub Actions secrets, and attach the APK to a GitHub release. Document for the owner how to create the keystore and add the secrets. Never commit the keystore. (`.github/workflows/release.yml` and [`docs/RELEASING.md`](../RELEASING.md). The app version is now 0.2.0.)
 
-**Done when:** a test tag produces a signed APK that installs on a phone.
+**Done when:** a test tag produces a signed APK that installs on a phone. *Waiting for the owner: needs the signing secrets (RELEASING.md); the signing steps were tried locally with a throwaway key.*
 
 ## Out of scope
 

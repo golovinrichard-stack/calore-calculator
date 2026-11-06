@@ -17,13 +17,15 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Daily goals** for calories, protein, carbs and fat.
 - **Calorie calculator** using the Mifflin-St Jeor equation, with activity level, a lose/maintain/gain goal and an adjustable macro split.
 - **Weight history** with a simple chart.
+- **Backup to a file:** export your foods, diary and weights, and import them on a new phone (Goals → Backup).
+- **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 
 ## Privacy
 
 Everything you log is stored only in the app's private storage on your phone. There is no account, no analytics and no ad SDK. The only network request the app makes is the Open Food Facts search, which sends nothing but the words you typed.
 
-The app's data is included in Android's normal backup and phone-to-phone transfer, so it follows you to a new phone if you use those.
+The app's data is included in Android's normal backup and phone-to-phone transfer, so it follows you to a new phone if you use those. A backup file you export yourself contains your health data, so keep it somewhere safe.
 
 ## Building
 
@@ -43,6 +45,8 @@ The APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
 `./gradlew assembleRelease` produces a shrunk, unsigned release APK (about 2 MB) in `app/build/outputs/apk/release/`. Sign it with your own key before distributing.
 
 The app runs on Android 8.0 (API 26) and newer.
+
+Signed release APKs are built by GitHub Actions when a version tag is pushed; see [docs/RELEASING.md](docs/RELEASING.md).
 
 On Windows, use `gradlew.bat` and make sure `JAVA_HOME` points at a JDK 17 install. If the SDK is not found, create `local.properties` with `sdk.dir=<path to your Android SDK>`.
 
