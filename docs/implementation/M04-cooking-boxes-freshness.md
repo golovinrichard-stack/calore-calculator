@@ -52,20 +52,20 @@ A single food cooked on its own (for example plain rice) is a batch without a re
 ### M4.6 The Kitchen tab
 
 - [ ] Bottom bar: **Today · Plan · Kitchen · Me**.
-- [ ] Boxes in two sections, **Fridge** and **Freezer**, sorted by eat-by date (eat first at the top), each with its green, yellow or red colour, code, contents and owner.
-- [ ] Filters: mine, everyone's.
-- [ ] Box detail: contents and grams per part, nutrients, cooked date, eat-by date, (cost in M5).
-- [ ] Actions: **Ate it**, **Ate part**, **Freeze**, **Thawed**, **Throw away** (with a reason), **Move** (day and meal).
+- [x] Boxes in two sections, **Fridge** and **Freezer**, sorted by eat-by date (eat first at the top), each with its green, yellow or red colour, code, contents and owner.
+- [x] Filters: mine, everyone's.
+- [x] Box detail: contents and grams per part, nutrients, cooked date, eat-by date, (cost in M5).
+- [x] Actions: **Ate it**, **Ate part**, **Freeze**, **Thawed**, **Throw away** (with a reason), **Move** (day and meal).
 
 ### M4.7 "Ate it": automatic accounting
 
 When someone eats a box and taps **Ate it**, the app does everything at once:
 
-- [ ] creates a diary entry (`entryType = BOX`, `boxId`) with the nutrients of the eaten part (snapshot), in the meal of the planned slot (or the meal matching the time of day), for the box's owner (`memberId`);
-- [ ] marks the box `EATEN`, or `PART_EATEN` with the new `remainingFraction` for **Ate part** (grams or %);
+- [x] creates a diary entry (`entryType = BOX`, `boxId`) with the nutrients of the eaten part (snapshot), in the meal of the planned slot (or the meal matching the time of day), for the box's owner (`memberId`);
+- [x] marks the box `EATEN`, or `PART_EATEN` with the new `remainingFraction` for **Ate part** (grams or %);
 - [ ] marks the plan slot done (once M5 exists);
-- [ ] updates Today's totals, and what's left for the day;
-- [ ] offers **Undo**, which restores the diary entry, the box and the slot together.
+- [x] updates Today's totals, and what's left for the day;
+- [x] offers **Undo**, which restores the diary entry, the box and the slot together.
 
 Entry points: Kitchen, the box detail, the Today card (M4.9) and later the widget (M9).
 
@@ -85,8 +85,8 @@ Entry points: Kitchen, the box detail, the Today card (M4.9) and later the widge
 
 ### M4.10 Waste log
 
-- [ ] **Throw away** sets `WASTED` with a reason (`EXPIRED`, `SPOILED`, `DIDNT_LIKE`, `OTHER`).
-- [ ] Kitchen → **Thrown away**: a history with this month's count and calories. Money comes in M5.
+- [x] **Throw away** sets `WASTED` with a reason (`EXPIRED`, `SPOILED`, `DIDNT_LIKE`, `OTHER`).
+- [x] Kitchen → **Thrown away**: a history with this month's count and calories. Money comes in M5.
 
 ## Out of scope
 

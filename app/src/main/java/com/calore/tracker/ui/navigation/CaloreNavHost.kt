@@ -37,7 +37,9 @@ import com.calore.tracker.ui.checkin.CheckinScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
+import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
+import com.calore.tracker.ui.kitchen.WasteScreen
 import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
 import com.calore.tracker.ui.profile.ProfileScreen
@@ -56,11 +58,19 @@ import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
 /** The bottom bar: Today · Plan · Me (M3). Kitchen and Shop join in M4–M5. */
-private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
+private enum class TopLevel(
+    val route: String,
+    @StringRes val label: Int,
+    @DrawableRes val icon: Int,
+    val visible: Boolean = true,
+) {
     TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
     PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan),
+    KITCHEN(Routes.KITCHEN, R.string.nav_kitchen, R.drawable.ic_nav_kitchen, visible = FeatureFlags.kitchen),
     ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
+
+private val topLevelTabs = TopLevel.entries.filter { it.visible }
 
 private val dateAndMealArgs = listOf(
     navArgument(Routes.ARG_DATE) { type = NavType.StringType },
@@ -86,7 +96,7 @@ fun CaloreNavHost(
         if (openRoute != null) onOpened()
     }
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
+    val showBottomBar = topLevelTabs.any { it.route == currentRoute }
 
     // Each screen has its own Scaffold for its top bar; this outer one only hosts the
     // bottom navigation, so it leaves window insets to the inner screens.
@@ -95,7 +105,7 @@ fun CaloreNavHost(
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
-                    TopLevel.entries.forEach { destination ->
+                    topLevelTabs.forEach { destination ->
                         NavigationBarItem(
                             selected = currentRoute == destination.route,
                             onClick = { navController.navigateToTopLevel(destination.route) },
@@ -241,7 +251,11 @@ fun CaloreNavHost(
                     onOpenPots = { navController.navigate(Routes.POTS) },
                 )
             }
-            if (FeatureFlags.kitchen) composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
+            if (FeatureFlags.kitchen) {
+                composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
+                composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
+                composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+            }
             composable(Routes.CALCULATOR) {
                 CalculatorScreen(
                     onBack = { navController.popBackStack() },

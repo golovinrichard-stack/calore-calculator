@@ -33,6 +33,8 @@ object Routes {
     const val BACKUP = "backup"
     const val PLAN = "plan"
     const val POTS = "pots"
+    const val KITCHEN = "kitchen"
+    const val WASTE = "waste"
     const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
     const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
     const val SCANNER_PICK = "scanner_pick"
