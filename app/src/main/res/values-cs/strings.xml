@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech. Keep placeholders such as %1$s exactly as in values/strings.xml. -->
+<resources>
+    <string name="app_name">Calore</string>
+
+    <!-- Common -->
+    <string name="back">Zpět</string>
+    <string name="save">Uložit</string>
+    <string name="cancel">Zrušit</string>
+    <string name="delete">Smazat</string>
+    <string name="undo">Vrátit</string>
+    <string name="retry">Zkusit znovu</string>
+    <string name="more_options">Další možnosti</string>
+    <string name="unit_kcal">kcal</string>
+    <string name="unit_g">g</string>
+    <string name="unit_kg">kg</string>
+    <string name="value_kcal">%1$s kcal</string>
+    <string name="value_g">%1$s g</string>
+    <string name="value_kg">%1$s kg</string>
+
+    <!-- Navigation -->
+    <string name="nav_diary">Deník</string>
+    <string name="nav_weight">Váha</string>
+    <string name="nav_goals">Cíle</string>
+
+    <!-- Meals -->
+    <string name="meal_breakfast">Snídaně</string>
+    <string name="meal_lunch">Oběd</string>
+    <string name="meal_dinner">Večeře</string>
+    <string name="meal_snack">Svačiny</string>
+
+    <!-- Nutrients -->
+    <string name="nutrient_calories">Energie</string>
+    <string name="nutrient_protein">Bílkoviny</string>
+    <string name="nutrient_carbs">Sacharidy</string>
+    <string name="nutrient_sugar">z toho cukry</string>
+    <string name="nutrient_fat">Tuky</string>
+    <string name="nutrient_fiber">Vláknina</string>
+
+    <!-- Diary -->
+    <string name="date_today">Dnes</string>
+    <string name="date_yesterday">Včera</string>
+    <string name="date_tomorrow">Zítra</string>
+    <string name="previous_day">Předchozí den</string>
+    <string name="next_day">Další den</string>
+    <string name="summary_left">kcal zbývá</string>
+    <string name="summary_over">kcal navíc</string>
+    <string name="summary_eaten">Snědeno %1$s</string>
+    <string name="summary_goal">Cíl %1$s</string>
+    <string name="summary_macro">%1$s / %2$s g</string>
+    <string name="summary_fiber_sugar">Vláknina %1$s g · Cukry %2$s g</string>
+    <string name="meal_add">Přidat jídlo do: %1$s</string>
+    <string name="meal_empty">Zatím nic nezapsáno</string>
+    <string name="entry_subtitle">%1$s g · %2$s kcal</string>
+    <string name="entry_macros">B %1$s · S %2$s · T %3$s</string>
+    <string name="entry_edit_title">Upravit porci</string>
+    <string name="entry_removed">Odstraněno: %1$s</string>
+    <string name="amount_label">Množství (g)</string>
+    <string name="error_amount">Zadejte množství větší než 0 a nejvýše 10 000 g</string>
+
+    <!-- Add food -->
+    <string name="add_food_title">Přidat do: %1$s</string>
+    <string name="search_hint">Hledat potraviny</string>
+    <string name="clear_search">Vymazat hledání</string>
+    <string name="section_recent">Nedávné</string>
+    <string name="section_my_foods">Moje potraviny</string>
+    <string name="section_online">Open Food Facts</string>
+    <string name="no_recent">Potraviny, které zapíšete, se tu objeví pro rychlý přístup.</string>
+    <string name="create_custom_food">Vytvořit vlastní potravinu</string>
+    <string name="online_hint">Napište aspoň 2 písmena a hledejte v Open Food Facts.</string>
+    <string name="online_loading">Hledám v Open Food Facts…</string>
+    <string name="online_offline">Nepodařilo se spojit s Open Food Facts. Zkontrolujte připojení.</string>
+    <string name="online_service_error">Open Food Facts vrátil nečekanou odpověď. Zkuste to za chvíli znovu.</string>
+    <string name="online_no_results">V Open Food Facts nic nenalezeno.</string>
+    <string name="food_per_100g">%1$s kcal na 100 g</string>
+    <string name="food_per_100g_brand">%1$s · %2$s kcal na 100 g</string>
+
+    <!-- Food detail -->
+    <string name="food_not_found">Tato potravina už neexistuje.</string>
+    <string name="per_100g">Na 100 g</string>
+    <string name="this_portion">Tato porce</string>
+    <string name="serving_chip">1 porce (%1$s g)</string>
+    <string name="hundred_g_chip">100 g</string>
+    <string name="meal_label">Jídlo</string>
+    <string name="add_to_meal">Přidat do: %1$s</string>
+    <string name="edit_food">Upravit potravinu</string>
+    <string name="delete_food">Smazat potravinu</string>
+    <string name="delete_food_confirm">Smazat „%1$s“ z vašich potravin? Záznamy, které už jsou v deníku, zůstanou beze změny.</string>
+    <string name="source_off">Data z Open Food Facts (ODbL)</string>
+    <string name="source_custom">Vaše vlastní potravina</string>
+
+    <!-- Custom food -->
+    <string name="custom_food_new">Nová potravina</string>
+    <string name="custom_food_edit">Upravit potravinu</string>
+    <string name="field_name">Název</string>
+    <string name="field_brand">Značka (nepovinné)</string>
+    <string name="field_kcal">Energie na 100 g</string>
+    <string name="field_protein">Bílkoviny na 100 g</string>
+    <string name="field_carbs">Sacharidy na 100 g</string>
+    <string name="field_fat">Tuky na 100 g</string>
+    <string name="field_fiber">Vláknina na 100 g</string>
+    <string name="field_sugar">Cukry na 100 g</string>
+    <string name="field_serving">Velikost porce (nepovinné)</string>
+    <string name="custom_food_hint">Opište hodnoty z obalu. Pole, která necháte prázdná, se uloží jako neznámá, ne jako nula.</string>
+    <string name="error_name">Zadejte název</string>
+    <string name="error_kcal">Zadejte 0 až 1 000 kcal</string>
+    <string name="error_per_100g">Zadejte 0 až 100 g. Bílkoviny, sacharidy a tuky dohromady nesmí přesáhnout 100 g.</string>
+    <string name="error_serving">Zadejte velikost větší než 0 g</string>
+
+    <!-- Goals -->
+    <string name="goals_title">Denní cíle</string>
+    <string name="goal_kcal">Kalorie</string>
+    <string name="goal_protein">Bílkoviny</string>
+    <string name="goal_carbs">Sacharidy</string>
+    <string name="goal_fat">Tuky</string>
+    <string name="goals_macro_kcal">Vaše cíle pro živiny dávají dohromady %1$s kcal.</string>
+    <string name="goals_mismatch">To se od vašeho cíle kalorií liší o víc než desetinu.</string>
+    <string name="goals_saved">Cíle uloženy</string>
+    <string name="goals_open_calculator">Vypočítat podle mého těla</string>
+    <string name="goals_about">O aplikaci Calore</string>
+    <string name="error_goal_kcal">Zadejte 500 až 10 000 kcal</string>
+    <string name="error_goal_macro">Zadejte 0 až 1 000 g</string>
+
+    <!-- Calculator -->
+    <string name="calculator_title">Kalkulačka kalorií</string>
+    <string name="sex_label">Pohlaví</string>
+    <string name="sex_male">Muž</string>
+    <string name="sex_female">Žena</string>
+    <string name="age_label">Věk (roky)</string>
+    <string name="height_label">Výška (cm)</string>
+    <string name="weight_label">Hmotnost (kg)</string>
+    <string name="error_age">Zadejte 15 až 100 let</string>
+    <string name="error_height">Zadejte 100 až 250 cm</string>
+    <string name="error_weight">Zadejte 30 až 300 kg</string>
+    <string name="activity_label">Aktivita</string>
+    <string name="activity_sedentary">Sedavý způsob života</string>
+    <string name="activity_sedentary_desc">Práce u stolu, málo pohybu</string>
+    <string name="activity_light">Lehce aktivní</string>
+    <string name="activity_light_desc">Cvičení 1 až 3 dny v týdnu</string>
+    <string name="activity_moderate">Středně aktivní</string>
+    <string name="activity_moderate_desc">Cvičení 3 až 5 dní v týdnu</string>
+    <string name="activity_active">Velmi aktivní</string>
+    <string name="activity_active_desc">Náročné cvičení 6 až 7 dní v týdnu</string>
+    <string name="activity_very_active">Extrémně aktivní</string>
+    <string name="activity_very_active_desc">Fyzická práce a k tomu denní trénink</string>
+    <string name="weight_goal_label">Cíl</string>
+    <string name="weight_goal_lose">Zhubnout</string>
+    <string name="weight_goal_maintain">Udržet</string>
+    <string name="weight_goal_gain">Přibrat</string>
+    <string name="split_label">Rozdělení živin (% kalorií)</string>
+    <string name="split_protein">Bílkoviny %</string>
+    <string name="split_carbs">Sacharidy %</string>
+    <string name="split_fat">Tuky %</string>
+    <string name="split_total">Celkem %1$d %%. Součet musí být 100 %%.</string>
+    <string name="result_bmr">Klidový výdej (BMR)</string>
+    <string name="result_tdee">Udržovací příjem (TDEE)</string>
+    <string name="result_target">Denní cíl</string>
+    <string name="calculator_incomplete">Vyberte pohlaví a vyplňte věk, výšku a hmotnost. Pak uvidíte svá čísla.</string>
+    <string name="calculator_apply">Použít tyto cíle</string>
+    <string name="calculator_disclaimer">Odhad podle rovnice Mifflin-St Jeor, nejde o lékařskou radu. Cíle pro hubnutí nikdy neklesnou pod 1 200 kcal (ženy) nebo 1 500 kcal (muži).</string>
+
+    <!-- Weight -->
+    <string name="weight_title">Váha</string>
+    <string name="weight_input">Hmotnost (kg)</string>
+    <string name="weight_date">Datum: %1$s</string>
+    <string name="weight_save">Uložit váhu</string>
+    <string name="weight_empty">Zatím žádné vážení. Važte se vždy ve stejnou denní dobu, vývoj pak bude nejzřetelnější.</string>
+    <string name="weight_chart_need_more">Graf se zobrazí, až zapíšete aspoň dva dny.</string>
+    <string name="weight_change">%1$s kg od %2$s</string>
+    <string name="weight_range">Nejméně %1$s kg · Nejvíce %2$s kg</string>
+    <string name="weight_chart_description">Graf váhy od %1$s kg (%2$s) do %3$s kg (%4$s)</string>
+    <string name="error_weight_entry">Zadejte 20 až 500 kg</string>
+    <string name="weight_removed">Váha odstraněna</string>
+    <string name="delete_weight">Smazat váhu: %1$s</string>
+
+    <!-- About -->
+    <string name="about_title">O aplikaci</string>
+    <string name="about_version">Verze %1$s</string>
+    <string name="about_tagline">Počítadlo kalorií a živin bez reklam, bez sledování a bez účtu.</string>
+    <string name="about_privacy_title">Vaše data</string>
+    <string name="about_privacy">Vše, co zapíšete, zůstává v tomto telefonu. Aplikace jde online jen při hledání v Open Food Facts a pošle přitom jen slova, která hledáte.</string>
+    <string name="about_license_title">Licence</string>
+    <string name="about_license">Calore je svobodný a otevřený software pod licencí BSD Zero Clause (0BSD). Můžete ho používat, kopírovat, upravovat, sdílet i prodávat k jakémukoli účelu, bez jakýchkoli podmínek.</string>
+    <string name="about_data_title">Data o potravinách</string>
+    <string name="about_data">Výsledky hledání potravin pocházejí z Open Food Facts, volné databáze, kterou tvoří dobrovolníci. Data © přispěvatelé Open Food Facts, k dispozici pod licencí Open Database License (ODbL).</string>
+</resources>

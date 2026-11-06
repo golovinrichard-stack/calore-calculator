@@ -45,10 +45,10 @@ import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.DatePickerModal
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatKg
+import com.calore.tracker.ui.rememberMediumDateFormatter
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +58,7 @@ fun WeightScreen(viewModel: WeightViewModel = viewModel(factory = AppViewModelPr
     val scope = rememberCoroutineScope()
     val resources = LocalResources.current
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
-    val dateFormatter = remember { DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM) }
+    val dateFormatter = rememberMediumDateFormatter()
     val newestFirst = remember(state.entries) { state.entries.asReversed() }
 
     Scaffold(

@@ -46,11 +46,11 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 ### M0.4 Czech translation
 
-- [ ] Add `res/values-cs/strings.xml` with every existing string (158 today) translated. Keep placeholders such as `%1$s` unchanged.
-- [ ] Add `res/xml/locales_config.xml` (`en`, `cs`) and `android:localeConfig` in the manifest, so Android 13+ offers a per-app language.
-- [ ] Use `<plurals>` wherever a number is followed by a noun. Czech needs `one`, `few`, `many` and `other`.
-- [ ] Dates use `DateTimeFormatter.ofLocalizedDate`; numbers already follow the locale (`Format.kt`), and input already accepts a decimal comma (`NumberInput.kt`).
-- [ ] Ask the owner to review the Czech text.
+- [x] Add `res/values-cs/strings.xml` with every existing string (158 today) translated. Keep placeholders such as `%1$s` unchanged.
+- [x] Add `res/xml/locales_config.xml` (`en`, `cs`) and `android:localeConfig` in the manifest, so Android 13+ offers a per-app language.
+- [x] Use `<plurals>` wherever a number is followed by a noun. Czech needs `one`, `few`, `many` and `other`. (None of the 158 existing strings puts a counted number before a noun; the first plurals are the backup counts in M0.5.)
+- [x] Dates use `DateTimeFormatter.ofLocalizedDate`; numbers already follow the locale (`Format.kt`), and input already accepts a decimal comma (`NumberInput.kt`).
+- [x] Ask the owner to review the Czech text. (Asked in the M0 pull request.)
 
 **Done when:** with the phone or app set to Czech, every screen is in Czech, and `lintDebug` reports no `MissingTranslation`.
 

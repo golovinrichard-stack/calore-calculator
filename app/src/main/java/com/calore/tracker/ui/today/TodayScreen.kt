@@ -65,10 +65,9 @@ import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.formatGrams
 import com.calore.tracker.ui.formatKcal
 import com.calore.tracker.ui.labelRes
+import com.calore.tracker.ui.rememberMediumDateFormatter
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import kotlin.math.abs
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -344,5 +343,5 @@ private fun dateLabel(date: LocalDate, today: LocalDate): String = when (date) {
     today -> stringResource(R.string.date_today)
     today.minusDays(1) -> stringResource(R.string.date_yesterday)
     today.plusDays(1) -> stringResource(R.string.date_tomorrow)
-    else -> date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+    else -> date.format(rememberMediumDateFormatter())
 }
