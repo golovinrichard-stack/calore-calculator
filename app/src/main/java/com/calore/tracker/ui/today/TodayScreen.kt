@@ -65,6 +65,7 @@ import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.formatGrams
 import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.ui.labelRes
 import com.calore.tracker.ui.rememberMediumDateFormatter
 import kotlinx.coroutines.launch
@@ -196,10 +197,19 @@ fun TodayContent(
             }
         }
         item(key = "summary") {
-            SummaryCard(totals = state.summary.totals, goals = state.goals)
+            if (state.hideNumbers) {
+                HiddenNumbersNote()
+            } else {
+                SummaryCard(totals = state.summary.totals, goals = state.goals)
+            }
         }
         items(state.summary.meals, key = { it.meal.name }) { meal ->
-            MealCard(meal = meal, onAdd = { onAddFood(meal.meal) }, onEntryClick = onEntryClick)
+            MealCard(
+                meal = meal,
+                onAdd = { onAddFood(meal.meal) },
+                onEntryClick = onEntryClick,
+                hideNumbers = state.hideNumbers,
+            )
         }
     }
 }
@@ -258,7 +268,7 @@ private fun MacroProgress(labelRes: Int, grams: Double?, goal: Int, color: Color
 }
 
 @Composable
-private fun MealCard(meal: MealSummary, onAdd: () -> Unit, onEntryClick: (DiaryEntry) -> Unit) {
+private fun MealCard(meal: MealSummary, onAdd: () -> Unit, onEntryClick: (DiaryEntry) -> Unit, hideNumbers: Boolean) {
     val mealName = stringResource(meal.meal.labelRes())
     Card(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -274,11 +284,13 @@ private fun MealCard(meal: MealSummary, onAdd: () -> Unit, onEntryClick: (DiaryE
                     .weight(1f)
                     .semantics { heading() },
             )
-            Text(
-                text = stringResource(R.string.value_kcal, formatKcal(meal.totals.kcal)),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            if (!hideNumbers) {
+                Text(
+                    text = stringResource(R.string.value_kcal, formatKcal(meal.totals.kcal)),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             IconButton(onClick = onAdd) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.meal_add, mealName))
             }
@@ -293,14 +305,22 @@ private fun MealCard(meal: MealSummary, onAdd: () -> Unit, onEntryClick: (DiaryE
         } else {
             meal.entries.forEachIndexed { index, entry ->
                 if (index > 0) HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                EntryRow(entry = entry, onClick = { onEntryClick(entry) })
+                EntryRow(entry = entry, onClick = { onEntryClick(entry) }, hideNumbers = hideNumbers)
             }
         }
     }
 }
 
 @Composable
-private fun EntryRow(entry: DiaryEntry, onClick: () -> Unit) {
+private fun EntryRow(entry: DiaryEntry, onClick: () -> Unit, hideNumbers: Boolean) {
+    if (hideNumbers) {
+        ListItem(
+            modifier = Modifier.clickable(onClick = onClick),
+            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+            headlineContent = { Text(entry.name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        )
+        return
+    }
     ListItem(
         modifier = Modifier.clickable(onClick = onClick),
         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
@@ -346,8 +366,10 @@ private fun EditEntryDialog(
                     suffix = stringResource(R.string.unit_g),
                     errorText = if (grams == null) stringResource(R.string.error_amount) else null,
                 )
-                previewKcal?.let {
-                    Text(stringResource(R.string.value_kcal, formatKcal(it)), style = MaterialTheme.typography.titleMedium)
+                if (!LocalHideNumbers.current) {
+                    previewKcal?.let {
+                        Text(stringResource(R.string.value_kcal, formatKcal(it)), style = MaterialTheme.typography.titleMedium)
+                    }
                 }
             }
         },
@@ -408,4 +430,15 @@ private fun BirthDateCard(birthDate: LocalDate, onConfirm: () -> Unit, onChange:
             }
         }
     }
+}
+
+/** Hide-numbers mode: no totals and no progress bars, just a short note (M1.8). */
+@Composable
+private fun HiddenNumbersNote() {
+    Text(
+        stringResource(R.string.numbers_hidden_note),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(horizontal = 4.dp),
+    )
 }

@@ -42,7 +42,6 @@ object Notifications {
     const val ID_MEASURE = 1002
 
     fun ensureChannel(context: Context, channel: CaloreChannel) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
         if (manager.getNotificationChannel(channel.id) != null) return
         manager.createNotificationChannel(

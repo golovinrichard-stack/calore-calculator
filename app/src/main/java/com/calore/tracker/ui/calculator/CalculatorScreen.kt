@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
 import com.calore.tracker.ui.AppViewModelProvider
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.profile.ActivitySection
 import com.calore.tracker.ui.profile.BodyBasicsSection
 import com.calore.tracker.ui.profile.GoalSection
@@ -79,7 +81,10 @@ fun CalculatorScreen(
             GoalSection(form = form, onChange = viewModel::update)
             MacroSection(form = form, onChange = viewModel::update)
 
-            if (result != null) {
+            val (numbersVisible, showNumbers) = rememberNumbersVisible()
+            if (result != null && !numbersVisible) {
+                ShowNumbersButton(onClick = showNumbers)
+            } else if (result != null) {
                 ResultCard(result = result, form = form)
             } else {
                 Text(

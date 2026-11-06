@@ -5,13 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.CheckinService
 import com.calore.tracker.domain.Checkin
 import com.calore.tracker.domain.CheckinOutcome
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,21 +19,13 @@ data class CheckinUiState(
     val notEnough: CheckinOutcome.NotEnoughData? = null,
     /** Set after the user chose: true for "Use it", false for "Keep my target". */
     val decided: Boolean? = null,
-    val hideNumbers: Boolean = false,
-    val showNumbersAnyway: Boolean = false,
-) {
-    val numbersVisible: Boolean get() = !hideNumbers || showNumbersAnyway
-}
+)
 
 /** The weekly check-in (M1.7). Opening it runs this week's check-in if Monday's job hasn't yet. */
-class CheckinViewModel(
-    private val service: CheckinService,
-    hideNumbers: Flow<Boolean> = flowOf(false),
-) : ViewModel() {
+class CheckinViewModel(private val service: CheckinService) : ViewModel() {
 
     private val state = MutableStateFlow(CheckinUiState())
-    val uiState: StateFlow<CheckinUiState> = combine(state, hideNumbers) { current, hide -> current.copy(hideNumbers = hide) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), CheckinUiState())
+    val uiState: StateFlow<CheckinUiState> = state.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -63,11 +51,4 @@ class CheckinViewModel(
         }
     }
 
-    fun showNumbers() {
-        state.update { it.copy(showNumbersAnyway = true) }
-    }
-
-    private companion object {
-        const val STOP_TIMEOUT_MS = 5_000L
-    }
 }

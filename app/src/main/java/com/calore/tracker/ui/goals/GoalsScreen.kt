@@ -36,6 +36,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.NumberField
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.formatKcal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,6 +85,14 @@ fun GoalsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            val (numbersVisible, showNumbers) = rememberNumbersVisible()
+            if (!numbersVisible) {
+                ShowNumbersButton(onClick = showNumbers)
+                OutlinedButton(onClick = onOpenCalculator, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.goals_open_calculator))
+                }
+                return@Column
+            }
             NumberField(
                 value = form.kcal,
                 onValueChange = { text -> viewModel.updateForm { it.copy(kcal = text) } },

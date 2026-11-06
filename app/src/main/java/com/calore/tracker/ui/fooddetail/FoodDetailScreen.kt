@@ -51,6 +51,8 @@ import com.calore.tracker.domain.MealType
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.components.NutrientTable
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.formatGrams
@@ -233,19 +235,24 @@ private fun FoodDetailContent(
             }
         }
 
-        state.portion?.let { portion ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    SectionHeader(stringResource(R.string.this_portion))
-                    NutrientTable(portion)
+        val (numbersVisible, showNumbers) = rememberNumbersVisible()
+        if (!numbersVisible) {
+            ShowNumbersButton(onClick = showNumbers)
+        } else {
+            state.portion?.let { portion ->
+                Card(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        SectionHeader(stringResource(R.string.this_portion))
+                        NutrientTable(portion)
+                    }
                 }
             }
-        }
 
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                SectionHeader(stringResource(R.string.per_100g))
-                NutrientTable(food.per100g)
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    SectionHeader(stringResource(R.string.per_100g))
+                    NutrientTable(food.per100g)
+                }
             }
         }
     }

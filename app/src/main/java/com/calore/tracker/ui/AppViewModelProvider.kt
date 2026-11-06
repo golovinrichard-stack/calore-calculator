@@ -69,7 +69,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CheckinViewModel(c.checkinService, c.appPrefs.settings.map { it.hideNumbers })
+            CheckinViewModel(c.checkinService)
         }
         initializer {
             val c = container()

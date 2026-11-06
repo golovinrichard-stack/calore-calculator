@@ -50,6 +50,8 @@ import com.calore.tracker.domain.Checkin
 import com.calore.tracker.ui.formatSigned
 import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.components.SectionHeader
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.domain.TrendPoint
 import com.calore.tracker.domain.BodyMeasurement
 import com.calore.tracker.domain.BodyFatMethod
@@ -73,6 +75,7 @@ fun WeightScreen(
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
     val dateFormatter = rememberMediumDateFormatter()
     val newestFirst = remember(state.entries) { state.entries.asReversed() }
+    val (numbersVisible, showNumbers) = rememberNumbersVisible()
 
     Scaffold(
         topBar = {
@@ -117,6 +120,11 @@ fun WeightScreen(
                         }
                     }
                 }
+            }
+
+            if (!numbersVisible) {
+                item(key = "show_numbers") { ShowNumbersButton(onClick = showNumbers) }
+                return@LazyColumn
             }
 
             item(key = "chart") {

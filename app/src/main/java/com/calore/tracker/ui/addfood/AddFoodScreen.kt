@@ -48,6 +48,7 @@ import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.SectionHeader
+import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.ui.formatKcal
 import com.calore.tracker.ui.labelRes
 import java.time.LocalDate
@@ -209,12 +210,15 @@ private fun LazyListScope.onlineSection(
 @Composable
 private fun FoodRow(name: String, brand: String?, kcalPer100g: Double, onClick: () -> Unit) {
     val kcal = formatKcal(kcalPer100g)
+    val hideNumbers = LocalHideNumbers.current
     ListItem(
         modifier = Modifier.clickable(onClick = onClick),
         headlineContent = { Text(name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
             Text(
-                text = if (brand != null) {
+                text = if (hideNumbers) {
+                    brand.orEmpty()
+                } else if (brand != null) {
                     stringResource(R.string.food_per_100g_brand, brand, kcal)
                 } else {
                     stringResource(R.string.food_per_100g, kcal)

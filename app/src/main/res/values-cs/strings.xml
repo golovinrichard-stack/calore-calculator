@@ -62,6 +62,7 @@
     <string name="change">Změnit</string>
     <string name="birth_date_confirm">Calore nově místo věku používá datum narození. Podle vašeho věku jsme odhadli %1$s. Je to správně?</string>
     <string name="birth_date_correct">Ano, správně</string>
+    <string name="numbers_hidden_note">Kalorie a živiny jsou skryté. Znovu je zobrazíte v Já → Nastavení.</string>
 
     <!-- Add food -->
     <string name="add_food_title">Přidat do: %1$s</string>

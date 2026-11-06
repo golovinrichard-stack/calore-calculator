@@ -36,6 +36,7 @@ import com.calore.tracker.domain.Checkin
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.ShowNumbersButton
 import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.formatKg
 import com.calore.tracker.ui.formatSigned
 import com.calore.tracker.ui.rememberMediumDateFormatter
@@ -48,6 +49,7 @@ fun CheckinScreen(
     viewModel: CheckinViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val (numbersVisible, showNumbers) = rememberNumbersVisible()
 
     Scaffold(
         topBar = {
@@ -73,7 +75,7 @@ fun CheckinScreen(
             val notEnough = state.notEnough
             when {
                 state.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                checkin != null && !state.numbersVisible -> ShowNumbersButton(onClick = viewModel::showNumbers)
+                checkin != null && !numbersVisible -> ShowNumbersButton(onClick = showNumbers)
                 checkin != null -> CheckinDetails(checkin, state.decided, viewModel::useIt, viewModel::keepTarget)
                 notEnough != null -> {
                     Text(stringResource(R.string.checkin_not_enough), style = MaterialTheme.typography.bodyLarge)

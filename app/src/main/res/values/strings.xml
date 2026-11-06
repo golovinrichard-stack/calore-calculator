@@ -61,6 +61,7 @@
     <string name="change">Change</string>
     <string name="birth_date_confirm">Calore now uses your birth date instead of your age. Based on your age we guessed %1$s. Is that right?</string>
     <string name="birth_date_correct">That\'s right</string>
+    <string name="numbers_hidden_note">Calories and macros are hidden. You can show them again in Me → Settings.</string>
 
     <!-- Add food -->
     <string name="add_food_title">Add to %1$s</string>

@@ -81,8 +81,8 @@
 
 ### M1.8 Hide-numbers mode
 
-- [ ] Me → Settings: "Hide calories and macros".
-- [ ] When on: Today shows foods and meals without numbers or progress bars. Goals and Body show numbers only after tapping "Show numbers". Every later screen follows the same rule (definition of done).
+- [x] Me → Settings: "Hide calories and macros".
+- [x] When on: Today shows foods and meals without numbers or progress bars. Goals and Body show numbers only after tapping "Show numbers". Every later screen follows the same rule (definition of done).
 
 **Done when:** a UI test switches it on and no calorie numbers are visible on Today.
 
