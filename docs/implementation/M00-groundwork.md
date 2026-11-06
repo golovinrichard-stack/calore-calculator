@@ -37,10 +37,10 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 ### M0.3 Shared code conventions
 
-- [ ] `domain/Ids.kt`: `newId(): String`.
-- [ ] `data/db/Converters.kt`: JSON list and map converters (kotlinx.serialization) for enums and strings.
-- [ ] `domain/Money.kt`: `Money(halers: Long, currency: String = "CZK")` with `plus`, `times(Double)` (rounded half up) and formatting with the locale (`139,90 Kč` in Czech).
-- [ ] A small helper for soft-delete queries (`deletedAt IS NULL`) and `updatedAt` stamping via the injected `Clock`.
+- [x] `domain/Ids.kt`: `newId(): String`.
+- [x] `data/db/Converters.kt`: JSON list and map converters (kotlinx.serialization) for enums and strings.
+- [x] `domain/Money.kt`: `Money(halers: Long, currency: String = "CZK")` with `plus`, `times(Double)` (rounded half up) and formatting with the locale (`139,90 Kč` in Czech).
+- [x] A small helper for soft-delete queries (`deletedAt IS NULL`) and `updatedAt` stamping via the injected `Clock`. Built as `data/db/Stamps.kt`: `SoftDelete.NOT_DELETED` for queries, and `Stamper` with the `Stamped` interface for `createdAt`, `updatedAt` and `deletedAt`.
 
 **Done when:** unit tests cover the converters (round trip, unknown enum value ignored), `Money` arithmetic and formatting in `cs-CZ` and `en`.
 
