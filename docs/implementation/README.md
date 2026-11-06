@@ -14,6 +14,7 @@ It is written for whoever builds them: a developer or an AI coding agent.
 | [`data-model.md`](data-model.md) | Every new or changed database table, by milestone |
 | [`algorithms.md`](algorithms.md) | Every formula and calculation, with test cases |
 | `M00-…` to `M11-…` | One file per milestone: tasks, acceptance criteria, tests |
+| [`BUILD_PROMPT.md`](BUILD_PROMPT.md) | The prompt to paste into a new session to build the next milestone |
 | [`../DATA_SOURCES.md`](../DATA_SOURCES.md) | Where every piece of data comes from, and what goes over the network |
 | [`../PRIVACY_POLICY.md`](../PRIVACY_POLICY.md) | Draft privacy policy; the research feature (M10) must match it |
 
@@ -70,7 +71,9 @@ Build setup: AGP 9, Kotlin 2.4, KSP, Compose BOM, minSdk 26, targetSdk 36, compi
 - [ ] Screens that show calories or macros respect hide-numbers mode (M1.9).
 - [ ] The task is ticked in its milestone file.
 
-**Pull requests:** one task, or a few small related tasks, per pull request. Name branches `m4/box-solver` and so on. Describe what changed for the user, and how it was tested.
+**Pull requests:** one branch and one pull request per milestone (for example `m4-cooking-boxes`), with one commit per task and the task number in the message (`M4.5: …`). A very large milestone may be split into several pull requests. Describe what changed for the user, and how it was tested.
+
+**Starting a build session:** use [`BUILD_PROMPT.md`](BUILD_PROMPT.md). By default it builds the next unfinished milestone.
 
 ## Order of work
 
