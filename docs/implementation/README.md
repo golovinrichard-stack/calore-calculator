@@ -139,7 +139,7 @@ Update this table when a milestone starts or ends.
 | M0 Groundwork | Done |
 | M1 Profile, body and smart calorie tracking | Done |
 | M2 Foods, barcode scanner and manual logging | Done (the optional NutriDatabaze step waits for input #2) |
-| M3 Recipes and dishes | Not started |
+| M3 Recipes and dishes | In progress (M3.1 done) |
 | M4 Cooking, prep boxes and freshness | Not started |
 | M5 Weekly plan, pantry and shopping | Not started |
 | M6 Smart planner | Not started |

@@ -10,9 +10,9 @@
 
 ### M3.1 Recipe data (database version 5)
 
-- [ ] Tables `recipes`, `recipe_ingredients` and `recipe_steps` (data-model M3).
-- [ ] Domain: `Recipe`, `RecipeIngredient`, `RecipeStep`, and `RecipeNutrition` with the total, per serving, and per 100 g cooked (only when `learnedYield` is known).
-- [ ] Allergens of a recipe = all allergens of its ingredients. Diet check = A15 hard filters.
+- [x] Tables `recipes`, `recipe_ingredients` and `recipe_steps` (data-model M3).
+- [x] Domain: `Recipe`, `RecipeIngredient`, `RecipeStep`, and `RecipeNutrition` with the total, per serving, and per 100 g cooked (only when `learnedYield` is known).
+- [x] Allergens of a recipe = all allergens of its ingredients. Diet check = A15 hard filters.
 
 **Done when:** unit tests cover the nutrition totals (with unknown values staying unknown), the allergen union, and diet compatibility for each `Diet`.
 

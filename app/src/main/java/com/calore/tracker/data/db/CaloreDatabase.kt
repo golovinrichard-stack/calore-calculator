@@ -14,8 +14,11 @@ import androidx.room.TypeConverters
         MemberEntity::class,
         BodyMeasurementEntity::class,
         CheckinEntity::class,
+        RecipeEntity::class,
+        RecipeIngredientEntity::class,
+        RecipeStepEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -26,6 +29,7 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun backupDao(): BackupDao
     abstract fun memberDao(): MemberDao
     abstract fun bodyDao(): BodyDao
+    abstract fun recipeDao(): RecipeDao
 
     companion object {
         private const val FILE_NAME = "calore.db"

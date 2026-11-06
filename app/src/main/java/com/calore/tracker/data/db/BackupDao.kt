@@ -14,6 +14,9 @@ data class DatabaseSnapshot(
     val members: List<MemberEntity>? = emptyList(),
     val bodyMeasurements: List<BodyMeasurementEntity>? = emptyList(),
     val checkins: List<CheckinEntity>? = emptyList(),
+    val recipes: List<RecipeEntity>? = emptyList(),
+    val recipeIngredients: List<RecipeIngredientEntity>? = emptyList(),
+    val recipeSteps: List<RecipeStepEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -37,6 +40,33 @@ abstract class BackupDao {
 
     @Query("SELECT * FROM checkins ORDER BY weekStart, id")
     protected abstract suspend fun allCheckins(): List<CheckinEntity>
+
+    @Query("SELECT * FROM recipes ORDER BY createdAt, id")
+    protected abstract suspend fun allRecipes(): List<RecipeEntity>
+
+    @Query("SELECT * FROM recipe_ingredients ORDER BY recipeId, position")
+    protected abstract suspend fun allRecipeIngredients(): List<RecipeIngredientEntity>
+
+    @Query("SELECT * FROM recipe_steps ORDER BY recipeId, position")
+    protected abstract suspend fun allRecipeSteps(): List<RecipeStepEntity>
+
+    @Query("DELETE FROM recipes")
+    protected abstract suspend fun deleteAllRecipes()
+
+    @Query("DELETE FROM recipe_ingredients")
+    protected abstract suspend fun deleteAllRecipeIngredients()
+
+    @Query("DELETE FROM recipe_steps")
+    protected abstract suspend fun deleteAllRecipeSteps()
+
+    @Insert
+    protected abstract suspend fun insertRecipes(rows: List<RecipeEntity>)
+
+    @Insert
+    protected abstract suspend fun insertRecipeIngredients(rows: List<RecipeIngredientEntity>)
+
+    @Insert
+    protected abstract suspend fun insertRecipeSteps(rows: List<RecipeStepEntity>)
 
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
@@ -82,6 +112,9 @@ abstract class BackupDao {
         members = allMembers(),
         bodyMeasurements = allBodyMeasurements(),
         checkins = allCheckins(),
+        recipes = allRecipes(),
+        recipeIngredients = allRecipeIngredients(),
+        recipeSteps = allRecipeSteps(),
     )
 
     /**
@@ -108,6 +141,18 @@ abstract class BackupDao {
         snapshot.checkins?.let {
             deleteAllCheckins()
             insertCheckins(it)
+        }
+        snapshot.recipes?.let {
+            deleteAllRecipes()
+            insertRecipes(it)
+        }
+        snapshot.recipeIngredients?.let {
+            deleteAllRecipeIngredients()
+            insertRecipeIngredients(it)
+        }
+        snapshot.recipeSteps?.let {
+            deleteAllRecipeSteps()
+            insertRecipeSteps(it)
         }
     }
 }

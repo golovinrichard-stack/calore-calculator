@@ -109,6 +109,41 @@ class BackupCodecTest {
         createdAt = 4,
     )
 
+    private val recipe = RecipeRow(
+        id = "3b241101-e2bb-4255-8caf-4136c566a962",
+        name = "Kuře na paprice",
+        nameCs = "Kuře na paprice",
+        nameEn = "Chicken paprikash",
+        shortCode = "K",
+        servings = 4,
+        mealTypes = listOf("LUNCH", "DINNER"),
+        tags = listOf("czech"),
+        equipment = listOf("OVEN"),
+        freezable = true,
+        learnedYield = 0.85,
+        learnedYieldCount = 1,
+        createdAt = 5,
+        updatedAt = 6,
+    )
+
+    private val ingredient = RecipeIngredientRow(
+        id = "a3bb189e-8bf9-4888-9912-ace4e6543002",
+        recipeId = recipe.id,
+        position = 0,
+        foodUuid = food.uuid,
+        grams = 600.0,
+    )
+
+    private val step = RecipeStepRow(
+        id = "c56a4180-65aa-42ec-a945-5fd21dec0538",
+        recipeId = recipe.id,
+        position = 0,
+        text = "Osmahněte cibuli.",
+        textEn = "Fry the onion.",
+        minutes = 5,
+        equipment = "STOVE",
+    )
+
     private fun backup(
         foods: List<FoodRow> = listOf(food),
         diary: List<DiaryEntryRow> = listOf(entry(1), entry(2)),
@@ -117,12 +152,15 @@ class BackupCodecTest {
         members: List<MemberRow> = listOf(me),
         measurements: List<BodyMeasurementRow> = listOf(measurement),
         checkins: List<CheckinRow> = listOf(checkin),
+        recipes: List<RecipeRow> = listOf(recipe),
+        ingredients: List<RecipeIngredientRow> = listOf(ingredient),
+        steps: List<RecipeStepRow> = listOf(step),
     ) = BackupFile(
         format = BackupCodec.FORMAT,
         version = version,
         exportedAt = "2026-11-06T18:00:00Z",
         appVersion = "0.2.0",
-        tables = BackupTables(foods, diary, weights, members, measurements, checkins),
+        tables = BackupTables(foods, diary, weights, members, measurements, checkins, recipes, ingredients, steps),
     )
 
     private fun decode(backup: BackupFile) = BackupCodec.decode(BackupCodec.encode(backup))
@@ -140,7 +178,10 @@ class BackupCodecTest {
         assertEquals("\"calore-backup\"", root["format"].toString())
         assertEquals(BackupCodec.VERSION.toString(), root["version"].toString())
         assertEquals(
-            setOf("foods", "diary_entries", "weight_entries", "members", "body_measurements", "checkins"),
+            setOf(
+                "foods", "diary_entries", "weight_entries", "members", "body_measurements", "checkins",
+                "recipes", "recipe_ingredients", "recipe_steps",
+            ),
             root["tables"]!!.jsonObject.keys,
         )
     }
@@ -153,6 +194,26 @@ class BackupCodecTest {
         assertNull("null means: keep the members on the phone", tables.members)
         assertNull(tables.bodyMeasurements)
         assertNull(tables.checkins)
+        assertNull("null means: keep the recipes on the phone", tables.recipes)
+        assertNull(tables.recipeIngredients)
+        assertNull(tables.recipeSteps)
+    }
+
+    @Test
+    fun brokenRecipeRowsAreDamaged() {
+        val cases = mapOf(
+            "bad recipe id" to backup(recipes = listOf(recipe.copy(id = "r1"))),
+            "zero servings" to backup(recipes = listOf(recipe.copy(servings = 0))),
+            "blank box code" to backup(recipes = listOf(recipe.copy(shortCode = " "))),
+            "two recipes with one key" to backup(
+                recipes = listOf(recipe.copy(key = "starter:cz:a"), recipe.copy(id = newId(), key = "starter:cz:a")),
+            ),
+            "negative grams" to backup(ingredients = listOf(ingredient.copy(grams = -5.0))),
+            "duplicate step" to backup(steps = listOf(step, step)),
+        )
+        for ((name, broken) in cases) {
+            assertEquals(name, BackupReadResult.Damaged, decode(broken))
+        }
     }
 
     @Test

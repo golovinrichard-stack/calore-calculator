@@ -51,6 +51,9 @@ class BackupRepository(
                 members = snapshot.members.orEmpty().map { it.toRow() },
                 bodyMeasurements = snapshot.bodyMeasurements.orEmpty().map { it.toRow() },
                 checkins = snapshot.checkins.orEmpty().map { it.toRow() },
+                recipes = snapshot.recipes.orEmpty().map { it.toRow() },
+                recipeIngredients = snapshot.recipeIngredients.orEmpty().map { it.toRow() },
+                recipeSteps = snapshot.recipeSteps.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -83,6 +86,9 @@ class BackupRepository(
                 members = tables.members?.map { it.toEntity() },
                 bodyMeasurements = tables.bodyMeasurements?.map { it.toEntity() },
                 checkins = tables.checkins?.map { it.toEntity() },
+                recipes = tables.recipes?.map { it.toEntity() },
+                recipeIngredients = tables.recipeIngredients?.map { it.toEntity() },
+                recipeSteps = tables.recipeSteps?.map { it.toEntity() },
             ),
         )
     }

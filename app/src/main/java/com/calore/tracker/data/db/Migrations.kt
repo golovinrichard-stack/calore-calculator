@@ -110,5 +110,41 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
     }
 }
 
+/**
+ * Version 5 (M3.1): recipes. Three new tables (recipes, their ingredients and steps); diary entries
+ * get `recipeId` for logged dishes (M3.5).
+ */
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `recipes` (`id` TEXT NOT NULL, `key` TEXT, `name` TEXT NOT NULL, " +
+                "`nameCs` TEXT, `nameEn` TEXT, `userEdited` INTEGER NOT NULL DEFAULT 0, `shortCode` TEXT NOT NULL, " +
+                "`servings` INTEGER NOT NULL, `mealTypes` TEXT NOT NULL, `cuisine` TEXT, `tags` TEXT NOT NULL, " +
+                "`equipment` TEXT NOT NULL, `fridgeDays` INTEGER NOT NULL DEFAULT 3, " +
+                "`freezable` INTEGER NOT NULL DEFAULT 0, `freezerMonths` INTEGER NOT NULL DEFAULT 3, " +
+                "`reheatNote` TEXT, `mealPrepFriendly` INTEGER NOT NULL DEFAULT 0, `learnedYield` REAL, " +
+                "`learnedYieldCount` INTEGER NOT NULL DEFAULT 0, `ownerMemberId` TEXT, " +
+                "`visibility` TEXT NOT NULL DEFAULT 'SHARED', `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_recipes_key` ON `recipes` (`key`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `recipe_ingredients` (`id` TEXT NOT NULL, `recipeId` TEXT NOT NULL, " +
+                "`position` INTEGER NOT NULL, `foodUuid` TEXT NOT NULL, `grams` REAL NOT NULL, `note` TEXT, " +
+                "`optional` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS `index_recipe_ingredients_recipeId` ON `recipe_ingredients` (`recipeId`)",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `recipe_steps` (`id` TEXT NOT NULL, `recipeId` TEXT NOT NULL, " +
+                "`position` INTEGER NOT NULL, `text` TEXT NOT NULL, `textCs` TEXT, `textEn` TEXT, `minutes` INTEGER, " +
+                "`passive` INTEGER NOT NULL DEFAULT 0, `equipment` TEXT, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_recipe_steps_recipeId` ON `recipe_steps` (`recipeId`)")
+        db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN `recipeId` TEXT")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)

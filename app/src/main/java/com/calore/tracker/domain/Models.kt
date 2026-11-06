@@ -70,6 +70,8 @@ data class DiaryEntry(
     val memberId: String? = null,
     /** A quick add has no food and 0 g (M2.5). */
     val entryType: EntryType = EntryType.FOOD,
+    /** A logged dish (M3.5): the recipe it came from. */
+    val recipeId: String? = null,
 )
 
 data class WeightEntry(

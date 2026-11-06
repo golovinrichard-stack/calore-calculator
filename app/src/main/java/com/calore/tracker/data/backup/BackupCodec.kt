@@ -27,8 +27,9 @@ object BackupCodec {
     /**
      * 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1).
      * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
+     * 4: + recipes, recipe ingredients and steps, diary recipeId (M3).
      */
-    const val VERSION = 3
+    const val VERSION = 4
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -98,7 +99,24 @@ object BackupCodec {
             } &&
             weights.isUnique { it.id } && weights.isUnique { it.uuid.lowercase() } && weights.isUnique { it.date } &&
             diary.all { it.memberId == null || uuidPattern.matches(it.memberId) } &&
-            areProfilesConsistent(tables)
+            areProfilesConsistent(tables) &&
+            areRecipesConsistent(tables)
+    }
+
+    private fun areRecipesConsistent(tables: BackupTables): Boolean {
+        val recipes = tables.recipes.orEmpty()
+        val ingredients = tables.recipeIngredients.orEmpty()
+        val steps = tables.recipeSteps.orEmpty()
+        return recipes.all { recipe ->
+            uuidPattern.matches(recipe.id) && recipe.servings > 0 && recipe.shortCode.isNotBlank() &&
+                (recipe.learnedYield == null || recipe.learnedYield.isAmount())
+        } &&
+            recipes.isUnique { it.id.lowercase() } &&
+            recipes.mapNotNull { it.key }.let { it.size == it.toSet().size } &&
+            ingredients.all { uuidPattern.matches(it.id) && it.grams.isAmount() } &&
+            ingredients.isUnique { it.id.lowercase() } &&
+            steps.all { uuidPattern.matches(it.id) } &&
+            steps.isUnique { it.id.lowercase() }
     }
 
     private fun areProfilesConsistent(tables: BackupTables): Boolean {

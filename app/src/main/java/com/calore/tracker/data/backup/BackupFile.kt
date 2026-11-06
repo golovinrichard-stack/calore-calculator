@@ -6,6 +6,9 @@ import com.calore.tracker.data.db.DiaryEntryEntity
 import com.calore.tracker.data.db.FoodEntity
 import com.calore.tracker.data.db.JsonColumns
 import com.calore.tracker.data.db.MemberEntity
+import com.calore.tracker.data.db.RecipeEntity
+import com.calore.tracker.data.db.RecipeIngredientEntity
+import com.calore.tracker.data.db.RecipeStepEntity
 import com.calore.tracker.data.db.WeightEntryEntity
 import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.AnimalFlag
@@ -43,6 +46,10 @@ data class BackupTables(
     val members: List<MemberRow>? = null,
     @SerialName("body_measurements") val bodyMeasurements: List<BodyMeasurementRow>? = null,
     val checkins: List<CheckinRow>? = null,
+    // Since version 4 (M3). Null in older files: the app's recipes are then left as they are.
+    val recipes: List<RecipeRow>? = null,
+    @SerialName("recipe_ingredients") val recipeIngredients: List<RecipeIngredientRow>? = null,
+    @SerialName("recipe_steps") val recipeSteps: List<RecipeStepRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -109,6 +116,8 @@ data class DiaryEntryRow(
     val ironMg: Double? = null,
     val magnesiumMg: Double? = null,
     val vitaminCMg: Double? = null,
+    // Since version 4 (M3).
+    val recipeId: String? = null,
 )
 
 @Serializable
@@ -190,6 +199,58 @@ data class CheckinRow(
     val proposedTargetKcal: Int,
     val accepted: Boolean,
     val createdAt: Long,
+)
+
+@Serializable
+data class RecipeRow(
+    val id: String,
+    val key: String? = null,
+    val name: String,
+    val nameCs: String? = null,
+    val nameEn: String? = null,
+    val userEdited: Boolean = false,
+    val shortCode: String,
+    val servings: Int,
+    val mealTypes: List<String> = emptyList(),
+    val cuisine: String? = null,
+    val tags: List<String> = emptyList(),
+    val equipment: List<String> = emptyList(),
+    val fridgeDays: Int = 3,
+    val freezable: Boolean = false,
+    val freezerMonths: Int = 3,
+    val reheatNote: String? = null,
+    val mealPrepFriendly: Boolean = false,
+    val learnedYield: Double? = null,
+    val learnedYieldCount: Int = 0,
+    val ownerMemberId: String? = null,
+    val visibility: String = "SHARED",
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class RecipeIngredientRow(
+    val id: String,
+    val recipeId: String,
+    val position: Int,
+    val foodUuid: String,
+    val grams: Double,
+    val note: String? = null,
+    val optional: Boolean = false,
+)
+
+@Serializable
+data class RecipeStepRow(
+    val id: String,
+    val recipeId: String,
+    val position: Int,
+    val text: String,
+    val textCs: String? = null,
+    val textEn: String? = null,
+    val minutes: Int? = null,
+    val passive: Boolean = false,
+    val equipment: String? = null,
 )
 
 internal fun FoodEntity.toRow() = FoodRow(
@@ -280,6 +341,7 @@ internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
     ironMg = ironMg,
     magnesiumMg = magnesiumMg,
     vitaminCMg = vitaminCMg,
+    recipeId = recipeId,
 )
 
 internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
@@ -302,6 +364,7 @@ internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
     ironMg = ironMg,
     magnesiumMg = magnesiumMg,
     vitaminCMg = vitaminCMg,
+    recipeId = recipeId,
 )
 
 internal fun WeightEntryEntity.toRow() = WeightEntryRow(id = id, uuid = uuid, date = date, kg = kg)
@@ -449,3 +512,65 @@ internal fun CheckinRow.toEntity() = CheckinEntity(
     accepted = accepted,
     createdAt = createdAt,
 )
+
+internal fun RecipeEntity.toRow() = RecipeRow(
+    id = id,
+    key = key,
+    name = name,
+    nameCs = nameCs,
+    nameEn = nameEn,
+    userEdited = userEdited,
+    shortCode = shortCode,
+    servings = servings,
+    mealTypes = mealTypes.map { it.name },
+    cuisine = cuisine,
+    tags = tags,
+    equipment = equipment.map { it.name },
+    fridgeDays = fridgeDays,
+    freezable = freezable,
+    freezerMonths = freezerMonths,
+    reheatNote = reheatNote,
+    mealPrepFriendly = mealPrepFriendly,
+    learnedYield = learnedYield,
+    learnedYieldCount = learnedYieldCount,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun RecipeRow.toEntity() = RecipeEntity(
+    id = id,
+    key = key,
+    name = name,
+    nameCs = nameCs,
+    nameEn = nameEn,
+    userEdited = userEdited,
+    shortCode = shortCode,
+    servings = servings,
+    mealTypes = mealTypes.mapNotNull { JsonColumns.enumByName<MealType>(it) },
+    cuisine = cuisine,
+    tags = tags,
+    equipment = equipment.mapNotNull { JsonColumns.enumByName<Equipment>(it) },
+    fridgeDays = fridgeDays,
+    freezable = freezable,
+    freezerMonths = freezerMonths,
+    reheatNote = reheatNote,
+    mealPrepFriendly = mealPrepFriendly,
+    learnedYield = learnedYield,
+    learnedYieldCount = learnedYieldCount,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun RecipeIngredientEntity.toRow() = RecipeIngredientRow(id, recipeId, position, foodUuid, grams, note, optional)
+
+internal fun RecipeIngredientRow.toEntity() = RecipeIngredientEntity(id, recipeId, position, foodUuid, grams, note, optional)
+
+internal fun RecipeStepEntity.toRow() = RecipeStepRow(id, recipeId, position, text, textCs, textEn, minutes, passive, equipment)
+
+internal fun RecipeStepRow.toEntity() = RecipeStepEntity(id, recipeId, position, text, textCs, textEn, minutes, passive, equipment)

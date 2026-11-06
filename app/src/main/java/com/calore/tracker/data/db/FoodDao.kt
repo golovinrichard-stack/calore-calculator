@@ -23,6 +23,9 @@ abstract class FoodDao {
     @Query("SELECT * FROM foods WHERE lastUsedAt > 0 ORDER BY lastUsedAt DESC LIMIT :limit")
     abstract fun recent(limit: Int): Flow<List<FoodEntity>>
 
+    @Query("SELECT * FROM foods WHERE uuid = :uuid")
+    abstract suspend fun getByUuid(uuid: String): FoodEntity?
+
     @Query("SELECT * FROM foods WHERE `key` = :key")
     abstract suspend fun getByKey(key: String): FoodEntity?
 

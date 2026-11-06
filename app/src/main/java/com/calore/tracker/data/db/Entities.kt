@@ -94,6 +94,8 @@ data class DiaryEntryEntity(
     val ironMg: Double? = null,
     val magnesiumMg: Double? = null,
     val vitaminCMg: Double? = null,
+    /** A logged dish (M3.5): `recipes.id`. */
+    val recipeId: String? = null,
 )
 
 /** At most one weight per day; saving again for the same date replaces it. */

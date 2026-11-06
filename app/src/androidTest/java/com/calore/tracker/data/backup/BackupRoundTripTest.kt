@@ -8,12 +8,16 @@ import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.data.db.DatabaseSnapshot
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
+import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.data.remote.OpenFoodFactsClient
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.FoodSource
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Nutrients
+import com.calore.tracker.domain.Recipe
+import com.calore.tracker.domain.RecipeIngredient
+import com.calore.tracker.domain.RecipeStep
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -60,6 +64,11 @@ class BackupRoundTripTest {
         repeat(diaryEntries) { i ->
             diary.log(oats, grams = 40.0 + i % 50, meal = MealType.entries[i % 4], date = day.minusDays(i / 10L))
         }
+        RecipeRepository(db.recipeDao(), db.foodDao(), clock).save(
+            Recipe(id = "", name = "Kaše", shortCode = "K", servings = 2, learnedYield = 2.5),
+            listOf(RecipeIngredient(id = "", recipeId = "", position = 0, foodUuid = oats.uuid, grams = 120.0, note = "jemné")),
+            listOf(RecipeStep(id = "", recipeId = "", position = 0, text = "Vařte 5 minut.", minutes = 5, passive = true)),
+        )
         val weights = WeightRepository(db.weightDao())
         weights.save(day, 80.4)
         weights.save(day.minusDays(1), 80.9)
