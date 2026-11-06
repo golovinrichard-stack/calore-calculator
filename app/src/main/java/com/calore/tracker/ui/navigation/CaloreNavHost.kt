@@ -11,6 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -59,10 +60,20 @@ private val dateAndMealArgs = listOf(
 fun CaloreNavHost(
     navController: NavHostController = rememberNavController(),
     startViewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    openRoute: String? = null,
+    onOpened: () -> Unit = {},
 ) {
     // The first screen depends on whether the setup has run; deciding takes a few milliseconds.
     val startRoute = startViewModel.startRoute.collectAsStateWithLifecycle().value ?: return
     val backStackEntry by navController.currentBackStackEntryAsState()
+
+    // A tapped notification opens its screen on top of Today (not during the first-run setup).
+    LaunchedEffect(openRoute, startRoute) {
+        if (openRoute != null && startRoute == Routes.DIARY && openRoute in NOTIFICATION_ROUTES) {
+            navController.navigate(openRoute) { launchSingleTop = true }
+        }
+        if (openRoute != null) onOpened()
+    }
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
 
@@ -209,6 +220,9 @@ fun CaloreNavHost(
         }
     }
 }
+
+/** Screens a notification may open. */
+private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT)
 
 private fun NavHostController.navigateToTopLevel(route: String) {
     navigate(route) {

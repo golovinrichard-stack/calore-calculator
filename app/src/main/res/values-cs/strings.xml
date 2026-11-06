@@ -421,4 +421,39 @@
 • Každé místo změřte třikrát a použijte průměr.
 
 Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledování vývoje.</string>
+
+    <!-- Notifications -->
+    <string name="channel_progress">Pokrok</string>
+    <string name="channel_progress_desc">Týdenní kontroly a připomínky měření tuku</string>
+    <string name="channel_freshness">Čerstvost</string>
+    <string name="channel_freshness_desc">Co brzy sníst a co rozmrazit</string>
+    <string name="channel_cooking_timers">Minutky při vaření</string>
+    <string name="channel_cooking_timers_desc">Minutky během vaření</string>
+    <string name="channel_supplements">Doplňky stravy</string>
+    <string name="channel_supplements_desc">Připomínky doplňků stravy</string>
+    <string name="channel_household">Domácnost</string>
+    <string name="channel_household_desc">Žádosti a novinky z domácnosti</string>
+    <string name="notify_measure_title">Čas na měření</string>
+    <string name="notify_measure_text">Změřte si tělesný tuk, aby vaše cíle zůstaly přesné.</string>
+    <string name="notify_permission_title">Povolit oznámení?</string>
+    <string name="notify_permission_text">Calore potřebuje oprávnění, aby mohla zobrazit připomínky, které zapnete. Nic jiného neposílá.</string>
+    <string name="notify_permission_allow">Pokračovat</string>
+    <string name="not_now">Teď ne</string>
+    <string name="notifications_denied">Připomínky potřebují oznámení. Povolíte je v nastavení Androidu.</string>
+    <string name="settings_reminders">Připomínky</string>
+    <string name="settings_data">Data a jazyk</string>
+    <string name="settings_measure_reminder">Připomínka měření tuku</string>
+    <string name="settings_checkin_reminder">Připomínka týdenní kontroly</string>
+    <string name="settings_checkin_reminder_desc">V pondělí ráno, až bude kontrola připravená</string>
+    <string name="reminder_off">Vypnuto</string>
+    <string name="reminder_offer_title">Připomenout další měření?</string>
+    <string name="reminder_offer_text">Měření každých pár týdnů ukáže, jak se vaše tělo mění.</string>
+    <string name="remind_me">Připomenout</string>
+    <string name="no_thanks">Ne, děkuji</string>
+    <plurals name="every_weeks">
+        <item quantity="one">Každý týden</item>
+        <item quantity="few">Každé %1$d týdny</item>
+        <item quantity="many">Každých %1$d týdne</item>
+        <item quantity="other">Každých %1$d týdnů</item>
+    </plurals>
 </resources>

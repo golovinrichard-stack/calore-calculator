@@ -39,6 +39,12 @@ import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.labelRes
+import com.calore.tracker.domain.ReminderSchedule
+import com.calore.tracker.notifications.rememberNotificationPermission
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 
 /** Body fat from tape measurements (US Navy) or a known number (M1.4). */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,13 +52,35 @@ import com.calore.tracker.ui.labelRes
 fun BodyFatScreen(
     onBack: () -> Unit,
     onOpenTutorial: () -> Unit,
-    onSaved: (BodyFatSaved) -> Unit,
+    onSaved: () -> Unit,
     viewModel: BodyFatViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val form by viewModel.form.collectAsStateWithLifecycle()
+    var offerReminder by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(viewModel) {
-        viewModel.saved.collect(onSaved)
+        viewModel.saved.collect { saved -> if (saved.first) offerReminder = true else onSaved() }
+    }
+
+    // After the very first measurement: offer a reminder to measure again (M1.4).
+    var chosenWeeks by rememberSaveable { mutableIntStateOf(ReminderSchedule.DEFAULT_MEASURE_WEEKS) }
+    val requestPermission = rememberNotificationPermission { granted ->
+        viewModel.chooseReminder(if (granted) chosenWeeks else 0, onSaved)
+    }
+    if (offerReminder) {
+        MeasureReminderDialog(
+            current = 0,
+            offering = true,
+            onChoose = { weeks ->
+                offerReminder = false
+                chosenWeeks = weeks
+                requestPermission()
+            },
+            onDismiss = {
+                offerReminder = false
+                viewModel.chooseReminder(0, onSaved)
+            },
+        )
     }
 
     Scaffold(

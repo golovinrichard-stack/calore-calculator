@@ -13,7 +13,10 @@ import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.GoalsRepository
 import com.calore.tracker.data.repository.MemberRepository
+import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.WeightRepository
+import com.calore.tracker.notifications.ReminderScheduler
+import com.calore.tracker.notifications.WorkManagerReminders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -55,6 +58,10 @@ class AppContainer(context: Context) {
     )
     val goalsRepository = GoalsRepository(memberRepository)
     val bodyRepository = BodyRepository(database.bodyDao(), memberRepository, clock)
+
+    /** Background reminders; WorkManager initialises itself on first use. */
+    val reminders: ReminderScheduler = WorkManagerReminders(context, clock)
+    val reminderSettings = ReminderSettings(appPrefs, reminders, bodyRepository, clock)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
         contentResolver = context.contentResolver,

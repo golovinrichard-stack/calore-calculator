@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.BodyRepository
 import com.calore.tracker.data.repository.MemberRepository
+import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.domain.BodyFatEstimate
 import com.calore.tracker.domain.BodyFatMethod
 import com.calore.tracker.domain.NavyBodyFat
@@ -19,6 +20,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Clock
+import java.time.LocalDate
 
 enum class BodyFatEntryMode { TAPE, MANUAL }
 
@@ -60,6 +63,8 @@ data class BodyFatSaved(val first: Boolean)
 class BodyFatViewModel(
     private val members: MemberRepository,
     private val body: BodyRepository,
+    private val reminders: ReminderSettings? = null,
+    private val clock: Clock = Clock.systemDefaultZone(),
 ) : ViewModel() {
 
     private val state = MutableStateFlow(BodyFatForm())
@@ -101,7 +106,16 @@ class BodyFatViewModel(
                 )
                 BodyFatEntryMode.MANUAL -> body.saveBodyFat(method = BodyFatMethod.MANUAL, bodyFatPct = pct)
             }
+            reminders?.onMeasured(LocalDate.now(clock))
             savedChannel.send(BodyFatSaved(first))
+        }
+    }
+
+    /** The answer to the reminder offer after the first measurement; 0 means no reminder. */
+    fun chooseReminder(weeks: Int, onDone: () -> Unit) {
+        viewModelScope.launch {
+            reminders?.setMeasureReminderWeeks(weeks)
+            onDone()
         }
     }
 }

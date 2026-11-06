@@ -30,6 +30,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
 import com.calore.tracker.ui.AppViewModelProvider
+import com.calore.tracker.ui.body.MeasureReminderDialog
+import com.calore.tracker.ui.components.SectionHeader
+import com.calore.tracker.notifications.rememberNotificationPermission
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +55,24 @@ fun SettingsScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val perAppLanguage = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val deniedMessage = stringResource(R.string.notifications_denied)
+    var choosingMeasureReminder by rememberSaveable { mutableStateOf(false) }
+    var pendingWeeks by rememberSaveable { mutableIntStateOf(0) }
+    var pendingCheckin by rememberSaveable { mutableStateOf(false) }
+
+    // Reminders need notification permission; ask only when one is switched on (M1.6).
+    val requestPermission = rememberNotificationPermission { granted ->
+        if (granted) {
+            if (pendingWeeks > 0) viewModel.setMeasureReminderWeeks(pendingWeeks)
+            if (pendingCheckin) viewModel.setCheckinReminders(true)
+        } else {
+            scope.launch { snackbarHostState.showSnackbar(deniedMessage) }
+        }
+        pendingWeeks = 0
+        pendingCheckin = false
+    }
 
     Scaffold(
         topBar = {
@@ -53,6 +85,7 @@ fun SettingsScreen(
                 },
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -66,6 +99,34 @@ fun SettingsScreen(
                 trailingContent = { Switch(checked = state.hideNumbers, onCheckedChange = null) },
                 modifier = Modifier.clickable { viewModel.setHideNumbers(!state.hideNumbers) },
             )
+            SectionHeader(stringResource(R.string.settings_reminders), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.settings_measure_reminder)) },
+                supportingContent = {
+                    Text(
+                        if (state.measureReminderWeeks > 0) {
+                            pluralStringResource(R.plurals.every_weeks, state.measureReminderWeeks, state.measureReminderWeeks)
+                        } else {
+                            stringResource(R.string.reminder_off)
+                        },
+                    )
+                },
+                modifier = Modifier.clickable { choosingMeasureReminder = true },
+            )
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.settings_checkin_reminder)) },
+                supportingContent = { Text(stringResource(R.string.settings_checkin_reminder_desc)) },
+                trailingContent = { Switch(checked = state.checkinReminders, onCheckedChange = null) },
+                modifier = Modifier.clickable {
+                    if (state.checkinReminders) {
+                        viewModel.setCheckinReminders(false)
+                    } else {
+                        pendingCheckin = true
+                        requestPermission()
+                    }
+                },
+            )
+            SectionHeader(stringResource(R.string.settings_data), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
             ListItem(
                 headlineContent = { Text(stringResource(R.string.backup_title)) },
                 supportingContent = { Text(stringResource(R.string.settings_backup_desc)) },
@@ -95,5 +156,22 @@ fun SettingsScreen(
                 },
             )
         }
+    }
+
+    if (choosingMeasureReminder) {
+        MeasureReminderDialog(
+            current = state.measureReminderWeeks,
+            offering = false,
+            onChoose = { weeks ->
+                choosingMeasureReminder = false
+                if (weeks == 0) {
+                    viewModel.setMeasureReminderWeeks(0)
+                } else {
+                    pendingWeeks = weeks
+                    requestPermission()
+                }
+            },
+            onDismiss = { choosingMeasureReminder = false },
+        )
     }
 }

@@ -83,6 +83,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.kotlinx.serialization.json)
     // Declared directly (not just via AndroidX) so app and test code agree on one coroutines version.
     implementation(libs.kotlinx.coroutines.android)

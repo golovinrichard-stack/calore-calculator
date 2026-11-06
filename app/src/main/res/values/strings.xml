@@ -412,4 +412,37 @@
 • Measure each place 3 times and use the average.
 
 This is an estimate. It can be off by a few percent, but it is good for following the trend.</string>
+
+    <!-- Notifications -->
+    <string name="channel_progress">Progress</string>
+    <string name="channel_progress_desc">Weekly check-ins and body-fat reminders</string>
+    <string name="channel_freshness">Freshness</string>
+    <string name="channel_freshness_desc">What to eat soon and what to thaw</string>
+    <string name="channel_cooking_timers">Cooking timers</string>
+    <string name="channel_cooking_timers_desc">Timers while you cook</string>
+    <string name="channel_supplements">Supplements</string>
+    <string name="channel_supplements_desc">Reminders to take your supplements</string>
+    <string name="channel_household">Household</string>
+    <string name="channel_household_desc">Requests and news from your household</string>
+    <string name="notify_measure_title">Time to measure</string>
+    <string name="notify_measure_text">Measure your body fat to keep your targets accurate.</string>
+    <string name="notify_permission_title">Allow notifications?</string>
+    <string name="notify_permission_text">Calore needs permission to show the reminders you switch on. It sends nothing else.</string>
+    <string name="notify_permission_allow">Continue</string>
+    <string name="not_now">Not now</string>
+    <string name="notifications_denied">Reminders need notifications. You can allow them in Android settings.</string>
+    <string name="settings_reminders">Reminders</string>
+    <string name="settings_data">Data and language</string>
+    <string name="settings_measure_reminder">Body-fat reminder</string>
+    <string name="settings_checkin_reminder">Weekly check-in reminder</string>
+    <string name="settings_checkin_reminder_desc">Monday morning, when your check-in is ready</string>
+    <string name="reminder_off">Off</string>
+    <string name="reminder_offer_title">Remind you to measure again?</string>
+    <string name="reminder_offer_text">Measuring every few weeks shows how your body changes.</string>
+    <string name="remind_me">Remind me</string>
+    <string name="no_thanks">No thanks</string>
+    <plurals name="every_weeks">
+        <item quantity="one">Every week</item>
+        <item quantity="other">Every %1$d weeks</item>
+    </plurals>
 </resources>

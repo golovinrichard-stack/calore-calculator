@@ -55,7 +55,7 @@
   - tape flat and level, snug, not pressing; measure 3 times and use the average;
   - "This is an estimate. It can be off by a few percent, but it is good for following the trend."
 - [x] Enter measurements → body fat; or "I know my number" (manual entry). Saved in `body_measurements`.
-- [ ] After the first measurement, offer a reminder every 4 weeks (the user can choose 2–8 weeks or turn it off).
+- [x] After the first measurement, offer a reminder every 4 weeks (the user can choose 2–8 weeks or turn it off).
 
 **Done when:** the A5 test cases pass; after entering body fat, the calculator uses Katch-McArdle.
 
@@ -67,8 +67,8 @@
 
 ### M1.6 Notifications
 
-- [ ] Channels, each created when its feature is first switched on: *Progress* (check-ins, measurement reminders), *Freshness* (M4), *Cooking timers* (M4), *Supplements* (M8), *Household* (M11).
-- [ ] A helper that asks for `POST_NOTIFICATIONS` (Android 13+) with a short explanation, only when the user turns on something that needs it.
+- [x] Channels, each created when its feature is first switched on: *Progress* (check-ins, measurement reminders), *Freshness* (M4), *Cooking timers* (M4), *Supplements* (M8), *Household* (M11).
+- [x] A helper that asks for `POST_NOTIFICATIONS` (Android 13+) with a short explanation, only when the user turns on something that needs it.
 
 ### M1.7 Smart maintenance and the weekly check-in
 

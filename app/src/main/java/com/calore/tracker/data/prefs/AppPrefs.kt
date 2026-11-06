@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -28,6 +29,10 @@ data class AppSettings(
     val birthDateToConfirm: Boolean = false,
     /** Log food without seeing calories and macros (M1.8). */
     val hideNumbers: Boolean = false,
+    /** Body-fat measuring reminder every this many weeks; 0 is off (M1.4). */
+    val measureReminderWeeks: Int = 0,
+    /** Notify when the weekly check-in is ready (M1.7). */
+    val checkinReminders: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -49,6 +54,8 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 whatsNewPending = prefs[WHATS_NEW_PENDING] ?: false,
                 birthDateToConfirm = prefs[BIRTH_DATE_TO_CONFIRM] ?: false,
                 hideNumbers = prefs[HIDE_NUMBERS] ?: false,
+                measureReminderWeeks = prefs[MEASURE_REMINDER_WEEKS] ?: 0,
+                checkinReminders = prefs[CHECKIN_REMINDERS] ?: false,
             )
         }
 
@@ -76,6 +83,14 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[HIDE_NUMBERS] = hide }
     }
 
+    suspend fun setMeasureReminderWeeks(weeks: Int) {
+        dataStore.edit { it[MEASURE_REMINDER_WEEKS] = weeks }
+    }
+
+    suspend fun setCheckinReminders(on: Boolean) {
+        dataStore.edit { it[CHECKIN_REMINDERS] = on }
+    }
+
     /** The flags set once when the profile moves out of the old settings (M1.1), in one write. */
     suspend fun markProfileMoved(existingUser: Boolean, birthDateToConfirm: Boolean) {
         dataStore.edit {
@@ -94,5 +109,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val WHATS_NEW_PENDING = booleanPreferencesKey("whats_new_pending")
         private val BIRTH_DATE_TO_CONFIRM = booleanPreferencesKey("birth_date_to_confirm")
         private val HIDE_NUMBERS = booleanPreferencesKey("hide_numbers")
+        private val MEASURE_REMINDER_WEEKS = intPreferencesKey("measure_reminder_weeks")
+        private val CHECKIN_REMINDERS = booleanPreferencesKey("checkin_reminders")
     }
 }

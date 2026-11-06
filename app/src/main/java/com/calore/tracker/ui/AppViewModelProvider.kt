@@ -62,11 +62,12 @@ object AppViewModelProvider {
             BackupViewModel(container().backupRepository)
         }
         initializer {
-            SettingsViewModel(container().appPrefs)
+            val c = container()
+            SettingsViewModel(c.appPrefs, c.reminderSettings)
         }
         initializer {
             val c = container()
-            BodyFatViewModel(c.memberRepository, c.bodyRepository)
+            BodyFatViewModel(c.memberRepository, c.bodyRepository, c.reminderSettings, c.clock)
         }
         initializer {
             val c = container()
