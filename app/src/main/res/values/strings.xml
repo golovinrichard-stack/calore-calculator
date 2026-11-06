@@ -172,6 +172,46 @@
     <string name="weight_removed">Weight removed</string>
     <string name="delete_weight">Delete weight for %1$s</string>
 
+    <!-- Backup -->
+    <string name="backup_title">Backup</string>
+    <string name="backup_export_title">Save a backup</string>
+    <string name="backup_export_body">Saves your foods, diary and weights in one file, for example to move them to a new phone.</string>
+    <string name="backup_export_warning">This file contains your health data. Keep it somewhere safe.</string>
+    <string name="backup_not_included">Not in the backup yet: your daily goals and calculator inputs.</string>
+    <string name="backup_export_button">Export to a file</string>
+    <string name="backup_import_title">Restore from a backup</string>
+    <string name="backup_import_body">Pick a Calore backup file. You\'ll see what\'s in it before anything changes.</string>
+    <string name="backup_import_button">Import from a file</string>
+    <string name="backup_working_export">Saving the backup…</string>
+    <string name="backup_working_read">Checking the file…</string>
+    <string name="backup_working_import">Importing…</string>
+    <string name="backup_confirm_title">Replace your data?</string>
+    <string name="backup_confirm_contents">This backup contains:</string>
+    <string name="backup_confirm_contents_date">This backup from %1$s contains:</string>
+    <string name="backup_confirm_warning">This replaces all Calore data on this phone.</string>
+    <string name="backup_confirm_button">Replace</string>
+    <string name="backup_counts_summary">%1$s, %2$s, %3$s</string>
+    <string name="backup_exported">Backup saved: %1$s</string>
+    <string name="backup_imported">Backup imported: %1$s</string>
+    <string name="backup_error_export">Couldn\'t save the backup. Try another place.</string>
+    <string name="backup_error_read">Couldn\'t read the file.</string>
+    <string name="backup_error_not_backup">This file isn\'t a Calore backup.</string>
+    <string name="backup_error_newer">This backup is from a newer version of Calore. Update the app, then try again.</string>
+    <string name="backup_error_damaged">This backup file is damaged and can\'t be imported. Nothing was changed.</string>
+    <string name="backup_error_import">The import failed. Nothing was changed.</string>
+    <plurals name="backup_count_foods">
+        <item quantity="one">%1$s food</item>
+        <item quantity="other">%1$s foods</item>
+    </plurals>
+    <plurals name="backup_count_diary_entries">
+        <item quantity="one">%1$s diary entry</item>
+        <item quantity="other">%1$s diary entries</item>
+    </plurals>
+    <plurals name="backup_count_weights">
+        <item quantity="one">%1$s weight</item>
+        <item quantity="other">%1$s weights</item>
+    </plurals>
+
     <!-- About -->
     <string name="about_title">About</string>
     <string name="about_version">Version %1$s</string>

@@ -18,6 +18,7 @@ object Routes {
     const val GOALS = "goals"
     const val CALCULATOR = "calculator"
     const val ABOUT = "about"
+    const val BACKUP = "backup"
 
     const val ADD_FOOD = "add_food/{$ARG_DATE}/{$ARG_MEAL}"
     const val FOOD_DETAIL = "food/{$ARG_FOOD_ID}/{$ARG_DATE}/{$ARG_MEAL}"

@@ -56,18 +56,19 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 ### M0.5 Export and import (backup to a file)
 
-- [ ] Apply the serialization compiler plugin. Add `@Serializable` DTOs per table (not the Room entities themselves).
-- [ ] Format:
+- [x] Apply the serialization compiler plugin. Add `@Serializable` DTOs per table (not the Room entities themselves).
+- [x] Format:
 
 ```json
 { "format": "calore-backup", "version": 1, "exportedAt": "2026-11-06T18:00:00Z",
   "appVersion": "0.2.0", "tables": { "foods": [ ... ], "diary_entries": [ ... ], "weight_entries": [ ... ] } }
 ```
 
-- [ ] **Export** with `ActivityResultContracts.CreateDocument("application/json")`, default name `calore-backup-yyyy-MM-dd.json`. Show the warning: "This file contains your health data. Keep it somewhere safe."
-- [ ] **Import** with `OpenDocument`: check `format` and `version`, show counts per table, confirm "This replaces all Calore data on this phone", then import in one transaction. If anything fails, nothing changes.
-- [ ] For now, put the entry under Goals → "Backup". It moves to Me → Settings in M1.
-- [ ] From now on, every new table is added to the backup (definition of done).
+- [x] **Export** with `ActivityResultContracts.CreateDocument("application/json")`, default name `calore-backup-yyyy-MM-dd.json`. Show the warning: "This file contains your health data. Keep it somewhere safe."
+- [x] **Import** with `OpenDocument`: check `format` and `version`, show counts per table, confirm "This replaces all Calore data on this phone", then import in one transaction. If anything fails, nothing changes.
+- [x] For now, put the entry under Goals → "Backup". It moves to Me → Settings in M1.
+- [x] From now on, every new table is added to the backup (definition of done). When a table or column is added, raise the backup `version` (`BackupCodec.VERSION`): the app imports its own version and older ones (a table missing from an older file is empty) and refuses newer files with "update the app", so nothing is dropped silently.
+- [x] Goals and calculator inputs are still in DataStore, so they are not in version 1 of the backup; the Backup screen says so. They join the backup when M1 moves them into the `members` table.
 
 **Done when:** round-trip test (export, wipe, import, every row identical including uuids); a broken or foreign file is rejected with a clear message; an export with 10,000 diary entries works without freezing the UI.
 

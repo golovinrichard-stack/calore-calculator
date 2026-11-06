@@ -16,6 +16,7 @@ The database is Room, today at **version 1** (`foods`, `diary_entries`, `weight_
 - **Small lists** (allergens, tags, days of week) are JSON text, stored through a Room `TypeConverter` that uses kotlinx.serialization.
 - **Nutrients.** Where a table "has nutrients", it has these columns: `kcal REAL NOT NULL`, `protein REAL`, `carbs REAL`, `fat REAL`, `fiber REAL`, `sugar REAL`, and from M2 also `ironMg REAL`, `magnesiumMg REAL` and `vitaminCMg REAL`. `NULL` means unknown, which is different from zero (as today).
 - **Snapshots.** Anything that records what was eaten or cooked copies nutrient values at that moment, like `diary_entries` does today. History is never recalculated.
+- **Backup.** Every table is part of the backup file (M0.5). Adding a table or column means adding it to the backup DTOs and raising the backup `version`.
 - **Shared and private tables.** Tables marked **shared** will sync to the household in M11; they have `ownerMemberId TEXT NULL` (null means the whole household) and `visibility TEXT` (`MINE`, `SHARED`, `UP_FOR_GRABS`). Until M11 these just keep their defaults. Tables marked **private** never sync.
 
 ## Enums

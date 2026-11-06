@@ -3,6 +3,7 @@ package com.calore.tracker
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.calore.tracker.data.backup.BackupRepository
 import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
@@ -30,4 +31,10 @@ class AppContainer(context: Context) {
     val diaryRepository = DiaryRepository(database.diaryDao(), clock)
     val weightRepository = WeightRepository(database.weightDao())
     val goalsRepository = GoalsRepository(settings)
+    val backupRepository = BackupRepository(
+        backupDao = database.backupDao(),
+        contentResolver = context.contentResolver,
+        clock = clock,
+        appVersion = BuildConfig.VERSION_NAME,
+    )
 }

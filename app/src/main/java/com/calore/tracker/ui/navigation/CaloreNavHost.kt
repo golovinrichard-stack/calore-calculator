@@ -26,6 +26,7 @@ import androidx.navigation.navArgument
 import com.calore.tracker.R
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
+import com.calore.tracker.ui.backup.BackupScreen
 import com.calore.tracker.ui.calculator.CalculatorScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
@@ -131,6 +132,7 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
                 GoalsScreen(
                     onOpenCalculator = { navController.navigate(Routes.CALCULATOR) },
                     onOpenAbout = { navController.navigate(Routes.ABOUT) },
+                    onOpenBackup = { navController.navigate(Routes.BACKUP) },
                 )
             }
             composable(Routes.CALCULATOR) {
@@ -141,6 +143,9 @@ fun CaloreNavHost(navController: NavHostController = rememberNavController()) {
             }
             composable(Routes.ABOUT) {
                 AboutScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Routes.BACKUP) {
+                BackupScreen(onBack = { navController.popBackStack() })
             }
         }
     }

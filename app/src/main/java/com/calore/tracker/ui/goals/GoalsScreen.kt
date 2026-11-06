@@ -43,6 +43,7 @@ import com.calore.tracker.ui.formatKcal
 fun GoalsScreen(
     onOpenCalculator: () -> Unit,
     onOpenAbout: () -> Unit,
+    onOpenBackup: () -> Unit,
     viewModel: GoalsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -142,6 +143,9 @@ fun GoalsScreen(
             }
             OutlinedButton(onClick = onOpenCalculator, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.goals_open_calculator))
+            }
+            OutlinedButton(onClick = onOpenBackup, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.backup_title))
             }
         }
     }

@@ -62,7 +62,7 @@ This policy covers the Calore app for Android and the Calore research server. It
 
 **Your control:**
 - Change or delete any entry in the app.
-- **Export** everything to a file (Me → Settings → Backup), for example to move to a new phone. The file contains health data: keep it safe.
+- **Export** everything to a file (Me → Settings → Backup; until the Me tab arrives in M1, Goals → Backup), for example to move to a new phone. The file contains health data: keep it safe. Importing a backup replaces all Calore data on the phone.
 - **Delete all cycle data** with one button (Me → Cycle).
 - Uninstalling the app deletes all its data from the phone, except files you exported and Android backups.
 

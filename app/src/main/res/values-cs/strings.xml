@@ -173,6 +173,52 @@
     <string name="weight_removed">Váha odstraněna</string>
     <string name="delete_weight">Smazat váhu: %1$s</string>
 
+    <!-- Backup -->
+    <string name="backup_title">Záloha</string>
+    <string name="backup_export_title">Uložit zálohu</string>
+    <string name="backup_export_body">Uloží vaše potraviny, deník a váhu do jednoho souboru, třeba pro přenos do nového telefonu.</string>
+    <string name="backup_export_warning">Tento soubor obsahuje údaje o vašem zdraví. Uložte ho na bezpečné místo.</string>
+    <string name="backup_not_included">Záloha zatím neobsahuje denní cíle a údaje z kalkulačky.</string>
+    <string name="backup_export_button">Exportovat do souboru</string>
+    <string name="backup_import_title">Obnovit ze zálohy</string>
+    <string name="backup_import_body">Vyberte soubor se zálohou Calore. Než se cokoli změní, uvidíte, co obsahuje.</string>
+    <string name="backup_import_button">Importovat ze souboru</string>
+    <string name="backup_working_export">Ukládám zálohu…</string>
+    <string name="backup_working_read">Kontroluji soubor…</string>
+    <string name="backup_working_import">Importuji…</string>
+    <string name="backup_confirm_title">Nahradit vaše data?</string>
+    <string name="backup_confirm_contents">Tato záloha obsahuje:</string>
+    <string name="backup_confirm_contents_date">Tato záloha z %1$s obsahuje:</string>
+    <string name="backup_confirm_warning">Tím se nahradí všechna data Calore v tomto telefonu.</string>
+    <string name="backup_confirm_button">Nahradit</string>
+    <string name="backup_counts_summary">%1$s, %2$s, %3$s</string>
+    <string name="backup_exported">Záloha uložena: %1$s</string>
+    <string name="backup_imported">Záloha obnovena: %1$s</string>
+    <string name="backup_error_export">Zálohu se nepodařilo uložit. Zkuste jiné místo.</string>
+    <string name="backup_error_read">Soubor se nepodařilo přečíst.</string>
+    <string name="backup_error_not_backup">Tento soubor není záloha Calore.</string>
+    <string name="backup_error_newer">Tato záloha je z novější verze Calore. Aktualizujte aplikaci a zkuste to znovu.</string>
+    <string name="backup_error_damaged">Soubor se zálohou je poškozený a nelze ho importovat. Nic se nezměnilo.</string>
+    <string name="backup_error_import">Import se nezdařil. Nic se nezměnilo.</string>
+    <plurals name="backup_count_foods">
+        <item quantity="one">%1$s potravina</item>
+        <item quantity="few">%1$s potraviny</item>
+        <item quantity="many">%1$s potraviny</item>
+        <item quantity="other">%1$s potravin</item>
+    </plurals>
+    <plurals name="backup_count_diary_entries">
+        <item quantity="one">%1$s záznam v deníku</item>
+        <item quantity="few">%1$s záznamy v deníku</item>
+        <item quantity="many">%1$s záznamu v deníku</item>
+        <item quantity="other">%1$s záznamů v deníku</item>
+    </plurals>
+    <plurals name="backup_count_weights">
+        <item quantity="one">%1$s vážení</item>
+        <item quantity="few">%1$s vážení</item>
+        <item quantity="many">%1$s vážení</item>
+        <item quantity="other">%1$s vážení</item>
+    </plurals>
+
     <!-- About -->
     <string name="about_title">O aplikaci</string>
     <string name="about_version">Verze %1$s</string>

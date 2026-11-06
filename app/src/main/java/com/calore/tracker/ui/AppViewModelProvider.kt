@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.ui.addfood.AddFoodViewModel
+import com.calore.tracker.ui.backup.BackupViewModel
 import com.calore.tracker.ui.calculator.CalculatorViewModel
 import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
@@ -45,6 +46,9 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             WeightViewModel(c.weightRepository, c.clock)
+        }
+        initializer {
+            BackupViewModel(container().backupRepository)
         }
     }
 

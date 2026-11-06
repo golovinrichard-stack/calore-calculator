@@ -12,6 +12,10 @@ const val UNKNOWN_VALUE = "—"
 fun formatKcal(kcal: Double, locale: Locale = Locale.getDefault()): String =
     String.format(locale, "%,d", kcal.roundToInt())
 
+/** A count with locale grouping, e.g. "4,321" or "4 321", for use in plurals. */
+fun formatCount(count: Int, locale: Locale = Locale.getDefault()): String =
+    String.format(locale, "%,d", count)
+
 /**
  * Grams for display: one decimal for small amounts where it matters (4.5 g),
  * whole numbers otherwise (0 g, 4 g, 12 g). Missing values show as a dash, not zero.
