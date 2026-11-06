@@ -40,9 +40,9 @@
 
 ### M1.3 Goals by speed and macros
 
-- [ ] Extend `CalorieCalculator`: `GoalType`, speed, Katch-McArdle (A2), targets (A3), `AUTO` macros (A4) and the warnings.
-- [ ] Calculator screen: goal type, speed chips with kg per week and kcal per day, which formula is used, macro mode.
-- [ ] Keep `SPLIT` mode working as today.
+- [x] Extend `CalorieCalculator`: `GoalType`, speed, Katch-McArdle (A2), targets (A3), `AUTO` macros (A4) and the warnings.
+- [x] Calculator screen: goal type, speed chips with kg per week and kcal per day, which formula is used, macro mode.
+- [x] Keep `SPLIT` mode working as today.
 
 **Done when:** the A2–A4 test cases pass, and the existing `CalorieCalculatorTest` is updated and passes.
 

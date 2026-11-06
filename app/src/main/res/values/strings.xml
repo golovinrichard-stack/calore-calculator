@@ -125,10 +125,9 @@
     <string name="sex_label">Sex</string>
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
-    <string name="age_label">Age (years)</string>
     <string name="height_label">Height (cm)</string>
     <string name="weight_label">Weight (kg)</string>
-    <string name="error_age">Enter 15 to 100 years</string>
+    <string name="error_age">Age must be 15 to 100 years</string>
     <string name="error_height">Enter 100 to 250 cm</string>
     <string name="error_weight">Enter 30 to 300 kg</string>
     <string name="activity_label">Activity</string>
@@ -143,10 +142,6 @@
     <string name="activity_very_active">Extremely active</string>
     <string name="activity_very_active_desc">Physical job plus daily training</string>
     <string name="weight_goal_label">Goal</string>
-    <string name="weight_goal_lose">Lose</string>
-    <string name="weight_goal_maintain">Maintain</string>
-    <string name="weight_goal_gain">Gain</string>
-    <string name="split_label">Macro split (% of calories)</string>
     <string name="split_protein">Protein %</string>
     <string name="split_carbs">Carbs %</string>
     <string name="split_fat">Fat %</string>
@@ -154,9 +149,41 @@
     <string name="result_bmr">Resting (BMR)</string>
     <string name="result_tdee">Maintenance (TDEE)</string>
     <string name="result_target">Daily target</string>
-    <string name="calculator_incomplete">Choose your sex and fill in age, height and weight to see your numbers.</string>
+    <string name="calculator_incomplete">Choose your sex and fill in birth date, height and weight to see your numbers.</string>
     <string name="calculator_apply">Use these goals</string>
-    <string name="calculator_disclaimer">An estimate from the Mifflin-St Jeor equation, not medical advice. Weight-loss targets never go below 1,200 kcal (women) or 1,500 kcal (men).</string>
+    <string name="calculator_disclaimer">An estimate, not medical advice. Weight-loss targets never go below 1,200 kcal (women) or 1,500 kcal (men).</string>
+    <string name="not_set">Not set</string>
+    <string name="choose">Choose</string>
+    <string name="birth_date_label">Birth date</string>
+    <string name="birth_date_with_age">%1$s (%2$s)</string>
+    <string name="weight_saved_as_weigh_in">A changed weight is saved as today\'s weigh-in.</string>
+    <string name="goal_type_cut">Lose</string>
+    <string name="goal_type_maintain">Maintain</string>
+    <string name="goal_type_build">Gain</string>
+    <string name="goal_type_recomp">Recomp</string>
+    <string name="goal_type_cut_desc">Lose fat at a steady pace.</string>
+    <string name="goal_type_maintain_desc">Keep your weight where it is.</string>
+    <string name="goal_type_build_desc">Build muscle with a small calorie surplus.</string>
+    <string name="goal_type_recomp_desc">Lose fat and build muscle at the same time: eat at maintenance, with high protein.</string>
+    <string name="speed_label">Speed</string>
+    <string name="speed_option">%1$s %% of body weight per week</string>
+    <string name="speed_effect">%1$s kg per week ≈ %2$s kcal per day</string>
+    <string name="speed_effect_unknown">Enter your weight to see kg per week.</string>
+    <string name="macro_mode_label">Macros</string>
+    <string name="macro_mode_auto">Automatic</string>
+    <string name="macro_mode_split">My split</string>
+    <string name="macro_mode_auto_desc">Protein per kg of body weight, fat as a share of calories, carbs fill the rest.</string>
+    <string name="protein_per_kg_label">Protein: %1$s g per kg</string>
+    <string name="fat_pct_label">Fat: %1$d %% of calories</string>
+    <string name="formula_mifflin">Resting energy from the Mifflin-St Jeor equation.</string>
+    <string name="formula_katch">Resting energy from your body fat (%1$s %%, %2$s), Katch-McArdle equation.</string>
+    <string name="warning_fast_cut" formatted="false">Losing more than 1 % of your weight a week is hard to keep up and can cost muscle.</string>
+    <string name="warning_low_body_fat">Your body fat is already low. Think about maintaining instead of cutting.</string>
+    <string name="warning_protein_too_high">Protein is too high for this calorie target.</string>
+    <plurals name="age_years">
+        <item quantity="one">%1$d year</item>
+        <item quantity="other">%1$d years</item>
+    </plurals>
 
     <!-- Weight -->
     <string name="weight_title">Weight</string>

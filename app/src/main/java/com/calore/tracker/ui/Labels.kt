@@ -5,7 +5,8 @@ import com.calore.tracker.R
 import com.calore.tracker.domain.ActivityLevel
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Sex
-import com.calore.tracker.domain.WeightGoal
+import com.calore.tracker.domain.GoalType
+import com.calore.tracker.domain.MacroMode
 
 @StringRes
 fun MealType.labelRes(): Int = when (this) {
@@ -40,8 +41,23 @@ fun ActivityLevel.descriptionRes(): Int = when (this) {
 }
 
 @StringRes
-fun WeightGoal.labelRes(): Int = when (this) {
-    WeightGoal.LOSE -> R.string.weight_goal_lose
-    WeightGoal.MAINTAIN -> R.string.weight_goal_maintain
-    WeightGoal.GAIN -> R.string.weight_goal_gain
+fun GoalType.labelRes(): Int = when (this) {
+    GoalType.CUT -> R.string.goal_type_cut
+    GoalType.MAINTAIN -> R.string.goal_type_maintain
+    GoalType.BUILD -> R.string.goal_type_build
+    GoalType.RECOMP -> R.string.goal_type_recomp
+}
+
+@StringRes
+fun GoalType.descriptionRes(): Int = when (this) {
+    GoalType.CUT -> R.string.goal_type_cut_desc
+    GoalType.MAINTAIN -> R.string.goal_type_maintain_desc
+    GoalType.BUILD -> R.string.goal_type_build_desc
+    GoalType.RECOMP -> R.string.goal_type_recomp_desc
+}
+
+@StringRes
+fun MacroMode.labelRes(): Int = when (this) {
+    MacroMode.AUTO -> R.string.macro_mode_auto
+    MacroMode.SPLIT -> R.string.macro_mode_split
 }

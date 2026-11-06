@@ -126,10 +126,9 @@
     <string name="sex_label">Pohlaví</string>
     <string name="sex_male">Muž</string>
     <string name="sex_female">Žena</string>
-    <string name="age_label">Věk (roky)</string>
     <string name="height_label">Výška (cm)</string>
     <string name="weight_label">Hmotnost (kg)</string>
-    <string name="error_age">Zadejte 15 až 100 let</string>
+    <string name="error_age">Věk musí být 15 až 100 let</string>
     <string name="error_height">Zadejte 100 až 250 cm</string>
     <string name="error_weight">Zadejte 30 až 300 kg</string>
     <string name="activity_label">Aktivita</string>
@@ -144,10 +143,6 @@
     <string name="activity_very_active">Extrémně aktivní</string>
     <string name="activity_very_active_desc">Fyzická práce a k tomu denní trénink</string>
     <string name="weight_goal_label">Cíl</string>
-    <string name="weight_goal_lose">Zhubnout</string>
-    <string name="weight_goal_maintain">Udržet</string>
-    <string name="weight_goal_gain">Přibrat</string>
-    <string name="split_label">Rozdělení živin (% kalorií)</string>
     <string name="split_protein">Bílkoviny %</string>
     <string name="split_carbs">Sacharidy %</string>
     <string name="split_fat">Tuky %</string>
@@ -155,9 +150,43 @@
     <string name="result_bmr">Klidový výdej (BMR)</string>
     <string name="result_tdee">Udržovací příjem (TDEE)</string>
     <string name="result_target">Denní cíl</string>
-    <string name="calculator_incomplete">Vyberte pohlaví a vyplňte věk, výšku a hmotnost. Pak uvidíte svá čísla.</string>
+    <string name="calculator_incomplete">Vyberte pohlaví a vyplňte datum narození, výšku a hmotnost. Pak uvidíte svá čísla.</string>
     <string name="calculator_apply">Použít tyto cíle</string>
-    <string name="calculator_disclaimer">Odhad podle rovnice Mifflin-St Jeor, nejde o lékařskou radu. Cíle pro hubnutí nikdy neklesnou pod 1 200 kcal (ženy) nebo 1 500 kcal (muži).</string>
+    <string name="calculator_disclaimer">Odhad, nejde o lékařskou radu. Cíle pro hubnutí nikdy neklesnou pod 1 200 kcal (ženy) nebo 1 500 kcal (muži).</string>
+    <string name="not_set">Nezadáno</string>
+    <string name="choose">Vybrat</string>
+    <string name="birth_date_label">Datum narození</string>
+    <string name="birth_date_with_age">%1$s (%2$s)</string>
+    <string name="weight_saved_as_weigh_in">Změněná hmotnost se uloží jako dnešní vážení.</string>
+    <string name="goal_type_cut">Hubnout</string>
+    <string name="goal_type_maintain">Udržet</string>
+    <string name="goal_type_build">Nabrat</string>
+    <string name="goal_type_recomp">Rekompozice</string>
+    <string name="goal_type_cut_desc">Hubnout tuk stálým tempem.</string>
+    <string name="goal_type_maintain_desc">Udržet si hmotnost.</string>
+    <string name="goal_type_build_desc">Nabírat svaly s malým přebytkem kalorií.</string>
+    <string name="goal_type_recomp_desc">Hubnout tuk a zároveň nabírat svaly: jíst na udržovací úrovni s vysokým příjmem bílkovin.</string>
+    <string name="speed_label">Tempo</string>
+    <string name="speed_option">%1$s %% tělesné hmotnosti za týden</string>
+    <string name="speed_effect">%1$s kg za týden ≈ %2$s kcal za den</string>
+    <string name="speed_effect_unknown">Zadejte hmotnost a uvidíte kg za týden.</string>
+    <string name="macro_mode_label">Živiny</string>
+    <string name="macro_mode_auto">Automaticky</string>
+    <string name="macro_mode_split">Vlastní rozdělení</string>
+    <string name="macro_mode_auto_desc">Bílkoviny podle kg tělesné hmotnosti, tuky jako podíl kalorií, zbytek sacharidy.</string>
+    <string name="protein_per_kg_label">Bílkoviny: %1$s g na kg</string>
+    <string name="fat_pct_label">Tuky: %1$d %% kalorií</string>
+    <string name="formula_mifflin">Klidový výdej podle rovnice Mifflin-St Jeor.</string>
+    <string name="formula_katch">Klidový výdej podle vašeho tělesného tuku (%1$s %%, %2$s), rovnice Katch-McArdle.</string>
+    <string name="warning_fast_cut" formatted="false">Hubnutí o víc než 1 % hmotnosti týdně se těžko vydrží a může stát svaly.</string>
+    <string name="warning_low_body_fat">Váš tělesný tuk je už nízký. Zvažte raději udržování.</string>
+    <string name="warning_protein_too_high">Bílkovin je na tento cíl kalorií příliš mnoho.</string>
+    <plurals name="age_years">
+        <item quantity="one">%1$d rok</item>
+        <item quantity="few">%1$d roky</item>
+        <item quantity="many">%1$d roku</item>
+        <item quantity="other">%1$d let</item>
+    </plurals>
 
     <!-- Weight -->
     <string name="weight_title">Váha</string>
