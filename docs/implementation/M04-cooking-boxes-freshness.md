@@ -21,14 +21,14 @@
 
 ### M4.3 The cook flow
 
-1. [ ] Start from a recipe (**Cook**), or later from a planned cook (M5).
-2. [ ] Choose one or more recipes and how much: servings, or a target cooked weight.
-3. [ ] Check the ingredients: the scaled amounts are shown and can be changed to what was really used. They are saved as `batch_ingredients`.
+1. [x] Start from a recipe (**Cook**), or later from a planned cook (M5).
+2. [x] Choose one or more recipes and how much: servings, or a target cooked weight.
+3. [x] Check the ingredients: the scaled amounts are shown and can be changed to what was really used. They are saved as `batch_ingredients`.
 4. [ ] **Cook mode** (M4.4).
-5. [ ] **Weigh:** choose a saved pot and type the full weight (the app subtracts the empty pot), or type the net weight. A9 checks the value.
-6. [ ] **Fill boxes** (M4.5).
+5. [x] **Weigh:** choose a saved pot and type the full weight (the app subtracts the empty pot), or type the net weight. A9 checks the value.
+6. [x] **Fill boxes** (M4.5).
 
-A single food cooked on its own (for example plain rice) is a batch without a recipe: pick the food, its raw grams and the cooked weight.
+A single food cooked on its own (for example plain rice) is a batch without a recipe: pick the food, its raw grams and the cooked weight. *(Built: "Add a single food" in the first step.)*
 
 ### M4.4 Cook mode
 
@@ -41,11 +41,11 @@ A single food cooked on its own (for example plain rice) is a batch without a re
 
 ### M4.5 Filling boxes
 
-- [ ] Modes (A10): **equal**, **by calorie target** and **by person** (choose people and meals; their meal targets give the grams).
-- [ ] **Boxes from several batches** (for example chicken + rice + broccoli): choose the batches, set fixed parts if wanted, set the target per box (default: the person's meal target), and the solver (A11) gives the grams of each part for each box. Show a warning when the target can't be reached.
-- [ ] Show for each box: code (`C1` …), grams, kcal and protein (respect hide-numbers mode), the owner's name and colour, fridge or freezer.
-- [ ] Planned day and meal per box are optional here; M5 fills them from the plan. Boxes whose day is after the fridge eat-by date go to the freezer automatically (A13), and the screen says so.
-- [ ] Leftover handling as in A10.
+- [x] Modes (A10): **equal**, **by calorie target** and **by person** (choose people and meals; their meal targets give the grams).
+- [x] **Boxes from several batches** (for example chicken + rice + broccoli): choose the batches, set fixed parts if wanted, set the target per box (default: the person's meal target), and the solver (A11) gives the grams of each part for each box. Show a warning when the target can't be reached.
+- [x] Show for each box: code (`C1` …), grams, kcal and protein (respect hide-numbers mode), the owner's name and colour, fridge or freezer.
+- [x] Planned day and meal per box are optional here; M5 fills them from the plan. Boxes whose day is after the fridge eat-by date go to the freezer automatically (A13), and the screen says so.
+- [x] Leftover handling as in A10.
 
 **Done when:** the chili example gives 6 × 500 g; the "by person" example gives 4 × 500 g + 2 × 375 g and a 250 g leftover box; the chicken-rice example gives 130 g + 280 g.
 

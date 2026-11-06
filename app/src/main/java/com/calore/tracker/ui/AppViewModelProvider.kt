@@ -1,5 +1,6 @@
 package com.calore.tracker.ui
 
+import com.calore.tracker.ui.cook.CookViewModel
 import com.calore.tracker.ui.kitchen.KitchenViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
 import com.calore.tracker.ui.kitchen.WasteViewModel
@@ -116,6 +117,10 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             WasteViewModel(c.cookingRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock)
         }
         initializer {
             val c = container()

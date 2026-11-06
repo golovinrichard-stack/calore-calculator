@@ -19,6 +19,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -81,6 +82,8 @@ fun RecipeDetailScreen(
     onEdit: (id: String) -> Unit,
     onDeleted: () -> Unit,
     onOpenRecipe: (id: String) -> Unit = {},
+    /** Cook mode (M4); null while cooking is not available. */
+    onCook: ((id: String) -> Unit)? = null,
     viewModel: RecipeDetailViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val load by viewModel.uiState.collectAsStateWithLifecycle()
@@ -144,13 +147,22 @@ fun RecipeDetailScreen(
         },
         bottomBar = {
             if (loaded != null) {
-                Button(
-                    onClick = { loggingPortion = true },
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .navigationBarsPadding()
                         .padding(16.dp),
-                ) { Text(stringResource(R.string.dish_log_portion)) }
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    if (onCook != null) {
+                        OutlinedButton(onClick = { onCook(viewModel.recipeId) }, modifier = Modifier.weight(1f)) {
+                            Text(stringResource(R.string.cook_button))
+                        }
+                    }
+                    Button(onClick = { loggingPortion = true }, modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.dish_log_portion))
+                    }
+                }
             }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },

@@ -35,6 +35,7 @@ object Routes {
     const val POTS = "pots"
     const val KITCHEN = "kitchen"
     const val WASTE = "waste"
+    const val COOK = "cook?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
     const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
     const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
     const val SCANNER_PICK = "scanner_pick"
@@ -47,6 +48,8 @@ object Routes {
     const val SCANNER = "scanner/{$ARG_DATE}/{$ARG_MEAL}"
 
     fun recipe(id: String) = "recipe/$id"
+
+    fun cook(recipeId: String? = null) = if (recipeId == null) "cook" else "cook?$ARG_RECIPE_ID=$recipeId"
 
     fun recipeEdit(id: String? = null) = if (id == null) "recipe_edit" else "recipe_edit?$ARG_RECIPE_ID=$id"
 

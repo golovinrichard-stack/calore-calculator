@@ -37,6 +37,7 @@ import com.calore.tracker.ui.checkin.CheckinScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
+import com.calore.tracker.ui.cook.CookScreen
 import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.kitchen.WasteScreen
@@ -255,6 +256,20 @@ fun CaloreNavHost(
                 composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
                 composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
                 composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+                composable(
+                    Routes.COOK,
+                    arguments = listOf(
+                        navArgument(Routes.ARG_RECIPE_ID) {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+                    ),
+                ) {
+                    CookScreen(
+                        onBack = { navController.popBackStack() },
+                        onDone = { navController.navigateToTopLevel(Routes.KITCHEN) },
+                    )
+                }
             }
             composable(Routes.CALCULATOR) {
                 CalculatorScreen(
@@ -288,6 +303,7 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
             onEdit = { id -> navController.navigate(Routes.recipeEdit(id)) },
             onDeleted = { navController.popBackStack() },
             onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
+            onCook = if (FeatureFlags.kitchen) ({ id -> navController.navigate(Routes.cook(id)) }) else null,
         )
     }
     composable(

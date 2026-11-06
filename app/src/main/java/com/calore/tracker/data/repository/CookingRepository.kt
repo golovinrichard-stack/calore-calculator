@@ -28,6 +28,7 @@ import com.calore.tracker.domain.WasteReason
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.Clock
 import java.time.Instant
@@ -112,6 +113,10 @@ class CookingRepository(
 
     /** Codes of boxes not eaten or wasted. */
     suspend fun activeCodes(): Set<String> = cookingDao.activeCodes().toSet()
+
+    /** For each code prefix of active boxes ("C" of "C3"), the recipe of its first batch (A10). */
+    suspend fun activePrefixOwners(): Map<String, String?> = activeBoxes().first()
+        .associate { view -> view.box.code.takeWhile { it.isLetter() } to view.parts.firstOrNull()?.second?.recipeId }
 
     /**
      * Fills boxes. Each box's eat-by date is the earliest of its parts (A12: [fridgeDaysByBatch]
