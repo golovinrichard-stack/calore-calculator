@@ -193,5 +193,77 @@ val MIGRATION_5_6 = object : Migration(5, 6) {
     }
 }
 
+/** Version 7 (M5.1): week plans, slots and cooks, the pantry, shops, their products and prices, the shopping list. */
+val MIGRATION_6_7 = object : Migration(6, 7) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `plans` (`id` TEXT NOT NULL, `weekStart` TEXT, `templateName` TEXT, " +
+                "`generatorSeed` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_plans_weekStart` ON `plans` (`weekStart`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `plan_slots` (`id` TEXT NOT NULL, `planId` TEXT NOT NULL, " +
+                "`date` TEXT NOT NULL, `meal` TEXT NOT NULL, `memberId` TEXT NOT NULL, `kind` TEXT NOT NULL, " +
+                "`recipeId` TEXT, `boxId` TEXT, `targetKcal` INTEGER, `targetProteinG` INTEGER, " +
+                "`targetCarbsG` INTEGER, `targetFatG` INTEGER, `locked` INTEGER NOT NULL DEFAULT 0, " +
+                "`done` INTEGER NOT NULL DEFAULT 0, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_plan_slots_planId` ON `plan_slots` (`planId`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_plan_slots_date` ON `plan_slots` (`date`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `plan_cooks` (`id` TEXT NOT NULL, `planId` TEXT NOT NULL, " +
+                "`date` TEXT NOT NULL, `recipeId` TEXT NOT NULL, `portions` INTEGER NOT NULL, " +
+                "`targetCookedGrams` REAL, `scale` REAL NOT NULL, `batchId` TEXT, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_plan_cooks_planId` ON `plan_cooks` (`planId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `pantry_items` (`id` TEXT NOT NULL, `foodUuid` TEXT, " +
+                "`storeProductId` TEXT, `name` TEXT NOT NULL, `amount` REAL NOT NULL, `unit` TEXT NOT NULL, " +
+                "`storage` TEXT NOT NULL, `boughtDate` TEXT NOT NULL, `bestBeforeDate` TEXT, `openedDate` TEXT, " +
+                "`state` TEXT NOT NULL, `costHalers` INTEGER, `reservedForCookId` TEXT, `ownerMemberId` TEXT, " +
+                "`visibility` TEXT NOT NULL DEFAULT 'SHARED', `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_pantry_items_foodUuid` ON `pantry_items` (`foodUuid`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_pantry_items_state` ON `pantry_items` (`state`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `stores` (`id` TEXT NOT NULL, `key` TEXT, `name` TEXT NOT NULL, " +
+                "`sectionOrder` TEXT NOT NULL, `favorite` INTEGER NOT NULL DEFAULT 0, " +
+                "`defaultForSections` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_stores_key` ON `stores` (`key`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `store_products` (`id` TEXT NOT NULL, `key` TEXT, " +
+                "`storeId` TEXT NOT NULL, `foodUuid` TEXT, `name` TEXT NOT NULL, `brand` TEXT, `barcode` TEXT, " +
+                "`packAmount` REAL NOT NULL, `packUnit` TEXT NOT NULL, `preferred` INTEGER NOT NULL DEFAULT 0, " +
+                "`source` TEXT NOT NULL, `sourceNote` TEXT, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_store_products_key` ON `store_products` (`key`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_store_products_storeId` ON `store_products` (`storeId`)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_store_products_foodUuid` ON `store_products` (`foodUuid`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `prices` (`id` TEXT NOT NULL, `storeProductId` TEXT NOT NULL, " +
+                "`priceHalers` INTEGER NOT NULL, `currency` TEXT NOT NULL, `date` TEXT NOT NULL, " +
+                "`source` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_prices_storeProductId` ON `prices` (`storeProductId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `shopping_items` (`id` TEXT NOT NULL, `foodUuid` TEXT, " +
+                "`storeProductId` TEXT, `storeId` TEXT, `name` TEXT NOT NULL, `amountNeeded` REAL, `unit` TEXT, " +
+                "`packs` INTEGER, `section` TEXT NOT NULL, `fromPlanId` TEXT, " +
+                "`manual` INTEGER NOT NULL DEFAULT 0, `checkedAt` INTEGER, `checkedByMemberId` TEXT, " +
+                "`requestedByMemberId` TEXT, `priceHalers` INTEGER, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_shopping_items_checkedAt` ON `shopping_items` (`checkedAt`)")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)

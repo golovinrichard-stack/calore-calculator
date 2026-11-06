@@ -29,8 +29,9 @@ object BackupCodec {
      * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
      * 4: + recipes, recipe ingredients and steps, diary recipeId and servings (M3).
      * 5: + pots, batches, batch ingredients, boxes, box parts, diary boxId (M4).
+     * 6: + plans, plan slots and cooks, pantry items, stores, store products, prices, shopping items (M5).
      */
-    const val VERSION = 5
+    const val VERSION = 6
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -102,7 +103,22 @@ object BackupCodec {
             diary.all { it.memberId == null || uuidPattern.matches(it.memberId) } &&
             areProfilesConsistent(tables) &&
             areRecipesConsistent(tables) &&
-            areCookingTablesConsistent(tables)
+            areCookingTablesConsistent(tables) &&
+            arePlanAndShopTablesConsistent(tables)
+    }
+
+    /** Every row has a uuid id, ids are unique, and the dates can be read. */
+    private fun arePlanAndShopTablesConsistent(tables: BackupTables): Boolean {
+        fun <T> List<T>?.ok(id: (T) -> String, valid: (T) -> Boolean = { true }): Boolean =
+            orEmpty().all { uuidPattern.matches(id(it)) && valid(it) } && orEmpty().isUnique { id(it).lowercase() }
+        return tables.plans.ok({ it.id }) { it.weekStart == null || parseIsoDate(it.weekStart) != null } &&
+            tables.planSlots.ok({ it.id }) { parseIsoDate(it.date) != null } &&
+            tables.planCooks.ok({ it.id }) { parseIsoDate(it.date) != null && it.scale.isAmount() } &&
+            tables.pantryItems.ok({ it.id }) { it.amount.isAmount() && parseIsoDate(it.boughtDate) != null } &&
+            tables.stores.ok({ it.id }) &&
+            tables.storeProducts.ok({ it.id }) { it.packAmount > 0 } &&
+            tables.prices.ok({ it.id }) { it.priceHalers >= 0 && parseIsoDate(it.date) != null } &&
+            tables.shoppingItems.ok({ it.id })
     }
 
     private fun areCookingTablesConsistent(tables: BackupTables): Boolean {

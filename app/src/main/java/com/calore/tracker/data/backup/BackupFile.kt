@@ -8,6 +8,15 @@ import com.calore.tracker.data.db.JsonColumns
 import com.calore.tracker.data.db.MemberEntity
 import com.calore.tracker.data.db.RecipeEntity
 import com.calore.tracker.data.db.PotEntity
+import com.calore.tracker.data.db.PlanEntity
+import com.calore.tracker.data.db.PlanSlotEntity
+import com.calore.tracker.data.db.PlanCookEntity
+import com.calore.tracker.data.db.PantryItemEntity
+import com.calore.tracker.data.db.StoreEntity
+import com.calore.tracker.data.db.StoreProductEntity
+import com.calore.tracker.data.db.PriceEntity
+import com.calore.tracker.data.db.ShoppingItemEntity
+import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.data.db.BatchEntity
 import com.calore.tracker.data.db.BatchIngredientEntity
 import com.calore.tracker.data.db.BoxEntity
@@ -61,6 +70,15 @@ data class BackupTables(
     @SerialName("batch_ingredients") val batchIngredients: List<BatchIngredientRow>? = null,
     val boxes: List<BoxRow>? = null,
     @SerialName("box_parts") val boxParts: List<BoxPartRow>? = null,
+    // Since version 6 (M5).
+    val plans: List<PlanRow>? = null,
+    @SerialName("plan_slots") val planSlots: List<PlanSlotRow>? = null,
+    @SerialName("plan_cooks") val planCooks: List<PlanCookRow>? = null,
+    @SerialName("pantry_items") val pantryItems: List<PantryItemRow>? = null,
+    val stores: List<StoreRow>? = null,
+    @SerialName("store_products") val storeProducts: List<StoreProductRow>? = null,
+    val prices: List<PriceRow>? = null,
+    @SerialName("shopping_items") val shoppingItems: List<ShoppingItemRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -338,6 +356,142 @@ data class BoxPartRow(
     val boxId: String,
     val batchId: String,
     val grams: Double,
+)
+
+@Serializable
+data class PlanRow(
+    val id: String,
+    val weekStart: String? = null,
+    val templateName: String? = null,
+    val generatorSeed: Long? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class PlanSlotRow(
+    val id: String,
+    val planId: String,
+    val date: String,
+    val meal: String,
+    val memberId: String,
+    val kind: String,
+    val recipeId: String? = null,
+    val boxId: String? = null,
+    val targetKcal: Int? = null,
+    val targetProteinG: Int? = null,
+    val targetCarbsG: Int? = null,
+    val targetFatG: Int? = null,
+    val locked: Boolean = false,
+    val done: Boolean = false,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class PlanCookRow(
+    val id: String,
+    val planId: String,
+    val date: String,
+    val recipeId: String,
+    val portions: Int,
+    val targetCookedGrams: Double? = null,
+    val scale: Double,
+    val batchId: String? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class PantryItemRow(
+    val id: String,
+    val foodUuid: String? = null,
+    val storeProductId: String? = null,
+    val name: String,
+    val amount: Double,
+    val unit: String,
+    val storage: String,
+    val boughtDate: String,
+    val bestBeforeDate: String? = null,
+    val openedDate: String? = null,
+    val state: String,
+    val costHalers: Long? = null,
+    val reservedForCookId: String? = null,
+    val ownerMemberId: String? = null,
+    val visibility: String = "SHARED",
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class StoreRow(
+    val id: String,
+    val key: String? = null,
+    val name: String,
+    val sectionOrder: List<String>,
+    val favorite: Boolean = false,
+    val defaultForSections: List<String>,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class StoreProductRow(
+    val id: String,
+    val key: String? = null,
+    val storeId: String,
+    val foodUuid: String? = null,
+    val name: String,
+    val brand: String? = null,
+    val barcode: String? = null,
+    val packAmount: Double,
+    val packUnit: String,
+    val preferred: Boolean = false,
+    val source: String,
+    val sourceNote: String? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class PriceRow(
+    val id: String,
+    val storeProductId: String,
+    val priceHalers: Long,
+    val currency: String,
+    val date: String,
+    val source: String,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class ShoppingItemRow(
+    val id: String,
+    val foodUuid: String? = null,
+    val storeProductId: String? = null,
+    val storeId: String? = null,
+    val name: String,
+    val amountNeeded: Double? = null,
+    val unit: String? = null,
+    val packs: Int? = null,
+    val section: String,
+    val fromPlanId: String? = null,
+    val manual: Boolean = false,
+    val checkedAt: Long? = null,
+    val checkedByMemberId: String? = null,
+    val requestedByMemberId: String? = null,
+    val priceHalers: Long? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
 )
 
 internal fun FoodEntity.toRow() = FoodRow(
@@ -800,4 +954,260 @@ internal fun BoxPartRow.toEntity() = BoxPartEntity(
     boxId = boxId,
     batchId = batchId,
     grams = grams,
+)
+
+internal fun PlanEntity.toRow() = PlanRow(
+    id = id,
+    weekStart = weekStart,
+    templateName = templateName,
+    generatorSeed = generatorSeed,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PlanRow.toEntity() = PlanEntity(
+    id = id,
+    weekStart = weekStart,
+    templateName = templateName,
+    generatorSeed = generatorSeed,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PlanSlotEntity.toRow() = PlanSlotRow(
+    id = id,
+    planId = planId,
+    date = date,
+    meal = meal,
+    memberId = memberId,
+    kind = kind,
+    recipeId = recipeId,
+    boxId = boxId,
+    targetKcal = targetKcal,
+    targetProteinG = targetProteinG,
+    targetCarbsG = targetCarbsG,
+    targetFatG = targetFatG,
+    locked = locked,
+    done = done,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PlanSlotRow.toEntity() = PlanSlotEntity(
+    id = id,
+    planId = planId,
+    date = date,
+    meal = meal,
+    memberId = memberId,
+    kind = kind,
+    recipeId = recipeId,
+    boxId = boxId,
+    targetKcal = targetKcal,
+    targetProteinG = targetProteinG,
+    targetCarbsG = targetCarbsG,
+    targetFatG = targetFatG,
+    locked = locked,
+    done = done,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PlanCookEntity.toRow() = PlanCookRow(
+    id = id,
+    planId = planId,
+    date = date,
+    recipeId = recipeId,
+    portions = portions,
+    targetCookedGrams = targetCookedGrams,
+    scale = scale,
+    batchId = batchId,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PlanCookRow.toEntity() = PlanCookEntity(
+    id = id,
+    planId = planId,
+    date = date,
+    recipeId = recipeId,
+    portions = portions,
+    targetCookedGrams = targetCookedGrams,
+    scale = scale,
+    batchId = batchId,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PantryItemEntity.toRow() = PantryItemRow(
+    id = id,
+    foodUuid = foodUuid,
+    storeProductId = storeProductId,
+    name = name,
+    amount = amount,
+    unit = unit,
+    storage = storage,
+    boughtDate = boughtDate,
+    bestBeforeDate = bestBeforeDate,
+    openedDate = openedDate,
+    state = state,
+    costHalers = costHalers,
+    reservedForCookId = reservedForCookId,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PantryItemRow.toEntity() = PantryItemEntity(
+    id = id,
+    foodUuid = foodUuid,
+    storeProductId = storeProductId,
+    name = name,
+    amount = amount,
+    unit = unit,
+    storage = storage,
+    boughtDate = boughtDate,
+    bestBeforeDate = bestBeforeDate,
+    openedDate = openedDate,
+    state = state,
+    costHalers = costHalers,
+    reservedForCookId = reservedForCookId,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun StoreEntity.toRow() = StoreRow(
+    id = id,
+    key = key,
+    name = name,
+    sectionOrder = sectionOrder.map { it.name },
+    favorite = favorite,
+    defaultForSections = defaultForSections.map { it.name },
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun StoreRow.toEntity() = StoreEntity(
+    id = id,
+    key = key,
+    name = name,
+    sectionOrder = sectionOrder.mapNotNull { JsonColumns.enumByName<ShopSection>(it) },
+    favorite = favorite,
+    defaultForSections = defaultForSections.mapNotNull { JsonColumns.enumByName<ShopSection>(it) },
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun StoreProductEntity.toRow() = StoreProductRow(
+    id = id,
+    key = key,
+    storeId = storeId,
+    foodUuid = foodUuid,
+    name = name,
+    brand = brand,
+    barcode = barcode,
+    packAmount = packAmount,
+    packUnit = packUnit,
+    preferred = preferred,
+    source = source,
+    sourceNote = sourceNote,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun StoreProductRow.toEntity() = StoreProductEntity(
+    id = id,
+    key = key,
+    storeId = storeId,
+    foodUuid = foodUuid,
+    name = name,
+    brand = brand,
+    barcode = barcode,
+    packAmount = packAmount,
+    packUnit = packUnit,
+    preferred = preferred,
+    source = source,
+    sourceNote = sourceNote,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PriceEntity.toRow() = PriceRow(
+    id = id,
+    storeProductId = storeProductId,
+    priceHalers = priceHalers,
+    currency = currency,
+    date = date,
+    source = source,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun PriceRow.toEntity() = PriceEntity(
+    id = id,
+    storeProductId = storeProductId,
+    priceHalers = priceHalers,
+    currency = currency,
+    date = date,
+    source = source,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun ShoppingItemEntity.toRow() = ShoppingItemRow(
+    id = id,
+    foodUuid = foodUuid,
+    storeProductId = storeProductId,
+    storeId = storeId,
+    name = name,
+    amountNeeded = amountNeeded,
+    unit = unit,
+    packs = packs,
+    section = section,
+    fromPlanId = fromPlanId,
+    manual = manual,
+    checkedAt = checkedAt,
+    checkedByMemberId = checkedByMemberId,
+    requestedByMemberId = requestedByMemberId,
+    priceHalers = priceHalers,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
+)
+
+internal fun ShoppingItemRow.toEntity() = ShoppingItemEntity(
+    id = id,
+    foodUuid = foodUuid,
+    storeProductId = storeProductId,
+    storeId = storeId,
+    name = name,
+    amountNeeded = amountNeeded,
+    unit = unit,
+    packs = packs,
+    section = section,
+    fromPlanId = fromPlanId,
+    manual = manual,
+    checkedAt = checkedAt,
+    checkedByMemberId = checkedByMemberId,
+    requestedByMemberId = requestedByMemberId,
+    priceHalers = priceHalers,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
 )

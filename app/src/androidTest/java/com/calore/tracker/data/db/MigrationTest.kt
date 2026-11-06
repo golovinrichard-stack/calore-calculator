@@ -153,6 +153,19 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration6To7AddsPlanPantryAndShopTables() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 6, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 7, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            for (table in listOf("plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items")) {
+                assertEquals(table, listOf("0"), db.strings("SELECT COUNT(*) FROM $table"))
+            }
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }

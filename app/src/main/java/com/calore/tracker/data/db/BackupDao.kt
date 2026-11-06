@@ -22,6 +22,14 @@ data class DatabaseSnapshot(
     val batchIngredients: List<BatchIngredientEntity>? = emptyList(),
     val boxes: List<BoxEntity>? = emptyList(),
     val boxParts: List<BoxPartEntity>? = emptyList(),
+    val plans: List<PlanEntity>? = emptyList(),
+    val planSlots: List<PlanSlotEntity>? = emptyList(),
+    val planCooks: List<PlanCookEntity>? = emptyList(),
+    val pantryItems: List<PantryItemEntity>? = emptyList(),
+    val stores: List<StoreEntity>? = emptyList(),
+    val storeProducts: List<StoreProductEntity>? = emptyList(),
+    val prices: List<PriceEntity>? = emptyList(),
+    val shoppingItems: List<ShoppingItemEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -118,6 +126,78 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertBoxParts(rows: List<BoxPartEntity>)
 
+    @Query("SELECT * FROM plans ORDER BY createdAt, id")
+    protected abstract suspend fun allPlans(): List<PlanEntity>
+
+    @Query("DELETE FROM plans")
+    protected abstract suspend fun deleteAllPlans()
+
+    @Insert
+    protected abstract suspend fun insertPlans(rows: List<PlanEntity>)
+
+    @Query("SELECT * FROM plan_slots ORDER BY createdAt, id")
+    protected abstract suspend fun allPlanSlots(): List<PlanSlotEntity>
+
+    @Query("DELETE FROM plan_slots")
+    protected abstract suspend fun deleteAllPlanSlots()
+
+    @Insert
+    protected abstract suspend fun insertPlanSlots(rows: List<PlanSlotEntity>)
+
+    @Query("SELECT * FROM plan_cooks ORDER BY createdAt, id")
+    protected abstract suspend fun allPlanCooks(): List<PlanCookEntity>
+
+    @Query("DELETE FROM plan_cooks")
+    protected abstract suspend fun deleteAllPlanCooks()
+
+    @Insert
+    protected abstract suspend fun insertPlanCooks(rows: List<PlanCookEntity>)
+
+    @Query("SELECT * FROM pantry_items ORDER BY createdAt, id")
+    protected abstract suspend fun allPantryItems(): List<PantryItemEntity>
+
+    @Query("DELETE FROM pantry_items")
+    protected abstract suspend fun deleteAllPantryItems()
+
+    @Insert
+    protected abstract suspend fun insertPantryItems(rows: List<PantryItemEntity>)
+
+    @Query("SELECT * FROM stores ORDER BY createdAt, id")
+    protected abstract suspend fun allStores(): List<StoreEntity>
+
+    @Query("DELETE FROM stores")
+    protected abstract suspend fun deleteAllStores()
+
+    @Insert
+    protected abstract suspend fun insertStores(rows: List<StoreEntity>)
+
+    @Query("SELECT * FROM store_products ORDER BY createdAt, id")
+    protected abstract suspend fun allStoreProducts(): List<StoreProductEntity>
+
+    @Query("DELETE FROM store_products")
+    protected abstract suspend fun deleteAllStoreProducts()
+
+    @Insert
+    protected abstract suspend fun insertStoreProducts(rows: List<StoreProductEntity>)
+
+    @Query("SELECT * FROM prices ORDER BY createdAt, id")
+    protected abstract suspend fun allPrices(): List<PriceEntity>
+
+    @Query("DELETE FROM prices")
+    protected abstract suspend fun deleteAllPrices()
+
+    @Insert
+    protected abstract suspend fun insertPrices(rows: List<PriceEntity>)
+
+    @Query("SELECT * FROM shopping_items ORDER BY createdAt, id")
+    protected abstract suspend fun allShoppingItems(): List<ShoppingItemEntity>
+
+    @Query("DELETE FROM shopping_items")
+    protected abstract suspend fun deleteAllShoppingItems()
+
+    @Insert
+    protected abstract suspend fun insertShoppingItems(rows: List<ShoppingItemEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -170,6 +250,14 @@ abstract class BackupDao {
         batchIngredients = allBatchIngredients(),
         boxes = allBoxes(),
         boxParts = allBoxParts(),
+        plans = allPlans(),
+        planSlots = allPlanSlots(),
+        planCooks = allPlanCooks(),
+        pantryItems = allPantryItems(),
+        stores = allStores(),
+        storeProducts = allStoreProducts(),
+        prices = allPrices(),
+        shoppingItems = allShoppingItems(),
     )
 
     /**
@@ -228,6 +316,38 @@ abstract class BackupDao {
         snapshot.boxParts?.let {
             deleteAllBoxParts()
             insertBoxParts(it)
+        }
+        snapshot.plans?.let {
+            deleteAllPlans()
+            insertPlans(it)
+        }
+        snapshot.planSlots?.let {
+            deleteAllPlanSlots()
+            insertPlanSlots(it)
+        }
+        snapshot.planCooks?.let {
+            deleteAllPlanCooks()
+            insertPlanCooks(it)
+        }
+        snapshot.pantryItems?.let {
+            deleteAllPantryItems()
+            insertPantryItems(it)
+        }
+        snapshot.stores?.let {
+            deleteAllStores()
+            insertStores(it)
+        }
+        snapshot.storeProducts?.let {
+            deleteAllStoreProducts()
+            insertStoreProducts(it)
+        }
+        snapshot.prices?.let {
+            deleteAllPrices()
+            insertPrices(it)
+        }
+        snapshot.shoppingItems?.let {
+            deleteAllShoppingItems()
+            insertShoppingItems(it)
         }
     }
 }

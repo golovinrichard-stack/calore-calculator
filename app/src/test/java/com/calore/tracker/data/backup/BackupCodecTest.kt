@@ -229,6 +229,7 @@ class BackupCodecTest {
                 "foods", "diary_entries", "weight_entries", "members", "body_measurements", "checkins",
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
+                "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
             ),
             root["tables"]!!.jsonObject.keys,
         )

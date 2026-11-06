@@ -5,6 +5,7 @@ import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.AnimalFlag
 import com.calore.tracker.domain.Equipment
 import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.ShopSection
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
@@ -114,6 +115,12 @@ class Converters {
 
     @TypeConverter
     fun jsonToDayList(value: String?): List<DayOfWeek> = JsonColumns.decodeEnums(value)
+
+    @TypeConverter
+    fun shopSectionListToJson(value: List<ShopSection>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToShopSectionList(value: String?): List<ShopSection> = JsonColumns.decodeEnums(value)
 
     @TypeConverter
     fun animalFlagListToJson(value: List<AnimalFlag>): String = JsonColumns.encodeEnums(value)

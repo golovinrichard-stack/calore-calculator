@@ -22,8 +22,16 @@ import androidx.room.TypeConverters
         BatchIngredientEntity::class,
         BoxEntity::class,
         BoxPartEntity::class,
+        PlanEntity::class,
+        PlanSlotEntity::class,
+        PlanCookEntity::class,
+        PantryItemEntity::class,
+        StoreEntity::class,
+        StoreProductEntity::class,
+        PriceEntity::class,
+        ShoppingItemEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

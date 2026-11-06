@@ -59,6 +59,14 @@ class BackupRepository(
                 batchIngredients = snapshot.batchIngredients.orEmpty().map { it.toRow() },
                 boxes = snapshot.boxes.orEmpty().map { it.toRow() },
                 boxParts = snapshot.boxParts.orEmpty().map { it.toRow() },
+                plans = snapshot.plans.orEmpty().map { it.toRow() },
+                planSlots = snapshot.planSlots.orEmpty().map { it.toRow() },
+                planCooks = snapshot.planCooks.orEmpty().map { it.toRow() },
+                pantryItems = snapshot.pantryItems.orEmpty().map { it.toRow() },
+                stores = snapshot.stores.orEmpty().map { it.toRow() },
+                storeProducts = snapshot.storeProducts.orEmpty().map { it.toRow() },
+                prices = snapshot.prices.orEmpty().map { it.toRow() },
+                shoppingItems = snapshot.shoppingItems.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -99,6 +107,14 @@ class BackupRepository(
                 batchIngredients = tables.batchIngredients?.map { it.toEntity() },
                 boxes = tables.boxes?.map { it.toEntity() },
                 boxParts = tables.boxParts?.map { it.toEntity() },
+                plans = tables.plans?.map { it.toEntity() },
+                planSlots = tables.planSlots?.map { it.toEntity() },
+                planCooks = tables.planCooks?.map { it.toEntity() },
+                pantryItems = tables.pantryItems?.map { it.toEntity() },
+                stores = tables.stores?.map { it.toEntity() },
+                storeProducts = tables.storeProducts?.map { it.toEntity() },
+                prices = tables.prices?.map { it.toEntity() },
+                shoppingItems = tables.shoppingItems?.map { it.toEntity() },
             ),
         )
     }
