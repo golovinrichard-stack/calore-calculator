@@ -6,7 +6,9 @@ import com.calore.tracker.data.db.toEntity
 import com.calore.tracker.data.db.toStored
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.domain.Food
+import com.calore.tracker.domain.EntryType
 import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.Nutrients
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -35,6 +37,29 @@ class DiaryRepository(
             uuid = newId(),
         )
         return diaryDao.insert(entry.toEntity())
+    }
+
+    /** Logs calories (and macros if known) without a food, e.g. a meal out (M2.5). */
+    suspend fun quickAdd(name: String, nutrients: Nutrients, meal: MealType, date: LocalDate): Long {
+        val entry = DiaryEntry(
+            id = 0,
+            date = date,
+            meal = meal,
+            foodId = null,
+            name = name,
+            grams = 0.0,
+            nutrients = nutrients,
+            loggedAt = clock.millis(),
+            uuid = newId(),
+            entryType = EntryType.QUICK_ADD,
+        )
+        return diaryDao.insert(entry.toEntity())
+    }
+
+    /** Edits a quick add: its name and values, never grams. */
+    suspend fun updateQuickAdd(entry: DiaryEntry, name: String, nutrients: Nutrients) {
+        if (entry.entryType != EntryType.QUICK_ADD) return
+        diaryDao.update(entry.copy(name = name, nutrients = nutrients).toEntity())
     }
 
     /** Changes the portion size, scaling the stored nutrients in proportion. */

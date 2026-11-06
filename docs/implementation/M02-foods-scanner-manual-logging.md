@@ -25,7 +25,7 @@
   and writes `app/src/main/assets/foods/generic-cz.json` with nutrients per 100 g: energy (kcal), protein, carbohydrate, fat, fibre, sugars, iron, magnesium and vitamin C, plus a `datasetVersion` and a `sources` list.
 - [x] Choose about **300 common foods** for Czech home cooking, spread over all `ShopSection`s. (Version 1: 284 foods, every section covered. Basic foods are read-only in the app and appear under Recent only after they are used.)
 - [x] Foods that USDA doesn't have (for example *tvaroh*, Czech breads) are added with values from a typical Czech product label on Open Food Facts, with `sourceRef = off:<barcode>`.
-- [ ] Optional: if ÚZEI allows it (owner input #2), use NutriDatabaze.cz values for Czech foods instead.
+- [ ] Optional: if ÚZEI allows it (owner input #2), use NutriDatabaze.cz values for Czech foods instead. *(Waiting for owner input #2.)*
 - [x] In the app, an importer runs on start when the asset's `datasetVersion` is newer than the stored one. It upserts by `key`, keeps uuids stable, and never touches the user's own foods.
 - [x] Ask the owner to review the Czech names. (Asked in the pull request; the names are in `tools/generic-foods/selection.csv` and `off-foods.json`.)
 
@@ -50,16 +50,16 @@
 
 ### M2.5 Quick add
 
-- [ ] In Add food: **Quick add**, with a name (optional), kcal (required), and protein, carbs and fat (optional).
-- [ ] Saved as `entryType = QUICK_ADD`, `grams = 0`, `foodId = NULL`. Tapping it edits the values (not grams).
-- [ ] Useful for meals out or dishes whose ingredients you don't know.
+- [x] In Add food: **Quick add**, with a name (optional), kcal (required), and protein, carbs and fat (optional).
+- [x] Saved as `entryType = QUICK_ADD`, `grams = 0`, `foodId = NULL`. Tapping it edits the values (not grams).
+- [x] Useful for meals out or dishes whose ingredients you don't know.
 
 **Done when:** a quick add appears in the diary, counts in the totals, and can be edited and deleted with undo.
 
 ### M2.6 Manual logging stays the same
 
-- [ ] Search, custom foods, servings, editing grams and delete with undo work exactly as before.
-- [ ] Add a UI test for the existing flow (search → pick → grams → log) if one doesn't exist.
+- [x] Search, custom foods, servings, editing grams and delete with undo work exactly as before.
+- [x] Add a UI test for the existing flow (search → pick → grams → log) if one doesn't exist.
 
 ## Out of scope
 

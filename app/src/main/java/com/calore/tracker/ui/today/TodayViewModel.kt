@@ -96,6 +96,10 @@ class TodayViewModel(
         viewModelScope.launch { diary.changeGrams(entry, grams) }
     }
 
+    fun updateQuickAdd(entry: DiaryEntry, name: String, nutrients: com.calore.tracker.domain.Nutrients) {
+        viewModelScope.launch { diary.updateQuickAdd(entry, name, nutrients) }
+    }
+
     fun delete(entry: DiaryEntry) {
         viewModelScope.launch { diary.delete(entry) }
     }

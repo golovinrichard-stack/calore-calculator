@@ -31,6 +31,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import com.calore.tracker.ui.quickadd.QuickAddDialog
+import com.calore.tracker.domain.QuickAddDraft
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -61,9 +66,25 @@ fun AddFoodScreen(
     onFoodChosen: (foodId: Long, LocalDate, MealType) -> Unit,
     onCreateCustom: (LocalDate, MealType, name: String) -> Unit,
     onScan: (LocalDate, MealType) -> Unit = { _, _ -> },
+    onQuickAdded: () -> Unit = onBack,
     viewModel: AddFoodViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var quickAdding by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(viewModel) {
+        viewModel.quickAddDone.collect { onQuickAdded() }
+    }
+    if (quickAdding) {
+        QuickAddDialog(
+            initial = QuickAddDraft(name = state.query.trim()),
+            onSave = { name, nutrients ->
+                quickAdding = false
+                viewModel.quickAdd(name, nutrients)
+            },
+            onDismiss = { quickAdding = false },
+        )
+    }
     val keyboard = LocalSoftwareKeyboardController.current
     val searchFocus = remember { FocusRequester() }
 
@@ -127,6 +148,14 @@ fun AddFoodScreen(
                 contentPadding = PaddingValues(bottom = 24.dp),
             ) {
                 localSection(state, onFoodClick = { onFoodChosen(it.id, viewModel.date, viewModel.meal) })
+                item(key = "quick_add") {
+                    ListItem(
+                        modifier = Modifier.clickable { quickAdding = true },
+                        leadingContent = { Icon(Icons.Filled.Add, contentDescription = null) },
+                        headlineContent = { Text(stringResource(R.string.quick_add_title)) },
+                        supportingContent = { Text(stringResource(R.string.quick_add_entry_hint)) },
+                    )
+                }
                 item(key = "create") {
                     ListItem(
                         modifier = Modifier.clickable {

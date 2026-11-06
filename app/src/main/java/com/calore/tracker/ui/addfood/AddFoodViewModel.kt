@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.remote.RemoteFood
 import com.calore.tracker.data.remote.RemoteResult
+import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
@@ -59,6 +60,7 @@ class AddFoodViewModel(
     savedStateHandle: SavedStateHandle,
     private val foods: FoodRepository,
     clock: Clock,
+    private val diary: DiaryRepository? = null,
 ) : ViewModel() {
 
     val date: LocalDate = savedStateHandle.dateArg(clock)
@@ -73,6 +75,19 @@ class AddFoodViewModel(
 
     /** Ids of foods picked from online results, once they are saved locally. */
     val chosenFoodIds: Flow<Long> = chosen.receiveAsFlow()
+
+    private val quickAdded = Channel<Unit>(Channel.CONFLATED)
+
+    /** A quick add was logged; the screen goes back to the diary. */
+    val quickAddDone: Flow<Unit> = quickAdded.receiveAsFlow()
+
+    /** Logs calories without a food (M2.5). */
+    fun quickAdd(name: String, nutrients: com.calore.tracker.domain.Nutrients) {
+        viewModelScope.launch {
+            diary?.quickAdd(name, nutrients, meal, date)
+            quickAdded.send(Unit)
+        }
+    }
 
     private val localFoods: Flow<List<Food>> = query
         .map { it.trim() }

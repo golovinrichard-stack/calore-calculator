@@ -12,7 +12,10 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 ## Features
 
 - **Daily diary** grouped into breakfast, lunch, dinner and snacks, with a running total against your goals. Move between days or jump to any date.
-- **Food search** in Open Food Facts, plus your own custom foods. Foods you use are kept on the phone, so they're there next time even offline.
+- **About 300 basic foods** with Czech and English names (chicken breast, rice, tvaroh …), from USDA FoodData Central and typical Czech labels, available offline.
+- **Food search** in Open Food Facts, with products sold in Czechia first, plus your own custom foods. Foods you use are kept on the phone, so they're there next time even offline.
+- **Barcode scanner**: scan a product in the shop (or type the code); unknown products can be added in a moment.
+- **Quick add**: log just the calories (and macros if you know them), for example for a meal out.
 - **Portions in grams**, with one-tap serving sizes when the product has one. Tap a logged entry to change the amount or remove it (with undo).
 - **Daily goals** for calories, protein, carbs and fat, with a short setup on the first start.
 - **Calorie calculator**: Mifflin-St Jeor, or Katch-McArdle when you know your body fat; goals by speed (lose, maintain, gain or recomp) showing kg per week and kcal per day; automatic macros from protein per kg, or your own split.
@@ -27,7 +30,7 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 
 ## Privacy
 
-Everything you log is stored only in the app's private storage on your phone. There is no account, no analytics and no ad SDK. The only network request the app makes is the Open Food Facts search, which sends nothing but the words you typed.
+Everything you log is stored only in the app's private storage on your phone. There is no account, no analytics and no ad SDK. The only network requests the app makes go to Open Food Facts: a search sends the words you typed (and the app's country), a scan sends the barcode. The camera is used only to read barcodes on the phone; pictures are never saved or sent.
 
 The app's data is included in Android's normal backup and phone-to-phone transfer, so it follows you to a new phone if you use those. A backup file you export yourself contains your health data, so keep it somewhere safe.
 

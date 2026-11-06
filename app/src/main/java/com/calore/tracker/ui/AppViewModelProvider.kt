@@ -33,7 +33,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            AddFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock)
+            AddFoodViewModel(createSavedStateHandle(), c.foodRepository, c.clock, c.diaryRepository)
         }
         initializer {
             val c = container()

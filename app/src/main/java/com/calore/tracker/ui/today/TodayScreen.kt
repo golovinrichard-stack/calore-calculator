@@ -52,6 +52,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
+import com.calore.tracker.ui.quickadd.QuickAddDialog
+import com.calore.tracker.domain.QuickAddDraft
+import com.calore.tracker.domain.EntryType
 import com.calore.tracker.domain.MealSummary
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Nutrients
@@ -135,7 +138,29 @@ fun TodayScreen(
         )
     }
 
-    editing?.let { entry ->
+    editing?.takeIf { it.entryType == EntryType.QUICK_ADD }?.let { entry ->
+        QuickAddDialog(
+            initial = QuickAddDraft.from(entry),
+            onSave = { name, nutrients ->
+                viewModel.updateQuickAdd(entry, name, nutrients)
+                editing = null
+            },
+            onDismiss = { editing = null },
+            onDelete = {
+                editing = null
+                viewModel.delete(entry)
+                scope.launch {
+                    val result = snackbarHostState.showSnackbar(
+                        message = resources.getString(R.string.entry_removed, entry.displayName(resources)),
+                        actionLabel = resources.getString(R.string.undo),
+                        duration = SnackbarDuration.Short,
+                    )
+                    if (result == SnackbarResult.ActionPerformed) viewModel.restore(entry)
+                }
+            },
+        )
+    }
+    editing?.takeIf { it.entryType != EntryType.QUICK_ADD }?.let { entry ->
         EditEntryDialog(
             entry = entry,
             onDismiss = { editing = null },
@@ -317,16 +342,20 @@ private fun EntryRow(entry: DiaryEntry, onClick: () -> Unit, hideNumbers: Boolea
         ListItem(
             modifier = Modifier.clickable(onClick = onClick),
             colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-            headlineContent = { Text(entry.name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+            headlineContent = { Text(entry.displayName(LocalResources.current), maxLines = 2, overflow = TextOverflow.Ellipsis) },
         )
         return
     }
     ListItem(
         modifier = Modifier.clickable(onClick = onClick),
         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-        headlineContent = { Text(entry.name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        headlineContent = { Text(entry.displayName(LocalResources.current), maxLines = 2, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
-            Text(stringResource(R.string.entry_subtitle, formatGrams(entry.grams), formatKcal(entry.nutrients.kcal)))
+            if (entry.entryType == EntryType.QUICK_ADD) {
+                Text(stringResource(R.string.entry_subtitle_quick, formatKcal(entry.nutrients.kcal)))
+            } else {
+                Text(stringResource(R.string.entry_subtitle, formatGrams(entry.grams), formatKcal(entry.nutrients.kcal)))
+            }
         },
         trailingContent = {
             Text(
@@ -442,3 +471,7 @@ private fun HiddenNumbersNote() {
         modifier = Modifier.padding(horizontal = 4.dp),
     )
 }
+
+/** A quick add without a name shows as "Quick add". */
+private fun DiaryEntry.displayName(resources: android.content.res.Resources): String =
+    name.ifBlank { if (entryType == EntryType.QUICK_ADD) resources.getString(R.string.quick_add_title) else name }

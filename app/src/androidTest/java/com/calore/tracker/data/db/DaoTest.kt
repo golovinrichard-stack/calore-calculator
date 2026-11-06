@@ -230,4 +230,32 @@ class DaoTest {
 
         assertEquals(com.calore.tracker.data.repository.BarcodeResult.Found(id), foods.findByBarcode("85936126"))
     }
+
+    @Test
+    fun quickAddCountsInTheDayAndCanBeEditedDeletedAndRestored() = runTest {
+        val repo = DiaryRepository(db.diaryDao(), clock)
+        val bread = Food(1, "Bread", null, null, Nutrients(kcal = 250.0, protein = 9.0), null, FoodSource.CUSTOM, newId())
+        repo.log(bread, grams = 100.0, meal = MealType.LUNCH, date = day)
+        repo.quickAdd("Pizza out", Nutrients(kcal = 850.0, protein = 32.0), MealType.DINNER, day)
+
+        val entries = repo.entriesFor(day).first()
+        val quick = entries.single { it.entryType == com.calore.tracker.domain.EntryType.QUICK_ADD }
+        assertEquals(0.0, quick.grams, 0.0)
+        assertNull(quick.foodId)
+        assertEquals(1100.0, com.calore.tracker.domain.DiaryTotals.summarize(entries).totals.kcal, 1e-9)
+
+        repo.updateQuickAdd(quick, "Pizza", Nutrients(kcal = 900.0))
+        val edited = repo.entriesFor(day).first().single { it.id == quick.id }
+        assertEquals("Pizza", edited.name)
+        assertEquals(900.0, edited.nutrients.kcal, 0.0)
+        assertEquals(quick.uuid, edited.uuid)
+
+        repo.changeGrams(edited, 200.0)
+        assertEquals("grams of a quick add don't change", 900.0, repo.entriesFor(day).first().single { it.id == quick.id }.nutrients.kcal, 0.0)
+
+        repo.delete(edited)
+        assertEquals(1, repo.entriesFor(day).first().size)
+        repo.restore(edited)
+        assertEquals(edited, repo.entriesFor(day).first().single { it.id == quick.id })
+    }
 }

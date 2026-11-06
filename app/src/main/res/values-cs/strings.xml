@@ -516,4 +516,14 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="scanner_add_yourself">Přidat</string>
     <string name="scanner_offline">Jste offline a tento výrobek zatím v telefonu není. Zkuste to znovu po připojení, nebo ho přidejte sami.</string>
     <string name="scanner_scan_again">Načíst znovu</string>
+
+    <!-- Quick add -->
+    <string name="quick_add_title">Rychlý záznam</string>
+    <string name="quick_add_edit_title">Upravit rychlý záznam</string>
+    <string name="quick_add_entry_hint">Jen kalorie, třeba jídlo v restauraci</string>
+    <string name="quick_add_hint">Pro jídlo v restauraci nebo pokrm, jehož suroviny neznáte.</string>
+    <string name="quick_add_name">Název (nepovinné)</string>
+    <string name="quick_add_macros_optional">Bílkoviny, sacharidy a tuky v gramech, pokud je znáte.</string>
+    <string name="error_quick_kcal">Zadejte 0 až 10 000 kcal</string>
+    <string name="entry_subtitle_quick">Rychlý záznam · %1$s kcal</string>
 </resources>
