@@ -45,6 +45,8 @@ import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.DatePickerModal
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatKg
+import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.domain.Checkin
 import com.calore.tracker.ui.formatSigned
 import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.components.SectionHeader
@@ -61,6 +63,7 @@ import java.time.format.DateTimeFormatter
 fun WeightScreen(
     onBack: () -> Unit,
     onOpenBodyFat: () -> Unit,
+    onOpenCheckin: () -> Unit,
     viewModel: WeightViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -122,6 +125,10 @@ fun WeightScreen(
 
             item(key = "body_fat") {
                 BodyFatCard(measurements = state.measurements, dateFormatter = dateFormatter, onMeasure = onOpenBodyFat)
+            }
+
+            item(key = "checkins") {
+                CheckinCard(checkins = state.checkins, dateFormatter = dateFormatter, onOpen = onOpenCheckin)
             }
 
             item(key = "weights_header") {
@@ -275,3 +282,31 @@ private fun tapeSummary(measurement: BodyMeasurement): String? {
 }
 
 private const val HISTORY_ROWS = 5
+
+/** The weekly check-in and its history (M1.7). */
+@Composable
+private fun CheckinCard(checkins: List<Checkin>, dateFormatter: DateTimeFormatter, onOpen: () -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SectionHeader(stringResource(R.string.checkin_title))
+            Text(
+                stringResource(R.string.checkin_card_text),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            checkins.take(HISTORY_ROWS).forEach { checkin ->
+                Text(
+                    stringResource(
+                        if (checkin.accepted) R.string.checkin_history_used else R.string.checkin_history_kept,
+                        checkin.weekStart.format(dateFormatter),
+                        formatKcal((if (checkin.accepted) checkin.proposedTargetKcal else checkin.oldTargetKcal).toDouble()),
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            OutlinedButton(onClick = onOpen, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.checkin_open))
+            }
+        }
+    }
+}

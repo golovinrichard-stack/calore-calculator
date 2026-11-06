@@ -72,10 +72,10 @@
 
 ### M1.7 Smart maintenance and the weekly check-in
 
-- [ ] Domain: A7.
-- [ ] WorkManager: a weekly job on Monday morning (flexible window) creates the check-in and notifies "Your weekly check-in is ready" (if reminders are on).
-- [ ] Check-in screen: trend change, average intake, counted days, estimated maintenance, the proposed target, and the buttons **Use it** / **Keep my target**. Before there is enough data, it says how many more days are needed.
-- [ ] History of past check-ins (Me → Body).
+- [x] Domain: A7 (and A8 meal targets).
+- [x] WorkManager: a weekly job on Monday morning (flexible window) creates the check-in and notifies "Your weekly check-in is ready" (if reminders are on).
+- [x] Check-in screen: trend change, average intake, counted days, estimated maintenance, the proposed target, and the buttons **Use it** / **Keep my target**. Before there is enough data, it says how many more days are needed.
+- [x] History of past check-ins (Me → Body).
 
 **Done when:** the A7 test cases pass; tests with a fake clock check the scheduling; accepting a check-in updates the targets and macros.
 

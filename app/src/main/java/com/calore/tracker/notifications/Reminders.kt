@@ -2,8 +2,10 @@ package com.calore.tracker.notifications
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.calore.tracker.CaloreApp
@@ -22,12 +24,16 @@ interface ReminderScheduler {
     fun scheduleMeasureReminder(lastMeasured: LocalDate, weeks: Int)
 
     fun cancelMeasureReminder()
+
+    /** The weekly check-in job, every Monday morning in a flexible window (M1.7). */
+    fun scheduleWeeklyCheckin()
 }
 
 /** Does nothing; for previews and tests. */
 object NoReminders : ReminderScheduler {
     override fun scheduleMeasureReminder(lastMeasured: LocalDate, weeks: Int) = Unit
     override fun cancelMeasureReminder() = Unit
+    override fun scheduleWeeklyCheckin() = Unit
 }
 
 /**
@@ -50,7 +56,18 @@ class WorkManagerReminders(private val context: Context, private val clock: Cloc
         workManager.cancelUniqueWork(MEASURE_WORK)
     }
 
+    override fun scheduleWeeklyCheckin() {
+        val delay = ReminderSchedule.untilNextCheckin(ZonedDateTime.now(clock))
+        val request = PeriodicWorkRequestBuilder<CheckinWorker>(7, TimeUnit.DAYS, CHECKIN_FLEX_HOURS, TimeUnit.HOURS)
+            .setInitialDelay(delay.toMillis(), TimeUnit.MILLISECONDS)
+            .build()
+        // KEEP: scheduling again at every start must not push the next run back.
+        workManager.enqueueUniquePeriodicWork(CHECKIN_WORK, ExistingPeriodicWorkPolicy.KEEP, request)
+    }
+
     private companion object {
+        const val CHECKIN_WORK = "weekly_checkin"
+        const val CHECKIN_FLEX_HOURS = 3L
         const val MEASURE_WORK = "measure_reminder"
     }
 }

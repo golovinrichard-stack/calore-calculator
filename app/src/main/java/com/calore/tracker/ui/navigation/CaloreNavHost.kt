@@ -31,6 +31,7 @@ import com.calore.tracker.ui.backup.BackupScreen
 import com.calore.tracker.ui.body.BodyFatScreen
 import com.calore.tracker.ui.body.BodyFatTutorialScreen
 import com.calore.tracker.ui.calculator.CalculatorScreen
+import com.calore.tracker.ui.checkin.CheckinScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
@@ -180,8 +181,10 @@ fun CaloreNavHost(
                 WeightScreen(
                     onBack = { navController.popBackStack() },
                     onOpenBodyFat = { navController.navigate(Routes.BODY_FAT) },
+                    onOpenCheckin = { navController.navigate(Routes.CHECKIN) },
                 )
             }
+            composable(Routes.CHECKIN) { CheckinScreen(onBack = { navController.popBackStack() }) }
             composable(Routes.BODY_FAT) {
                 BodyFatScreen(
                     onBack = { navController.popBackStack() },
@@ -222,7 +225,7 @@ fun CaloreNavHost(
 }
 
 /** Screens a notification may open. */
-private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT)
+private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT, Routes.CHECKIN)
 
 private fun NavHostController.navigateToTopLevel(route: String) {
     navigate(route) {

@@ -9,6 +9,7 @@ import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
 import com.calore.tracker.data.repository.BodyRepository
+import com.calore.tracker.data.repository.CheckinService
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.GoalsRepository
@@ -62,6 +63,7 @@ class AppContainer(context: Context) {
     /** Background reminders; WorkManager initialises itself on first use. */
     val reminders: ReminderScheduler = WorkManagerReminders(context, clock)
     val reminderSettings = ReminderSettings(appPrefs, reminders, bodyRepository, clock)
+    val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
         contentResolver = context.contentResolver,
@@ -72,5 +74,7 @@ class AppContainer(context: Context) {
     init {
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
         applicationScope.launch { memberRepository.ensureMe() }
+        // The weekly check-in job; KEEP means this costs nothing once it is scheduled.
+        reminders.scheduleWeeklyCheckin()
     }
 }

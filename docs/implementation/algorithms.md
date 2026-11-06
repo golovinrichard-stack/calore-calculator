@@ -113,6 +113,8 @@ Runs once a week (Monday morning, or when the user opens the check-in).
 | Same, 21 counted days, formula TDEE 2,600, CUT 0.5 % at 79.1 kg, current target 2,200 | estimate 2,772.5; delta −435; proposed 2,340 (change +140, within the limit) |
 | Only 9 counted days | no proposal |
 
+*As built in M1.7:* the food window is the 28 days before today (today is still being logged); weigh-ins count up to today. Targets are not stored per day, so "that day's target" in step 2 is the current target. When the profile is incomplete (no formula TDEE), the estimate is the data maintenance alone. One check-in is saved per week (Monday); opening the check-in screen runs it if Monday's job hasn't.
+
 ## A8. Meal targets
 
 `mealTarget = dailyTarget × mealSplit[meal] / 100`, for calories and each macro. Meals the member doesn't eat (for example no breakfast) are removed and their share is spread over the other meals in proportion.

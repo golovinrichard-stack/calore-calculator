@@ -12,6 +12,7 @@ import com.calore.tracker.ui.addfood.AddFoodViewModel
 import com.calore.tracker.ui.backup.BackupViewModel
 import com.calore.tracker.ui.body.BodyFatViewModel
 import com.calore.tracker.ui.calculator.CalculatorViewModel
+import com.calore.tracker.ui.checkin.CheckinViewModel
 import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
 import com.calore.tracker.ui.goals.GoalsViewModel
@@ -56,6 +57,7 @@ object AppViewModelProvider {
                 c.clock,
                 c.bodyRepository.measurements(),
                 c.appPrefs.settings.map { it.hideNumbers },
+                c.bodyRepository.checkins(),
             )
         }
         initializer {
@@ -64,6 +66,10 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             SettingsViewModel(c.appPrefs, c.reminderSettings)
+        }
+        initializer {
+            val c = container()
+            CheckinViewModel(c.checkinService, c.appPrefs.settings.map { it.hideNumbers })
         }
         initializer {
             val c = container()

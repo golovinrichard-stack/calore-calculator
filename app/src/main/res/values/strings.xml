@@ -445,4 +445,39 @@ This is an estimate. It can be off by a few percent, but it is good for followin
         <item quantity="one">Every week</item>
         <item quantity="other">Every %1$d weeks</item>
     </plurals>
+
+    <!-- Check-in -->
+    <string name="show_numbers">Show numbers</string>
+    <string name="checkin_title">Weekly check-in</string>
+    <string name="checkin_card_text">Each Monday Calore compares your weight trend with what you ate and suggests a target in small steps.</string>
+    <string name="checkin_open">Open the check-in</string>
+    <string name="checkin_history_used">Week of %1$s: using %2$s kcal</string>
+    <string name="checkin_history_kept">Week of %1$s: kept %2$s kcal</string>
+    <string name="checkin_week_of">Week of %1$s</string>
+    <string name="checkin_trend">Weight trend</string>
+    <string name="checkin_trend_value">%1$s → %2$s kg</string>
+    <string name="checkin_trend_change">Change</string>
+    <string name="checkin_avg_intake">Average intake</string>
+    <string name="checkin_counted_days">Fully logged days</string>
+    <string name="checkin_maintenance">Estimated maintenance</string>
+    <string name="checkin_current_target">Current target</string>
+    <string name="checkin_proposed_target">Proposed target</string>
+    <string name="checkin_use_it">Use it</string>
+    <string name="checkin_keep">Keep my target</string>
+    <string name="checkin_using">Done. Your new daily target is %1$s kcal, with macros to match.</string>
+    <string name="checkin_kept">Your target stays as it is.</string>
+    <string name="checkin_unchanged">Your target stays at %1$s kcal. You are on track.</string>
+    <string name="checkin_small_steps">The target moves by at most 150 kcal a week. Days with less than half of your target logged are left out.</string>
+    <string name="checkin_not_enough">Keep logging. Your first check-in comes when there is enough data.</string>
+    <string name="checkin_how_it_works">A check-in needs 14 fully logged days and 4 weigh-ins over at least 10 days, within the last 4 weeks.</string>
+    <string name="notify_checkin_title">Your weekly check-in is ready</string>
+    <string name="notify_checkin_text">See how your weight trend and your food log compare, and your suggested target.</string>
+    <plurals name="checkin_days_missing">
+        <item quantity="one">%1$d more fully logged day needed.</item>
+        <item quantity="other">%1$d more fully logged days needed.</item>
+    </plurals>
+    <plurals name="checkin_weigh_ins_missing">
+        <item quantity="one">%1$d more weigh-in needed.</item>
+        <item quantity="other">%1$d more weigh-ins needed.</item>
+    </plurals>
 </resources>

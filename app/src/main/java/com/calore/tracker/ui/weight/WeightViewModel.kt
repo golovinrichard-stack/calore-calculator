@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.domain.BodyMeasurement
+import com.calore.tracker.domain.Checkin
 import com.calore.tracker.domain.Limits
 import com.calore.tracker.domain.TrendPoint
 import com.calore.tracker.domain.TrendWeight
@@ -38,6 +39,8 @@ data class WeightUiState(
     /** Oldest first. */
     val measurements: List<BodyMeasurement> = emptyList(),
     val hideNumbers: Boolean = false,
+    /** Newest first. */
+    val checkins: List<Checkin> = emptyList(),
 ) {
     /** Weigh-ins with the trend (A6), oldest first. */
     val trend: List<TrendPoint> = TrendWeight.of(entries)
@@ -48,6 +51,7 @@ class WeightViewModel(
     private val clock: Clock,
     measurements: Flow<List<BodyMeasurement>> = flowOf(emptyList()),
     hideNumbers: Flow<Boolean> = flowOf(false),
+    checkins: Flow<List<Checkin>> = flowOf(emptyList()),
 ) : ViewModel() {
 
     private val input = MutableStateFlow(WeightInput(date = LocalDate.now(clock)))
@@ -57,13 +61,15 @@ class WeightViewModel(
         input,
         measurements,
         hideNumbers,
-    ) { entries, currentInput, bodyMeasurements, hide ->
+        checkins,
+    ) { entries, currentInput, bodyMeasurements, hide, pastCheckins ->
         WeightUiState(
             entries = entries,
             input = currentInput,
             today = LocalDate.now(clock),
             measurements = bodyMeasurements,
             hideNumbers = hide,
+            checkins = pastCheckins,
         )
     }.stateIn(
         scope = viewModelScope,

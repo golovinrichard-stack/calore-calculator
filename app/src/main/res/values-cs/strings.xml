@@ -456,4 +456,43 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
         <item quantity="many">Každých %1$d týdne</item>
         <item quantity="other">Každých %1$d týdnů</item>
     </plurals>
+
+    <!-- Check-in -->
+    <string name="show_numbers">Zobrazit čísla</string>
+    <string name="checkin_title">Týdenní kontrola</string>
+    <string name="checkin_card_text">Každé pondělí Calore porovná vývoj vaší váhy s tím, co jste snědli, a navrhne cíl v malých krocích.</string>
+    <string name="checkin_open">Otevřít kontrolu</string>
+    <string name="checkin_history_used">Týden od %1$s: používáte %2$s kcal</string>
+    <string name="checkin_history_kept">Týden od %1$s: ponecháno %2$s kcal</string>
+    <string name="checkin_week_of">Týden od %1$s</string>
+    <string name="checkin_trend">Trend váhy</string>
+    <string name="checkin_trend_value">%1$s → %2$s kg</string>
+    <string name="checkin_trend_change">Změna</string>
+    <string name="checkin_avg_intake">Průměrný příjem</string>
+    <string name="checkin_counted_days">Plně zapsané dny</string>
+    <string name="checkin_maintenance">Odhad udržovacího příjmu</string>
+    <string name="checkin_current_target">Současný cíl</string>
+    <string name="checkin_proposed_target">Navržený cíl</string>
+    <string name="checkin_use_it">Použít</string>
+    <string name="checkin_keep">Ponechat můj cíl</string>
+    <string name="checkin_using">Hotovo. Váš nový denní cíl je %1$s kcal a živiny se mu přizpůsobily.</string>
+    <string name="checkin_kept">Váš cíl zůstává beze změny.</string>
+    <string name="checkin_unchanged">Váš cíl zůstává %1$s kcal. Jste na dobré cestě.</string>
+    <string name="checkin_small_steps">Cíl se mění nejvýš o 150 kcal týdně. Dny, kdy je zapsána méně než polovina cíle, se nepočítají.</string>
+    <string name="checkin_not_enough">Zapisujte dál. První kontrola přijde, až bude dost údajů.</string>
+    <string name="checkin_how_it_works">Kontrola potřebuje 14 plně zapsaných dní a 4 vážení v rozmezí aspoň 10 dní, vše za poslední 4 týdny.</string>
+    <string name="notify_checkin_title">Týdenní kontrola je připravená</string>
+    <string name="notify_checkin_text">Podívejte se, jak si vede trend váhy a jídelníček, a na navržený cíl.</string>
+    <plurals name="checkin_days_missing">
+        <item quantity="one">Chybí ještě %1$d plně zapsaný den.</item>
+        <item quantity="few">Chybí ještě %1$d plně zapsané dny.</item>
+        <item quantity="many">Chybí ještě %1$d plně zapsaného dne.</item>
+        <item quantity="other">Chybí ještě %1$d plně zapsaných dní.</item>
+    </plurals>
+    <plurals name="checkin_weigh_ins_missing">
+        <item quantity="one">Chybí ještě %1$d vážení.</item>
+        <item quantity="few">Chybí ještě %1$d vážení.</item>
+        <item quantity="many">Chybí ještě %1$d vážení.</item>
+        <item quantity="other">Chybí ještě %1$d vážení.</item>
+    </plurals>
 </resources>
