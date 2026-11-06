@@ -7,6 +7,7 @@ import com.calore.tracker.data.backup.BackupRepository
 import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.data.foods.GenericFoodImporter
 import com.calore.tracker.data.prefs.AppPrefs
+import com.calore.tracker.data.recipes.StarterRecipeImporter
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
 import com.calore.tracker.data.repository.BodyRepository
@@ -70,6 +71,9 @@ class AppContainer(context: Context) {
     private val genericFoods = GenericFoodImporter(database.foodDao(), appPrefs, clock) {
         context.assets.open(GenericFoodImporter.ASSET_PATH)
     }
+    private val starterRecipes = StarterRecipeImporter(database.recipeDao(), database.foodDao(), appPrefs, clock) {
+        context.assets.open(StarterRecipeImporter.ASSET_PATH)
+    }
     val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
@@ -81,8 +85,11 @@ class AppContainer(context: Context) {
     init {
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
         applicationScope.launch { memberRepository.ensureMe() }
-        // Bundled basic foods: imported once per dataset version, in the background.
-        applicationScope.launch { genericFoods.importIfNewer() }
+        // Bundled basic foods, then the starter recipes that use them: once per version, in the background.
+        applicationScope.launch {
+            genericFoods.importIfNewer()
+            starterRecipes.importIfNewer()
+        }
         // The weekly check-in job; KEEP means this costs nothing once it is scheduled.
         reminders.scheduleWeeklyCheckin()
     }

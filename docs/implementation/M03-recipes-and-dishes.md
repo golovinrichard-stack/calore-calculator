@@ -72,22 +72,24 @@ The owner asked for "some random food". Write **30 recipes**, a mix of Czech hom
 | 29 | Vejce natvrdo | Hard-boiled eggs | Snack |
 | 30 | Cottage s rajčaty a pečivem | Cottage cheese with tomatoes and bread | Snack |
 
-- [ ] Format: `app/src/main/assets/recipes/starter-cz.json`:
+- [x] Format: `app/src/main/assets/recipes/starter-cz.json`:
 
 ```json
-{ "version": 1, "recipes": [ {
+{ "format": "calore-starter-recipes", "version": 1, "country": "CZ", "recipes": [ {
   "key": "starter:cz:chili", "nameCs": "Chili con carne s rýží", "nameEn": "Chili con carne with rice",
   "shortCode": "CH", "servings": 6, "mealTypes": ["LUNCH","DINNER"], "cuisine": "international",
   "tags": ["beef","spicy"], "equipment": [], "fridgeDays": 3, "freezable": true, "freezerMonths": 3,
   "mealPrepFriendly": true,
-  "ingredients": [ { "food": "generic:beef_minced_raw", "grams": 800 } ],
-  "stepsCs": [ { "text": "…", "minutes": 10, "passive": false } ],
-  "stepsEn": [ { "text": "…", "minutes": 10, "passive": false } ]
+  "ingredients": [ { "food": "generic:beef_mince_15", "grams": 800 }, { "food": "generic:pickles", "grams": 120, "optional": true } ],
+  "stepsCs": [ { "text": "…", "minutes": 10, "passive": false, "equipment": "STOVE" } ],
+  "stepsEn": [ { "text": "…", "minutes": 10, "passive": false, "equipment": "STOVE" } ]
 } ] }
 ```
 
-- [ ] Import like the basic foods: by `key`, versioned, storing both languages (`nameCs` / `nameEn`, `textCs` / `textEn`) so switching the phone's language just works. Never overwrite a recipe the user has edited (`userEdited`).
-- [ ] Ask the owner to look through the list.
+- [x] Import like the basic foods: by `key`, versioned, storing both languages (`nameCs` / `nameEn`, `textCs` / `textEn`) so switching the phone's language just works. Never overwrite a recipe the user has edited (`userEdited`).
+- [x] Ask the owner to look through the list (in the pull request).
+
+As built: `tags` are empty in the starter pack (tags are free text the user types, so English slugs would show in the Czech app); `stepsCs` and `stepsEn` must have the same number of steps with the same minutes, `passive` and `equipment`. A recipe the user deleted is not brought back by a newer pack either. The recipes import right after the basic foods, in the background; if a basic food is missing, the version is not stored and the next start tries again.
 
 **Done when:** all 30 import and show plausible nutrition (a unit test checks each recipe has kcal per serving between 150 and 1,200), and every ingredient key resolves.
 

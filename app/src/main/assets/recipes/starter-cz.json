@@ -1,0 +1,3076 @@
+{
+ "format": "calore-starter-recipes",
+ "version": 1,
+ "country": "CZ",
+ "recipes": [
+  {
+   "key": "starter:cz:oat_porridge_quark",
+   "nameCs": "Ovesná kaše s tvarohem a ovocem",
+   "nameEn": "Oat porridge with quark and fruit",
+   "shortCode": "OK",
+   "servings": 1,
+   "mealTypes": [
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 2,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:oats",
+     "grams": 60
+    },
+    {
+     "food": "generic:milk_semi",
+     "grams": 250
+    },
+    {
+     "food": "generic:tvaroh_low",
+     "grams": 100
+    },
+    {
+     "food": "generic:blueberries_frozen",
+     "grams": 80
+    },
+    {
+     "food": "generic:honey",
+     "grams": 10
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Vločky zalijte mlékem, přiveďte k varu a za stálého míchání vařte asi 5 minut, dokud kaše nezhoustne.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stáhněte z plotny a vmíchejte tvaroh.",
+     "minutes": 1,
+     "passive": false
+    },
+    {
+     "text": "Navrch dejte borůvky a pokapejte medem.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Pour the milk over the oats, bring to the boil and cook for about 5 minutes, stirring, until thick.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Take the pan off the heat and stir in the quark.",
+     "minutes": 1,
+     "passive": false
+    },
+    {
+     "text": "Top with the blueberries and drizzle with honey.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:overnight_oats",
+   "nameCs": "Overnight oats s jogurtem",
+   "nameEn": "Overnight oats with yoghurt",
+   "shortCode": "OV",
+   "servings": 1,
+   "mealTypes": [
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 2,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:oats",
+     "grams": 50
+    },
+    {
+     "food": "generic:greek_yogurt_0",
+     "grams": 150
+    },
+    {
+     "food": "generic:milk_semi",
+     "grams": 100
+    },
+    {
+     "food": "generic:chia",
+     "grams": 10
+    },
+    {
+     "food": "generic:raspberries_frozen",
+     "grams": 80
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Ve skleničce nebo krabičce smíchejte vločky, chia semínka, jogurt a mléko.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Navrch dejte maliny, zavřete a nechte v lednici alespoň 6 hodin, nejlépe přes noc.",
+     "minutes": 360,
+     "passive": true
+    },
+    {
+     "text": "Ráno promíchejte. Je-li kaše moc hustá, přilijte trochu mléka.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "In a jar or a box, mix the oats, chia seeds, yoghurt and milk.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Put the raspberries on top, close the jar and leave it in the fridge for at least 6 hours, ideally overnight.",
+     "minutes": 360,
+     "passive": true
+    },
+    {
+     "text": "Stir in the morning. If it is too thick, add a splash of milk.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:vegetable_omelette",
+   "nameCs": "Zeleninová omeleta",
+   "nameEn": "Vegetable omelette",
+   "shortCode": "ZO",
+   "servings": 1,
+   "mealTypes": [
+    "BREAKFAST",
+    "DINNER"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 1,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:egg",
+     "grams": 180
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 60
+    },
+    {
+     "food": "generic:spinach_raw",
+     "grams": 30
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 30
+    },
+    {
+     "food": "generic:edam",
+     "grams": 20
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 5
+    },
+    {
+     "food": "generic:salt",
+     "grams": 1
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli a papriku nakrájejte na kostičky a na oleji je 3 minuty opékejte.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte špenát a nechte ho zavadnout.",
+     "minutes": 1,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vejce rozšlehejte se solí, zalijte jimi zeleninu a na mírném ohni je pod pokličkou nechte 4–5 minut ztuhnout.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Posypte nastrouhaným sýrem, omeletu přeložte napůl a podávejte.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Dice the onion and pepper and fry them in the oil for 3 minutes.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the spinach and let it wilt.",
+     "minutes": 1,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Beat the eggs with the salt, pour them over the vegetables and let them set over a low heat, covered, for 4–5 minutes.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Sprinkle with the grated cheese, fold the omelette in half and serve.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:quark_spread_bread",
+   "nameCs": "Tvarohová pomazánka s celozrnným chlebem",
+   "nameEn": "Quark spread on wholegrain bread",
+   "shortCode": "TP",
+   "servings": 2,
+   "mealTypes": [
+    "BREAKFAST",
+    "SNACK"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:tvaroh_semi",
+     "grams": 250
+    },
+    {
+     "food": "generic:greek_yogurt_0",
+     "grams": 50
+    },
+    {
+     "food": "generic:chives",
+     "grams": 10
+    },
+    {
+     "food": "generic:radish",
+     "grams": 80
+    },
+    {
+     "food": "generic:salt",
+     "grams": 2
+    },
+    {
+     "food": "generic:black_pepper",
+     "grams": 1
+    },
+    {
+     "food": "generic:bread_wholewheat",
+     "grams": 200
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Tvaroh utřete s jogurtem do hladka, osolte a opepřete.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Vmíchejte nadrobno nakrájenou pažitku a ředkvičky.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Pomazánku namažte na chléb. V lednici vydrží 3 dny.",
+     "minutes": 2,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Mix the quark and yoghurt until smooth and season with salt and pepper.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Stir in the finely chopped chives and radishes.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Spread it on the bread. The spread keeps for 3 days in the fridge.",
+     "minutes": 2,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:protein_pancakes",
+   "nameCs": "Proteinové palačinky",
+   "nameEn": "Protein pancakes",
+   "shortCode": "PP",
+   "servings": 2,
+   "mealTypes": [
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [
+    "BLENDER"
+   ],
+   "fridgeDays": 2,
+   "freezable": true,
+   "freezerMonths": 2,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:oats",
+     "grams": 80
+    },
+    {
+     "food": "generic:egg",
+     "grams": 120
+    },
+    {
+     "food": "generic:banana",
+     "grams": 120
+    },
+    {
+     "food": "generic:whey_protein",
+     "grams": 30
+    },
+    {
+     "food": "generic:milk_semi",
+     "grams": 100
+    },
+    {
+     "food": "generic:baking_powder",
+     "grams": 4
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 10
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Vločky, vejce, banán, protein, mléko a prášek do pečiva rozmixujte na husté těsto a nechte ho 5 minut odpočinout.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "BLENDER"
+    },
+    {
+     "text": "Pánev potřete trochou oleje a na středním ohni pečte malé palačinky asi 2 minuty z každé strany.",
+     "minutes": 15,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Podávejte hned, nebo je nechte vychladnout a uložte do lednice.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Blend the oats, eggs, banana, protein powder, milk and baking powder into a thick batter and let it rest for 5 minutes.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "BLENDER"
+    },
+    {
+     "text": "Brush a pan with a little oil and cook small pancakes over a medium heat for about 2 minutes on each side.",
+     "minutes": 15,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Serve straight away, or let them cool and keep them in the fridge.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chicken_rice_broccoli",
+   "nameCs": "Kuře s rýží a brokolicí",
+   "nameEn": "Chicken, rice and broccoli",
+   "shortCode": "KR",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chicken_breast_raw",
+     "grams": 600
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 280
+    },
+    {
+     "food": "generic:broccoli_raw",
+     "grams": 500
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 5
+    },
+    {
+     "food": "generic:garlic_powder",
+     "grams": 3
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Rýži propláchněte a uvařte podle návodu na obalu, obvykle 15 minut.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Kuřecí prsa nakrájejte na kousky, osolte, okořeňte paprikou a česnekem a na oleji opékejte 8–10 minut, až budou propečená.",
+     "minutes": 12,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Brokolici rozdělte na růžičky a vařte v páře nebo v osolené vodě 5 minut.",
+     "minutes": 6,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Rýži, maso a brokolici nechte vychladnout každé zvlášť a pak je rozdělte do krabiček.",
+     "minutes": 5,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Rinse the rice and cook it as the packet says, usually 15 minutes.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cut the chicken into pieces, season with salt, paprika and garlic and fry in the oil for 8–10 minutes until cooked through.",
+     "minutes": 12,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cut the broccoli into florets and steam it or boil it in salted water for 5 minutes.",
+     "minutes": 6,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Let the rice, chicken and broccoli cool separately, then divide them into boxes.",
+     "minutes": 5,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:beef_goulash",
+   "nameCs": "Hovězí guláš s rýží",
+   "nameEn": "Beef goulash with rice",
+   "shortCode": "HG",
+   "servings": 6,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:beef_chuck_raw",
+     "grams": 1000
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 500
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 30
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 20
+    },
+    {
+     "food": "generic:tomato_paste",
+     "grams": 40
+    },
+    {
+     "food": "generic:caraway",
+     "grams": 3
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 8
+    },
+    {
+     "food": "generic:flour_wheat",
+     "grams": 20
+    },
+    {
+     "food": "generic:marjoram",
+     "grams": 2
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 420
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli nakrájejte nadrobno a na oleji ji pomalu smažte do zlatova, asi 15 minut.",
+     "minutes": 15,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte maso nakrájené na kostky a ze všech stran ho opečte.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stáhněte z ohně, vmíchejte papriku a rajčatový protlak a zalijte vodou tak, aby bylo maso skoro ponořené.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Přidejte kmín, sůl a prolisovaný česnek a pod pokličkou duste doměkka, asi 2 hodiny. Občas zamíchejte a podle potřeby dolijte vodu.",
+     "minutes": 120,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mouku rozmíchejte v trošce studené vody, vlijte ji do guláše a 5 minut povařte. Nakonec přidejte majoránku.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte rýži.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Finely chop the onion and fry it slowly in the oil until golden, about 15 minutes.",
+     "minutes": 15,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the beef, cut into cubes, and brown it on all sides.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Take the pan off the heat, stir in the paprika and tomato paste and add water until the meat is almost covered.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Add the caraway, salt and crushed garlic and simmer, covered, until tender, about 2 hours. Stir now and then and add water if needed.",
+     "minutes": 120,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mix the flour with a little cold water, stir it into the goulash and simmer for 5 minutes. Finally add the marjoram.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the rice.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chicken_paprikash",
+   "nameCs": "Kuře na paprice s těstovinami",
+   "nameEn": "Chicken paprikash with pasta",
+   "shortCode": "KP",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chicken_thigh_raw",
+     "grams": 700
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 200
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 15
+    },
+    {
+     "food": "generic:sour_cream",
+     "grams": 200
+    },
+    {
+     "food": "generic:flour_wheat",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 5
+    },
+    {
+     "food": "generic:pasta_dry",
+     "grams": 320
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli nakrájejte a na oleji ji osmahněte dosklovita.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte kuřecí stehna nakrájená na kousky a krátce je opečte.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Zasypte paprikou, hned podlijte trochou vody, osolte a pod pokličkou duste 25 minut.",
+     "minutes": 25,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte těstoviny podle návodu na obalu.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Smetanu rozmíchejte s moukou, vlijte ji k masu a za stálého míchání 3 minuty povařte.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Chop the onion and fry it in the oil until soft.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the chicken thighs, cut into pieces, and brown them briefly.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Sprinkle with the paprika, add a splash of water straight away, season with salt and simmer, covered, for 25 minutes.",
+     "minutes": 25,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the pasta as the packet says.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Whisk the sour cream with the flour, stir it into the chicken and simmer for 3 minutes, stirring.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:sour_lentils_egg",
+   "nameCs": "Čočka na kyselo s vejcem",
+   "nameEn": "Sour lentils with egg",
+   "shortCode": "CK",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:lentils_brown",
+     "grams": 320
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:flour_wheat",
+     "grams": 20
+    },
+    {
+     "food": "generic:vinegar",
+     "grams": 30
+    },
+    {
+     "food": "generic:bay_leaf",
+     "grams": 1
+    },
+    {
+     "food": "generic:salt",
+     "grams": 5
+    },
+    {
+     "food": "generic:sugar",
+     "grams": 5
+    },
+    {
+     "food": "generic:egg",
+     "grams": 240
+    },
+    {
+     "food": "generic:pickles",
+     "grams": 120,
+     "optional": true
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Čočku propláchněte, zalijte vodou, přidejte bobkový list a vařte doměkka, asi 30 minut. Osolte až na konci.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Na oleji osmahněte nadrobno nakrájenou cibuli, přidejte mouku a krátce ji opražte.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Jíšku vmíchejte do čočky, 5 minut povařte a dochuťte octem, cukrem a solí.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vejce uvařte natvrdo (10 minut) nebo usmažte. Podávejte s čočkou a podle chuti s okurkou.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Rinse the lentils, cover them with water, add the bay leaf and cook until soft, about 30 minutes. Add salt only at the end.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Fry the finely chopped onion in the oil, add the flour and cook it briefly.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir the roux into the lentils, simmer for 5 minutes and season with the vinegar, sugar and salt.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Hard-boil the eggs (10 minutes) or fry them. Serve with the lentils and, if you like, a gherkin.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:bean_goulash",
+   "nameCs": "Fazolový guláš",
+   "nameEn": "Bean goulash",
+   "shortCode": "FG",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:beans_kidney_canned",
+     "grams": 720
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 200
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 200
+    },
+    {
+     "food": "generic:potato_raw",
+     "grams": 400
+    },
+    {
+     "food": "generic:tomatoes_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:tomato_paste",
+     "grams": 30
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 15
+    },
+    {
+     "food": "generic:caraway",
+     "grams": 3
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:marjoram",
+     "grams": 2
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli nakrájejte a na oleji ji osmahněte do zlatova.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte papriku nakrájenou na proužky a brambory na kostičky, zasypte mletou paprikou a kmínem a krátce promíchejte.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte rajčata a protlak, podlijte sklenicí vody, osolte a duste 20 minut, až brambory změknou.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte scezené fazole a prolisovaný česnek, prohřejte 5 minut a nakonec vmíchejte majoránku.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Chop the onion and fry it in the oil until golden.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the pepper, cut into strips, and the diced potatoes, sprinkle with the paprika and caraway and stir briefly.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the tomatoes and paste, add a glass of water and the salt and simmer for 20 minutes until the potatoes are soft.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the drained beans and crushed garlic, heat through for 5 minutes and finally stir in the marjoram.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chicken_risotto",
+   "nameCs": "Kuřecí rizoto se zeleninou",
+   "nameEn": "Chicken risotto with vegetables",
+   "shortCode": "RI",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chicken_breast_raw",
+     "grams": 500
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 300
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:carrot_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:peas_frozen",
+     "grams": 150
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:bouillon",
+     "grams": 10
+    },
+    {
+     "food": "generic:parmesan",
+     "grams": 30
+    },
+    {
+     "food": "generic:salt",
+     "grams": 3
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli a mrkev nakrájejte na kostičky a na oleji je 5 minut opékejte.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte kuřecí maso nakrájené na kostičky a opékejte, až zbělá.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vsypte rýži, krátce ji osmahněte a zalijte 750 ml vody s rozpuštěným bujónem.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Pod pokličkou na mírném ohni vařte 15 minut, pak přidejte hrášek a vařte dalších 5 minut.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Posypte strouhaným parmazánem a podle chuti dosolte.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Dice the onion and carrot and fry them in the oil for 5 minutes.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the diced chicken and fry until it turns white.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the rice, fry it briefly and pour in 750 ml of water with the stock cube dissolved in it.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cook covered over a low heat for 15 minutes, then add the peas and cook for another 5 minutes.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Sprinkle with grated parmesan and add salt to taste.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:tuna_tomato_pasta",
+   "nameCs": "Těstoviny s tuňákem a rajčaty",
+   "nameEn": "Tuna and tomato pasta",
+   "shortCode": "TT",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "italian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:pasta_dry",
+     "grams": 360
+    },
+    {
+     "food": "generic:tuna_water",
+     "grams": 300
+    },
+    {
+     "food": "generic:tomatoes_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 20
+    },
+    {
+     "food": "generic:oregano",
+     "grams": 2
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:parmesan",
+     "grams": 20
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Těstoviny uvařte v osolené vodě podle návodu na obalu.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Na oleji osmahněte nakrájenou cibuli a česnek, přidejte rajčata a oregano a 10 minut povařte.",
+     "minutes": 12,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte scezeného tuňáka a jen ho prohřejte.",
+     "minutes": 2,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Omáčku smíchejte s těstovinami a posypte parmazánem.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Cook the pasta in salted water as the packet says.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Fry the chopped onion and garlic in the oil, add the tomatoes and oregano and simmer for 10 minutes.",
+     "minutes": 12,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the drained tuna and just heat it through.",
+     "minutes": 2,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mix the sauce with the pasta and sprinkle with parmesan.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:spaghetti_bolognese",
+   "nameCs": "Špagety bolognese",
+   "nameEn": "Spaghetti bolognese",
+   "shortCode": "SB",
+   "servings": 5,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "italian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:beef_mince_15",
+     "grams": 500
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:carrot_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:celery",
+     "grams": 60
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:passata",
+     "grams": 500
+    },
+    {
+     "food": "generic:tomato_paste",
+     "grams": 30
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:oregano",
+     "grams": 2
+    },
+    {
+     "food": "generic:basil_dried",
+     "grams": 2
+    },
+    {
+     "food": "generic:salt",
+     "grams": 5
+    },
+    {
+     "food": "generic:pasta_dry",
+     "grams": 450
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli, mrkev a celer nakrájejte nadrobno a na oleji je 8 minut zvolna opékejte.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte mleté maso a česnek a opékejte, až se maso rozpadne a zhnědne.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte protlak, passatu a bylinky, osolte a na mírném ohni vařte 30 minut.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Špagety uvařte podle návodu na obalu a podávejte s omáčkou.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Finely chop the onion, carrot and celery and fry them gently in the oil for 8 minutes.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the mince and garlic and fry until the meat breaks up and browns.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the tomato paste, passata and herbs, add the salt and simmer gently for 30 minutes.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cook the spaghetti as the packet says and serve with the sauce.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chili",
+   "nameCs": "Chili con carne s rýží",
+   "nameEn": "Chili con carne with rice",
+   "shortCode": "CH",
+   "servings": 6,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "mexican",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:beef_mince_15",
+     "grams": 800
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 200
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 200
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:beans_kidney_canned",
+     "grams": 480
+    },
+    {
+     "food": "generic:tomatoes_canned",
+     "grams": 800
+    },
+    {
+     "food": "generic:tomato_paste",
+     "grams": 40
+    },
+    {
+     "food": "generic:chili_powder",
+     "grams": 5
+    },
+    {
+     "food": "generic:cumin",
+     "grams": 4
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 5
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 6
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 420
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli a papriku nakrájejte na kostičky a na oleji je 5 minut opékejte.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte mleté maso a česnek a opékejte, dokud maso nezhnědne.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte koření a protlak, pak rajčata. Osolte a na mírném ohni vařte 30 minut.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte scezené fazole a vařte dalších 10 minut.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte rýži.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Dice the onion and pepper and fry them in the oil for 5 minutes.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the mince and garlic and fry until the meat is browned.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the spices and tomato paste, then the tomatoes. Add the salt and simmer gently for 30 minutes.",
+     "minutes": 30,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the drained beans and cook for another 10 minutes.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the rice.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chicken_curry",
+   "nameCs": "Kuřecí kari s rýží",
+   "nameEn": "Chicken curry with rice",
+   "shortCode": "KK",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "indian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chicken_breast_raw",
+     "grams": 600
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:ginger",
+     "grams": 10
+    },
+    {
+     "food": "generic:curry",
+     "grams": 15
+    },
+    {
+     "food": "generic:tomatoes_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:coconut_milk",
+     "grams": 200
+    },
+    {
+     "food": "generic:spinach_frozen",
+     "grams": 200
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 280
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli nakrájejte, česnek a zázvor nastrouhejte a vše na oleji 4 minuty opékejte.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte kari koření a kuřecí maso nakrájené na kostičky a opékejte 5 minut.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vlijte rajčata a kokosové mléko, osolte a 15 minut mírně vařte.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte špenát a nechte ho rozmrazit a prohřát.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte rýži a podávejte ji s kari.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Chop the onion, grate the garlic and ginger and fry everything in the oil for 4 minutes.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the curry powder and the diced chicken and fry for 5 minutes.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Pour in the tomatoes and coconut milk, add the salt and simmer for 15 minutes.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the spinach and let it thaw and heat through.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the rice and serve it with the curry.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:turkey_ragu",
+   "nameCs": "Krůtí ragú s těstovinami",
+   "nameEn": "Turkey ragù with pasta",
+   "shortCode": "TR",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "italian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:turkey_mince",
+     "grams": 500
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:carrot_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:zucchini",
+     "grams": 200
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:passata",
+     "grams": 500
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:oregano",
+     "grams": 2
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:pasta_wholewheat",
+     "grams": 320
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Cibuli, mrkev a cuketu nakrájejte na drobné kostičky a na oleji je 5 minut opékejte.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte krůtí maso a česnek a opékejte, až maso zbělá.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Zalijte passatou, přidejte oregano, osolte a 20 minut mírně vařte.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte těstoviny a smíchejte je s ragú.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Cut the onion, carrot and zucchini into small cubes and fry them in the oil for 5 minutes.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the turkey and garlic and fry until the meat turns white.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Pour in the passata, add the oregano and salt and simmer for 20 minutes.",
+     "minutes": 20,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the pasta and mix it with the ragù.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:roast_chicken_thighs",
+   "nameCs": "Pečená kuřecí stehna s bramborami a zeleninou",
+   "nameEn": "Roast chicken thighs with potatoes and vegetables",
+   "shortCode": "PS",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [
+    "OVEN"
+   ],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chicken_thigh_raw",
+     "grams": 800
+    },
+    {
+     "food": "generic:potato_raw",
+     "grams": 1000
+    },
+    {
+     "food": "generic:carrot_raw",
+     "grams": 300
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 200
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 30
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 6
+    },
+    {
+     "food": "generic:black_pepper",
+     "grams": 2
+    },
+    {
+     "food": "generic:salt",
+     "grams": 6
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Troubu předehřejte na 200 °C.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Brambory a mrkev nakrájejte na kousky, cibuli a papriku na plátky a vše promíchejte s polovinou oleje a trochou soli.",
+     "minutes": 10,
+     "passive": false
+    },
+    {
+     "text": "Kuřecí stehna potřete zbylým olejem, paprikou, pepřem a solí a položte je na zeleninu na plech.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Pečte 40–45 minut, v polovině brambory promíchejte.",
+     "minutes": 45,
+     "passive": true,
+     "equipment": "OVEN"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Heat the oven to 200 °C.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Cut the potatoes and carrots into chunks, slice the onion and pepper and toss everything with half of the oil and a little salt.",
+     "minutes": 10,
+     "passive": false
+    },
+    {
+     "text": "Rub the chicken thighs with the rest of the oil, the paprika, pepper and salt and lay them on the vegetables in a roasting tin.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Roast for 40–45 minutes, turning the potatoes halfway.",
+     "minutes": 45,
+     "passive": true,
+     "equipment": "OVEN"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:salmon_potatoes_beans",
+   "nameCs": "Losos s bramborem a fazolkami",
+   "nameEn": "Salmon with potatoes and green beans",
+   "shortCode": "LO",
+   "servings": 2,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [
+    "OVEN"
+   ],
+   "fridgeDays": 2,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:salmon_raw",
+     "grams": 300
+    },
+    {
+     "food": "generic:potato_raw",
+     "grams": 400
+    },
+    {
+     "food": "generic:green_beans",
+     "grams": 250
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 10
+    },
+    {
+     "food": "generic:lemon",
+     "grams": 30
+    },
+    {
+     "food": "generic:dill",
+     "grams": 5
+    },
+    {
+     "food": "generic:salt",
+     "grams": 3
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Brambory oloupejte, nakrájejte a vařte v osolené vodě 20 minut.",
+     "minutes": 22,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Lososa osolte, pokapejte citronem a olejem a pečte v troubě na 200 °C 12–15 minut.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Fazolky vařte v páře nebo ve vodě 6–8 minut.",
+     "minutes": 8,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Brambory posypte koprem a podávejte s lososem a fazolkami.",
+     "minutes": 2,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Peel and cut the potatoes and boil them in salted water for 20 minutes.",
+     "minutes": 22,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Season the salmon with salt, drizzle with lemon juice and oil and bake at 200 °C for 12–15 minutes.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Steam or boil the green beans for 6–8 minutes.",
+     "minutes": 8,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Sprinkle the potatoes with dill and serve with the salmon and beans.",
+     "minutes": 2,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:chickpea_curry",
+   "nameCs": "Cizrnové kari",
+   "nameEn": "Chickpea curry",
+   "shortCode": "CI",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "indian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chickpeas_canned",
+     "grams": 600
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:ginger",
+     "grams": 10
+    },
+    {
+     "food": "generic:curry",
+     "grams": 15
+    },
+    {
+     "food": "generic:tomatoes_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:coconut_milk",
+     "grams": 200
+    },
+    {
+     "food": "generic:spinach_frozen",
+     "grams": 200
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 240
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Na oleji osmahněte nakrájenou cibuli, pak přidejte nastrouhaný česnek, zázvor a kari a minutu míchejte.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Přidejte scezenou cizrnu, rajčata a kokosové mléko, osolte a 15 minut mírně vařte.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte špenát a vařte, dokud se neprohřeje.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte rýži.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Fry the chopped onion in the oil, then add the grated garlic, ginger and curry powder and stir for a minute.",
+     "minutes": 7,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add the drained chickpeas, tomatoes and coconut milk, season with salt and simmer for 15 minutes.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the spinach and cook until it is hot.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the rice.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:caraway_pork",
+   "nameCs": "Vepřové na kmíně s rýží",
+   "nameEn": "Caraway pork with rice",
+   "shortCode": "VK",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:pork_shoulder_raw",
+     "grams": 600
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 150
+    },
+    {
+     "food": "generic:caraway",
+     "grams": 5
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:flour_wheat",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 5
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 280
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Maso nakrájejte na plátky nebo kostky, osolte a posypte kmínem.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Na oleji osmahněte nakrájenou cibuli, přidejte maso a ze všech stran ho opečte.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Podlijte vodou a pod pokličkou duste doměkka, asi 60 minut.",
+     "minutes": 60,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Šťávu zahustěte moukou rozmíchanou ve studené vodě a 5 minut povařte.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mezitím uvařte rýži.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Cut the pork into slices or cubes, season with salt and sprinkle with caraway.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Fry the chopped onion in the oil, add the pork and brown it on all sides.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add a little water and simmer, covered, until tender, about 60 minutes.",
+     "minutes": 60,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Thicken the sauce with the flour mixed in cold water and simmer for 5 minutes.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Meanwhile, cook the rice.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:spinach_potatoes_egg",
+   "nameCs": "Špenát s bramborem a vejcem",
+   "nameEn": "Spinach with potatoes and egg",
+   "shortCode": "SP",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:spinach_frozen",
+     "grams": 800
+    },
+    {
+     "food": "generic:potato_raw",
+     "grams": 800
+    },
+    {
+     "food": "generic:egg",
+     "grams": 240
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:milk_semi",
+     "grams": 150
+    },
+    {
+     "food": "generic:flour_wheat",
+     "grams": 20
+    },
+    {
+     "food": "generic:butter",
+     "grams": 20
+    },
+    {
+     "food": "generic:salt",
+     "grams": 5
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Brambory oloupejte a vařte v osolené vodě 20 minut.",
+     "minutes": 22,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Špenát rozmrazte v hrnci na mírném ohni a přidejte prolisovaný česnek a sůl.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mouku rozmíchejte v mléce, vlijte ji do špenátu a 3 minuty povařte. Nakonec vmíchejte máslo.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vejce uvařte natvrdo nebo usmažte a podávejte se špenátem a bramborem.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Peel the potatoes and boil them in salted water for 20 minutes.",
+     "minutes": 22,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Thaw the spinach in a pan over a low heat and add the crushed garlic and salt.",
+     "minutes": 8,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Mix the flour into the milk, stir it into the spinach and simmer for 3 minutes. Finally stir in the butter.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Hard-boil or fry the eggs and serve them with the spinach and potatoes.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:mushroom_risotto",
+   "nameCs": "Houbové rizoto",
+   "nameEn": "Mushroom risotto",
+   "shortCode": "HR",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "italian",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 300
+    },
+    {
+     "food": "generic:mushrooms",
+     "grams": 400
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 10
+    },
+    {
+     "food": "generic:butter",
+     "grams": 20
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 15
+    },
+    {
+     "food": "generic:bouillon",
+     "grams": 10
+    },
+    {
+     "food": "generic:parmesan",
+     "grams": 40
+    },
+    {
+     "food": "generic:parsley",
+     "grams": 10
+    },
+    {
+     "food": "generic:salt",
+     "grams": 3
+    },
+    {
+     "food": "generic:wine_white",
+     "grams": 100,
+     "optional": true
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Houby nakrájejte na plátky a na oleji je opékejte, dokud se neodpaří voda. Odložte je stranou.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Na másle osmahněte nakrájenou cibuli a česnek, vsypte rýži a minutu ji opékejte. Podle chuti zalijte vínem.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Postupně přilévejte horkou vodu s rozpuštěným bujónem a za častého míchání vařte asi 18 minut, až je rýže krémová.",
+     "minutes": 18,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vmíchejte houby a parmazán, posypte petrželkou a podávejte.",
+     "minutes": 2,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Slice the mushrooms and fry them in the oil until their water has gone. Set them aside.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Fry the chopped onion and garlic in the butter, add the rice and toast it for a minute. Add the wine if you like.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Add hot water with the stock cube dissolved in it, a little at a time, and cook for about 18 minutes, stirring often, until the rice is creamy.",
+     "minutes": 18,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Stir in the mushrooms and parmesan, sprinkle with parsley and serve.",
+     "minutes": 2,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:beef_burrito_bowl",
+   "nameCs": "Burrito bowl s mletým hovězím",
+   "nameEn": "Beef burrito bowl",
+   "shortCode": "BB",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "mexican",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:beef_mince_5",
+     "grams": 500
+    },
+    {
+     "food": "generic:rice_white_raw",
+     "grams": 240
+    },
+    {
+     "food": "generic:beans_black_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:sweet_corn",
+     "grams": 200
+    },
+    {
+     "food": "generic:tomato_raw",
+     "grams": 200
+    },
+    {
+     "food": "generic:onion_raw",
+     "grams": 100
+    },
+    {
+     "food": "generic:avocado",
+     "grams": 160
+    },
+    {
+     "food": "generic:lime",
+     "grams": 30
+    },
+    {
+     "food": "generic:cumin",
+     "grams": 4
+    },
+    {
+     "food": "generic:chili_powder",
+     "grams": 4
+    },
+    {
+     "food": "generic:paprika_spice",
+     "grams": 4
+    },
+    {
+     "food": "generic:rapeseed_oil",
+     "grams": 10
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    },
+    {
+     "food": "generic:greek_yogurt_0",
+     "grams": 100
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Rýži uvařte podle návodu na obalu.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Na oleji osmahněte nakrájenou cibuli, přidejte maso a koření a opékejte do hněda.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Fazole a kukuřici sceďte a prohřejte je s masem.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Rajčata a avokádo nakrájejte na kostičky a pokapejte limetkou.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Do misek dejte rýži, maso s fazolemi, zeleninu a lžíci jogurtu.",
+     "minutes": 3,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Cook the rice as the packet says.",
+     "minutes": 15,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Fry the chopped onion in the oil, add the beef and the spices and fry until browned.",
+     "minutes": 10,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Drain the beans and corn and heat them through with the meat.",
+     "minutes": 3,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Dice the tomatoes and avocado and squeeze the lime over them.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Fill the bowls with the rice, the beef and beans, the vegetables and a spoonful of yoghurt.",
+     "minutes": 3,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:couscous_chicken_salad",
+   "nameCs": "Kuskusový salát s kuřetem",
+   "nameEn": "Couscous salad with chicken",
+   "shortCode": "KS",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH"
+   ],
+   "cuisine": "mediterranean",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:couscous_dry",
+     "grams": 240
+    },
+    {
+     "food": "generic:chicken_breast_raw",
+     "grams": 400
+    },
+    {
+     "food": "generic:cucumber_raw",
+     "grams": 200
+    },
+    {
+     "food": "generic:cherry_tomato",
+     "grams": 200
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 150
+    },
+    {
+     "food": "generic:feta",
+     "grams": 100
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 30
+    },
+    {
+     "food": "generic:lemon",
+     "grams": 40
+    },
+    {
+     "food": "generic:parsley",
+     "grams": 15
+    },
+    {
+     "food": "generic:salt",
+     "grams": 4
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Kuskus zalijte stejným objemem vroucí osolené vody, přikryjte a nechte 5 minut nabobtnat. Pak ho prohrábněte vidličkou.",
+     "minutes": 6,
+     "passive": true
+    },
+    {
+     "text": "Kuřecí prsa osolte a na pánvi s trochou oleje je opečte z obou stran, asi 12 minut. Nechte je vychladnout a nakrájejte.",
+     "minutes": 14,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Okurku, rajčata a papriku nakrájejte na kostičky a petrželku nasekejte.",
+     "minutes": 8,
+     "passive": false
+    },
+    {
+     "text": "Vše smíchejte s kuskusem, zbylým olejem a citronovou šťávou a navrch rozdrobte fetu.",
+     "minutes": 3,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Pour the same volume of boiling salted water over the couscous, cover and leave for 5 minutes. Then fluff it up with a fork.",
+     "minutes": 6,
+     "passive": true
+    },
+    {
+     "text": "Season the chicken with salt and fry it in a pan with a little of the oil on both sides, about 12 minutes. Let it cool and slice it.",
+     "minutes": 14,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Dice the cucumber, tomatoes and pepper and chop the parsley.",
+     "minutes": 8,
+     "passive": false
+    },
+    {
+     "text": "Mix everything with the couscous, the rest of the oil and the lemon juice and crumble the feta on top.",
+     "minutes": 3,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:ham_cheese_pasta_bake",
+   "nameCs": "Zapečené těstoviny se šunkou a sýrem",
+   "nameEn": "Pasta bake with ham and cheese",
+   "shortCode": "ZT",
+   "servings": 4,
+   "mealTypes": [
+    "LUNCH",
+    "DINNER"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [
+    "OVEN"
+   ],
+   "fridgeDays": 3,
+   "freezable": true,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:pasta_dry",
+     "grams": 320
+    },
+    {
+     "food": "generic:ham_cooked",
+     "grams": 250
+    },
+    {
+     "food": "generic:edam",
+     "grams": 120
+    },
+    {
+     "food": "generic:egg",
+     "grams": 120
+    },
+    {
+     "food": "generic:milk_semi",
+     "grams": 300
+    },
+    {
+     "food": "generic:peas_frozen",
+     "grams": 150
+    },
+    {
+     "food": "generic:butter",
+     "grams": 10
+    },
+    {
+     "food": "generic:salt",
+     "grams": 3
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Těstoviny vařte o 2 minuty kratší dobu, než je uvedeno na obalu, a sceďte je.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Troubu předehřejte na 190 °C a zapékací misku vymažte máslem.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Těstoviny smíchejte s nakrájenou šunkou, hráškem a polovinou nastrouhaného sýra a dejte je do misky.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Vejce rozšlehejte s mlékem a solí, zalijte jimi těstoviny a posypte je zbylým sýrem.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Pečte 25 minut, až je povrch zlatavý.",
+     "minutes": 25,
+     "passive": true,
+     "equipment": "OVEN"
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Cook the pasta for 2 minutes less than the packet says and drain it.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Heat the oven to 190 °C and grease a baking dish with the butter.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "OVEN"
+    },
+    {
+     "text": "Mix the pasta with the chopped ham, the peas and half of the grated cheese and put it in the dish.",
+     "minutes": 5,
+     "passive": false
+    },
+    {
+     "text": "Beat the eggs with the milk and salt, pour this over the pasta and sprinkle with the rest of the cheese.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Bake for 25 minutes until golden on top.",
+     "minutes": 25,
+     "passive": true,
+     "equipment": "OVEN"
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:quark_fruit",
+   "nameCs": "Tvaroh s ovocem",
+   "nameEn": "Quark with fruit",
+   "shortCode": "TO",
+   "servings": 1,
+   "mealTypes": [
+    "SNACK",
+    "BREAKFAST"
+   ],
+   "cuisine": "czech",
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 2,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:tvaroh_low",
+     "grams": 200
+    },
+    {
+     "food": "generic:strawberries",
+     "grams": 150
+    },
+    {
+     "food": "generic:honey",
+     "grams": 10
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Tvaroh rozmíchejte s trochou vody nebo mléka do krému a oslaďte medem.",
+     "minutes": 2,
+     "passive": false
+    },
+    {
+     "text": "Přidejte nakrájené jahody.",
+     "minutes": 2,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Stir the quark with a little water or milk until creamy and sweeten it with honey.",
+     "minutes": 2,
+     "passive": false
+    },
+    {
+     "text": "Add the sliced strawberries.",
+     "minutes": 2,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:greek_yogurt_nuts_honey",
+   "nameCs": "Řecký jogurt s ořechy a medem",
+   "nameEn": "Greek yoghurt with nuts and honey",
+   "shortCode": "RJ",
+   "servings": 1,
+   "mealTypes": [
+    "SNACK",
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 2,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:greek_yogurt",
+     "grams": 150
+    },
+    {
+     "food": "generic:walnuts",
+     "grams": 20
+    },
+    {
+     "food": "generic:honey",
+     "grams": 10
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Ořechy nasucho opražte na pánvi, asi 3 minuty, a nechte je vychladnout.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Jogurt dejte do misky, posypte ho ořechy a pokapejte medem.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Toast the nuts in a dry pan for about 3 minutes and let them cool.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Put the yoghurt in a bowl, sprinkle with the nuts and drizzle with honey.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:hummus_vegetables",
+   "nameCs": "Hummus se zeleninou",
+   "nameEn": "Hummus with vegetables",
+   "shortCode": "HU",
+   "servings": 4,
+   "mealTypes": [
+    "SNACK"
+   ],
+   "cuisine": "middle_eastern",
+   "tags": [],
+   "equipment": [
+    "BLENDER"
+   ],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:chickpeas_canned",
+     "grams": 400
+    },
+    {
+     "food": "generic:sesame",
+     "grams": 30
+    },
+    {
+     "food": "generic:olive_oil",
+     "grams": 30
+    },
+    {
+     "food": "generic:lemon",
+     "grams": 40
+    },
+    {
+     "food": "generic:garlic_raw",
+     "grams": 5
+    },
+    {
+     "food": "generic:cumin",
+     "grams": 2
+    },
+    {
+     "food": "generic:salt",
+     "grams": 3
+    },
+    {
+     "food": "generic:carrot_raw",
+     "grams": 400
+    },
+    {
+     "food": "generic:cucumber_raw",
+     "grams": 400
+    },
+    {
+     "food": "generic:pepper_red",
+     "grams": 400
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Sezam opražte nasucho na pánvi do světle zlaté barvy.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cizrnu sceďte (trochu nálevu si nechte) a rozmixujte ji se sezamem, olejem, citronovou šťávou, česnekem, kmínem a solí. Je-li hummus moc hustý, přidejte trochu nálevu.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "BLENDER"
+    },
+    {
+     "text": "Zeleninu nakrájejte na tyčinky a podávejte s hummusem.",
+     "minutes": 8,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Toast the sesame seeds in a dry pan until light golden.",
+     "minutes": 4,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Drain the chickpeas, keeping a little of the liquid, and blend them with the sesame, oil, lemon juice, garlic, cumin and salt. If the hummus is too thick, add some of the liquid.",
+     "minutes": 6,
+     "passive": false,
+     "equipment": "BLENDER"
+    },
+    {
+     "text": "Cut the vegetables into sticks and serve them with the hummus.",
+     "minutes": 8,
+     "passive": false
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:hard_boiled_eggs",
+   "nameCs": "Vejce natvrdo",
+   "nameEn": "Hard-boiled eggs",
+   "shortCode": "VN",
+   "servings": 1,
+   "mealTypes": [
+    "SNACK",
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 3,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": true,
+   "ingredients": [
+    {
+     "food": "generic:egg",
+     "grams": 120
+    },
+    {
+     "food": "generic:salt",
+     "grams": 1
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Vejce vložte do hrnce, zalijte je studenou vodou a přiveďte k varu.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vařte 9–10 minut.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Vejce zchlaďte ve studené vodě, pak se lépe loupou.",
+     "minutes": 5,
+     "passive": true
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Put the eggs in a pan, cover them with cold water and bring to the boil.",
+     "minutes": 5,
+     "passive": false,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Boil for 9–10 minutes.",
+     "minutes": 10,
+     "passive": true,
+     "equipment": "STOVE"
+    },
+    {
+     "text": "Cool the eggs in cold water so they peel more easily.",
+     "minutes": 5,
+     "passive": true
+    }
+   ]
+  },
+  {
+   "key": "starter:cz:cottage_tomatoes_bread",
+   "nameCs": "Cottage s rajčaty a pečivem",
+   "nameEn": "Cottage cheese with tomatoes and bread",
+   "shortCode": "CR",
+   "servings": 1,
+   "mealTypes": [
+    "SNACK",
+    "BREAKFAST"
+   ],
+   "cuisine": null,
+   "tags": [],
+   "equipment": [],
+   "fridgeDays": 1,
+   "freezable": false,
+   "freezerMonths": 3,
+   "mealPrepFriendly": false,
+   "ingredients": [
+    {
+     "food": "generic:cottage_cheese",
+     "grams": 150
+    },
+    {
+     "food": "generic:cherry_tomato",
+     "grams": 100
+    },
+    {
+     "food": "generic:bread_multigrain",
+     "grams": 60
+    },
+    {
+     "food": "generic:chives",
+     "grams": 5
+    },
+    {
+     "food": "generic:black_pepper",
+     "grams": 1
+    }
+   ],
+   "stepsCs": [
+    {
+     "text": "Rajčata nakrájejte a smíchejte s cottage sýrem, pažitkou a pepřem.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Podávejte s chlebem.",
+     "minutes": 1,
+     "passive": false
+    }
+   ],
+   "stepsEn": [
+    {
+     "text": "Chop the tomatoes and mix them with the cottage cheese, chives and pepper.",
+     "minutes": 3,
+     "passive": false
+    },
+    {
+     "text": "Serve with the bread.",
+     "minutes": 1,
+     "passive": false
+    }
+   ]
+  }
+ ]
+}

@@ -35,6 +35,8 @@ data class AppSettings(
     val checkinReminders: Boolean = false,
     /** The bundled basic-foods dataset already imported (M2.2); 0 before the first import. */
     val genericFoodsVersion: Int = 0,
+    /** The bundled starter recipes version last imported (M3.4); 0 = never. */
+    val starterRecipesVersion: Int = 0,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -59,6 +61,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 measureReminderWeeks = prefs[MEASURE_REMINDER_WEEKS] ?: 0,
                 checkinReminders = prefs[CHECKIN_REMINDERS] ?: false,
                 genericFoodsVersion = prefs[GENERIC_FOODS_VERSION] ?: 0,
+                starterRecipesVersion = prefs[STARTER_RECIPES_VERSION] ?: 0,
             )
         }
 
@@ -98,6 +101,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[GENERIC_FOODS_VERSION] = version }
     }
 
+    suspend fun setStarterRecipesVersion(version: Int) {
+        dataStore.edit { it[STARTER_RECIPES_VERSION] = version }
+    }
+
     /** The flags set once when the profile moves out of the old settings (M1.1), in one write. */
     suspend fun markProfileMoved(existingUser: Boolean, birthDateToConfirm: Boolean) {
         dataStore.edit {
@@ -119,5 +126,6 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val MEASURE_REMINDER_WEEKS = intPreferencesKey("measure_reminder_weeks")
         private val CHECKIN_REMINDERS = booleanPreferencesKey("checkin_reminders")
         private val GENERIC_FOODS_VERSION = intPreferencesKey("generic_foods_version")
+        private val STARTER_RECIPES_VERSION = intPreferencesKey("starter_recipes_version")
     }
 }
