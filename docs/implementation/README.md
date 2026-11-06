@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** ready to start with M0. Nothing in this plan is built yet.
+> **Status:** M0 is done (app version 0.2.0). Next: M1.
 > **Date:** 6 November 2026
 
 ## Files
@@ -136,7 +136,7 @@ Update this table when a milestone starts or ends.
 
 | Milestone | Status |
 |---|---|
-| M0 Groundwork | In progress |
+| M0 Groundwork | Done |
 | M1 Profile, body and smart calorie tracking | Not started |
 | M2 Foods, barcode scanner and manual logging | Not started |
 | M3 Recipes and dishes | Not started |

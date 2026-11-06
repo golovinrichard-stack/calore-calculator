@@ -33,7 +33,7 @@ UPDATE foods SET updatedAt = lastUsedAt;
 - [x] Declare the same defaults in the entities (`@ColumnInfo(defaultValue = "")` and `"0"`), otherwise Room's schema check fails.
 - [x] Entities, mappers and domain models carry the uuid; new rows get one from `domain/Ids.kt`.
 
-**Done when:** the migration test passes, the existing `DaoTest` passes, and upgrading an installed v0.1 app keeps every food, diary entry and weight (check by hand once).
+**Done when:** the migration test passes, the existing `DaoTest` passes, and upgrading an installed v0.1 app keeps every food, diary entry and weight (check by hand once). *The migration was also checked against schema 2 with SQLite. The tests compile, but no emulator was available to run them, and the upgrade still needs one check by hand on a phone.*
 
 ### M0.3 Shared code conventions
 
