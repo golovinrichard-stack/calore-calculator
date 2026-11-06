@@ -27,6 +27,8 @@ import com.calore.tracker.R
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
 import com.calore.tracker.ui.backup.BackupScreen
+import com.calore.tracker.ui.body.BodyFatScreen
+import com.calore.tracker.ui.body.BodyFatTutorialScreen
 import com.calore.tracker.ui.calculator.CalculatorScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
@@ -163,7 +165,22 @@ fun CaloreNavHost(
                     },
                 )
             }
-            composable(Routes.WEIGHT) { WeightScreen(onBack = { navController.popBackStack() }) }
+            composable(Routes.WEIGHT) {
+                WeightScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenBodyFat = { navController.navigate(Routes.BODY_FAT) },
+                )
+            }
+            composable(Routes.BODY_FAT) {
+                BodyFatScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenTutorial = { navController.navigate(Routes.BODY_FAT_TUTORIAL) },
+                    onSaved = { navController.popBackStack() },
+                )
+            }
+            composable(Routes.BODY_FAT_TUTORIAL) {
+                BodyFatTutorialScreen(onBack = { navController.popBackStack() })
+            }
             composable(Routes.GOALS) {
                 GoalsScreen(
                     onBack = { navController.popBackStack() },

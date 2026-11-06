@@ -25,6 +25,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,6 +56,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun WeightScreen(
     onBack: () -> Unit,
+    onOpenBodyFat: () -> Unit,
     viewModel: WeightViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -73,6 +75,9 @@ fun WeightScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
                     }
+                },
+                actions = {
+                    TextButton(onClick = onOpenBodyFat) { Text(stringResource(R.string.body_fat_title)) }
                 },
             )
         },

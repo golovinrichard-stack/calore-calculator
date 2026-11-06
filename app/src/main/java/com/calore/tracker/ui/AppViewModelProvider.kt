@@ -9,6 +9,7 @@ import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.ui.addfood.AddFoodViewModel
 import com.calore.tracker.ui.backup.BackupViewModel
+import com.calore.tracker.ui.body.BodyFatViewModel
 import com.calore.tracker.ui.calculator.CalculatorViewModel
 import com.calore.tracker.ui.customfood.CustomFoodViewModel
 import com.calore.tracker.ui.fooddetail.FoodDetailViewModel
@@ -45,7 +46,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CalculatorViewModel(c.memberRepository, c.weightRepository, c.clock)
+            CalculatorViewModel(c.memberRepository, c.weightRepository, c.clock, c.bodyRepository.latestBodyFat())
         }
         initializer {
             val c = container()
@@ -59,7 +60,11 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            ProfileViewModel(c.memberRepository, c.weightRepository, c.clock)
+            BodyFatViewModel(c.memberRepository, c.bodyRepository)
+        }
+        initializer {
+            val c = container()
+            ProfileViewModel(c.memberRepository, c.weightRepository, c.clock, c.bodyRepository.latestBodyFat())
         }
         initializer {
             val c = container()

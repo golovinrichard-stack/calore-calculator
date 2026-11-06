@@ -375,4 +375,41 @@
     <string name="error_budget">Zadejte částku 0 nebo vyšší</string>
     <string name="profile_saved">Profil uložen</string>
     <string name="profile_saved_targets">Profil uložen. Nový denní cíl: %1$s kcal</string>
+
+    <!-- Body fat -->
+    <string name="unit_cm">cm</string>
+    <string name="body_fat_title">Tělesný tuk</string>
+    <string name="body_fat_label">Tělesný tuk</string>
+    <string name="body_fat_mode_tape">Krejčovský metr</string>
+    <string name="body_fat_mode_manual">Znám svou hodnotu</string>
+    <string name="body_fat_manual_hint">Zadejte hodnotu z chytré váhy, z posilovny nebo od lékaře.</string>
+    <string name="error_body_fat_manual" formatted="false">Zadejte 3 až 60 %</string>
+    <string name="body_fat_how_to">Jak měřit</string>
+    <string name="body_fat_neck">Krk</string>
+    <string name="body_fat_waist_men">Pas v úrovni pupku</string>
+    <string name="body_fat_waist_women">Pas v nejužším místě</string>
+    <string name="body_fat_hips">Boky v nejširším místě</string>
+    <string name="body_fat_average_hint">Každý obvod změřte třikrát a zadejte průměr.</string>
+    <string name="body_fat_result">Tělesný tuk ≈ %1$s %%</string>
+    <string name="body_fat_check">Zkontrolujte míry: pas musí být větší než krk.</string>
+    <string name="body_fat_out_of_range">Obvody musí být 20 až 200 cm, výška 100 až 250 cm.</string>
+    <string name="body_fat_estimate_note">Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledování vývoje.</string>
+    <string name="tutorial_title">Jak měřit</string>
+    <string name="tutorial_page">%1$d z %2$d</string>
+    <string name="tutorial_done">Hotovo</string>
+    <string name="tutorial_neck_title">Krk</string>
+    <string name="tutorial_neck_text">Měřte těsně pod ohryzkem. Metr ať vpředu mírně klesá dolů.</string>
+    <string name="tutorial_waist_men_title">Pas (muži)</string>
+    <string name="tutorial_waist_men_text">Měřte kolem břicha v úrovni pupku po běžném výdechu. Břicho nezatahujte.</string>
+    <string name="tutorial_waist_women_title">Pas (ženy)</string>
+    <string name="tutorial_waist_women_text">Měřte pas v nejužším místě, obvykle kousek nad pupkem, po běžném výdechu.</string>
+    <string name="tutorial_hips_title">Boky (ženy)</string>
+    <string name="tutorial_hips_text">Měřte kolem boků v nejširším místě hýždí, se spojenýma nohama.</string>
+    <string name="tutorial_tips_title">Tipy</string>
+    <string name="tutorial_tips_text">• Měřte ráno, před jídlem.
+• Stůjte uvolněně a břicho nezatahujte.
+• Metr držte rovně a vodorovně, těsně, ale ať se nezařezává do kůže.
+• Každé místo změřte třikrát a použijte průměr.
+
+Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledování vývoje.</string>
 </resources>

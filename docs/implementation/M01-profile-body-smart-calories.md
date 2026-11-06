@@ -48,13 +48,13 @@
 
 ### M1.4 Body fat and the tutorial
 
-- [ ] Domain: US Navy formula with validation (A5).
-- [ ] Tutorial, 5 short screens with simple vector drawings (neck, waist for men, waist for women, hips, tips), in English and Czech:
+- [x] Domain: US Navy formula with validation (A5).
+- [x] Tutorial, 5 short screens with simple vector drawings (neck, waist for men, waist for women, hips, tips), in English and Czech:
   - measure in the morning before eating, relaxed, don't pull in the belly;
   - neck just below the Adam's apple; waist at the belly button (men) or the narrowest point (women); hips at the widest point (women);
   - tape flat and level, snug, not pressing; measure 3 times and use the average;
   - "This is an estimate. It can be off by a few percent, but it is good for following the trend."
-- [ ] Enter measurements → body fat; or "I know my number" (manual entry). Saved in `body_measurements`.
+- [x] Enter measurements → body fat; or "I know my number" (manual entry). Saved in `body_measurements`.
 - [ ] After the first measurement, offer a reminder every 4 weeks (the user can choose 2–8 weeks or turn it off).
 
 **Done when:** the A5 test cases pass; after entering body fat, the calculator uses Katch-McArdle.

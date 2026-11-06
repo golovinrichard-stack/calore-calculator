@@ -366,4 +366,41 @@
     <string name="error_budget">Enter an amount of 0 or more</string>
     <string name="profile_saved">Profile saved</string>
     <string name="profile_saved_targets">Profile saved. New daily target: %1$s kcal</string>
+
+    <!-- Body fat -->
+    <string name="unit_cm">cm</string>
+    <string name="body_fat_title">Body fat</string>
+    <string name="body_fat_label">Body fat</string>
+    <string name="body_fat_mode_tape">Tape measure</string>
+    <string name="body_fat_mode_manual">I know my number</string>
+    <string name="body_fat_manual_hint">Type the number from a smart scale, a gym or a doctor.</string>
+    <string name="error_body_fat_manual" formatted="false">Enter 3 to 60 %</string>
+    <string name="body_fat_how_to">How to measure</string>
+    <string name="body_fat_neck">Neck</string>
+    <string name="body_fat_waist_men">Waist at the belly button</string>
+    <string name="body_fat_waist_women">Waist at the narrowest point</string>
+    <string name="body_fat_hips">Hips at the widest point</string>
+    <string name="body_fat_average_hint">Measure each one 3 times and type the average.</string>
+    <string name="body_fat_result">Body fat ≈ %1$s %%</string>
+    <string name="body_fat_check">Check your measurements: the waist must be bigger than the neck.</string>
+    <string name="body_fat_out_of_range">Measurements must be 20 to 200 cm, height 100 to 250 cm.</string>
+    <string name="body_fat_estimate_note">This is an estimate. It can be off by a few percent, but it is good for following the trend.</string>
+    <string name="tutorial_title">How to measure</string>
+    <string name="tutorial_page">%1$d of %2$d</string>
+    <string name="tutorial_done">Done</string>
+    <string name="tutorial_neck_title">Neck</string>
+    <string name="tutorial_neck_text">Measure just below the Adam\'s apple. Let the tape slope slightly down towards the front.</string>
+    <string name="tutorial_waist_men_title">Waist (men)</string>
+    <string name="tutorial_waist_men_text">Measure around the belly at the belly button, after breathing out normally. Don\'t pull in your belly.</string>
+    <string name="tutorial_waist_women_title">Waist (women)</string>
+    <string name="tutorial_waist_women_text">Measure the waist at its narrowest point, usually a little above the belly button, after breathing out normally.</string>
+    <string name="tutorial_hips_title">Hips (women)</string>
+    <string name="tutorial_hips_text">Measure around the hips at the widest point of the buttocks, with your feet together.</string>
+    <string name="tutorial_tips_title">Tips</string>
+    <string name="tutorial_tips_text">• Measure in the morning, before eating.
+• Stand relaxed and don\'t pull in your belly.
+• Keep the tape flat and level, snug but not pressing into the skin.
+• Measure each place 3 times and use the average.
+
+This is an estimate. It can be off by a few percent, but it is good for following the trend.</string>
 </resources>

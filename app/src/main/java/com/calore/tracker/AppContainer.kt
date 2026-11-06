@@ -8,6 +8,7 @@ import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
+import com.calore.tracker.data.repository.BodyRepository
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.GoalsRepository
@@ -53,6 +54,7 @@ class AppContainer(context: Context) {
         clock = clock,
     )
     val goalsRepository = GoalsRepository(memberRepository)
+    val bodyRepository = BodyRepository(database.bodyDao(), memberRepository, clock)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
         contentResolver = context.contentResolver,

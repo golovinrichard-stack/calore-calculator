@@ -20,6 +20,8 @@ object Routes {
     const val SETTINGS = "settings"
     const val SETUP = "setup"
     const val PROFILE = "profile"
+    const val BODY_FAT = "body_fat"
+    const val BODY_FAT_TUTORIAL = "body_fat_tutorial"
     const val CALCULATOR = "calculator"
     const val ABOUT = "about"
     const val BACKUP = "backup"
