@@ -105,6 +105,15 @@ As built: `tags` are empty in the starter pack (tags are free text the user type
 - [x] **Scale** a recipe for one cook (× factor, or "for N servings"). This doesn't change the saved recipe.
 - [x] **Swap** an ingredient for another food (same grams by default), with nutrition shown before and after. **Save as a copy** keeps the original.
 
+## As built (decisions)
+
+- `diary_entries.servings REAL NULL` joined version 5 next to `recipeId`: a dish logged by servings keeps its servings, so editing shows and changes servings (not grams). A dish logged by cooked weight has `servings` null and `grams` set. Version 5 was not released before this change.
+- Logging from the recipe page goes to today; the meal is guessed from the time of day (before 10:30 breakfast, before 15:00 lunch, before 17:30 snack, then dinner) and can be changed in the dialog.
+- Scale: chips ×0.5 to ×3 or "servings to cook" (×0.1 to ×10). It changes only what the page shows.
+- Swap: picks a food from the user's foods (basic foods first), keeps the grams unless changed, shows calories and macros per serving before and after, then **Change this recipe** or **Save as a copy** ("Name (copy)", the user's own recipe, its own learned yield).
+- Editing a starter recipe keeps both languages of its name and of each step until that text is changed; after that the recipe shows the user's text in every language.
+- The **Cook** button on the recipe page comes with cook mode in M4.
+
 ## Out of scope
 
 Importing recipes from websites (an idea for later), per-member ratings (M6).

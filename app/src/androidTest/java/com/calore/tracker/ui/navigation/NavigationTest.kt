@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** M1.9: every existing feature can still be reached through Today and Me. */
+/** M1.9 and M3.3: every feature can be reached through Today, Plan and Me. */
 @RunWith(AndroidJUnit4::class)
 class NavigationTest {
 
@@ -59,6 +59,16 @@ class NavigationTest {
     fun todayIsTheStartScreen() {
         compose.onNodeWithText(text(R.string.nav_today)).assertIsDisplayed()
         compose.onNodeWithText(text(R.string.meal_breakfast)).assertIsDisplayed()
+    }
+
+    @Test
+    fun planShowsTheRecipeBook() {
+        compose.onNodeWithText(text(R.string.nav_plan)).performClick()
+        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.recipes_new)).performClick()
+        compose.onNodeWithText(text(R.string.recipe_new_title)).assertIsDisplayed()
+        back()
+        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
     }
 
     @Test

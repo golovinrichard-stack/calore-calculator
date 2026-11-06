@@ -16,6 +16,8 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Food search** in Open Food Facts, with products sold in Czechia first, plus your own custom foods. Foods you use are kept on the phone, so they're there next time even offline.
 - **Barcode scanner**: scan a product in the shop (or type the code); unknown products can be added in a moment.
 - **Quick add**: log just the calories (and macros if you know them), for example for a meal out.
+- **Recipes** in the Plan tab: 30 starter recipes (Czech home cooking and meal-prep classics) and your own, with calories and macros per serving, allergens, steps and storage times. Search, filter by meal or your diet; recipes with your allergens are hidden unless you ask. Scale a recipe for one cook or swap an ingredient and see the difference.
+- **Log a dish**: "1.5 servings of my goulash", from Add food → Dishes or from the recipe itself.
 - **Portions in grams**, with one-tap serving sizes when the product has one. Tap a logged entry to change the amount or remove it (with undo).
 - **Daily goals** for calories, protein, carbs and fat, with a short setup on the first start.
 - **Calorie calculator**: Mifflin-St Jeor, or Katch-McArdle when you know your body fat; goals by speed (lose, maintain, gain or recomp) showing kg per week and kcal per day; automatic macros from protein per kg, or your own split.
@@ -24,7 +26,7 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner later).
 - **Hide-numbers mode**: log food without seeing calories and macros.
 - **Optional reminders** for the weekly check-in and for measuring body fat.
-- **Backup to a file:** export your foods, diary and weights, and import them on a new phone (Me → Settings → Backup).
+- **Backup to a file:** export your foods, diary, weights, profile, body measurements and recipes, and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 

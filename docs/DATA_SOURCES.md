@@ -16,7 +16,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
 | List of shops | Written by us | 0BSD | Shipped seed file | Planned (M5) |
-| Recipes | Starter pack written by us; the user's own | 0BSD | Shipped seed file; the app | Planned (M3) |
+| Recipes | Starter pack written by us; the user's own | 0BSD | Shipped seed file; the app | In use (M3): 30 starter recipes |
 | Storage times | Czech and EU consumer advice, USDA, NHS | Public guidance | Default values in the code | Planned (M4) |
 | Calorie and body-fat formulas | Published equations | Facts | In the code | In use; more in M1 |
 | Cycle and nutrition science | Research papers | Facts | Tip texts | Planned (M7) |
@@ -92,7 +92,7 @@ A list of common Czech chains written by us (names only): Albert, Billa, Globus,
 
 - **Starter pack:** 30 recipes written for Calore ([M3.4](implementation/M03-recipes-and-dishes.md)), original texts, under the same licence as the app (0BSD).
 - **The user's recipes** stay on the phone (shared with the household in M11).
-- Nutrition is always calculated from the foods in sections 1–3.
+- Nutrition is always calculated from the foods in sections 1–3: every starter ingredient is a basic food (`generic:` key, M2.2), so nothing in the pack has its own nutrition values. The file is `app/src/main/assets/recipes/starter-cz.json`; a unit test checks that every key exists and that each recipe has 150–1,200 kcal per serving.
 
 ## 8. Storage times (food-safety defaults)
 

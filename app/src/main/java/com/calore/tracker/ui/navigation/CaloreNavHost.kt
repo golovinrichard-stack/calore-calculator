@@ -25,7 +25,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
@@ -55,18 +54,11 @@ import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
 /** The bottom bar: Today · Plan · Me (M3). Kitchen and Shop join in M4–M5. */
-private enum class TopLevel(
-    val route: String,
-    @StringRes val label: Int,
-    @DrawableRes val icon: Int,
-    val visible: Boolean = true,
-) {
+private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
     TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
-    PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan, visible = FeatureFlags.recipes),
+    PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan),
     ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
-
-private val topLevelTabs = TopLevel.entries.filter { it.visible }
 
 private val dateAndMealArgs = listOf(
     navArgument(Routes.ARG_DATE) { type = NavType.StringType },
@@ -92,7 +84,7 @@ fun CaloreNavHost(
         if (openRoute != null) onOpened()
     }
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = topLevelTabs.any { it.route == currentRoute }
+    val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
 
     // Each screen has its own Scaffold for its top bar; this outer one only hosts the
     // bottom navigation, so it leaves window insets to the inner screens.
@@ -101,7 +93,7 @@ fun CaloreNavHost(
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
-                    topLevelTabs.forEach { destination ->
+                    TopLevel.entries.forEach { destination ->
                         NavigationBarItem(
                             selected = currentRoute == destination.route,
                             onClick = { navController.navigateToTopLevel(destination.route) },
@@ -258,7 +250,7 @@ fun CaloreNavHost(
             composable(Routes.BACKUP) {
                 BackupScreen(onBack = { navController.popBackStack() })
             }
-            if (FeatureFlags.recipes) recipeRoutes(navController)
+            recipeRoutes(navController)
         }
     }
 }

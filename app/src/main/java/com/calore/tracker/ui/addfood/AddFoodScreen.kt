@@ -50,7 +50,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.ui.recipes.LogDishDialog
@@ -163,12 +162,10 @@ fun AddFoodScreen(
                     .focusRequester(searchFocus),
             )
             if (state.isSaving) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-            // Foods or dishes (M3.5); dishes come with the recipes.
-            if (FeatureFlags.recipes) {
-                PrimaryTabRow(selectedTabIndex = if (showDishes) 1 else 0) {
-                    Tab(selected = !showDishes, onClick = { showDishes = false }, text = { Text(stringResource(R.string.tab_foods)) })
-                    Tab(selected = showDishes, onClick = { showDishes = true }, text = { Text(stringResource(R.string.tab_dishes)) })
-                }
+            // Foods, or dishes from the recipes (M3.5).
+            PrimaryTabRow(selectedTabIndex = if (showDishes) 1 else 0) {
+                Tab(selected = !showDishes, onClick = { showDishes = false }, text = { Text(stringResource(R.string.tab_foods)) })
+                Tab(selected = showDishes, onClick = { showDishes = true }, text = { Text(stringResource(R.string.tab_dishes)) })
             }
             if (showDishes) {
                 DishList(dishes, hasQuery = state.query.isNotBlank(), onDishClick = { loggingDish = it })
