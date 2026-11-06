@@ -10,8 +10,8 @@
 
 ### M0.1 Migration tests
 
-- [ ] Add `androidx.room:room-testing` as `androidTestImplementation` and make the exported schemas available to instrumented tests (`sourceSets["androidTest"].assets.srcDirs(files("$projectDir/schemas"))`).
-- [ ] Create `app/src/androidTest/.../data/db/MigrationTest.kt` with `MigrationTestHelper`.
+- [x] Add `androidx.room:room-testing` as `androidTestImplementation` and make the exported schemas available to instrumented tests (`sourceSets["androidTest"].assets.srcDirs(files("$projectDir/schemas"))`).
+- [x] Create `app/src/androidTest/.../data/db/MigrationTest.kt` with `MigrationTestHelper`.
 
 **Done when:** a test can create a version-1 database, insert rows, migrate it and read the rows back.
 

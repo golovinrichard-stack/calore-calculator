@@ -48,6 +48,9 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    // Lets MigrationTestHelper read the exported schema of every database version.
+    sourceSets["androidTest"].assets.srcDirs(files("$projectDir/schemas"))
 }
 
 kotlin {
@@ -89,6 +92,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 

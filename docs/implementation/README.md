@@ -136,7 +136,7 @@ Update this table when a milestone starts or ends.
 
 | Milestone | Status |
 |---|---|
-| M0 Groundwork | Not started |
+| M0 Groundwork | In progress |
 | M1 Profile, body and smart calorie tracking | Not started |
 | M2 Foods, barcode scanner and manual logging | Not started |
 | M3 Recipes and dishes | Not started |
