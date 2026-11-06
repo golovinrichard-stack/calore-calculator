@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
@@ -36,6 +37,7 @@ import com.calore.tracker.ui.checkin.CheckinScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
+import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
 import com.calore.tracker.ui.profile.ProfileScreen
@@ -236,8 +238,10 @@ fun CaloreNavHost(
                 SettingsScreen(
                     onBack = { navController.popBackStack() },
                     onOpenBackup = { navController.navigate(Routes.BACKUP) },
+                    onOpenPots = { navController.navigate(Routes.POTS) },
                 )
             }
+            if (FeatureFlags.kitchen) composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
             composable(Routes.CALCULATOR) {
                 CalculatorScreen(
                     onBack = { navController.popBackStack() },

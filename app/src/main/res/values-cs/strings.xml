@@ -652,4 +652,16 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="recipe_swap_apply">Změnit tento recept</string>
     <string name="recipe_swap_copy">Uložit jako kopii</string>
     <string name="recipe_copy_name">%1$s (kopie)</string>
+    <!-- M4: kuchyně -->
+    <string name="pots_title">Moje hrnce</string>
+    <string name="pots_desc">Hmotnost prázdných hrnců, aby aplikace zvážila jídlo v plném hrnci</string>
+    <string name="pots_add">Přidat hrnec</string>
+    <string name="pots_edit">Upravit hrnec</string>
+    <string name="pots_name">Název</string>
+    <string name="pots_empty_weight">Hmotnost prázdného hrnce</string>
+    <string name="pots_empty_weight_value">Prázdný: %1$s g</string>
+    <string name="pots_weigh_hint">Postavte prázdný hrnec na váhu a zadejte hmotnost.</string>
+    <string name="pots_hint">Uložte si hrnce, ve kterých vaříte. Po uvaření zvažte plný hrnec a Calore odečte jeho hmotnost.</string>
+    <string name="error_pot_grams">Zadejte 1 až 20 000 g</string>
+    <string name="settings_kitchen">Kuchyně</string>
 </resources>

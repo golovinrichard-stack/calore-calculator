@@ -92,4 +92,31 @@ abstract class CookingDao {
 
     @Update
     abstract suspend fun updateBox(box: BoxEntity)
+
+    @Insert
+    protected abstract suspend fun insertDiaryEntry(entry: DiaryEntryEntity): Long
+
+    @Query("DELETE FROM diary_entries WHERE id = :id")
+    protected abstract suspend fun deleteDiaryEntry(id: Long)
+
+    /** "Ate it" (M4.7): the diary entry and the box change together, or not at all. */
+    @Transaction
+    open suspend fun eatBox(updated: BoxEntity, entry: DiaryEntryEntity): Long {
+        updateBox(updated)
+        return insertDiaryEntry(entry)
+    }
+
+    /** Undo of [eatBox]: the box as it was, and no diary entry. */
+    @Transaction
+    open suspend fun undoEat(previous: BoxEntity, entryId: Long) {
+        updateBox(previous)
+        deleteDiaryEntry(entryId)
+    }
+
+    /** A9: the recipe learns how much it weighs cooked. */
+    @Query(
+        "UPDATE recipes SET learnedYield = :learnedYield, learnedYieldCount = learnedYieldCount + 1, updatedAt = :now " +
+            "WHERE id = :recipeId",
+    )
+    abstract suspend fun setLearnedYield(recipeId: String, learnedYield: Double, now: Long)
 }

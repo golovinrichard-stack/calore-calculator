@@ -17,7 +17,7 @@
 
 ### M4.2 Pots
 
-- [ ] Me → Settings → **My pots**: name and empty weight ("Put the empty pot on the scale and type the weight").
+- [x] Me → Settings → **My pots**: name and empty weight ("Put the empty pot on the scale and type the weight").
 
 ### M4.3 The cook flow
 

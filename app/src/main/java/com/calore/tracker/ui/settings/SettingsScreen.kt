@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.body.MeasureReminderDialog
@@ -50,6 +51,7 @@ import kotlinx.coroutines.launch
 fun SettingsScreen(
     onBack: () -> Unit,
     onOpenBackup: () -> Unit,
+    onOpenPots: () -> Unit = {},
     viewModel: SettingsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -126,6 +128,14 @@ fun SettingsScreen(
                     }
                 },
             )
+            if (FeatureFlags.kitchen) {
+                SectionHeader(stringResource(R.string.settings_kitchen), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.pots_title)) },
+                    supportingContent = { Text(stringResource(R.string.pots_desc)) },
+                    modifier = Modifier.clickable(onClick = onOpenPots),
+                )
+            }
             SectionHeader(stringResource(R.string.settings_data), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
             ListItem(
                 headlineContent = { Text(stringResource(R.string.backup_title)) },

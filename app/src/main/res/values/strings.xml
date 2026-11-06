@@ -627,4 +627,16 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="recipe_swap_apply">Change this recipe</string>
     <string name="recipe_swap_copy">Save as a copy</string>
     <string name="recipe_copy_name">%1$s (copy)</string>
+    <!-- M4: kitchen -->
+    <string name="pots_title">My pots</string>
+    <string name="pots_desc">Empty weights, so the app can weigh the food in a full pot</string>
+    <string name="pots_add">Add pot</string>
+    <string name="pots_edit">Edit pot</string>
+    <string name="pots_name">Name</string>
+    <string name="pots_empty_weight">Empty weight</string>
+    <string name="pots_empty_weight_value">Empty: %1$s g</string>
+    <string name="pots_weigh_hint">Put the empty pot on the scale and type the weight.</string>
+    <string name="pots_hint">Save the pots you cook in. After cooking, weigh the full pot and Calore subtracts the pot.</string>
+    <string name="error_pot_grams">Enter 1 to 20,000 g</string>
+    <string name="settings_kitchen">Kitchen</string>
 </resources>
