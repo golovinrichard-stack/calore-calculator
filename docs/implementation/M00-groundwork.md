@@ -79,7 +79,7 @@ UPDATE foods SET updatedAt = lastUsedAt;
 
 ### M0.7 Feature flags
 
-- [ ] `FeatureFlags.kt`: one boolean per unfinished feature. Debug builds show everything; release builds show only finished features.
+- [x] `FeatureFlags.kt`: one boolean per unfinished feature. Debug builds show everything; release builds show only finished features. (M0 has no unfinished feature, so there is no flag yet. `FeatureFlagsTest` checks the rule.)
 
 **Done when:** a feature behind a false flag doesn't appear in a release build.
 
