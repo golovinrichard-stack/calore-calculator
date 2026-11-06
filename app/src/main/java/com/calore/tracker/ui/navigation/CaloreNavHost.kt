@@ -40,6 +40,8 @@ import com.calore.tracker.ui.goals.GoalsScreen
 import com.calore.tracker.ui.cook.CookModeScreen
 import com.calore.tracker.ui.cook.CookScreen
 import com.calore.tracker.ui.kitchen.KitchenScreen
+import com.calore.tracker.ui.kitchen.PeopleScreen
+import com.calore.tracker.ui.kitchen.PersonScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.kitchen.WasteScreen
 import com.calore.tracker.ui.me.MeDestination
@@ -216,6 +218,7 @@ fun CaloreNavHost(
                             MeDestination.BODY -> Routes.WEIGHT
                             MeDestination.SETTINGS -> Routes.SETTINGS
                             MeDestination.ABOUT -> Routes.ABOUT
+                            MeDestination.PEOPLE -> Routes.PEOPLE
                         }
                         navController.navigate(route)
                     },
@@ -257,6 +260,18 @@ fun CaloreNavHost(
                 composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
                 composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
                 composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+                composable(Routes.PEOPLE) {
+                    PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })
+                }
+                composable(
+                    Routes.PERSON,
+                    arguments = listOf(
+                        navArgument(Routes.ARG_MEMBER_ID) {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+                    ),
+                ) { PersonScreen(onBack = { navController.popBackStack() }) }
                 composable(
                     Routes.COOK,
                     arguments = listOf(

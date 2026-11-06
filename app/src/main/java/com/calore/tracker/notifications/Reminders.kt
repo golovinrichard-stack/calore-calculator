@@ -31,6 +31,9 @@ interface ReminderScheduler {
 
     /** "Is the food in the fridge?" 2 hours after cook mode ends (M4.4, A12). */
     fun scheduleCoolingReminder()
+
+    /** The daily morning "eat today" job and the 19:00 thaw job, or neither (M4.9). */
+    fun setFreshnessJobs(morning: Boolean, evening: Boolean)
 }
 
 /** Does nothing; for previews and tests. */
@@ -39,6 +42,7 @@ object NoReminders : ReminderScheduler {
     override fun cancelMeasureReminder() = Unit
     override fun scheduleWeeklyCheckin() = Unit
     override fun scheduleCoolingReminder() = Unit
+    override fun setFreshnessJobs(morning: Boolean, evening: Boolean) = Unit
 }
 
 /**
@@ -77,7 +81,27 @@ class WorkManagerReminders(private val context: Context, private val clock: Cloc
         workManager.enqueueUniqueWork(COOLING_WORK, ExistingWorkPolicy.REPLACE, request)
     }
 
+    override fun setFreshnessJobs(morning: Boolean, evening: Boolean) {
+        daily<FreshnessWorker>(FRESHNESS_WORK, morning, Freshness.MORNING_REMINDER_TIME)
+        daily<ThawWorker>(THAW_WORK, evening, Freshness.THAW_REMINDER_TIME)
+    }
+
+    private inline fun <reified W : androidx.work.ListenableWorker> daily(name: String, on: Boolean, time: java.time.LocalTime) {
+        if (!on) {
+            workManager.cancelUniqueWork(name)
+            return
+        }
+        val delay = Freshness.until(time, ZonedDateTime.now(clock))
+        val request = PeriodicWorkRequestBuilder<W>(1, TimeUnit.DAYS, DAILY_FLEX_MINUTES, TimeUnit.MINUTES)
+            .setInitialDelay(delay.toMillis(), TimeUnit.MILLISECONDS)
+            .build()
+        workManager.enqueueUniquePeriodicWork(name, ExistingPeriodicWorkPolicy.KEEP, request)
+    }
+
     private companion object {
+        const val FRESHNESS_WORK = "freshness_morning"
+        const val THAW_WORK = "thaw_evening"
+        const val DAILY_FLEX_MINUTES = 45L
         const val COOLING_WORK = "cooling_reminder"
         const val CHECKIN_WORK = "weekly_checkin"
         const val CHECKIN_FLEX_HOURS = 3L
@@ -115,6 +139,47 @@ class CoolingReminderWorker(context: Context, params: WorkerParameters) : Corout
             applicationContext.getString(R.string.notify_cooling_text),
             Routes.KITCHEN,
         )
+        return Result.success()
+    }
+}
+
+/** Morning (M4.9): "2 boxes should be eaten today" (due today, plus red ones). */
+class FreshnessWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
+        val container = (applicationContext as CaloreApp).container
+        if (!container.appPrefs.settings.first().freshnessReminders) return Result.success()
+        val due = Freshness.dueToday(container.cookingRepository.activeBoxes().first().map { it.box }, LocalDate.now(container.clock))
+        if (due.isNotEmpty()) {
+            val resources = applicationContext.resources
+            Notifications.post(
+                applicationContext,
+                CaloreChannel.FRESHNESS,
+                Notifications.ID_FRESHNESS,
+                resources.getQuantityString(R.plurals.notify_eat_today_title, due.size, due.size),
+                due.joinToString(", ") { it.code },
+                Routes.KITCHEN,
+            )
+        }
+        return Result.success()
+    }
+}
+
+/** Evening (A13, M4.9): "Move box C4 from the freezer to the fridge." */
+class ThawWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
+        val container = (applicationContext as CaloreApp).container
+        if (!container.appPrefs.settings.first().thawReminders) return Result.success()
+        val thaw = Freshness.toThawTonight(container.cookingRepository.activeBoxes().first().map { it.box }, LocalDate.now(container.clock))
+        if (thaw.isNotEmpty()) {
+            Notifications.post(
+                applicationContext,
+                CaloreChannel.FRESHNESS,
+                Notifications.ID_THAW,
+                applicationContext.getString(R.string.notify_thaw_title),
+                applicationContext.getString(R.string.notify_thaw_text, thaw.joinToString(", ") { it.code }),
+                Routes.KITCHEN,
+            )
+        }
         return Result.success()
     }
 }

@@ -41,6 +41,8 @@ object Notifications {
     const val ID_CHECKIN = 1001
     const val ID_MEASURE = 1002
     const val ID_COOLING = 1003
+    const val ID_FRESHNESS = 1004
+    const val ID_THAW = 1005
 
     /** Cook-mode timers use ids from here up, one per step. */
     const val ID_TIMER_BASE = 2000

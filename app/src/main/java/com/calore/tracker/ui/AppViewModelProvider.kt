@@ -3,6 +3,8 @@ package com.calore.tracker.ui
 import com.calore.tracker.ui.cook.CookModeViewModel
 import com.calore.tracker.ui.cook.CookViewModel
 import com.calore.tracker.ui.kitchen.KitchenViewModel
+import com.calore.tracker.ui.kitchen.PeopleViewModel
+import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
 import com.calore.tracker.ui.kitchen.WasteViewModel
 import com.calore.tracker.ui.recipes.RecipeDetailViewModel
@@ -74,7 +76,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            SettingsViewModel(c.appPrefs, c.reminderSettings)
+            SettingsViewModel(c.appPrefs, c.reminderSettings, c.reminders)
         }
         initializer {
             val c = container()
@@ -110,6 +112,13 @@ object AppViewModelProvider {
         }
         initializer {
             PotsViewModel(container().cookingRepository)
+        }
+        initializer {
+            PeopleViewModel(container().memberRepository)
+        }
+        initializer {
+            val c = container()
+            PersonViewModel(createSavedStateHandle(), c.memberRepository, c.clock)
         }
         initializer {
             val c = container()

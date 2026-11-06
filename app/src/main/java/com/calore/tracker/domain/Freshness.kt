@@ -40,6 +40,28 @@ object Freshness {
     /** A13: a box planned for after its fridge eat-by date goes to the freezer straight away. */
     fun goesToFreezer(plannedDate: LocalDate?, fridgeEatBy: LocalDate): Boolean = plannedDate != null && plannedDate.isAfter(fridgeEatBy)
 
+    /** The morning reminder (M4.9), in a flexible window after this time. */
+    val MORNING_REMINDER_TIME: LocalTime = LocalTime.of(7, 30)
+
+    /** M4.9: fridge boxes to eat today: due today (yellow) or already past (red). */
+    fun dueToday(boxes: List<Box>, today: LocalDate): List<Box> =
+        boxes.filter { it.storage != Storage.FREEZER && !it.eatByDate.isAfter(today) }
+
+    /** M4.9: frozen boxes planned for tomorrow, to move to the fridge tonight. */
+    fun toThawTonight(boxes: List<Box>, today: LocalDate): List<Box> =
+        boxes.filter { it.storage == Storage.FREEZER && it.plannedDate == today.plusDays(1) }
+
+    /** Today's "Eat first" card: up to [max] fridge boxes, earliest eat-by date first. */
+    fun eatFirst(boxes: List<Box>, max: Int = 3): List<Box> =
+        boxes.filter { it.storage != Storage.FREEZER }.sortedWith(compareBy({ it.eatByDate }, { it.code })).take(max)
+
+    /** Time until the next [time] after [now] (today if still ahead, otherwise tomorrow). */
+    fun until(time: LocalTime, now: java.time.ZonedDateTime): java.time.Duration {
+        val todayAt = now.with(time)
+        val next = if (now.isBefore(todayAt)) todayAt else todayAt.plusDays(1)
+        return java.time.Duration.between(now, next)
+    }
+
     /** A13: the thaw reminder, at 19:00 the evening before the planned day. */
     fun thawReminderAt(plannedDate: LocalDate): LocalDateTime = plannedDate.minusDays(1).atTime(THAW_REMINDER_TIME)
 }

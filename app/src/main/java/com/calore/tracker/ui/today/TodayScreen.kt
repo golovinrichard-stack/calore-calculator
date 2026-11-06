@@ -1,5 +1,14 @@
 package com.calore.tracker.ui.today
 
+import androidx.compose.runtime.LaunchedEffect
+import com.calore.tracker.domain.MemberKind
+import com.calore.tracker.domain.FreshnessColour
+import com.calore.tracker.domain.Freshness
+import com.calore.tracker.ui.kitchen.freshnessLabel
+import com.calore.tracker.ui.kitchen.FreshnessDot
+import com.calore.tracker.ui.kitchen.KitchenItem
+import com.calore.tracker.ui.kitchen.KitchenEvent
+import com.calore.tracker.ui.kitchen.KitchenViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,6 +59,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
@@ -124,6 +134,11 @@ fun TodayScreen(
             onDismissWhatsNew = viewModel::dismissWhatsNew,
             onConfirmBirthDate = { state.birthDateToConfirm?.let(viewModel::confirmBirthDate) },
             onChangeBirthDate = { changingBirthDate = true },
+            eatFirst = if (FeatureFlags.kitchen && state.date == state.today) {
+                { EatFirst(snackbarHostState) }
+            } else {
+                null
+            },
         )
     }
 
@@ -205,6 +220,8 @@ fun TodayContent(
     onDismissWhatsNew: () -> Unit = {},
     onConfirmBirthDate: () -> Unit = {},
     onChangeBirthDate: () -> Unit = {},
+    /** Today's "Eat first" card (M4.9), when there are boxes. */
+    eatFirst: (@Composable () -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -224,6 +241,7 @@ fun TodayContent(
                 BirthDateCard(birthDate = birthDate, onConfirm = onConfirmBirthDate, onChange = onChangeBirthDate)
             }
         }
+        eatFirst?.let { card -> item(key = "eat_first") { card() } }
         item(key = "summary") {
             if (state.hideNumbers) {
                 HiddenNumbersNote()
@@ -492,3 +510,58 @@ private fun HiddenNumbersNote() {
 /** A quick add without a name shows as "Quick add". */
 private fun DiaryEntry.displayName(resources: android.content.res.Resources): String =
     name.ifBlank { if (entryType == EntryType.QUICK_ADD) resources.getString(R.string.quick_add_title) else name }
+
+/** Up to 3 of my boxes to eat first, with "Ate it" and undo (M4.9). */
+@Composable
+private fun EatFirst(snackbarHostState: SnackbarHostState, kitchen: KitchenViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
+    val state by kitchen.uiState.collectAsStateWithLifecycle()
+    val resources = LocalResources.current
+    LaunchedEffect(kitchen) {
+        kitchen.events.collect { event ->
+            if (event is KitchenEvent.Eaten) {
+                val result = snackbarHostState.showSnackbar(
+                    message = resources.getString(R.string.box_logged, event.code),
+                    actionLabel = resources.getString(R.string.undo),
+                    duration = SnackbarDuration.Long,
+                )
+                if (result == SnackbarResult.ActionPerformed) kitchen.undo(event.eaten)
+            }
+        }
+    }
+    val mine = state.fridge.filter { it.box.ownerMemberId == null || it.owner?.kind == MemberKind.ME }
+    val codes = Freshness.eatFirst(mine.map { it.box }).map { it.id }
+    val items = codes.mapNotNull { id -> mine.firstOrNull { it.box.id == id } }
+    if (items.isEmpty()) return
+    var confirmRed by remember { mutableStateOf<KitchenItem?>(null) }
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(stringResource(R.string.today_eat_first), style = MaterialTheme.typography.titleMedium)
+            items.forEach { item ->
+                val colour = item.view.colour(state.today)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FreshnessDot(colour)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("${item.box.code} · ${item.view.name}")
+                        Text(freshnessLabel(colour), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    TextButton(onClick = { if (colour == FreshnessColour.RED) confirmRed = item else kitchen.eat(item) }) {
+                        Text(stringResource(R.string.box_ate_it))
+                    }
+                }
+            }
+        }
+    }
+    confirmRed?.let { item ->
+        AlertDialog(
+            onDismissRequest = { confirmRed = null },
+            text = { Text(stringResource(R.string.box_red_confirm)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmRed = null
+                    kitchen.eat(item)
+                }) { Text(stringResource(R.string.box_eat_anyway)) }
+            },
+            dismissButton = { TextButton(onClick = { confirmRed = null }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
+}

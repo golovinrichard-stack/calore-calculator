@@ -12,6 +12,7 @@ object Routes {
     const val ARG_BARCODE = "barcode"
     const val ARG_RECIPE_ID = "recipeId"
     const val ARG_RECIPE_IDS = "recipeIds"
+    const val ARG_MEMBER_ID = "memberId"
 
     /** Where a picked food's row id goes back to the screen below (the recipe editor). */
     const val RESULT_PICKED_FOOD_ID = "picked_food_id"
@@ -38,6 +39,8 @@ object Routes {
     const val WASTE = "waste"
     const val COOK = "cook?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
     const val COOK_MODE = "cook_mode/{$ARG_RECIPE_IDS}"
+    const val PEOPLE = "people"
+    const val PERSON = "person?$ARG_MEMBER_ID={$ARG_MEMBER_ID}"
     const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
     const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
     const val SCANNER_PICK = "scanner_pick"
@@ -50,6 +53,8 @@ object Routes {
     const val SCANNER = "scanner/{$ARG_DATE}/{$ARG_MEAL}"
 
     fun recipe(id: String) = "recipe/$id"
+
+    fun person(id: String? = null) = if (id == null) "person" else "person?$ARG_MEMBER_ID=$id"
 
     fun cookMode(recipeIds: List<String>) = "cook_mode/${recipeIds.joinToString(",")}"
 

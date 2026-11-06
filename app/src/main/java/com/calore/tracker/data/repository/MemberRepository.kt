@@ -43,6 +43,16 @@ class MemberRepository(
 
     fun managed(): Flow<List<Member>> = memberDao.observeManaged().map { rows -> rows.map { it.toDomain() } }
 
+    /** A person I cook for (M4.8), or null if there is none with this id. */
+    suspend fun managedMember(id: String): Member? =
+        memberDao.byId(id)?.takeIf { it.deletedAt == null }?.toDomain()?.takeIf { it.kind == MemberKind.MANAGED }
+
+    /** Removes a person I cook for; their boxes and history stay (soft delete). */
+    suspend fun removeManaged(member: Member) {
+        val now = clock.millis()
+        memberDao.upsert(member.copy(updatedAt = now).toEntity(deletedAt = now))
+    }
+
     /** Saves [member] and stamps `updatedAt`. */
     suspend fun save(member: Member) {
         memberDao.upsert(member.copy(updatedAt = clock.millis()).toEntity())

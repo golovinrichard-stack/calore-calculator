@@ -39,6 +39,9 @@ data class AppSettings(
     val starterRecipesVersion: Int = 0,
     /** The one-time hint about exact alarms for cook-mode timers was shown (M4.4). */
     val exactAlarmHintShown: Boolean = false,
+    /** Morning "eat today" and evening "thaw" reminders (M4.9). */
+    val freshnessReminders: Boolean = false,
+    val thawReminders: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -65,6 +68,8 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 genericFoodsVersion = prefs[GENERIC_FOODS_VERSION] ?: 0,
                 starterRecipesVersion = prefs[STARTER_RECIPES_VERSION] ?: 0,
                 exactAlarmHintShown = prefs[EXACT_ALARM_HINT_SHOWN] ?: false,
+                freshnessReminders = prefs[FRESHNESS_REMINDERS] ?: false,
+                thawReminders = prefs[THAW_REMINDERS] ?: false,
             )
         }
 
@@ -104,6 +109,14 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[GENERIC_FOODS_VERSION] = version }
     }
 
+    suspend fun setFreshnessReminders(on: Boolean) {
+        dataStore.edit { it[FRESHNESS_REMINDERS] = on }
+    }
+
+    suspend fun setThawReminders(on: Boolean) {
+        dataStore.edit { it[THAW_REMINDERS] = on }
+    }
+
     suspend fun setExactAlarmHintShown() {
         dataStore.edit { it[EXACT_ALARM_HINT_SHOWN] = true }
     }
@@ -135,5 +148,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val GENERIC_FOODS_VERSION = intPreferencesKey("generic_foods_version")
         private val STARTER_RECIPES_VERSION = intPreferencesKey("starter_recipes_version")
         private val EXACT_ALARM_HINT_SHOWN = booleanPreferencesKey("exact_alarm_hint_shown")
+        private val FRESHNESS_REMINDERS = booleanPreferencesKey("freshness_reminders")
+        private val THAW_REMINDERS = booleanPreferencesKey("thaw_reminders")
     }
 }

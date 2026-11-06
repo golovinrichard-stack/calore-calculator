@@ -75,15 +75,15 @@ Entry points: Kitchen, the box detail, the Today card (M4.9) and later the widge
 
 ### M4.8 People I cook for
 
-- [ ] Me → **People I cook for**: add `MANAGED` members (name, colour, and targets either from the calculator, using sex, birth date, height, `weightKg`, activity and goal, or typed in), their meal split and their prepped meals.
-- [ ] They appear in "by person" box filling (M4.5) and later in the plan (M5) and the planner (M6). This is how "cook once for the family" works on one phone. In M11, household members with their own phones join in.
+- [x] Me → **People I cook for**: add `MANAGED` members (name, colour, and targets either from the calculator, using sex, birth date, height, `weightKg`, activity and goal, or typed in), their meal split and their prepped meals.
+- [x] They appear in "by person" box filling (M4.5) and later in the plan (M5) and the planner (M6). This is how "cook once for the family" works on one phone. In M11, household members with their own phones join in.
 
 ### M4.9 Freshness reminders and Today
 
-- [ ] A daily WorkManager job in the morning (flexible window): "2 boxes should be eaten today" (yellow boxes due today, plus red ones). Channel *Freshness*.
-- [ ] An evening job at about 19:00: thaw reminders for frozen boxes planned for tomorrow.
-- [ ] Settings switches for each reminder type.
-- [ ] Today shows an **Eat first** card with up to 3 boxes (by eat-by date) and an **Ate it** button.
+- [x] A daily WorkManager job in the morning (flexible window): "2 boxes should be eaten today" (yellow boxes due today, plus red ones). Channel *Freshness*.
+- [x] An evening job at about 19:00: thaw reminders for frozen boxes planned for tomorrow.
+- [x] Settings switches for each reminder type.
+- [x] Today shows an **Eat first** card with up to 3 boxes (by eat-by date) and an **Ate it** button.
 
 ### M4.10 Waste log
 

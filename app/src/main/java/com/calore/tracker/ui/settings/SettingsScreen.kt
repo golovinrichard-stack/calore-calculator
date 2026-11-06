@@ -63,17 +63,23 @@ fun SettingsScreen(
     var choosingMeasureReminder by rememberSaveable { mutableStateOf(false) }
     var pendingWeeks by rememberSaveable { mutableIntStateOf(0) }
     var pendingCheckin by rememberSaveable { mutableStateOf(false) }
+    var pendingFreshness by rememberSaveable { mutableStateOf(false) }
+    var pendingThaw by rememberSaveable { mutableStateOf(false) }
 
     // Reminders need notification permission; ask only when one is switched on (M1.6).
     val requestPermission = rememberNotificationPermission { granted ->
         if (granted) {
             if (pendingWeeks > 0) viewModel.setMeasureReminderWeeks(pendingWeeks)
             if (pendingCheckin) viewModel.setCheckinReminders(true)
+            if (pendingFreshness) viewModel.setFreshness(morning = true)
+            if (pendingThaw) viewModel.setFreshness(evening = true)
         } else {
             scope.launch { snackbarHostState.showSnackbar(deniedMessage) }
         }
         pendingWeeks = 0
         pendingCheckin = false
+        pendingFreshness = false
+        pendingThaw = false
     }
 
     Scaffold(
@@ -129,6 +135,32 @@ fun SettingsScreen(
                 },
             )
             if (FeatureFlags.kitchen) {
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.settings_freshness_reminder)) },
+                    supportingContent = { Text(stringResource(R.string.settings_freshness_reminder_desc)) },
+                    trailingContent = { Switch(checked = state.freshnessReminders, onCheckedChange = null) },
+                    modifier = Modifier.clickable {
+                        if (state.freshnessReminders) {
+                            viewModel.setFreshness(morning = false)
+                        } else {
+                            pendingFreshness = true
+                            requestPermission()
+                        }
+                    },
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.settings_thaw_reminder)) },
+                    supportingContent = { Text(stringResource(R.string.settings_thaw_reminder_desc)) },
+                    trailingContent = { Switch(checked = state.thawReminders, onCheckedChange = null) },
+                    modifier = Modifier.clickable {
+                        if (state.thawReminders) {
+                            viewModel.setFreshness(evening = false)
+                        } else {
+                            pendingThaw = true
+                            requestPermission()
+                        }
+                    },
+                )
                 SectionHeader(stringResource(R.string.settings_kitchen), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.pots_title)) },

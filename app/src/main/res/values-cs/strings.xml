@@ -757,4 +757,32 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="notify_timer_title">Čas vypršel: %1$s</string>
     <string name="notify_cooling_title">Je jídlo v lednici?</string>
     <string name="notify_cooling_text">Uvařené jídlo by mělo být do 2 hodin v lednici.</string>
+    <string name="people_title">Lidé, pro které vařím</string>
+    <string name="people_desc">Členové rodiny bez aplikace a jejich cíle</string>
+    <string name="people_add">Přidat osobu</string>
+    <string name="people_empty">Přidejte lidi, pro které vaříte. Jejich krabičky se naplní podle jejich cílů pro jednotlivá jídla.</string>
+    <string name="person_new">Nová osoba</string>
+    <string name="person_edit">Upravit osobu</string>
+    <string name="person_name">Jméno</string>
+    <string name="person_colour">Barva</string>
+    <string name="person_targets_calc">Spočítat cíle</string>
+    <string name="person_targets_typed">Zadat cíle ručně</string>
+    <string name="person_remove">Odebrat osobu</string>
+    <string name="person_remove_confirm">Odebrat osobu %1$s? Její krabičky zůstanou.</string>
+    <string name="person_kcal_per_day">%1$s kcal denně</string>
+    <string name="error_person_targets">Vyplňte pohlaví, datum narození, výšku a hmotnost, nebo zadejte cíle ručně.</string>
+    <string name="error_person_name">Zadejte jméno</string>
+    <string name="settings_freshness_reminder">Krabičky k snědení dnes</string>
+    <string name="settings_freshness_reminder_desc">Ranní připomínka, když se mají krabičky dnes sníst</string>
+    <string name="settings_thaw_reminder">Rozmrazování</string>
+    <string name="settings_thaw_reminder_desc">V 19:00, které zmrazené krabičky přesunout na zítra do lednice</string>
+    <plurals name="notify_eat_today_title">
+        <item quantity="one">Dnes je potřeba sníst %1$d krabičku</item>
+        <item quantity="few">Dnes je potřeba sníst %1$d krabičky</item>
+        <item quantity="many">Dnes je potřeba sníst %1$d krabičky</item>
+        <item quantity="other">Dnes je potřeba sníst %1$d krabiček</item>
+    </plurals>
+    <string name="notify_thaw_title">Rozmrazit na zítra</string>
+    <string name="notify_thaw_text">Přesuňte %1$s z mrazáku do lednice.</string>
+    <string name="today_eat_first">Sníst nejdřív</string>
 </resources>

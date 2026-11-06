@@ -19,13 +19,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 
 /** Where everything about the user lives (M1.9). Optional features add their rows here later. */
-enum class MeDestination(@StringRes val title: Int, @StringRes val description: Int, @DrawableRes val icon: Int) {
+enum class MeDestination(
+    @StringRes val title: Int,
+    @StringRes val description: Int,
+    @DrawableRes val icon: Int,
+    val visible: Boolean = true,
+) {
     PROFILE(R.string.me_profile, R.string.me_profile_desc, R.drawable.ic_nav_me),
     GOALS(R.string.me_goals, R.string.me_goals_desc, R.drawable.ic_nav_goals),
     BODY(R.string.me_body, R.string.me_body_desc, R.drawable.ic_nav_weight),
+    PEOPLE(R.string.people_title, R.string.people_desc, R.drawable.ic_nav_me, visible = FeatureFlags.kitchen),
     SETTINGS(R.string.me_settings, R.string.me_settings_desc, R.drawable.ic_settings),
     ABOUT(R.string.me_about, R.string.me_about_desc, R.drawable.ic_info),
 }
@@ -46,7 +53,7 @@ fun MeContent(padding: PaddingValues, onOpen: (MeDestination) -> Unit) {
             .padding(padding)
             .verticalScroll(rememberScrollState()),
     ) {
-        MeDestination.entries.forEach { destination ->
+        MeDestination.entries.filter { it.visible }.forEach { destination ->
             ListItem(
                 headlineContent = { Text(stringResource(destination.title)) },
                 supportingContent = { Text(stringResource(destination.description)) },

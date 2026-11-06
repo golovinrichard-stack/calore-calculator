@@ -730,4 +730,30 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="notify_timer_title">Time\'s up: %1$s</string>
     <string name="notify_cooling_title">Is the food in the fridge?</string>
     <string name="notify_cooling_text">Cooked food should go into the fridge within 2 hours.</string>
+    <string name="people_title">People I cook for</string>
+    <string name="people_desc">Family members without the app, with their own targets</string>
+    <string name="people_add">Add person</string>
+    <string name="people_empty">Add the people you cook for. Their boxes are filled to their own meal targets.</string>
+    <string name="person_new">New person</string>
+    <string name="person_edit">Edit person</string>
+    <string name="person_name">Name</string>
+    <string name="person_colour">Colour</string>
+    <string name="person_targets_calc">Calculate the targets</string>
+    <string name="person_targets_typed">Type the targets</string>
+    <string name="person_remove">Remove person</string>
+    <string name="person_remove_confirm">Remove %1$s? Their boxes stay.</string>
+    <string name="person_kcal_per_day">%1$s kcal a day</string>
+    <string name="error_person_targets">Fill in sex, birth date, height and weight, or type the targets.</string>
+    <string name="error_person_name">Enter a name</string>
+    <string name="settings_freshness_reminder">Boxes to eat today</string>
+    <string name="settings_freshness_reminder_desc">A morning reminder when boxes should be eaten today</string>
+    <string name="settings_thaw_reminder">Thawing</string>
+    <string name="settings_thaw_reminder_desc">At 19:00, which frozen boxes to move to the fridge for tomorrow</string>
+    <plurals name="notify_eat_today_title">
+        <item quantity="one">%1$d box should be eaten today</item>
+        <item quantity="other">%1$d boxes should be eaten today</item>
+    </plurals>
+    <string name="notify_thaw_title">Thaw for tomorrow</string>
+    <string name="notify_thaw_text">Move %1$s from the freezer to the fridge.</string>
+    <string name="today_eat_first">Eat first</string>
 </resources>
