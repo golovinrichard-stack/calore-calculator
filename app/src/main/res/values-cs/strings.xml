@@ -199,12 +199,21 @@
     <string name="weight_save">Uložit váhu</string>
     <string name="weight_empty">Zatím žádné vážení. Važte se vždy ve stejnou denní dobu, vývoj pak bude nejzřetelnější.</string>
     <string name="weight_chart_need_more">Graf se zobrazí, až zapíšete aspoň dva dny.</string>
-    <string name="weight_change">%1$s kg od %2$s</string>
+    <string name="weight_change">%1$s kg od %2$s (trend)</string>
     <string name="weight_range">Nejméně %1$s kg · Nejvíce %2$s kg</string>
     <string name="weight_chart_description">Graf váhy od %1$s kg (%2$s) do %3$s kg (%4$s)</string>
     <string name="error_weight_entry">Zadejte 20 až 500 kg</string>
     <string name="weight_removed">Váha odstraněna</string>
     <string name="delete_weight">Smazat váhu: %1$s</string>
+    <string name="weight_trend_now">Trend %1$s kg</string>
+    <string name="body_fat_none">Zatím žádná hodnota tělesného tuku. Stačí krejčovský metr.</string>
+    <string name="body_fat_latest">%1$s %% dne %2$s</string>
+    <string name="body_fat_history_row">%1$s: %2$s %%</string>
+    <string name="body_fat_typed_in">Zadáno ručně</string>
+    <string name="body_fat_part_neck">Krk %1$s cm</string>
+    <string name="body_fat_part_waist">Pas %1$s cm</string>
+    <string name="body_fat_part_hips">Boky %1$s cm</string>
+    <string name="body_fat_measure">Změřit tělesný tuk</string>
 
     <!-- Backup -->
     <string name="backup_title">Záloha</string>

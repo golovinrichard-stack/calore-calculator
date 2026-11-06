@@ -196,12 +196,21 @@
     <string name="weight_save">Save weight</string>
     <string name="weight_empty">No weights logged yet. Weigh yourself at the same time of day for the clearest trend.</string>
     <string name="weight_chart_need_more">Log at least two days to see a chart.</string>
-    <string name="weight_change">%1$s kg since %2$s</string>
+    <string name="weight_change">%1$s kg since %2$s (trend)</string>
     <string name="weight_range">Low %1$s kg · High %2$s kg</string>
     <string name="weight_chart_description">Weight chart from %1$s kg on %2$s to %3$s kg on %4$s</string>
     <string name="error_weight_entry">Enter 20 to 500 kg</string>
     <string name="weight_removed">Weight removed</string>
     <string name="delete_weight">Delete weight for %1$s</string>
+    <string name="weight_trend_now">Trend %1$s kg</string>
+    <string name="body_fat_none">No body-fat value yet. A tape measure is enough.</string>
+    <string name="body_fat_latest">%1$s %% on %2$s</string>
+    <string name="body_fat_history_row">%1$s: %2$s %%</string>
+    <string name="body_fat_typed_in">Typed in</string>
+    <string name="body_fat_part_neck">Neck %1$s cm</string>
+    <string name="body_fat_part_waist">Waist %1$s cm</string>
+    <string name="body_fat_part_hips">Hips %1$s cm</string>
+    <string name="body_fat_measure">Measure body fat</string>
 
     <!-- Backup -->
     <string name="backup_title">Backup</string>

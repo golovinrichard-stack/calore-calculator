@@ -25,7 +25,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,11 +41,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
-import com.calore.tracker.domain.WeightEntry
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.DatePickerModal
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.formatKg
+import com.calore.tracker.ui.formatSigned
+import com.calore.tracker.ui.formatNumber
+import com.calore.tracker.ui.components.SectionHeader
+import com.calore.tracker.domain.TrendPoint
+import com.calore.tracker.domain.BodyMeasurement
+import com.calore.tracker.domain.BodyFatMethod
 import com.calore.tracker.ui.rememberMediumDateFormatter
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -70,14 +74,11 @@ fun WeightScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.weight_title)) },
+                title = { Text(stringResource(R.string.me_body)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
                     }
-                },
-                actions = {
-                    TextButton(onClick = onOpenBodyFat) { Text(stringResource(R.string.body_fat_title)) }
                 },
             )
         },
@@ -116,7 +117,15 @@ fun WeightScreen(
             }
 
             item(key = "chart") {
-                ChartCard(entries = state.entries, dateFormatter = dateFormatter)
+                ChartCard(points = state.trend, dateFormatter = dateFormatter)
+            }
+
+            item(key = "body_fat") {
+                BodyFatCard(measurements = state.measurements, dateFormatter = dateFormatter, onMeasure = onOpenBodyFat)
+            }
+
+            item(key = "weights_header") {
+                SectionHeader(stringResource(R.string.weight_title), modifier = Modifier.padding(top = 8.dp))
             }
 
             items(newestFirst, key = { it.id }) { entry ->
@@ -155,31 +164,38 @@ fun WeightScreen(
 }
 
 @Composable
-private fun ChartCard(entries: List<WeightEntry>, dateFormatter: DateTimeFormatter) {
+private fun ChartCard(points: List<TrendPoint>, dateFormatter: DateTimeFormatter) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             when {
-                entries.isEmpty() -> Text(
+                points.isEmpty() -> Text(
                     stringResource(R.string.weight_empty),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                entries.size == 1 -> Text(
+                points.size == 1 -> Text(
                     stringResource(R.string.weight_chart_need_more),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 else -> {
-                    val first = entries.first()
-                    val last = entries.last()
-                    val change = last.kg - first.kg
-                    val sign = if (change > 0) "+" else ""
+                    val first = points.first()
+                    val last = points.last()
+                    val change = last.trendKg - first.trendKg
                     Text(
-                        text = stringResource(R.string.weight_change, sign + formatKg(change), first.date.format(dateFormatter)),
+                        text = stringResource(R.string.weight_trend_now, formatKg(last.trendKg)),
                         style = MaterialTheme.typography.titleMedium,
                     )
+                    Text(
+                        text = stringResource(
+                            R.string.weight_change,
+                            formatSigned(change, formatKg(kotlin.math.abs(change))),
+                            first.date.format(dateFormatter),
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                     WeightChart(
-                        entries = entries,
+                        points = points,
                         description = stringResource(
                             R.string.weight_chart_description,
                             formatKg(first.kg),
@@ -191,8 +207,8 @@ private fun ChartCard(entries: List<WeightEntry>, dateFormatter: DateTimeFormatt
                     Text(
                         text = stringResource(
                             R.string.weight_range,
-                            formatKg(entries.minOf { it.kg }),
-                            formatKg(entries.maxOf { it.kg }),
+                            formatKg(points.minOf { it.kg }),
+                            formatKg(points.maxOf { it.kg }),
                         ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -209,3 +225,53 @@ private fun dateLabel(date: LocalDate, today: LocalDate, formatter: DateTimeForm
     today.minusDays(1) -> stringResource(R.string.date_yesterday)
     else -> date.format(formatter)
 }
+
+/** The latest body fat with its measurements, the history, and the way to measure again (M1.5). */
+@Composable
+private fun BodyFatCard(measurements: List<BodyMeasurement>, dateFormatter: DateTimeFormatter, onMeasure: () -> Unit) {
+    val withFat = measurements.filter { it.bodyFatPct != null }
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SectionHeader(stringResource(R.string.body_fat_title))
+            val latest = withFat.lastOrNull()
+            if (latest == null) {
+                Text(
+                    stringResource(R.string.body_fat_none),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                Text(
+                    stringResource(R.string.body_fat_latest, formatNumber(latest.bodyFatPct ?: 0.0, 1, 1), latest.date.format(dateFormatter)),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                tapeSummary(latest)?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+                if (withFat.size > 1) {
+                    withFat.dropLast(1).asReversed().take(HISTORY_ROWS).forEach { old ->
+                        Text(
+                            stringResource(R.string.body_fat_history_row, old.date.format(dateFormatter), formatNumber(old.bodyFatPct ?: 0.0, 1, 1)),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+            OutlinedButton(onClick = onMeasure, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.body_fat_measure))
+            }
+        }
+    }
+}
+
+@Composable
+private fun tapeSummary(measurement: BodyMeasurement): String? {
+    if (measurement.method != BodyFatMethod.NAVY) return stringResource(R.string.body_fat_typed_in)
+    val parts = listOfNotNull(
+        measurement.neckCm?.let { stringResource(R.string.body_fat_part_neck, formatNumber(it, 1)) },
+        measurement.waistCm?.let { stringResource(R.string.body_fat_part_waist, formatNumber(it, 1)) },
+        measurement.hipCm?.let { stringResource(R.string.body_fat_part_hips, formatNumber(it, 1)) },
+    )
+    return parts.takeIf { it.isNotEmpty() }?.joinToString(" · ")
+}
+
+private const val HISTORY_ROWS = 5

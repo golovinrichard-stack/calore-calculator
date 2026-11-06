@@ -61,7 +61,7 @@
 
 ### M1.5 Body screen
 
-- [ ] Replaces the Weight tab, inside Me: weight log as today, plus the trend line (A6), body-fat history, and the latest measurements.
+- [x] Replaces the Weight tab, inside Me: weight log as today, plus the trend line (A6), body-fat history, and the latest measurements.
 
 **Done when:** the chart shows weigh-ins as dots and the trend as a line; the A6 test cases pass.
 

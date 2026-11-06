@@ -14,15 +14,17 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.calore.tracker.domain.WeightEntry
+import com.calore.tracker.domain.TrendPoint
 
 /**
- * A plain line chart of body weight over time. The x axis is real calendar time, so gaps
- * between weigh-ins show as longer segments. Needs at least two entries, oldest first.
+ * Body weight over time (M1.5): each weigh-in is a dot, the smoothed trend (A6) is a line.
+ * The x axis is real calendar time, so gaps between weigh-ins show as longer segments.
+ * Needs at least two points, oldest first.
  */
 @Composable
-fun WeightChart(entries: List<WeightEntry>, description: String, modifier: Modifier = Modifier) {
+fun WeightChart(points: List<TrendPoint>, description: String, modifier: Modifier = Modifier) {
     val lineColor = MaterialTheme.colorScheme.primary
+    val dotColor = MaterialTheme.colorScheme.tertiary
     val gridColor = MaterialTheme.colorScheme.outlineVariant
 
     Canvas(
@@ -31,24 +33,24 @@ fun WeightChart(entries: List<WeightEntry>, description: String, modifier: Modif
             .height(180.dp)
             .semantics { contentDescription = description },
     ) {
-        if (entries.size < 2) return@Canvas
+        if (points.size < 2) return@Canvas
 
         val inset = 8.dp.toPx()
         val width = size.width - 2 * inset
         val height = size.height - 2 * inset
 
-        val firstDay = entries.first().date.toEpochDay()
-        val daySpan = (entries.last().date.toEpochDay() - firstDay).coerceAtLeast(1L).toFloat()
-        val minKg = entries.minOf { it.kg }
-        val maxKg = entries.maxOf { it.kg }
+        val firstDay = points.first().date.toEpochDay()
+        val daySpan = (points.last().date.toEpochDay() - firstDay).coerceAtLeast(1L).toFloat()
+        val minKg = points.minOf { minOf(it.kg, it.trendKg) }
+        val maxKg = points.maxOf { maxOf(it.kg, it.trendKg) }
         // Keep a little headroom, and at least a 1 kg window so a flat line isn't stretched.
         val padding = ((maxKg - minKg) * 0.15).coerceAtLeast(0.5)
         val low = minKg - padding
         val kgSpan = (maxKg + padding - low).toFloat()
 
-        fun point(entry: WeightEntry) = Offset(
-            x = inset + (entry.date.toEpochDay() - firstDay) / daySpan * width,
-            y = inset + height - ((entry.kg - low).toFloat() / kgSpan) * height,
+        fun offset(date: Long, kg: Double) = Offset(
+            x = inset + (date - firstDay) / daySpan * width,
+            y = inset + height - ((kg - low).toFloat() / kgSpan) * height,
         )
 
         for (i in 0..GRID_LINES) {
@@ -56,9 +58,14 @@ fun WeightChart(entries: List<WeightEntry>, description: String, modifier: Modif
             drawLine(gridColor, Offset(inset, y), Offset(inset + width, y), strokeWidth = 1.dp.toPx())
         }
 
+        val dotRadius = if (points.size <= MANY_POINTS) 4.dp.toPx() else 2.5.dp.toPx()
+        points.forEach { point ->
+            drawCircle(dotColor.copy(alpha = 0.7f), radius = dotRadius, center = offset(point.date.toEpochDay(), point.kg))
+        }
+
         val path = Path()
-        entries.forEachIndexed { index, entry ->
-            val p = point(entry)
+        points.forEachIndexed { index, point ->
+            val p = offset(point.date.toEpochDay(), point.trendKg)
             if (index == 0) path.moveTo(p.x, p.y) else path.lineTo(p.x, p.y)
         }
         drawPath(
@@ -66,11 +73,8 @@ fun WeightChart(entries: List<WeightEntry>, description: String, modifier: Modif
             color = lineColor,
             style = Stroke(width = 3.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
         )
-        if (entries.size <= MAX_DOTS) {
-            entries.forEach { drawCircle(lineColor, radius = 4.dp.toPx(), center = point(it)) }
-        }
     }
 }
 
 private const val GRID_LINES = 3
-private const val MAX_DOTS = 60
+private const val MANY_POINTS = 60

@@ -5,6 +5,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.flow.map
 import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.ui.addfood.AddFoodViewModel
@@ -50,7 +51,12 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            WeightViewModel(c.weightRepository, c.clock)
+            WeightViewModel(
+                c.weightRepository,
+                c.clock,
+                c.bodyRepository.measurements(),
+                c.appPrefs.settings.map { it.hideNumbers },
+            )
         }
         initializer {
             BackupViewModel(container().backupRepository)

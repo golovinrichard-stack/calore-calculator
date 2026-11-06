@@ -3,10 +3,15 @@ package com.calore.tracker.ui.weight
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.WeightRepository
+import com.calore.tracker.domain.BodyMeasurement
 import com.calore.tracker.domain.Limits
+import com.calore.tracker.domain.TrendPoint
+import com.calore.tracker.domain.TrendWeight
 import com.calore.tracker.domain.WeightEntry
 import com.calore.tracker.domain.parseDecimalIn
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -30,17 +35,36 @@ data class WeightUiState(
     val entries: List<WeightEntry>,
     val input: WeightInput,
     val today: LocalDate,
-)
+    /** Oldest first. */
+    val measurements: List<BodyMeasurement> = emptyList(),
+    val hideNumbers: Boolean = false,
+) {
+    /** Weigh-ins with the trend (A6), oldest first. */
+    val trend: List<TrendPoint> = TrendWeight.of(entries)
+}
 
 class WeightViewModel(
     private val repository: WeightRepository,
     private val clock: Clock,
+    measurements: Flow<List<BodyMeasurement>> = flowOf(emptyList()),
+    hideNumbers: Flow<Boolean> = flowOf(false),
 ) : ViewModel() {
 
     private val input = MutableStateFlow(WeightInput(date = LocalDate.now(clock)))
 
-    val uiState: StateFlow<WeightUiState> = combine(repository.entries(), input) { entries, currentInput ->
-        WeightUiState(entries = entries, input = currentInput, today = LocalDate.now(clock))
+    val uiState: StateFlow<WeightUiState> = combine(
+        repository.entries(),
+        input,
+        measurements,
+        hideNumbers,
+    ) { entries, currentInput, bodyMeasurements, hide ->
+        WeightUiState(
+            entries = entries,
+            input = currentInput,
+            today = LocalDate.now(clock),
+            measurements = bodyMeasurements,
+            hideNumbers = hide,
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS),
