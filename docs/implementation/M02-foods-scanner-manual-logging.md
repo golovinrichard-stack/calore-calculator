@@ -10,9 +10,9 @@
 
 ### M2.1 Food data model (database version 4)
 
-- [ ] Add the `foods` and `diary_entries` columns from data-model M2.
-- [ ] `Nutrients` gets `ironMg`, `magnesiumMg` and `vitaminCMg` (nullable, same "unknown is not zero" rule). Update `plus`, `scaledBy` and their tests.
-- [ ] `Food` gets `key`, localized names, `section`, `allergens`, `animalFlags`, `defaultPackGrams`, `storage`, `shelfLifeDays` and `gramsPerPiece`. The display name uses `nameCs` or `nameEn` for the current locale, then `name`.
+- [x] Add the `foods` and `diary_entries` columns from data-model M2.
+- [x] `Nutrients` gets `ironMg`, `magnesiumMg` and `vitaminCMg` (nullable, same "unknown is not zero" rule). Update `plus`, `scaledBy` and their tests.
+- [x] `Food` gets `key`, localized names, `section`, `allergens`, `animalFlags`, `defaultPackGrams`, `storage`, `shelfLifeDays` and `gramsPerPiece`. The display name uses `nameCs` or `nameEn` for the current locale, then `name`.
 
 **Done when:** the migration test passes and the existing food and diary tests pass.
 

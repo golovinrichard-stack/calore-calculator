@@ -74,5 +74,41 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
     }
 }
 
+/**
+ * Version 4 (M2.1): basic foods and micronutrients. New `foods` columns for bundled basic foods
+ * (key, names per language, shop section, allergens …) and iron, magnesium and vitamin C; diary
+ * entries get an entry type (quick add) and the same micronutrients.
+ */
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        listOf(
+            "`key` TEXT",
+            "`nameCs` TEXT",
+            "`nameEn` TEXT",
+            "`section` TEXT NOT NULL DEFAULT 'OTHER'",
+            "`isGeneric` INTEGER NOT NULL DEFAULT 0",
+            "`sourceRef` TEXT",
+            "`allergens` TEXT NOT NULL DEFAULT '[]'",
+            "`animalFlags` TEXT NOT NULL DEFAULT '[]'",
+            "`defaultPackGrams` REAL",
+            "`storage` TEXT",
+            "`shelfLifeDays` INTEGER",
+            "`gramsPerPiece` REAL",
+            "`ironMgPer100g` REAL",
+            "`magnesiumMgPer100g` REAL",
+            "`vitaminCMgPer100g` REAL",
+            "`datasetVersion` INTEGER",
+        ).forEach { column -> db.execSQL("ALTER TABLE `foods` ADD COLUMN $column") }
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_foods_key` ON `foods` (`key`)")
+
+        listOf(
+            "`entryType` TEXT NOT NULL DEFAULT 'FOOD'",
+            "`ironMg` REAL",
+            "`magnesiumMg` REAL",
+            "`vitaminCMg` REAL",
+        ).forEach { column -> db.execSQL("ALTER TABLE `diary_entries` ADD COLUMN $column") }
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)

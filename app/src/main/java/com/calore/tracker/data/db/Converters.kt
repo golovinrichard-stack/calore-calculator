@@ -2,6 +2,7 @@ package com.calore.tracker.data.db
 
 import androidx.room.TypeConverter
 import com.calore.tracker.domain.Allergen
+import com.calore.tracker.domain.AnimalFlag
 import com.calore.tracker.domain.Equipment
 import com.calore.tracker.domain.MealType
 import kotlinx.serialization.builtins.ListSerializer
@@ -113,4 +114,10 @@ class Converters {
 
     @TypeConverter
     fun jsonToDayList(value: String?): List<DayOfWeek> = JsonColumns.decodeEnums(value)
+
+    @TypeConverter
+    fun animalFlagListToJson(value: List<AnimalFlag>): String = JsonColumns.encodeEnums(value)
+
+    @TypeConverter
+    fun jsonToAnimalFlagList(value: String?): List<AnimalFlag> = JsonColumns.decodeEnums(value)
 }

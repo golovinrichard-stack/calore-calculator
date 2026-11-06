@@ -24,8 +24,11 @@ sealed interface BackupReadResult {
 /** Turns backups into JSON text and back, and checks a file completely before it is imported. */
 object BackupCodec {
     const val FORMAT = "calore-backup"
-    /** 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1). */
-    const val VERSION = 2
+    /**
+     * 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1).
+     * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
+     */
+    const val VERSION = 3
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -82,6 +85,7 @@ object BackupCodec {
         } &&
             foods.isUnique { it.id } && foods.isUnique { it.uuid.lowercase() } &&
             foods.mapNotNull { it.barcode }.let { it.size == it.toSet().size } &&
+            foods.mapNotNull { it.key }.let { it.size == it.toSet().size } &&
             diary.all { entry ->
                 entry.id > 0 && uuidPattern.matches(entry.uuid) && parseIsoDate(entry.date) != null &&
                     entry.grams.isAmount() && entry.kcal.isAmount() &&

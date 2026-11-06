@@ -169,6 +169,15 @@ enum class ShopSection {
     }
 }
 
+/** What a food contains, for diet filters (vegetarian, vegan, no pork …). */
+enum class AnimalFlag { DAIRY, EGG, FISH, SHELLFISH, MEAT, PORK }
+
+/** Where food is kept. */
+enum class Storage { FRIDGE, FREEZER, CUPBOARD }
+
+/** What a diary entry is. */
+enum class EntryType { FOOD, QUICK_ADD, DISH, BOX, SUPPLEMENT }
+
 /** Cuisine keys stored in `members.cuisines` (lower case, stable). */
 object Cuisines {
     val ALL = listOf("czech", "italian", "mediterranean", "asian", "indian", "mexican", "middle_eastern", "american")

@@ -8,6 +8,7 @@ import com.calore.tracker.data.db.JsonColumns
 import com.calore.tracker.data.db.MemberEntity
 import com.calore.tracker.data.db.WeightEntryEntity
 import com.calore.tracker.domain.Allergen
+import com.calore.tracker.domain.AnimalFlag
 import com.calore.tracker.domain.Equipment
 import com.calore.tracker.domain.MealType
 import java.time.DayOfWeek
@@ -66,6 +67,23 @@ data class FoodRow(
     val source: String,
     val lastUsedAt: Long,
     val updatedAt: Long,
+    // Since version 3 (M2).
+    val key: String? = null,
+    val nameCs: String? = null,
+    val nameEn: String? = null,
+    val section: String = "OTHER",
+    val isGeneric: Boolean = false,
+    val sourceRef: String? = null,
+    val allergens: List<String> = emptyList(),
+    val animalFlags: List<String> = emptyList(),
+    val defaultPackGrams: Double? = null,
+    val storage: String? = null,
+    val shelfLifeDays: Int? = null,
+    val gramsPerPiece: Double? = null,
+    val ironMgPer100g: Double? = null,
+    val magnesiumMgPer100g: Double? = null,
+    val vitaminCMgPer100g: Double? = null,
+    val datasetVersion: Int? = null,
 )
 
 @Serializable
@@ -86,6 +104,11 @@ data class DiaryEntryRow(
     val createdAt: Long,
     /** Since version 2; null is the phone's user. */
     val memberId: String? = null,
+    // Since version 3 (M2).
+    val entryType: String = "FOOD",
+    val ironMg: Double? = null,
+    val magnesiumMg: Double? = null,
+    val vitaminCMg: Double? = null,
 )
 
 @Serializable
@@ -185,6 +208,22 @@ internal fun FoodEntity.toRow() = FoodRow(
     source = source,
     lastUsedAt = lastUsedAt,
     updatedAt = updatedAt,
+    key = key,
+    nameCs = nameCs,
+    nameEn = nameEn,
+    section = section,
+    isGeneric = isGeneric,
+    sourceRef = sourceRef,
+    allergens = allergens.map { it.name },
+    animalFlags = animalFlags.map { it.name },
+    defaultPackGrams = defaultPackGrams,
+    storage = storage,
+    shelfLifeDays = shelfLifeDays,
+    gramsPerPiece = gramsPerPiece,
+    ironMgPer100g = ironMgPer100g,
+    magnesiumMgPer100g = magnesiumMgPer100g,
+    vitaminCMgPer100g = vitaminCMgPer100g,
+    datasetVersion = datasetVersion,
 )
 
 internal fun FoodRow.toEntity() = FoodEntity(
@@ -203,6 +242,22 @@ internal fun FoodRow.toEntity() = FoodEntity(
     lastUsedAt = lastUsedAt,
     uuid = uuid,
     updatedAt = updatedAt,
+    key = key,
+    nameCs = nameCs,
+    nameEn = nameEn,
+    section = section,
+    isGeneric = isGeneric,
+    sourceRef = sourceRef,
+    allergens = allergens.mapNotNull { JsonColumns.enumByName<Allergen>(it) },
+    animalFlags = animalFlags.mapNotNull { JsonColumns.enumByName<AnimalFlag>(it) },
+    defaultPackGrams = defaultPackGrams,
+    storage = storage,
+    shelfLifeDays = shelfLifeDays,
+    gramsPerPiece = gramsPerPiece,
+    ironMgPer100g = ironMgPer100g,
+    magnesiumMgPer100g = magnesiumMgPer100g,
+    vitaminCMgPer100g = vitaminCMgPer100g,
+    datasetVersion = datasetVersion,
 )
 
 internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
@@ -221,6 +276,10 @@ internal fun DiaryEntryEntity.toRow() = DiaryEntryRow(
     sugar = sugar,
     createdAt = createdAt,
     memberId = memberId,
+    entryType = entryType,
+    ironMg = ironMg,
+    magnesiumMg = magnesiumMg,
+    vitaminCMg = vitaminCMg,
 )
 
 internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
@@ -239,6 +298,10 @@ internal fun DiaryEntryRow.toEntity() = DiaryEntryEntity(
     createdAt = createdAt,
     uuid = uuid,
     memberId = memberId,
+    entryType = entryType,
+    ironMg = ironMg,
+    magnesiumMg = magnesiumMg,
+    vitaminCMg = vitaminCMg,
 )
 
 internal fun WeightEntryEntity.toRow() = WeightEntryRow(id = id, uuid = uuid, date = date, kg = kg)

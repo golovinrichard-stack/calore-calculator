@@ -61,16 +61,19 @@ class FoodRepository(
         servingGrams: Double?,
     ): Long {
         val existing = existingId?.let { foodDao.getById(it) }
-        val food = Food(
-            id = existing?.id ?: 0,
+        val base = existing?.toDomain() ?: Food(
+            id = 0,
             name = name,
             brand = brand,
-            barcode = existing?.barcode,
+            barcode = null,
             per100g = per100g,
             servingGrams = servingGrams,
-            source = existing?.toDomain()?.source ?: FoodSource.CUSTOM,
-            uuid = existing?.uuid ?: newId(),
+            source = FoodSource.CUSTOM,
+            uuid = newId(),
+            sourceRef = SOURCE_USER,
         )
+        // Keep everything the form doesn't show (section, allergens …) when editing.
+        val food = base.copy(name = name, brand = brand, per100g = per100g, servingGrams = servingGrams)
         val now = clock.millis()
         val entity = food.toEntity(lastUsedAt = now, updatedAt = now)
         return if (existing == null) {
@@ -87,6 +90,7 @@ class FoodRepository(
     suspend fun deleteFood(id: Long) = foodDao.delete(id)
 
     private companion object {
+        const val SOURCE_USER = "user"
         const val RECENT_LIMIT = 30
         const val LOCAL_SEARCH_LIMIT = 50
 

@@ -31,4 +31,17 @@ class FoodTest {
     fun diaryNameWithoutBrandIsJustTheName() {
         assertEquals("Apple", food("Apple", null).diaryName)
     }
+
+    @Test
+    fun basicFoodsShowTheNameInTheAppLanguage() {
+        val chicken = food("Chicken breast, raw", null).copy(nameCs = "Kuřecí prsa, syrová", nameEn = "Chicken breast, raw")
+        assertEquals("Kuřecí prsa, syrová", chicken.displayName(java.util.Locale.forLanguageTag("cs-CZ")))
+        assertEquals("Chicken breast, raw", chicken.displayName(java.util.Locale.ENGLISH))
+        assertEquals("Chicken breast, raw", chicken.displayName(java.util.Locale.GERMAN))
+    }
+
+    @Test
+    fun foodsWithoutLocalizedNamesUseTheirName() {
+        assertEquals("Hanaa Whole Oats", food("Hanaa Whole Oats", "Hanaa").displayName(java.util.Locale.forLanguageTag("cs")))
+    }
 }

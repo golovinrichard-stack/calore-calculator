@@ -109,6 +109,21 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration3To4AddsBasicFoodColumnsWithDefaults() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 3, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 4, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("OTHER", "OTHER"), db.strings("SELECT section FROM foods ORDER BY id"))
+            assertEquals(listOf("[]", "[]"), db.strings("SELECT allergens FROM foods ORDER BY id"))
+            assertEquals(listOf("0", "0"), db.strings("SELECT isGeneric FROM foods ORDER BY id"))
+            assertEquals(listOf("FOOD", "FOOD"), db.strings("SELECT entryType FROM diary_entries ORDER BY id"))
+            assertEquals(listOf<String?>(null, null), db.nullableStrings("SELECT ironMg FROM diary_entries ORDER BY id"))
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }
