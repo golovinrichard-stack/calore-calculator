@@ -37,6 +37,8 @@ data class AppSettings(
     val genericFoodsVersion: Int = 0,
     /** The bundled starter recipes version last imported (M3.4); 0 = never. */
     val starterRecipesVersion: Int = 0,
+    /** The one-time hint about exact alarms for cook-mode timers was shown (M4.4). */
+    val exactAlarmHintShown: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -62,6 +64,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 checkinReminders = prefs[CHECKIN_REMINDERS] ?: false,
                 genericFoodsVersion = prefs[GENERIC_FOODS_VERSION] ?: 0,
                 starterRecipesVersion = prefs[STARTER_RECIPES_VERSION] ?: 0,
+                exactAlarmHintShown = prefs[EXACT_ALARM_HINT_SHOWN] ?: false,
             )
         }
 
@@ -101,6 +104,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[GENERIC_FOODS_VERSION] = version }
     }
 
+    suspend fun setExactAlarmHintShown() {
+        dataStore.edit { it[EXACT_ALARM_HINT_SHOWN] = true }
+    }
+
     suspend fun setStarterRecipesVersion(version: Int) {
         dataStore.edit { it[STARTER_RECIPES_VERSION] = version }
     }
@@ -127,5 +134,6 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val CHECKIN_REMINDERS = booleanPreferencesKey("checkin_reminders")
         private val GENERIC_FOODS_VERSION = intPreferencesKey("generic_foods_version")
         private val STARTER_RECIPES_VERSION = intPreferencesKey("starter_recipes_version")
+        private val EXACT_ALARM_HINT_SHOWN = booleanPreferencesKey("exact_alarm_hint_shown")
     }
 }

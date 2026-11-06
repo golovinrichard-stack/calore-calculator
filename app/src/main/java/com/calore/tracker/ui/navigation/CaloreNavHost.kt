@@ -37,6 +37,7 @@ import com.calore.tracker.ui.checkin.CheckinScreen
 import com.calore.tracker.ui.customfood.CustomFoodScreen
 import com.calore.tracker.ui.fooddetail.FoodDetailScreen
 import com.calore.tracker.ui.goals.GoalsScreen
+import com.calore.tracker.ui.cook.CookModeScreen
 import com.calore.tracker.ui.cook.CookScreen
 import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
@@ -268,7 +269,11 @@ fun CaloreNavHost(
                     CookScreen(
                         onBack = { navController.popBackStack() },
                         onDone = { navController.navigateToTopLevel(Routes.KITCHEN) },
+                        onOpenCookMode = { ids -> navController.navigate(Routes.cookMode(ids)) },
                     )
+                }
+                composable(Routes.COOK_MODE, arguments = listOf(navArgument(Routes.ARG_RECIPE_IDS) { type = NavType.StringType })) {
+                    CookModeScreen(onBack = { navController.popBackStack() }, onFinished = { navController.popBackStack() })
                 }
             }
             composable(Routes.CALCULATOR) {

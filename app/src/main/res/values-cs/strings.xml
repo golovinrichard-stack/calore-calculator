@@ -742,4 +742,19 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="fill_to_freezer">Půjde do mrazáku: je naplánovaná po datu, do kdy se má sníst</string>
     <string name="fill_save">Naplnit krabičky</string>
     <string name="fill_box_line">%1$s g · %2$s kcal · %3$s g bílkovin</string>
+    <string name="cook_mode_title">Režim vaření</string>
+    <string name="cook_now">Teď</string>
+    <string name="cook_next_step">Potom</string>
+    <string name="cook_total">Celkem asi %1$d min</string>
+    <string name="cook_start">Začít vařit</string>
+    <string name="cook_start_timer">Spustit časovač</string>
+    <string name="cook_timer_left">Zbývá %1$s</string>
+    <string name="cook_timer_done">Čas vypršel</string>
+    <string name="cook_finish">Dovařeno</string>
+    <string name="cook_at_minute">V %1$d. minutě</string>
+    <string name="cook_exact_hint">Časovače mohou zazvonit o pár minut později. Aby zvonily přesně, povolte Calore budíky a připomínky.</string>
+    <string name="cook_exact_allow">Povolit</string>
+    <string name="notify_timer_title">Čas vypršel: %1$s</string>
+    <string name="notify_cooling_title">Je jídlo v lednici?</string>
+    <string name="notify_cooling_text">Uvařené jídlo by mělo být do 2 hodin v lednici.</string>
 </resources>

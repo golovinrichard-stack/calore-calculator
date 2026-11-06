@@ -40,6 +40,10 @@ object Notifications {
     const val EXTRA_OPEN = "com.calore.tracker.OPEN"
     const val ID_CHECKIN = 1001
     const val ID_MEASURE = 1002
+    const val ID_COOLING = 1003
+
+    /** Cook-mode timers use ids from here up, one per step. */
+    const val ID_TIMER_BASE = 2000
 
     fun ensureChannel(context: Context, channel: CaloreChannel) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return

@@ -715,4 +715,19 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="fill_to_freezer">Goes to the freezer: planned after its eat-by date</string>
     <string name="fill_save">Fill the boxes</string>
     <string name="fill_box_line">%1$s g · %2$s kcal · %3$s g protein</string>
+    <string name="cook_mode_title">Cook mode</string>
+    <string name="cook_now">Now</string>
+    <string name="cook_next_step">Next</string>
+    <string name="cook_total">About %1$d min in total</string>
+    <string name="cook_start">Start cooking</string>
+    <string name="cook_start_timer">Start timer</string>
+    <string name="cook_timer_left">%1$s left</string>
+    <string name="cook_timer_done">Time\'s up</string>
+    <string name="cook_finish">Done cooking</string>
+    <string name="cook_at_minute">At %1$d min</string>
+    <string name="cook_exact_hint">Timers may ring a few minutes late. To make them ring on time, allow alarms and reminders for Calore.</string>
+    <string name="cook_exact_allow">Allow</string>
+    <string name="notify_timer_title">Time\'s up: %1$s</string>
+    <string name="notify_cooling_title">Is the food in the fridge?</string>
+    <string name="notify_cooling_text">Cooked food should go into the fridge within 2 hours.</string>
 </resources>

@@ -24,7 +24,7 @@
 1. [x] Start from a recipe (**Cook**), or later from a planned cook (M5).
 2. [x] Choose one or more recipes and how much: servings, or a target cooked weight.
 3. [x] Check the ingredients: the scaled amounts are shown and can be changed to what was really used. They are saved as `batch_ingredients`.
-4. [ ] **Cook mode** (M4.4).
+4. [x] **Cook mode** (M4.4).
 5. [x] **Weigh:** choose a saved pot and type the full weight (the app subtracts the empty pot), or type the net weight. A9 checks the value.
 6. [x] **Fill boxes** (M4.5).
 
@@ -32,12 +32,14 @@ A single food cooked on its own (for example plain rice) is a batch without a re
 
 ### M4.4 Cook mode
 
-- [ ] One timeline for all chosen recipes. Steps keep their order within a recipe. Whenever the cook is free, start the next active step of the recipe with the most time left; passive steps (oven, simmering) run in parallel. Show **Now** and **Next** cards and the estimated total time.
-- [ ] A timer on every step that has minutes. The screen stays on while cook mode is open.
-- [ ] Timers when the app is in the background: an exact alarm if the user allowed exact alarms (`canScheduleExactAlarms()`), otherwise an inexact one, with a one-time hint explaining how to allow exact alarms. Channel *Cooking timers*.
-- [ ] When cook mode ends, set the cooling reminder: 2 hours later, "Is the food in the fridge?"
+- [x] One timeline for all chosen recipes. Steps keep their order within a recipe. Whenever the cook is free, start the next active step of the recipe with the most time left; passive steps (oven, simmering) run in parallel. Show **Now** and **Next** cards and the estimated total time.
+- [x] A timer on every step that has minutes. The screen stays on while cook mode is open.
+- [x] Timers when the app is in the background: an exact alarm if the user allowed exact alarms (`canScheduleExactAlarms()`), otherwise an inexact one, with a one-time hint explaining how to allow exact alarms. Channel *Cooking timers*.
+- [x] When cook mode ends, set the cooling reminder: 2 hours later, "Is the food in the fridge?"
 
 **Done when:** for two recipes with an oven step, the timeline runs the other recipe's active steps during the oven time; timers fire with the app closed.
+
+As built: a step without minutes counts as 5 minutes (*tunable*); starting a passive step takes no cook time. The timeline is a plan: the cook starts each timer by hand. A unit test covers the oven case; timers with the app closed need a check on a phone.
 
 ### M4.5 Filling boxes
 

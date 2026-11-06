@@ -1,5 +1,6 @@
 package com.calore.tracker.notifications
 
+import com.calore.tracker.domain.Freshness
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -27,6 +28,9 @@ interface ReminderScheduler {
 
     /** The weekly check-in job, every Monday morning in a flexible window (M1.7). */
     fun scheduleWeeklyCheckin()
+
+    /** "Is the food in the fridge?" 2 hours after cook mode ends (M4.4, A12). */
+    fun scheduleCoolingReminder()
 }
 
 /** Does nothing; for previews and tests. */
@@ -34,6 +38,7 @@ object NoReminders : ReminderScheduler {
     override fun scheduleMeasureReminder(lastMeasured: LocalDate, weeks: Int) = Unit
     override fun cancelMeasureReminder() = Unit
     override fun scheduleWeeklyCheckin() = Unit
+    override fun scheduleCoolingReminder() = Unit
 }
 
 /**
@@ -65,7 +70,15 @@ class WorkManagerReminders(private val context: Context, private val clock: Cloc
         workManager.enqueueUniquePeriodicWork(CHECKIN_WORK, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
+    override fun scheduleCoolingReminder() {
+        val request = OneTimeWorkRequestBuilder<CoolingReminderWorker>()
+            .setInitialDelay(Freshness.COOLING_REMINDER_HOURS, TimeUnit.HOURS)
+            .build()
+        workManager.enqueueUniqueWork(COOLING_WORK, ExistingWorkPolicy.REPLACE, request)
+    }
+
     private companion object {
+        const val COOLING_WORK = "cooling_reminder"
         const val CHECKIN_WORK = "weekly_checkin"
         const val CHECKIN_FLEX_HOURS = 3L
         const val MEASURE_WORK = "measure_reminder"
@@ -87,6 +100,21 @@ class MeasureReminderWorker(context: Context, params: WorkerParameters) : Corout
             Routes.BODY_FAT,
         )
         container.reminders.scheduleMeasureReminder(LocalDate.now(container.clock), weeks)
+        return Result.success()
+    }
+}
+
+/** "Is the food in the fridge?" (M4.4): cooked food belongs in the fridge within 2 hours. */
+class CoolingReminderWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
+        Notifications.post(
+            applicationContext,
+            CaloreChannel.FRESHNESS,
+            Notifications.ID_COOLING,
+            applicationContext.getString(R.string.notify_cooling_title),
+            applicationContext.getString(R.string.notify_cooling_text),
+            Routes.KITCHEN,
+        )
         return Result.success()
     }
 }

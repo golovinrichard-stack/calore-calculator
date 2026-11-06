@@ -71,6 +71,7 @@ import com.calore.tracker.ui.rememberMediumDateFormatter
 fun CookScreen(
     onBack: () -> Unit,
     onDone: () -> Unit,
+    onOpenCookMode: (recipeIds: List<String>) -> Unit = {},
     viewModel: CookViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -112,7 +113,13 @@ fun CookScreen(
             when (state.step) {
                 CookStep.AMOUNT -> AmountStep(state, viewModel)
                 CookStep.INGREDIENTS -> IngredientsStep(state, viewModel)
-                CookStep.COOK -> Text(stringResource(R.string.cook_cooking_hint))
+                CookStep.COOK -> {
+                    Text(stringResource(R.string.cook_cooking_hint))
+                    val ids = state.items.mapNotNull { it.recipe?.recipe?.id }
+                    if (ids.isNotEmpty()) {
+                        OutlinedButton(onClick = { onOpenCookMode(ids) }) { Text(stringResource(R.string.cook_open_mode)) }
+                    }
+                }
                 CookStep.WEIGH -> WeighStep(state, viewModel)
                 CookStep.FILL -> FillStep(state, viewModel)
             }
