@@ -43,12 +43,12 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 
 ### M11.3 The sync engine
 
-- [ ] Every write to a **shared** table goes through one `SyncWriter`, which writes the row and an op (A22) in the same transaction. Writes to private tables never create ops (test).
+- [x] Every write to a **shared** table goes through one `SyncWriter`, which writes the row and an op (A22) in the same transaction. Writes to private tables never create ops (test). *As built:* SQLite triggers on the shared tables (`data/sync/SyncTriggers`, made whenever the database opens) record each changed column in `sync_changes` in the same transaction as the write, so no screen or repository can forget it; `SyncStore.flush` turns them into ops with the next seq and clock right before a sync. Private tables have no triggers. The triggers record only while the phone is in a household, and not while incoming ops are applied. Phone-only columns (`foods.id`, `foods.lastUsedAt`, `household_devices.lastSeenAt`/`seenVector`) and basic foods are never recorded.
 - [x] Applying incoming ops as in A22: hybrid logical clocks, newest change per column wins, the earlier "take" wins for boxes. *As built:* `domain/sync` (`Hlc`, `HlcClock`, `SyncEngine`). The box values follow "newest change per column" too, because a separate "earlier take wins" rule would let devices end up different depending on the order ops arrive; the earlier take wins in what users are told: the later taker gets a `TakeConflict` ("Anna had already taken box C3").
-- [x] Compaction of old ops. *As built:* the rule (`SyncEngine.compactable`); deleting from `sync_ops` comes with the tables.
+- [x] Compaction of old ops. *As built:* the rule (`SyncEngine.compactable`); `SyncStore.compact` deletes them. `SyncStore.apply` applies a batch in clock order; an op for a row that isn't here yet waits (`sync_ops.applied = 0`) and is tried again after each batch; a removed row stays removed.
 
 **Tests:** all A22 test cases, including the randomised convergence test with 3 devices and 500 ops.
-*As built:* `SyncEngineTest` (JVM): all A22 cases; the convergence test runs 5 rounds with ops replayed and shuffled.
+*As built:* `SyncEngineTest` (JVM): all A22 cases; the convergence test runs 5 rounds with ops replayed and shuffled. `SyncTriggersTest` (JVM) checks the triggers against the schema; `SyncStoreTest` (on a device) runs two databases: ops go across once, private data never becomes an op, waiting ops, removed rows, edits on both phones end the same.
 
 ### M11.4 Discovery and the connection
 

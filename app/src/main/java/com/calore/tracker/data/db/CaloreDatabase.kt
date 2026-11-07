@@ -74,6 +74,12 @@ abstract class CaloreDatabase : RoomDatabase() {
         fun build(context: Context): CaloreDatabase =
             Room.databaseBuilder(context, CaloreDatabase::class.java, FILE_NAME)
                 .addMigrations(*ALL_MIGRATIONS)
+                .addCallback(SyncCallback)
                 .build()
+
+        /** M11.3: the change-capture triggers of the shared tables, made whenever the database opens. */
+        val SyncCallback = object : Callback() {
+            override fun onOpen(db: androidx.sqlite.db.SupportSQLiteDatabase) = com.calore.tracker.data.sync.SyncTriggers.install(db)
+        }
     }
 }
