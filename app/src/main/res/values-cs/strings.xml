@@ -819,4 +819,8 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="cooking_covers">%1$s: %2$s až %3$s</string>
     <string name="cooking_day_meal">%1$s %2$s</string>
     <string name="cooking_freezer_warning">S jedním dnem vaření bude zhruba polovina krabiček zmrazená.</string>
+    <string name="week_cooks_title">Vaření podle plánu</string>
+    <string name="week_cook_line">%1$s · %2$s × %3$d · %4$s g</string>
+    <string name="week_cooked">Uvařeno</string>
+    <string name="fill_use_plan">Krabičky podle plánu</string>
 </resources>

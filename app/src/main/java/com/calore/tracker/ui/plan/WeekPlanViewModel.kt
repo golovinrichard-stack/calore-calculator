@@ -12,7 +12,9 @@ import com.calore.tracker.domain.CookingSessions
 import com.calore.tracker.domain.MealTarget
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Member
+import com.calore.tracker.domain.PlanCooks
 import com.calore.tracker.domain.PlanSlot
+import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.PlanTotals
 import com.calore.tracker.domain.ReminderSchedule
 import com.calore.tracker.domain.SlotKind
@@ -51,7 +53,13 @@ data class WeekPlanUiState(
     /** Ask how often to cook (M5.2), the first time. */
     val askCooking: Boolean = false,
     val templates: List<PlanTemplate> = emptyList(),
+    /** Cooks already done: (date, recipe). */
+    val cooked: Set<Pair<LocalDate, String>> = emptySet(),
 ) {
+    /** What to cook for this plan, per cooking day (M5.4). */
+    val cooks: List<PlannedCook>
+        get() = PlanCooks.compute(slots, recipes.mapValues { (_, d) -> d.recipe to d.nutrition }, cookingDays, prepped)
+
     val days: List<LocalDate> get() = (0L..6L).map { weekStart.plusDays(it) }
     val shownPeople: List<Member> get() = people.filter { it.id !in hidden }
 
@@ -86,8 +94,8 @@ class WeekPlanViewModel(
     private val weekStart = MutableStateFlow(ReminderSchedule.weekStart(LocalDate.now(clock)))
     private val hidden = MutableStateFlow(emptySet<String>())
 
-    private val planWithSlots: Flow<Pair<String, List<PlanSlot>>> = weekStart.flatMapLatest { start ->
-        flow { emit(plans.planFor(start)) }.flatMapLatest { id -> plans.slots(id).map { id to it } }
+    private val planWithSlots: Flow<Triple<String, List<PlanSlot>, Set<Pair<LocalDate, String>>>> = weekStart.flatMapLatest { start ->
+        flow { emit(plans.planFor(start)) }.flatMapLatest { id -> combine(plans.slots(id), plans.cooked(id)) { slots, cooked -> Triple(id, slots, cooked) } }
     }
 
     private val people: Flow<List<Member>> = combine(members.me(), members.managed()) { me, managed -> listOf(me) + managed }
@@ -107,6 +115,7 @@ class WeekPlanViewModel(
             people = people,
             hidden = hidden,
             slots = plan.second,
+            cooked = plan.third,
             recipes = all.associateBy { it.recipe.id },
             cookingDays = CookingSessions.days(me.cookSessionsPerWeek, me.cookDays),
             prepped = me.preppedMeals,

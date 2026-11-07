@@ -31,6 +31,8 @@ data class Box(
     val thawedAt: Long? = null,
     val plannedDate: LocalDate? = null,
     val plannedMeal: MealType? = null,
+    /** The plan slot this box is for (M5.4). */
+    val planSlotId: String? = null,
     val wastedReason: WasteReason? = null,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,

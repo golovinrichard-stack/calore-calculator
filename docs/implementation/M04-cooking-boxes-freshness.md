@@ -65,7 +65,7 @@ When someone eats a box and taps **Ate it**, the app does everything at once:
 
 - [x] creates a diary entry (`entryType = BOX`, `boxId`) with the nutrients of the eaten part (snapshot), in the meal of the planned slot (or the meal matching the time of day), for the box's owner (`memberId`);
 - [x] marks the box `EATEN`, or `PART_EATEN` with the new `remainingFraction` for **Ate part** (grams or %);
-- [ ] marks the plan slot done (once M5 exists; comes with M5);
+- [x] marks the plan slot done (built with M5.4);
 - [x] updates Today's totals, and what's left for the day;
 - [x] offers **Undo**, which restores the diary entry, the box and the slot together.
 

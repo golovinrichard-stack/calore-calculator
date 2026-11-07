@@ -140,8 +140,8 @@ Update this table when a milestone starts or ends.
 | M1 Profile, body and smart calorie tracking | Done |
 | M2 Foods, barcode scanner and manual logging | Done (the optional NutriDatabaze step waits for input #2) |
 | M3 Recipes and dishes | Done (the owner accepted the starter recipes as they are) |
-| M4 Cooking, prep boxes and freshness | Done (marking plan slots comes with M5) |
-| M5 Weekly plan, pantry and shopping | In progress (M5.1–M5.3 done) |
+| M4 Cooking, prep boxes and freshness | Done |
+| M5 Weekly plan, pantry and shopping | In progress (M5.1–M5.4 done) |
 | M6 Smart planner | Not started |
 | M7 Cycle tracking | Not started |
 | M8 Supplements | Not started |

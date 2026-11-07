@@ -45,6 +45,15 @@ abstract class PlanDao {
     @Query("UPDATE plan_slots SET deletedAt = :now, updatedAt = :now WHERE id = :id")
     abstract suspend fun deleteSlot(id: String, now: Long)
 
+    @Query("UPDATE plan_slots SET boxId = :boxId, updatedAt = :now WHERE id = :slotId")
+    abstract suspend fun linkBox(slotId: String, boxId: String, now: Long)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun upsertCook(cook: PlanCookEntity)
+
+    @Query("SELECT * FROM plan_cooks WHERE planId = :planId AND ${SoftDelete.NOT_DELETED}")
+    abstract fun observeCooks(planId: String): Flow<List<PlanCookEntity>>
+
     @Query("UPDATE plan_slots SET deletedAt = :now, updatedAt = :now WHERE planId = :planId AND deletedAt IS NULL")
     protected abstract suspend fun deleteSlotsOf(planId: String, now: Long)
 

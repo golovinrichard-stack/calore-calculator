@@ -1,12 +1,14 @@
 package com.calore.tracker.data.repository
 
 import com.calore.tracker.data.db.PlanDao
+import com.calore.tracker.data.db.PlanCookEntity
 import com.calore.tracker.data.db.PlanEntity
 import com.calore.tracker.data.db.toDomain
 import com.calore.tracker.data.db.toEntity
 import com.calore.tracker.domain.MealTarget
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.PlanSlot
+import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.ReminderSchedule
 import com.calore.tracker.domain.SlotKind
 import com.calore.tracker.domain.newId
@@ -55,6 +57,36 @@ class PlanRepository(private val planDao: PlanDao, private val clock: Clock) {
     }
 
     suspend fun clearSlot(slotId: String) = planDao.deleteSlot(slotId, clock.millis())
+
+    /** M5.4: the boxes filled for these slots. */
+    suspend fun linkBoxes(slotToBox: List<Pair<String, String>>) {
+        val now = clock.millis()
+        slotToBox.forEach { (slot, box) -> planDao.linkBox(slot, box, now) }
+    }
+
+    /** M5.4: a planned cook was cooked, with its batch. */
+    suspend fun saveCooked(planId: String, cook: PlannedCook, batchId: String) {
+        val now = clock.millis()
+        planDao.upsertCook(
+            PlanCookEntity(
+                id = newId(),
+                planId = planId,
+                date = cook.date.toString(),
+                recipeId = cook.recipeId,
+                portions = cook.portions,
+                targetCookedGrams = cook.targetCookedGrams,
+                scale = cook.scale,
+                batchId = batchId,
+                createdAt = now,
+                updatedAt = now,
+            ),
+        )
+    }
+
+    /** Cooks of this plan already done: (date, recipe). */
+    fun cooked(planId: String): Flow<Set<Pair<LocalDate, String>>> = planDao.observeCooks(planId).map { rows ->
+        rows.filter { it.batchId != null }.mapNotNull { row -> com.calore.tracker.domain.parseIsoDate(row.date)?.let { it to row.recipeId } }.toSet()
+    }
 
     /** Copies last week's slots into this week (one week later), without boxes or "done". Returns how many. */
     suspend fun repeatLastWeek(weekStart: LocalDate): Int {

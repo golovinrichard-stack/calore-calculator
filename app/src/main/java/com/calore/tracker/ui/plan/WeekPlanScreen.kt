@@ -61,6 +61,7 @@ import com.calore.tracker.domain.CookingSessions
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Member
 import com.calore.tracker.domain.PlanSlot
+import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.SlotKind
 import com.calore.tracker.domain.matchesSearch
 import com.calore.tracker.domain.parseWholeIn
@@ -82,6 +83,7 @@ private data class SlotRef(val date: LocalDate, val meal: MealType, val memberId
 @Composable
 fun WeekPlanContent(
     snackbarHostState: SnackbarHostState,
+    onCook: (LocalDate) -> Unit = {},
     viewModel: WeekPlanViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -101,6 +103,10 @@ fun WeekPlanContent(
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item(key = "header") {
             WeekHeader(state, viewModel, onEditCooking = { editingCooking = true })
+        }
+        val cooks = state.cooks
+        if (cooks.isNotEmpty()) {
+            item(key = "cooks") { CooksCard(cooks, state, onCook) }
         }
         items(state.days, key = { it.toString() }) { date ->
             DayCard(date, state, onSlotClick = { meal, member -> editing = SlotRef(date, meal, member.id) }, formatter = formatter)
@@ -284,6 +290,42 @@ private fun DayCard(date: LocalDate, state: WeekPlanUiState, onSlotClick: (MealT
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
+                }
+            }
+        }
+    }
+}
+
+/** What to cook on each cooking day for this plan, with Cook (M5.4). */
+@Composable
+private fun CooksCard(cooks: List<PlannedCook>, state: WeekPlanUiState, onCook: (LocalDate) -> Unit) {
+    val formatter = rememberMediumDateFormatter()
+    val hideNumbers = LocalHideNumbers.current
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(stringResource(R.string.week_cooks_title), style = MaterialTheme.typography.titleMedium)
+            cooks.groupBy { it.date }.forEach { (date, onDay) ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        onDay.forEach { cook ->
+                            val name = state.recipes[cook.recipeId]?.recipe?.displayName().orEmpty()
+                            Text(
+                                if (hideNumbers) "${date.format(formatter)} · $name × ${cook.portions}" else stringResource(
+                                    R.string.week_cook_line,
+                                    date.format(formatter),
+                                    name,
+                                    cook.portions,
+                                    formatCount(Math.round(cook.targetCookedGrams).toInt()),
+                                ),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
+                    if (onDay.all { (it.date to it.recipeId) in state.cooked }) {
+                        Text(stringResource(R.string.week_cooked), color = MaterialTheme.colorScheme.primary)
+                    } else {
+                        TextButton(onClick = { onCook(date) }) { Text(stringResource(R.string.cook_button)) }
+                    }
                 }
             }
         }

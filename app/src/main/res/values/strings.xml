@@ -788,4 +788,8 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="cooking_covers">%1$s: %2$s to %3$s</string>
     <string name="cooking_day_meal">%1$s %2$s</string>
     <string name="cooking_freezer_warning">With one cooking day, about half of your boxes will be frozen.</string>
+    <string name="week_cooks_title">Cooking for this plan</string>
+    <string name="week_cook_line">%1$s · %2$s × %3$d · %4$s g</string>
+    <string name="week_cooked">Cooked</string>
+    <string name="fill_use_plan">Boxes from the plan</string>
 </resources>

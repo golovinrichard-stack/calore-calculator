@@ -64,6 +64,7 @@ import com.calore.tracker.ui.labelRes
 fun PlanScreen(
     onOpenRecipe: (id: String) -> Unit,
     onNewRecipe: () -> Unit,
+    onCookFromPlan: (java.time.LocalDate) -> Unit = {},
     viewModel: RecipeListViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     var showRecipes by rememberSaveable { mutableStateOf(!FeatureFlags.weekPlan) }
@@ -93,7 +94,7 @@ fun PlanScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            if (showRecipes) RecipeList(viewModel, onOpenRecipe) else WeekPlanContent(snackbarHostState)
+            if (showRecipes) RecipeList(viewModel, onOpenRecipe) else WeekPlanContent(snackbarHostState, onCook = onCookFromPlan)
         }
     }
 }

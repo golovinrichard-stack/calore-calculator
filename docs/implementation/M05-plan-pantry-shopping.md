@@ -34,8 +34,10 @@ As built: a cooking session is in the afternoon (after lunch), so with Sunday an
 
 ### M5.4 From the plan to the pot
 
-- [ ] For every cooking day and recipe, compute `plan_cooks` from the planned slots: portions, target cooked grams, recipe scale (A15 step 4).
-- [ ] On the cooking day, **Cook** opens the M4 flow with everything filled in. After filling the boxes, each box is linked to its slot, frozen if needed, and thaw reminders are set (A13).
+- [x] For every cooking day and recipe, compute `plan_cooks` from the planned slots: portions, target cooked grams, recipe scale (A15 step 4).
+- [x] On the cooking day, **Cook** opens the M4 flow with everything filled in. After filling the boxes, each box is linked to its slot, frozen if needed, and thaw reminders are set (A13).
+
+As built: the week shows "Cooking for this plan" (day, recipe, portions, target grams) with **Cook**. A cooking day can feed meals in the next week too (Sunday for Monday to Wednesday), so Cook reads the slots of that week and the next. Before the first weighing a recipe's cooked weight is estimated as its raw weight (A9 default). Boxes are sized with the density actually weighed; a slot without a target gets one serving. Eating a box marks its slot done (and Undo clears it). Thaw reminders come from the daily 19:00 job (M4.9).
 
 ### M5.5 Pantry
 

@@ -290,6 +290,10 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
                 type = NavType.StringType
                 defaultValue = ""
             },
+            navArgument(Routes.ARG_PLAN_DATE) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
         ),
     ) {
         CookScreen(
@@ -310,6 +314,7 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
         PlanScreen(
             onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
             onNewRecipe = { navController.navigate(Routes.recipeEdit()) },
+            onCookFromPlan = { date -> navController.navigate(Routes.cookFromPlan(date)) },
         )
     }
     composable(Routes.RECIPE, arguments = listOf(recipeIdArg)) {

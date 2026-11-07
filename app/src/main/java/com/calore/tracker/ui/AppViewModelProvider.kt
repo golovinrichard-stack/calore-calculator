@@ -135,7 +135,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock)
+            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository)
         }
         initializer {
             val c = container()
