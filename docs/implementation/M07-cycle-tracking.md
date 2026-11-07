@@ -17,8 +17,8 @@
 
 ### M7.2 Data and predictions (database version 9)
 
-- [ ] Tables `cycle_periods` and `cycle_days`, and the `cycle_prefs` DataStore (data-model M7).
-- [ ] Domain: A19 (average, range, irregular cycles, phases, water-retention days, pausing).
+- [x] Tables `cycle_periods` and `cycle_days`, and the `cycle_prefs` DataStore (data-model M7). *As built:* cycle rows are deleted for real (no `deletedAt`): they are private health data and never sync. A second "period started" within 3 days of an open period's start corrects it. Backup format 8 includes both tables. `SyncScope` lists every table as private or shared; a test checks that cycle tables are private.
+- [x] Domain: A19 (average, range, irregular cycles, phases, water-retention days, pausing). *As built:* `domain/cycle/Cycles`; A20 in `CycleTips` and `CyclePhaseBonus`. Before 2 complete cycles the range is ± 3 days (not ± 1), so a new user doesn't get a falsely exact date. `CyclesTest` (15 tests).
 
 **Done when:** all A19 test cases pass.
 

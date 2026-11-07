@@ -370,7 +370,7 @@ Waste is not a separate table: boxes have `state = WASTED` and pantry items have
 
 ### `cycle_periods`
 
-`id`, `startDate`, `endDate` NULL, timestamps.
+`id`, `startDate` (unique), `endDate` NULL, `createdAt`, `updatedAt`. Cycle rows are deleted for real (no `deletedAt`): private health data that never syncs.
 
 ### `cycle_days`
 

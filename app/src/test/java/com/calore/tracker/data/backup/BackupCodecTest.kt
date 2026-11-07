@@ -196,6 +196,7 @@ class BackupCodecTest {
         steps: List<RecipeStepRow> = listOf(step),
         boxes: List<BoxRow> = listOf(box),
         ratings: List<RecipeRatingRow> = listOf(RecipeRatingRow("6ba7b815-9dad-41d1-80b4-00c04fd430c8", me.id, recipe.id, 1, 10, 10)),
+        cyclePeriods: List<CyclePeriodRow> = listOf(CyclePeriodRow("6ba7b816-9dad-41d1-80b4-00c04fd430c8", "2026-10-01", "2026-10-05", 11, 11)),
     ) = BackupFile(
         format = BackupCodec.FORMAT,
         version = version,
@@ -209,6 +210,8 @@ class BackupCodecTest {
             boxes = boxes,
             boxParts = listOf(BoxPartRow("6ba7b814-9dad-41d1-80b4-00c04fd430c8", box.id, batch.id, 500.0)),
             recipeRatings = ratings,
+            cyclePeriods = cyclePeriods,
+            cycleDays = listOf(CycleDayRow("6ba7b817-9dad-41d1-80b4-00c04fd430c8", "2026-10-02", "MEDIUM", listOf("CRAMPS"), "note", 12, 12)),
         ),
     )
 
@@ -232,7 +235,7 @@ class BackupCodecTest {
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
                 "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
-                "recipe_ratings",
+                "recipe_ratings", "cycle_periods", "cycle_days",
             ),
             root["tables"]!!.jsonObject.keys,
         )
@@ -277,6 +280,13 @@ class BackupCodecTest {
         assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(rating = 2)))))
         assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(id = "x")))))
         assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating, rating))))
+    }
+
+    @Test
+    fun brokenCycleRowsAreDamaged() {
+        val period = CyclePeriodRow("6ba7b816-9dad-41d1-80b4-00c04fd430c8", "2026-10-01", null, 11, 11)
+        assertEquals(BackupReadResult.Damaged, decode(backup(cyclePeriods = listOf(period.copy(startDate = "October")))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(cyclePeriods = listOf(period, period.copy(id = "6ba7b818-9dad-41d1-80b4-00c04fd430c8")))))
     }
 
     @Test

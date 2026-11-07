@@ -143,7 +143,7 @@ Update this table when a milestone starts or ends.
 | M4 Cooking, prep boxes and freshness | Done |
 | M5 Weekly plan, pantry and shopping | Done (the product seed file waits for input #1) |
 | M6 Smart planner | Done |
-| M7 Cycle tracking | Not started |
+| M7 Cycle tracking | In progress (M7.2 done) |
 | M8 Supplements | Not started |
 | M9 Home-screen widget | Not started |
 | M10 Research data program | Not started |

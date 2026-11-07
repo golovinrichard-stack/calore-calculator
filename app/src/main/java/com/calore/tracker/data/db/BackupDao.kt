@@ -31,6 +31,8 @@ data class DatabaseSnapshot(
     val prices: List<PriceEntity>? = emptyList(),
     val shoppingItems: List<ShoppingItemEntity>? = emptyList(),
     val recipeRatings: List<RecipeRatingEntity>? = emptyList(),
+    val cyclePeriods: List<CyclePeriodEntity>? = emptyList(),
+    val cycleDays: List<CycleDayEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -208,6 +210,24 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertRecipeRatings(rows: List<RecipeRatingEntity>)
 
+    @Query("SELECT * FROM cycle_periods ORDER BY startDate")
+    protected abstract suspend fun allCyclePeriods(): List<CyclePeriodEntity>
+
+    @Query("DELETE FROM cycle_periods")
+    protected abstract suspend fun deleteAllCyclePeriods()
+
+    @Insert
+    protected abstract suspend fun insertCyclePeriods(rows: List<CyclePeriodEntity>)
+
+    @Query("SELECT * FROM cycle_days ORDER BY date")
+    protected abstract suspend fun allCycleDays(): List<CycleDayEntity>
+
+    @Query("DELETE FROM cycle_days")
+    protected abstract suspend fun deleteAllCycleDays()
+
+    @Insert
+    protected abstract suspend fun insertCycleDays(rows: List<CycleDayEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -269,6 +289,8 @@ abstract class BackupDao {
         prices = allPrices(),
         shoppingItems = allShoppingItems(),
         recipeRatings = allRecipeRatings(),
+        cyclePeriods = allCyclePeriods(),
+        cycleDays = allCycleDays(),
     )
 
     /**
@@ -363,6 +385,14 @@ abstract class BackupDao {
         snapshot.recipeRatings?.let {
             deleteAllRecipeRatings()
             insertRecipeRatings(it)
+        }
+        snapshot.cyclePeriods?.let {
+            deleteAllCyclePeriods()
+            insertCyclePeriods(it)
+        }
+        snapshot.cycleDays?.let {
+            deleteAllCycleDays()
+            insertCycleDays(it)
         }
     }
 }

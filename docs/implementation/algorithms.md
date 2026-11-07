@@ -335,6 +335,8 @@ Dates are local calendar dates.
 | Cycles 24, 35, 28 | irregular, range ± 5.5 days |
 | Contraception PILL | no phases, no tips |
 
+**As built (M7.2):** before 2 complete cycles exist, the range is ± 3 days (*tunable*), since there is nothing to measure it from. A period's own logged end sets its period days; other cycles use the average logged period length. Cycles after the last logged start are predicted every average length (for the calendar and the water days). Water days are counted around every logged start and every predicted one.
+
 ## A20. Cycle tips and planner bonus
 
 No calorie target changes. Research finds only a small rise in resting energy use in the luteal phase (about 40–45 kcal per day in a 2024 study), so the app doesn't change targets.

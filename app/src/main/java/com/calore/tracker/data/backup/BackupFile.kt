@@ -16,6 +16,8 @@ import com.calore.tracker.data.db.StoreEntity
 import com.calore.tracker.data.db.StoreProductEntity
 import com.calore.tracker.data.db.PriceEntity
 import com.calore.tracker.data.db.RecipeRatingEntity
+import com.calore.tracker.data.db.CycleDayEntity
+import com.calore.tracker.data.db.CyclePeriodEntity
 import com.calore.tracker.data.db.ShoppingItemEntity
 import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.data.db.BatchEntity
@@ -81,6 +83,8 @@ data class BackupTables(
     val prices: List<PriceRow>? = null,
     @SerialName("shopping_items") val shoppingItems: List<ShoppingItemRow>? = null,
     @SerialName("recipe_ratings") val recipeRatings: List<RecipeRatingRow>? = null,
+    @SerialName("cycle_periods") val cyclePeriods: List<CyclePeriodRow>? = null,
+    @SerialName("cycle_days") val cycleDays: List<CycleDayRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -510,6 +514,28 @@ data class RecipeRatingRow(
 internal fun RecipeRatingEntity.toRow() = RecipeRatingRow(id, memberId, recipeId, rating, createdAt, updatedAt, deletedAt)
 
 internal fun RecipeRatingRow.toEntity() = RecipeRatingEntity(id, memberId, recipeId, rating, createdAt, updatedAt, deletedAt)
+
+@Serializable
+data class CyclePeriodRow(val id: String, val startDate: String, val endDate: String? = null, val createdAt: Long, val updatedAt: Long)
+
+@Serializable
+data class CycleDayRow(
+    val id: String,
+    val date: String,
+    val flow: String? = null,
+    val symptoms: List<String> = emptyList(),
+    val note: String? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+)
+
+internal fun CyclePeriodEntity.toRow() = CyclePeriodRow(id, startDate, endDate, createdAt, updatedAt)
+
+internal fun CyclePeriodRow.toEntity() = CyclePeriodEntity(id, startDate, endDate, createdAt, updatedAt)
+
+internal fun CycleDayEntity.toRow() = CycleDayRow(id, date, flow, symptoms, note, createdAt, updatedAt)
+
+internal fun CycleDayRow.toEntity() = CycleDayEntity(id, date, flow, symptoms, note, createdAt, updatedAt)
 
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,

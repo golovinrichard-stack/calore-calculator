@@ -280,5 +280,22 @@ val MIGRATION_7_8 = object : Migration(7, 8) {
     }
 }
 
+/** Version 9 (M7): periods and logged cycle days. Private, never synced. */
+val MIGRATION_8_9 = object : Migration(8, 9) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `cycle_periods` (`id` TEXT NOT NULL, `startDate` TEXT NOT NULL, " +
+                "`endDate` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cycle_periods_startDate` ON `cycle_periods` (`startDate`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `cycle_days` (`id` TEXT NOT NULL, `date` TEXT NOT NULL, `flow` TEXT, " +
+                "`symptoms` TEXT NOT NULL, `note` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cycle_days_date` ON `cycle_days` (`date`)")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
