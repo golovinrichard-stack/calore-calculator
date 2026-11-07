@@ -25,6 +25,7 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Week plan** (Plan → Week): choose how often you cook; plan each meal for you and the people you cook for as a prep box, cook fresh, eat out or free; see each day's calories and protein against the targets and the week's cost; repeat last week or use a template. On a cooking day, **Cook** fills in the recipes and amounts and links each box to its meal.
 - **Plan my week** (Plan → Week): one tap plans the whole week for you and the people you cook for: what to cook on each cooking day, how much, which box for which meal, and the shopping list. It follows your targets, diet, allergies, likes and dislikes, 👍 / 👎, budget, cooking days and what is at home. Lock or swap meals, regenerate the rest, then accept. Everything runs on the phone.
 - **Cycle** (Me → Cycle, optional, off by default): log periods and how you feel; see the predicted next period as a range, the phase you are in and food tips for each phase. **Plan my week** favours iron-rich meals in period weeks and magnesium-rich ones before your period; your calorie target never changes. The weight chart shades days when water may raise your weight, and the weekly check-in leaves them out. Cycle data stays on the phone; you can lock it (or the whole app) with your fingerprint, face or PIN and delete it with one button. Not for birth control or for getting pregnant.
+- **Supplements** (Me → Supplements, optional): a daily checklist on Today with Taken and Skip, how regularly you took each one over 7 and 30 days, and reminders only if you switch them on (Taken and Skip right on the notification). Protein powder and gainers with calories are counted in the diary.
 - **Use it up** (Kitchen → Pantry): food that goes off within 4 days, with recipes that use it.
 - **Ratings**: 👍 / 👎 a recipe after eating it or on its page; the planner uses them.
 - **Pantry** (Kitchen → Pantry): what you have at home with best-before dates; cooking takes ingredients out, oldest first.
@@ -38,7 +39,7 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner later).
 - **Hide-numbers mode**: log food without seeing calories and macros.
 - **Optional reminders** for the weekly check-in and for measuring body fat; a "Is the food in the fridge?" reminder 2 hours after cooking.
-- **Backup to a file:** export everything (foods, diary, weights, profile, body, recipes, ratings, boxes, plans, pantry, shops, the shopping list and cycle data), and import them on a new phone (Me → Settings → Backup).
+- **Backup to a file:** export everything (foods, diary, weights, profile, body, recipes, ratings, boxes, plans, pantry, shops, the shopping list, cycle data and supplements), and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 
