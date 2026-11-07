@@ -41,13 +41,14 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Hide-numbers mode**: log food without seeing calories and macros.
 - **Optional reminders** for the weekly check-in and for measuring body fat; a "Is the food in the fridge?" reminder 2 hours after cooking.
 - **Help research** (built, not switched on yet): people who choose to can send weekly summaries (never names, exact dates or food names) to a research database, see every summary, stop and delete their data. It appears only in builds with a research server address; see [M10](docs/implementation/M10-research-data.md) and [`server/`](server/README.md).
+- **Household over home Wi-Fi** (built, shown in debug builds until it is tested on real phones): share the shopping list, pantry, boxes, recipes and plans with the people you live with. No server and no account: one phone is the hub and the others sync with it on the same Wi-Fi, encrypted with a key from a QR code. Labels "Mine, don't touch", "Shared" and "Up for grabs"; requests "Cook for me", "Buy for me" and "Can I have it?"; a feed of who bought, cooked or took what; boxes for household members who share their targets. Your diary, weight, body, cycle and supplements are never shared. See [M11](docs/implementation/M11-household-wifi.md).
 - **Backup to a file:** export everything (foods, diary, weights, profile, body, recipes, ratings, boxes, plans, pantry, shops, the shopping list, cycle data and supplements), and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 
 ## Privacy
 
-Everything you log is stored only in the app's private storage on your phone. There is no account, no analytics and no ad SDK. The only network requests the app makes go to Open Food Facts: a search sends the words you typed (and the app's country), a scan sends the barcode. The camera is used only to read barcodes on the phone; pictures are never saved or sent.
+Everything you log is stored only in the app's private storage on your phone. There is no account, no analytics and no ad SDK. The only network requests the app makes go to Open Food Facts: a search sends the words you typed (and the app's country), a scan sends the barcode. If you create or join a household, shared things (never your diary, weight, body, cycle or supplements) also go to the other phones in your home over your Wi-Fi, encrypted; nothing goes to a server. The camera is used only to read barcodes and household QR codes on the phone; pictures are never saved or sent.
 
 The app's data is included in Android's normal backup and phone-to-phone transfer, so it follows you to a new phone if you use those. A backup file you export yourself contains your health data, so keep it somewhere safe.
 
@@ -91,6 +92,8 @@ app/src/main/java/com/calore/tracker/
 │   ├── db/      Room database (foods, diary entries, weights)
 │   ├── prefs/   DataStore for goals and calculator inputs
 │   ├── remote/  Open Food Facts client and parser
+│   ├── sync/    Household change capture and applying changes (M11)
+│   ├── household/  Household: joining, the hub connection, requests (M11)
 │   └── repository/
 └── ui/          Jetpack Compose screens, one package per screen
 ```

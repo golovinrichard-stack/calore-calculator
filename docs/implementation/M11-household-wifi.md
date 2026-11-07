@@ -16,7 +16,7 @@ The owner is a student and can't pay for servers for every user. So the househol
 
 ### M11.0 Spike: can a phone be a reliable hub? (decision record)
 
-*Status:* decided from Android's documented rules in [decisions/0001-household-hub.md](decisions/0001-household-hub.md): a `connectedDevice` foreground service, a wake lock only while charging, and syncing whenever the app is open as the fallback. The battery numbers still have to be measured on real phones (the record says how).
+*Status:* decided from Android's documented rules in [decisions/0001-household-hub.md](decisions/0001-household-hub.md): a `connectedDevice` foreground service, a wake lock only while charging, and syncing whenever the app is open as the fallback. The battery numbers still have to be measured on real phones (the record says how). Until then the household shows only in debug builds (`FeatureFlags.household`).
 
 Before building, test on Android 15, 16 and 17 and write `docs/implementation/decisions/0001-household-hub.md`:
 
@@ -73,30 +73,30 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 
 ### M11.6 Sharing and ownership
 
-- [ ] Boxes and pantry items show a label: **Mine, don't touch** (lock, name and colour), **Shared**, or **Up for grabs**. The owner can change it.
-- [ ] Food reserved for a planned meal shows "Reserved for Anna's curry on Wednesday".
-- [ ] Taking an item that isn't yours starts a **Can I have it?** request instead.
-- [ ] **Up for grabs** boxes also appear on everyone's Today screen.
+- [x] Boxes and pantry items show a label: **Mine, don't touch** (lock, name and colour), **Shared**, or **Up for grabs**. The owner can change it. *As built:* `Ownership` (domain); labels show only while the phone is in a household. An item without an owner belongs to the household; marking it "Mine" makes the person who marks it its owner. The owner's "people I cook for" count as theirs.
+- [x] Food reserved for a planned meal shows "Reserved for Anna's curry on Wednesday". *As built:* pantry food is reserved by hand (Pantry → the item → Reserve for a planned meal) for any planned cook not cooked yet; the name is the item's owner when it has one.
+- [x] Taking an item that isn't yours starts a **Can I have it?** request instead. *As built:* for someone else's "Mine, don't touch" box or pantry item; "Shared" and "Up for grabs" can be taken. A box from another phone that I take goes into my own diary.
+- [x] **Up for grabs** boxes also appear on everyone's Today screen. *As built:* with "Take it", which logs it in my diary.
 
 ### M11.7 Requests
 
-- [ ] **Cook for me:** day, meal, optional recipe and portions → accept / decline / suggest another time. Accepting adds it to the cook's plan.
-- [ ] **Buy for me:** an item → the shared shopping list, with the requester's name.
-- [ ] **Can I have it?:** a specific item → yes / no.
-- [ ] An inbox, statuses, and notifications when requests and answers arrive (channel *Household*).
+- [x] **Cook for me:** day, meal, optional recipe and portions → accept / decline / suggest another time. Accepting adds it to the cook's plan. *As built:* `RequestRepository`; accepting adds a "cook fresh" meal for the person who asked to the shared week plan.
+- [x] **Buy for me:** an item → the shared shopping list, with the requester's name.
+- [x] **Can I have it?:** a specific item → yes / no. *As built:* "yes" makes the person who asked the item's owner.
+- [x] An inbox, statuses, and notifications when requests and answers arrive (channel *Household*). *As built:* Me → Household → Requests and activity.
 
 ### M11.8 Activity feed
 
-- [ ] Built from incoming ops: "Anna bought eggs and milk", "Tom cooked chili (6 boxes)", "Tom took 2 eggs", requests and answers. The last 30 days.
+- [x] Built from incoming ops: "Anna bought eggs and milk", "Tom cooked chili (6 boxes)", "Tom took 2 eggs", requests and answers. The last 30 days. *As built:* the phone that does something writes a row of the shared `activity` table (item names and a count, never a sentence), which reaches the others as ops; each phone makes the sentence in its language (`ActivityFeed`), and purchases by one person within an hour become one line. Nothing is written outside a household.
 
 ### M11.9 Cook once for everyone
 
-- [ ] "By person" box filling (M4.5) and the planner (M6) include household members who allow sharing their meal targets (`members.sharesTargets`); asked once, when they join.
+- [x] "By person" box filling (M4.5) and the planner (M6) include household members who allow sharing their meal targets (`members.sharesTargets`); asked once, when they join. *As built:* `MemberRepository.cookFor()`; the targets travel in the phone's `household_devices` row only while sharing is on, and can be switched on or off later on the Household screen.
 
 ### M11.10 Away from home
 
-- [ ] A small indicator: "3 changes waiting for home Wi-Fi".
-- [ ] **Send as a message:** any request or the shopping list can be shared as text through the share sheet (WhatsApp and so on), for things that can't wait.
+- [x] A small indicator: "3 changes waiting for home Wi-Fi". *As built:* on the Household screen and the Today card.
+- [x] **Send as a message:** any request or the shopping list can be shared as text through the share sheet (WhatsApp and so on), for things that can't wait. *As built:* the shopping list had it since M5; each request has "Send as a message".
 
 ### M11.11 Security and privacy tests
 
@@ -104,6 +104,8 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 - [x] A wrong key or a changed frame is rejected.
 - [x] A replayed op changes nothing.
 - [x] A removed member's phone can't sync after the key changes. *As built:* frames sealed with the old key fail to open with the new one.
+
+*As built, tests:* `SyncSessionTest` (JVM: through the hub, batches of 500, a wrong key, a waiting phone, a removed phone), `HouseholdInviteTest`, `OwnershipTest`, `ActivityFeedTest`, `SyncTriggersTest`; on a device: `SyncStoreTest`, `HouseholdRepositoryTest`, `RequestRepositoryTest` (compiled; they run on a phone or emulator).
 
 ## Out of scope
 
