@@ -2,6 +2,7 @@ package com.calore.tracker.ui.recipes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.calore.tracker.data.repository.RatingRepository
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
@@ -20,6 +21,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -31,7 +34,13 @@ import java.time.LocalTime
 sealed interface RecipeLoad {
     data object Loading : RecipeLoad
     data object NotFound : RecipeLoad
-    data class Loaded(val details: RecipeDetails, val myAllergens: Set<Allergen>, val prices: Map<String, Double> = emptyMap()) : RecipeLoad
+    data class Loaded(
+        val details: RecipeDetails,
+        val myAllergens: Set<Allergen>,
+        val prices: Map<String, Double> = emptyMap(),
+        /** My 👍 (1) or 👎 (−1), M6.1. */
+        val myRating: Int? = null,
+    ) : RecipeLoad
 }
 
 sealed interface RecipeEvent {
@@ -49,13 +58,27 @@ class RecipeDetailViewModel(
     private val diary: DiaryRepository? = null,
     private val clock: Clock = Clock.systemDefaultZone(),
     shops: ShopRepository? = null,
+    private val ratings: RatingRepository? = null,
 ) : ViewModel() {
 
     val recipeId: String = savedStateHandle.get<String>(Routes.ARG_RECIPE_ID).orEmpty()
 
-    val uiState: StateFlow<RecipeLoad> = combine(recipes.observe(recipeId), members.me(), shops?.foodPrices() ?: flowOf(emptyMap())) { details, me, prices ->
-        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens, prices)
+    val uiState: StateFlow<RecipeLoad> = combine(
+        recipes.observe(recipeId),
+        members.me(),
+        shops?.foodPrices() ?: flowOf(emptyMap()),
+        ratings?.observeAll() ?: flowOf(emptyMap()),
+    ) { details, me, prices, rated ->
+        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens, prices, rated[me.id]?.get(recipeId))
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), RecipeLoad.Loading)
+
+    private val meId = members.me().map { it.id }
+
+    /** 👍 / 👎 by me; null takes it back (M6.1). */
+    fun rate(rating: Int?) {
+        val repository = ratings ?: return
+        viewModelScope.launch { repository.rate(meId.first(), recipeId, rating) }
+    }
 
     /** The food picker for swapping an ingredient. */
     val picker: FoodSearch? = foods?.let { FoodSearch(it, viewModelScope) }

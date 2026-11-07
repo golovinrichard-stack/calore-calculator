@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import com.calore.tracker.ui.rating.RatePromptCard
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -166,6 +167,7 @@ fun KitchenScreen(
                     FilterChip(selected = !state.mineOnly, onClick = { viewModel.setMineOnly(false) }, label = { Text(stringResource(R.string.kitchen_filter_all)) })
                 }
             }
+            item(key = "rate") { RatePromptCard(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) }
             if (!state.loading && state.isEmpty) {
                 item(key = "empty") {
                     Text(

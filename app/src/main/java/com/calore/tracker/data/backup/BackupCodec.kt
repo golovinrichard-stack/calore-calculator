@@ -30,8 +30,9 @@ object BackupCodec {
      * 4: + recipes, recipe ingredients and steps, diary recipeId and servings (M3).
      * 5: + pots, batches, batch ingredients, boxes, box parts, diary boxId (M4).
      * 6: + plans, plan slots and cooks, pantry items, stores, store products, prices, shopping items (M5).
+     * 7: + recipe ratings (M6).
      */
-    const val VERSION = 6
+    const val VERSION = 7
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -118,7 +119,8 @@ object BackupCodec {
             tables.stores.ok({ it.id }) &&
             tables.storeProducts.ok({ it.id }) { it.packAmount > 0 } &&
             tables.prices.ok({ it.id }) { it.priceHalers >= 0 && parseIsoDate(it.date) != null } &&
-            tables.shoppingItems.ok({ it.id })
+            tables.shoppingItems.ok({ it.id }) &&
+            tables.recipeRatings.ok({ it.id }) { it.rating == 1 || it.rating == -1 }
     }
 
     private fun areCookingTablesConsistent(tables: BackupTables): Boolean {

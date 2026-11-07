@@ -866,4 +866,11 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="skip_move">Move to another day</string>
     <string name="skip_too_late">That day is after the eat-by date. Freeze the box, or give it to someone else.</string>
     <string name="skip_give">Give to %1$s</string>
+
+    <!-- Ratings (M6.1) -->
+    <string name="rate_how_was">%1$s – did you like it?</string>
+    <string name="rate_not_now">Not now</string>
+    <string name="rate_like">I like it</string>
+    <string name="rate_dislike">I don\'t like it</string>
+    <string name="rate_your_rating">Do you like it?</string>
 </resources>

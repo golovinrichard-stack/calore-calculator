@@ -30,6 +30,7 @@ data class DatabaseSnapshot(
     val storeProducts: List<StoreProductEntity>? = emptyList(),
     val prices: List<PriceEntity>? = emptyList(),
     val shoppingItems: List<ShoppingItemEntity>? = emptyList(),
+    val recipeRatings: List<RecipeRatingEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -198,6 +199,15 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertShoppingItems(rows: List<ShoppingItemEntity>)
 
+    @Query("SELECT * FROM recipe_ratings ORDER BY createdAt, id")
+    protected abstract suspend fun allRecipeRatings(): List<RecipeRatingEntity>
+
+    @Query("DELETE FROM recipe_ratings")
+    protected abstract suspend fun deleteAllRecipeRatings()
+
+    @Insert
+    protected abstract suspend fun insertRecipeRatings(rows: List<RecipeRatingEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -258,6 +268,7 @@ abstract class BackupDao {
         storeProducts = allStoreProducts(),
         prices = allPrices(),
         shoppingItems = allShoppingItems(),
+        recipeRatings = allRecipeRatings(),
     )
 
     /**
@@ -348,6 +359,10 @@ abstract class BackupDao {
         snapshot.shoppingItems?.let {
             deleteAllShoppingItems()
             insertShoppingItems(it)
+        }
+        snapshot.recipeRatings?.let {
+            deleteAllRecipeRatings()
+            insertRecipeRatings(it)
         }
     }
 }

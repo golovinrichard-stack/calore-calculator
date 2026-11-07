@@ -10,8 +10,8 @@
 
 ### M6.1 Ratings and preferences (database version 8)
 
-- [ ] Table `recipe_ratings`.
-- [ ] After **Ate it** on a box or a dish, an optional 👍 / 👎 (one tap, easy to ignore). Also on the recipe detail.
+- [x] Table `recipe_ratings`. *As built:* also `createdAt` and `deletedAt` (data-model conventions); taking a rating back soft-deletes it.
+- [x] After **Ate it** on a box or a dish, an optional 👍 / 👎 (one tap, easy to ignore). Also on the recipe detail. *As built:* after **Ate it** on a box (Today and Kitchen) a small "… did you like it? 👍 👎 ✕" card asks about the box's recipes not rated yet; a dish is rated on its recipe page, where the thumbs always are.
 - [ ] Make sure the profile's food and cooking preferences (diet, allergens, liked and disliked foods, cuisines, equipment, variety, budget, cooking sessions) are easy to fill in. The first time someone taps **Plan my week**, a short checklist shows the ones still missing, all skippable.
 
 ### M6.2 The planner engine

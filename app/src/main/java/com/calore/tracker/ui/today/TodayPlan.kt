@@ -33,6 +33,9 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.ui.rating.RatingPrompt
+import com.calore.tracker.ui.rating.askAbout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -80,6 +83,8 @@ class TodayPlanViewModel(
     private val members: MemberRepository,
     recipes: RecipeRepository,
     private val clock: Clock,
+    private val ratings: RatingRepository? = null,
+    private val ratingPrompt: RatingPrompt? = null,
 ) : ViewModel() {
 
     private val date = MutableStateFlow(LocalDate.now(clock))
@@ -115,6 +120,7 @@ class TodayPlanViewModel(
             val me = members.me().first()
             val ownerIsMe = box.box.ownerMemberId == null || box.box.ownerMemberId == me.id
             eatenChannel.send(cooking.eat(box, null, meal.slot.meal, meal.slot.date, ownerIsMe) to box.box.code)
+            if (ratings != null) ratingPrompt?.askAbout(box, box.box.ownerMemberId ?: me.id, ratings)
         }
     }
 

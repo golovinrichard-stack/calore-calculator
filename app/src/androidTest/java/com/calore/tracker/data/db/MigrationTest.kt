@@ -166,6 +166,23 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration7To8AddsRecipeRatings() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 7, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 8, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM recipe_ratings"))
+            db.execSQL("INSERT INTO recipe_ratings (id, memberId, recipeId, rating, createdAt, updatedAt) VALUES ('r1', 'm', 'x', 1, 1, 1)")
+            // One rating per person and recipe.
+            val duplicate = runCatching {
+                db.execSQL("INSERT INTO recipe_ratings (id, memberId, recipeId, rating, createdAt, updatedAt) VALUES ('r2', 'm', 'x', -1, 2, 2)")
+            }
+            assertEquals(true, duplicate.isFailure)
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }

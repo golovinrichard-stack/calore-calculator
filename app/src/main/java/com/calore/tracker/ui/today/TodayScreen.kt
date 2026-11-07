@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import com.calore.tracker.ui.rating.RatePromptCard
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -139,6 +140,7 @@ fun TodayScreen(
             } else {
                 null
             },
+            rate = { RatePromptCard() },
             planned = {
                 PlannedTodayCard(
                     date = state.date,
@@ -232,6 +234,8 @@ fun TodayContent(
     eatFirst: (@Composable () -> Unit)? = null,
     /** The day's planned meals (M5.11). */
     planned: (@Composable () -> Unit)? = null,
+    /** "How was …? 👍 👎" after eating a box (M6.1). */
+    rate: (@Composable () -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -251,6 +255,7 @@ fun TodayContent(
                 BirthDateCard(birthDate = birthDate, onConfirm = onConfirmBirthDate, onChange = onChangeBirthDate)
             }
         }
+        rate?.let { card -> item(key = "rate") { card() } }
         planned?.let { card -> item(key = "planned") { card() } }
         eatFirst?.let { card -> item(key = "eat_first") { card() } }
         item(key = "summary") {

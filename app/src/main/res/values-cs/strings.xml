@@ -899,4 +899,11 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="skip_move">Přesunout na jiný den</string>
     <string name="skip_too_late">Ten den je po datu, do kdy se má sníst. Krabičku zamrazte, nebo ji dejte někomu jinému.</string>
     <string name="skip_give">Dát: %1$s</string>
+
+    <!-- Ratings (M6.1) -->
+    <string name="rate_how_was">%1$s – chutnalo ti?</string>
+    <string name="rate_not_now">Teď ne</string>
+    <string name="rate_like">Chutná mi</string>
+    <string name="rate_dislike">Nechutná mi</string>
+    <string name="rate_your_rating">Chutná ti?</string>
 </resources>

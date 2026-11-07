@@ -67,6 +67,7 @@ class BackupRepository(
                 storeProducts = snapshot.storeProducts.orEmpty().map { it.toRow() },
                 prices = snapshot.prices.orEmpty().map { it.toRow() },
                 shoppingItems = snapshot.shoppingItems.orEmpty().map { it.toRow() },
+                recipeRatings = snapshot.recipeRatings.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -115,6 +116,7 @@ class BackupRepository(
                 storeProducts = tables.storeProducts?.map { it.toEntity() },
                 prices = tables.prices?.map { it.toEntity() },
                 shoppingItems = tables.shoppingItems?.map { it.toEntity() },
+                recipeRatings = tables.recipeRatings?.map { it.toEntity() },
             ),
         )
     }

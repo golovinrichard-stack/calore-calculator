@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import com.calore.tracker.ui.rating.ThumbButtons
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.Equipment
@@ -179,6 +180,8 @@ fun RecipeDetailScreen(
                 details = current.details,
                 myAllergens = current.myAllergens,
                 prices = current.prices,
+                rating = current.myRating,
+                onRate = viewModel::rate,
                 scale = scale,
                 onScaleChange = { scale = it },
                 onSwap = { index ->
@@ -261,6 +264,8 @@ private fun RecipeContent(
     details: RecipeDetails,
     myAllergens: Set<Allergen>,
     prices: Map<String, Double>,
+    rating: Int?,
+    onRate: (Int?) -> Unit,
     scale: Double,
     onScaleChange: (Double) -> Unit,
     onSwap: (index: Int) -> Unit,
@@ -291,6 +296,11 @@ private fun RecipeContent(
                 pluralStringResource(R.plurals.recipe_missing_foods, nutrition.missingFoods, nutrition.missingFoods),
                 color = MaterialTheme.colorScheme.error,
             )
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(stringResource(R.string.rate_your_rating), modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+            ThumbButtons(current = rating, onRate = { onRate(it) }, onClear = { onRate(null) })
         }
 
         RecipeNutritionCards(details)

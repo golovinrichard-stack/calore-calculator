@@ -19,6 +19,8 @@ import com.calore.tracker.data.repository.GoalsRepository
 import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
+import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.ui.rating.RatingPrompt
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.ShopRepository
@@ -71,6 +73,10 @@ class AppContainer(context: Context) {
     val recipeRepository = RecipeRepository(database.recipeDao(), database.foodDao(), clock)
     val cookingRepository = CookingRepository(database.cookingDao(), clock)
     val planRepository = PlanRepository(database.planDao(), clock)
+    val ratingRepository = RatingRepository(database.ratingDao(), clock)
+
+    /** Recipes waiting for an optional 👍 / 👎 after eating (M6.1); in memory only. */
+    val ratingPrompt = RatingPrompt()
     val pantryRepository = PantryRepository(database.pantryDao(), database.foodDao(), clock)
     val shopRepository = ShopRepository(database.shopDao(), database.foodDao(), appPrefs, clock)
     val shoppingRepository = ShoppingRepository(

@@ -265,5 +265,20 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
     }
 }
 
+/** Version 8 (M6): 👍 / 👎 ratings of recipes, per person. */
+val MIGRATION_7_8 = object : Migration(7, 8) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `recipe_ratings` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, " +
+                "`recipeId` TEXT NOT NULL, `rating` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE UNIQUE INDEX IF NOT EXISTS `index_recipe_ratings_memberId_recipeId` " +
+                "ON `recipe_ratings` (`memberId`, `recipeId`)",
+        )
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)

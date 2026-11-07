@@ -15,6 +15,7 @@ import com.calore.tracker.data.db.PantryItemEntity
 import com.calore.tracker.data.db.StoreEntity
 import com.calore.tracker.data.db.StoreProductEntity
 import com.calore.tracker.data.db.PriceEntity
+import com.calore.tracker.data.db.RecipeRatingEntity
 import com.calore.tracker.data.db.ShoppingItemEntity
 import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.data.db.BatchEntity
@@ -79,6 +80,7 @@ data class BackupTables(
     @SerialName("store_products") val storeProducts: List<StoreProductRow>? = null,
     val prices: List<PriceRow>? = null,
     @SerialName("shopping_items") val shoppingItems: List<ShoppingItemRow>? = null,
+    @SerialName("recipe_ratings") val recipeRatings: List<RecipeRatingRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -493,6 +495,21 @@ data class ShoppingItemRow(
     val updatedAt: Long,
     val deletedAt: Long? = null,
 )
+
+@Serializable
+data class RecipeRatingRow(
+    val id: String,
+    val memberId: String,
+    val recipeId: String,
+    val rating: Int,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+internal fun RecipeRatingEntity.toRow() = RecipeRatingRow(id, memberId, recipeId, rating, createdAt, updatedAt, deletedAt)
+
+internal fun RecipeRatingRow.toEntity() = RecipeRatingEntity(id, memberId, recipeId, rating, createdAt, updatedAt, deletedAt)
 
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,

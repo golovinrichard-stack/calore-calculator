@@ -195,6 +195,7 @@ class BackupCodecTest {
         ingredients: List<RecipeIngredientRow> = listOf(ingredient),
         steps: List<RecipeStepRow> = listOf(step),
         boxes: List<BoxRow> = listOf(box),
+        ratings: List<RecipeRatingRow> = listOf(RecipeRatingRow("6ba7b815-9dad-41d1-80b4-00c04fd430c8", me.id, recipe.id, 1, 10, 10)),
     ) = BackupFile(
         format = BackupCodec.FORMAT,
         version = version,
@@ -207,6 +208,7 @@ class BackupCodecTest {
             batchIngredients = listOf(BatchIngredientRow("6ba7b813-9dad-41d1-80b4-00c04fd430c8", batch.id, food.uuid, 800.0)),
             boxes = boxes,
             boxParts = listOf(BoxPartRow("6ba7b814-9dad-41d1-80b4-00c04fd430c8", box.id, batch.id, 500.0)),
+            recipeRatings = ratings,
         ),
     )
 
@@ -230,6 +232,7 @@ class BackupCodecTest {
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
                 "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
+                "recipe_ratings",
             ),
             root["tables"]!!.jsonObject.keys,
         )
@@ -266,6 +269,14 @@ class BackupCodecTest {
         for ((name, broken) in cases) {
             assertEquals(name, BackupReadResult.Damaged, decode(broken))
         }
+    }
+
+    @Test
+    fun ratingsOtherThanUpOrDownAreDamaged() {
+        val rating = RecipeRatingRow("6ba7b815-9dad-41d1-80b4-00c04fd430c8", me.id, recipe.id, 1, 10, 10)
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(rating = 2)))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(id = "x")))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating, rating))))
     }
 
     @Test

@@ -9,6 +9,7 @@ import com.calore.tracker.ui.kitchen.PeopleViewModel
 import com.calore.tracker.ui.shop.ShoppingViewModel
 import com.calore.tracker.ui.shop.ShopsViewModel
 import com.calore.tracker.ui.today.TodayPlanViewModel
+import com.calore.tracker.ui.rating.RatePromptViewModel
 import com.calore.tracker.ui.shop.StatsViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
@@ -110,7 +111,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock, c.shopRepository)
+            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock, c.shopRepository, c.ratingRepository)
         }
         initializer {
             val c = container()
@@ -127,7 +128,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            TodayPlanViewModel(c.planRepository, c.cookingRepository, c.memberRepository, c.recipeRepository, c.clock)
+            TodayPlanViewModel(c.planRepository, c.cookingRepository, c.memberRepository, c.recipeRepository, c.clock, c.ratingRepository, c.ratingPrompt)
         }
         initializer {
             val c = container()
@@ -151,7 +152,11 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock)
+            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock, c.ratingRepository, c.ratingPrompt)
+        }
+        initializer {
+            val c = container()
+            RatePromptViewModel(c.ratingPrompt, c.ratingRepository)
         }
         initializer {
             val c = container()

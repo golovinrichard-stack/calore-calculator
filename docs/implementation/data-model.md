@@ -364,7 +364,7 @@ Waste is not a separate table: boxes have `state = WASTED` and pantry items have
 
 ### `recipe_ratings` (shared)
 
-`id`, `memberId`, `recipeId`, `rating` (−1 or 1), `updatedAt`. Unique index on (`memberId`, `recipeId`).
+`id`, `memberId`, `recipeId`, `rating` (−1 or 1), `createdAt`, `updatedAt`, `deletedAt` (taking a rating back). Unique index on (`memberId`, `recipeId`).
 
 ## M7: cycle (version 9), private, never synced
 
