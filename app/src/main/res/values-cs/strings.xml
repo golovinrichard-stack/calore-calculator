@@ -845,4 +845,26 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="shops_defaults">Kde nakupujete</string>
     <string name="shops_default_none">Bez výchozího obchodu</string>
     <string name="store_other">Trh / jiný obchod</string>
+    <!-- M5.7: nákupní seznam -->
+    <string name="nav_shop">Nákup</string>
+    <string name="shop_title">Nákupní seznam</string>
+    <string name="shop_regenerate">Aktualizovat podle plánu</string>
+    <string name="shop_basket">V košíku</string>
+    <string name="shop_clear_ticked">Odstranit odškrtnuté</string>
+    <string name="shop_add_item">Přidat položku</string>
+    <string name="shop_item_name">Položka</string>
+    <string name="shop_empty">Seznam je prázdný. Naplánujte týden, nebo přidejte položky sami.</string>
+    <string name="shop_no_store">Bez obchodu</string>
+    <string name="shop_pick_product">Vybrat výrobek</string>
+    <string name="shop_packs">%1$s %2$s × %3$d</string>
+    <string name="shop_price_estimate">asi %1$s Kč</string>
+    <string name="shop_price_paid">Zaplacená cena (nepovinné)</string>
+    <string name="shop_skip">Přeskočit</string>
+    <string name="shop_needed_for">Potřeba pro: %1$s</string>
+    <string name="product_name">Název výrobku</string>
+    <string name="product_brand">Značka</string>
+    <string name="product_pack">Velikost balení</string>
+    <string name="product_shop">Obchod</string>
+    <string name="product_search_off">Hledat v Open Food Facts</string>
+    <string name="shop_share">Sdílet seznam</string>
 </resources>

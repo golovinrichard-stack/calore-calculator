@@ -814,4 +814,26 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="shops_defaults">Where you buy</string>
     <string name="shops_default_none">No default shop</string>
     <string name="store_other">Market / other</string>
+    <!-- M5.7: shopping list -->
+    <string name="nav_shop">Shop</string>
+    <string name="shop_title">Shopping list</string>
+    <string name="shop_regenerate">Update from the plan</string>
+    <string name="shop_basket">In the basket</string>
+    <string name="shop_clear_ticked">Clear ticked items</string>
+    <string name="shop_add_item">Add item</string>
+    <string name="shop_item_name">Item</string>
+    <string name="shop_empty">The list is empty. Plan your week, or add items yourself.</string>
+    <string name="shop_no_store">No shop chosen</string>
+    <string name="shop_pick_product">Pick a product</string>
+    <string name="shop_packs">%1$s %2$s × %3$d</string>
+    <string name="shop_price_estimate">about %1$s Kč</string>
+    <string name="shop_price_paid">Price paid (optional)</string>
+    <string name="shop_skip">Skip</string>
+    <string name="shop_needed_for">Needed for: %1$s</string>
+    <string name="product_name">Product name</string>
+    <string name="product_brand">Brand</string>
+    <string name="product_pack">Pack size</string>
+    <string name="product_shop">Shop</string>
+    <string name="product_search_off">Search Open Food Facts</string>
+    <string name="shop_share">Share list</string>
 </resources>

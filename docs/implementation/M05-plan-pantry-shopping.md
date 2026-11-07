@@ -42,7 +42,7 @@ As built: the week shows "Cooking for this plan" (day, recipe, portions, target 
 ### M5.5 Pantry
 
 - [x] Kitchen tab → **Pantry**: items grouped by fridge, freezer and cupboard, coloured by best-before date with the same rules as boxes.
-- [x] Add items by hand, by scanning a barcode (M2.4), or automatically when ticking the shopping list (that part comes with M5.7).
+- [x] Add items by hand, by scanning a barcode (M2.4), or automatically when ticking the shopping list.
 - [x] Edit amount, best-before date (the date on the pack wins over A17 defaults), opened date. Actions: **Used up**, **Throw away**.
 - [x] Cooking takes ingredients out first-in-first-out (A17), with the "pantry was short" message.
 
@@ -53,7 +53,7 @@ As built: the "pantry was short" message names only foods the pantry had some of
 ### M5.6 Shops and exact products
 
 - [x] Seed `app/src/main/assets/seed/cz/stores.json` with the common Czech shops: Albert, Billa, Globus, Kaufland, Lidl, Penny, Tesco, Rohlik.cz, Košík.cz, and "Market / other". The user picks favourites, and a default shop per section (for example meat at Lidl, vegetables at the market).
-- [ ] **Exact products** come from three places, in this order:
+- [x] **Exact products** come from three places, in this order:
   1. **The owner's research** (input #1), converted into `app/src/main/assets/seed/cz/store-products.json`:
 
      ```json
@@ -73,7 +73,7 @@ As built: the "pantry was short" message names only foods the pantry had some of
      Leave `null` for anything the research doesn't say; don't invent values.
   2. **The user's own picks:** on any shopping line, **Pick a product**: search Open Food Facts (Czech products, the shop's tag if possible), scan the barcode in the shop, or type the name and pack size. It is saved as this shop's preferred product for that food and used from then on.
   3. **Open Food Facts** data for a scanned product (pack size from `product_quantity`).
-- [ ] Store product detail: name, brand, pack size, barcode, last price and its date.
+- [x] Store product detail: name, brand, pack size, barcode, last price and its date.
 
 As built so far: the shops seed (names only, a general section order) imports once per version; Settings → Shops sets favourites and a default shop per section. The loader for `store-products.json` is ready and runs only when the file exists (it isn't shipped until input #1); products keep their seed key, a user's pick stays preferred, and prices are stored only when the research has them. Picking a product on a shopping line comes with M5.7.
 
@@ -81,14 +81,16 @@ As built so far: the shops seed (names only, a general section order) imports on
 
 ### M5.7 The shopping list
 
-- [ ] **Shop** tab (bottom bar complete: **Today · Plan · Kitchen · Shop · Me**).
-- [ ] Generated from the plan with A16: what the plan needs, minus usable pantry food, rounded up to whole packs of the chosen product, grouped by shop and sorted by the shop's section order.
-- [ ] Each line shows the exact product name, brand, pack size × number of packs, and the estimated price if known. Tapping it shows which recipes need it.
-- [ ] Manual items can be added (toilet paper and so on).
-- [ ] **Tick** a line: it moves to "In the basket", becomes a pantry item (amount = packs × pack size, storage and best-before default from the food), and optionally asks for the price paid (one number field, can be skipped).
-- [ ] **Clear ticked items**. Regenerating keeps manual items and ticks.
+- [x] **Shop** tab (bottom bar complete: **Today · Plan · Kitchen · Shop · Me**).
+- [x] Generated from the plan with A16: what the plan needs, minus usable pantry food, rounded up to whole packs of the chosen product, grouped by shop and sorted by the shop's section order.
+- [x] Each line shows the exact product name, brand, pack size × number of packs, and the estimated price if known. Tapping it shows which recipes need it.
+- [x] Manual items can be added (toilet paper and so on).
+- [x] **Tick** a line: it moves to "In the basket", becomes a pantry item (amount = packs × pack size, storage and best-before default from the food), and optionally asks for the price paid (one number field, can be skipped).
+- [x] **Clear ticked items**. Regenerating keeps manual items and ticks.
 
 **Done when:** the A16 test cases pass end to end in an instrumented test (plan → list → tick → pantry).
+
+As built: the list updates from the plan when the Shop tab opens (and with the refresh button): the cooks still to do this week and next week, from today on. A product picked on a line (typed, from Open Food Facts search, or scanned) becomes that shop's preferred product for the food. The product detail on a line shows brand and barcode; prices show as an estimate on the line. The Shop tab stays behind `FeatureFlags.weekPlan` until M5 is finished.
 
 ### M5.8 Prices and costs
 
@@ -103,7 +105,7 @@ As built so far: the shops seed (names only, a general section order) imports on
 
 ### M5.10 Share the list as text
 
-- [ ] **Share** sends the list (unticked items, grouped by shop) through the Android share sheet, so it can go to WhatsApp, Messenger or SMS. Czech formatting.
+- [x] **Share** sends the list (unticked items, grouped by shop) through the Android share sheet, so it can go to WhatsApp, Messenger or SMS. Czech formatting.
 
 ### M5.11 Today, and when plans change
 

@@ -22,6 +22,7 @@ import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.ShopRepository
+import com.calore.tracker.data.repository.ShoppingRepository
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.notifications.ReminderScheduler
 import com.calore.tracker.notifications.WorkManagerReminders
@@ -72,6 +73,9 @@ class AppContainer(context: Context) {
     val planRepository = PlanRepository(database.planDao(), clock)
     val pantryRepository = PantryRepository(database.pantryDao(), database.foodDao(), clock)
     val shopRepository = ShopRepository(database.shopDao(), database.foodDao(), appPrefs, clock)
+    val shoppingRepository = ShoppingRepository(
+        database.shoppingDao(), database.foodDao(), planRepository, recipeRepository, pantryRepository, shopRepository, clock,
+    )
 
     /** Background reminders; WorkManager initialises itself on first use. */
     val reminders: ReminderScheduler = WorkManagerReminders(context, clock)

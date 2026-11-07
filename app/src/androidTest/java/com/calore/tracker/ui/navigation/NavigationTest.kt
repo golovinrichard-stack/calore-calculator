@@ -95,6 +95,13 @@ class NavigationTest {
     }
 
     @Test
+    fun shopShowsTheShoppingList() {
+        compose.onNodeWithText(text(R.string.nav_shop)).performClick()
+        compose.onNodeWithText(text(R.string.shop_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.shop_add_item)).assertIsDisplayed()
+    }
+
+    @Test
     fun goalsAndCalculatorAreInMe() {
         openMe()
         compose.onNodeWithText(text(R.string.me_goals)).performClick()
