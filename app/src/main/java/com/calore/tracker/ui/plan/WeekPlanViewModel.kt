@@ -8,6 +8,8 @@ import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.PlanTemplate
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.data.repository.RecipeRepository
+import com.calore.tracker.data.repository.ShopRepository
+import com.calore.tracker.domain.Batches
 import com.calore.tracker.domain.CookingSessions
 import com.calore.tracker.domain.MealTarget
 import com.calore.tracker.domain.MealType
@@ -16,6 +18,7 @@ import com.calore.tracker.domain.PlanCooks
 import com.calore.tracker.domain.PlanSlot
 import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.PlanTotals
+import com.calore.tracker.domain.RecipeCosts
 import com.calore.tracker.domain.ReminderSchedule
 import com.calore.tracker.domain.SlotKind
 import com.calore.tracker.domain.mealTarget
@@ -29,6 +32,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -55,7 +59,22 @@ data class WeekPlanUiState(
     val templates: List<PlanTemplate> = emptyList(),
     /** Cooks already done: (date, recipe). */
     val cooked: Set<Pair<LocalDate, String>> = emptySet(),
+    /** Price per gram by food (A18). */
+    val prices: Map<String, Double> = emptyMap(),
 ) {
+    /** A planned meal's cost (A18): its grams × the recipe's cost per cooked gram; null when a price is missing. */
+    fun slotCost(slot: PlanSlot): Double? {
+        if (slot.kind != SlotKind.BOX && slot.kind != SlotKind.COOK_FRESH) return null
+        val details = slot.recipeId?.let { recipes[it] } ?: return null
+        val cost = RecipeCosts.cost(details.ingredients, details.nutrition, details.recipe.servings, prices).takeIf { it.complete } ?: return null
+        val potGrams = Batches.estimatedCookedGrams(details.nutrition.rawGrams, details.recipe.learnedYield).takeIf { it > 0 } ?: return null
+        return cost.totalHalers / potGrams * PlanCooks.slotGrams(slot, details.nutrition, details.recipe.servings, details.recipe.learnedYield)
+    }
+
+    /** The week's planned meals that have a known cost, in haléře; null when none has. */
+    val weekCost: Double?
+        get() = slots.filter { it.memberId !in hidden }.mapNotNull { slotCost(it) }.takeIf { it.isNotEmpty() }?.sum()
+
     /** What to cook for this plan, per cooking day (M5.4). */
     val cooks: List<PlannedCook>
         get() = PlanCooks.compute(slots, recipes.mapValues { (_, d) -> d.recipe to d.nutrition }, cookingDays, prepped)
@@ -89,6 +108,7 @@ class WeekPlanViewModel(
     recipes: RecipeRepository,
     private val appPrefs: AppPrefs,
     private val clock: Clock,
+    shops: ShopRepository? = null,
 ) : ViewModel() {
 
     private val weekStart = MutableStateFlow(ReminderSchedule.weekStart(LocalDate.now(clock)))
@@ -105,8 +125,8 @@ class WeekPlanViewModel(
         people,
         hidden,
         recipes.observeAll(),
-        combine(appPrefs.settings, plans.templates(), ::Pair),
-    ) { (start, plan), people, hidden, all, (settings, templates) ->
+        combine(appPrefs.settings, plans.templates(), shops?.foodPrices() ?: flowOf(emptyMap()), ::Triple),
+    ) { (start, plan), people, hidden, all, (settings, templates, prices) ->
         val me = people.first()
         WeekPlanUiState(
             loaded = true,
@@ -121,6 +141,7 @@ class WeekPlanViewModel(
             prepped = me.preppedMeals,
             askCooking = !settings.cookingAsked,
             templates = templates,
+            prices = prices,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WeekPlanUiState())
 

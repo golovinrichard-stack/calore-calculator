@@ -70,6 +70,7 @@ import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.formatCount
+import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.labelRes
 import com.calore.tracker.ui.rememberMediumDateFormatter
 import java.time.DayOfWeek
@@ -185,6 +186,15 @@ private fun WeekHeader(state: WeekPlanUiState, viewModel: WeekPlanViewModel, onE
                         menuOpen = false
                         onEditCooking()
                     })
+                }
+            }
+        }
+        // A18 and the weekly budget (M5.8).
+        state.weekCost?.let { cost ->
+            Text(stringResource(R.string.week_cost, formatNumber(cost / 100, decimals = 0)), style = MaterialTheme.typography.bodyMedium)
+            state.people.firstOrNull()?.weeklyBudget?.let { budget ->
+                if (cost > budget.halers) {
+                    Text(stringResource(R.string.week_over_budget, formatNumber(budget.halers / 100.0, decimals = 0)), color = MaterialTheme.colorScheme.error)
                 }
             }
         }

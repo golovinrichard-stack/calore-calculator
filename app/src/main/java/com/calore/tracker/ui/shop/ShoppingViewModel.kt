@@ -117,6 +117,13 @@ class ShoppingViewModel(
 
     suspend fun scannedFood(id: Long): Food? = foods.getFood(id)
 
+    fun priceHistory(productId: String) = shops.priceHistory(productId)
+
+    /** A price typed in on the product (M5.8). */
+    fun addPrice(productId: String, halers: Long) {
+        viewModelScope.launch { shops.addPrice(productId, halers, LocalDate.now(clock)) }
+    }
+
     /** Saves the pick as this shop's product for the food and uses it on the line (M5.6). */
     fun pick(item: ShoppingItem, store: Store, name: String, brand: String?, barcode: String?, packGrams: Double, source: ProductSource) {
         viewModelScope.launch {

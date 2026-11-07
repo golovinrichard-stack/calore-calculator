@@ -14,6 +14,8 @@ data class Batch(
     val rawGrams: Double,
     val cookedGrams: Double,
     val per100g: Nutrients,
+    /** What went in cost (A18), when every price was known. */
+    val costHalers: Long? = null,
 )
 
 data class BoxPart(val id: String, val boxId: String, val batchId: String, val grams: Double)
@@ -50,6 +52,12 @@ data class BoxView(val box: Box, val parts: List<Pair<BoxPart, Batch?>>) {
     val remainingNutrients: Nutrients get() = fullNutrients.scaledBy(box.remainingFraction)
 
     val fullGrams: Double get() = parts.sumOf { it.first.grams }
+
+    /** Box cost = batch cost × part grams ÷ cooked grams (A18); null when a part's cost is unknown. */
+    val costHalers: Double?
+        get() = parts.map { (part, batch) -> batch?.costHalers?.let { Triple(part.grams, it.toDouble(), batch.cookedGrams) } }
+            .takeIf { list -> list.isNotEmpty() && list.all { it != null } }
+            ?.let { Costs.boxCost(it.filterNotNull()) }
 
     /** "Chili", or "Chicken + Rice + Broccoli". */
     val name: String get() = parts.mapNotNull { it.second?.name }.distinct().joinToString(" + ")

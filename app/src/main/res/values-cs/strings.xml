@@ -867,4 +867,11 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="product_shop">Obchod</string>
     <string name="product_search_off">Hledat v Open Food Facts</string>
     <string name="shop_share">Sdílet seznam</string>
+    <string name="box_cost">Cena: asi %1$s Kč</string>
+    <string name="recipe_cost">Asi %1$s Kč na porci</string>
+    <string name="recipe_cost_protein">%1$s Kč za 100 g bílkovin</string>
+    <string name="week_cost">Tento týden: asi %1$s Kč</string>
+    <string name="week_over_budget">To je víc než váš týdenní rozpočet %1$s Kč.</string>
+    <string name="product_prices">Ceny</string>
+    <string name="product_add_price">Přidat cenu</string>
 </resources>

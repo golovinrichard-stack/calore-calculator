@@ -836,4 +836,11 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="product_shop">Shop</string>
     <string name="product_search_off">Search Open Food Facts</string>
     <string name="shop_share">Share list</string>
+    <string name="box_cost">Cost: about %1$s Kč</string>
+    <string name="recipe_cost">About %1$s Kč per serving</string>
+    <string name="recipe_cost_protein">%1$s Kč per 100 g protein</string>
+    <string name="week_cost">This week: about %1$s Kč</string>
+    <string name="week_over_budget">That is more than your weekly budget of %1$s Kč.</string>
+    <string name="product_prices">Prices</string>
+    <string name="product_add_price">Add a price</string>
 </resources>

@@ -78,6 +78,7 @@ class CookingRepository(
         ingredients: List<Pair<Food, Double>>,
         cookedGrams: Double,
         cookedByMemberId: String?,
+        costHalers: Long? = null,
     ): Batch {
         val now = clock.millis()
         val rawGrams = ingredients.sumOf { it.second }
@@ -99,6 +100,7 @@ class CookingRepository(
             ironMgPer100g = per100g.ironMg,
             magnesiumMgPer100g = per100g.magnesiumMg,
             vitaminCMgPer100g = per100g.vitaminCMg,
+            costHalers = costHalers,
             createdAt = now,
             updatedAt = now,
         )

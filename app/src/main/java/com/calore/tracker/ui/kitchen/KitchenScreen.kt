@@ -75,6 +75,7 @@ import com.calore.tracker.ui.components.NutrientTable
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.formatGrams
 import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.labelRes
 import com.calore.tracker.ui.rememberMediumDateFormatter
 import java.time.Instant
@@ -288,6 +289,9 @@ private fun BoxSheet(item: KitchenItem, today: LocalDate, viewModel: KitchenView
                 }
             }
             if (!LocalHideNumbers.current) NutrientTable(item.view.remainingNutrients)
+            item.view.costHalers?.let { cost ->
+                Text(stringResource(R.string.box_cost, formatNumber(cost * box.remainingFraction / 100, decimals = 0)))
+            }
 
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Button(onClick = { if (colour == FreshnessColour.RED && !frozen) dialog = "red" else eat(null) }) {

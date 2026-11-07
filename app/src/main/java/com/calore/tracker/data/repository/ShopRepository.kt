@@ -9,6 +9,7 @@ import com.calore.tracker.data.db.StoreProductEntity
 import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.domain.Costs
 import com.calore.tracker.domain.ProductOption
+import com.calore.tracker.domain.RecipeCosts
 import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.domain.StoreInfo
 import com.calore.tracker.domain.newId
@@ -97,6 +98,14 @@ class ShopRepository(
     }
 
     suspend fun storesNow(): List<Store> = shopDao.stores().map { it.toStore() }
+
+    /** Each food's price per gram (A18), kept up to date. */
+    fun foodPrices(): Flow<Map<String, Double>> = products().map { list -> RecipeCosts.pricePerGramByFood(list.mapNotNull { it.option() }) }
+
+    /** A product's prices, newest first (M5.8). */
+    fun priceHistory(productId: String): Flow<List<Pair<LocalDate, Long>>> = shopDao.observePrices().map { rows ->
+        rows.filter { it.storeProductId == productId }.mapNotNull { row -> com.calore.tracker.domain.parseIsoDate(row.date)?.let { it to row.priceHalers } }
+    }
 
     suspend fun productsNow(): List<StoreProduct> {
         val latest = shopDao.prices().groupBy { it.storeProductId }.mapValues { it.value.first() }

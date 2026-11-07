@@ -8,6 +8,7 @@ import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.data.repository.RecipeRepository
+import com.calore.tracker.data.repository.ShopRepository
 import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ import java.time.LocalTime
 sealed interface RecipeLoad {
     data object Loading : RecipeLoad
     data object NotFound : RecipeLoad
-    data class Loaded(val details: RecipeDetails, val myAllergens: Set<Allergen>) : RecipeLoad
+    data class Loaded(val details: RecipeDetails, val myAllergens: Set<Allergen>, val prices: Map<String, Double> = emptyMap()) : RecipeLoad
 }
 
 sealed interface RecipeEvent {
@@ -46,12 +48,13 @@ class RecipeDetailViewModel(
     foods: FoodRepository? = null,
     private val diary: DiaryRepository? = null,
     private val clock: Clock = Clock.systemDefaultZone(),
+    shops: ShopRepository? = null,
 ) : ViewModel() {
 
     val recipeId: String = savedStateHandle.get<String>(Routes.ARG_RECIPE_ID).orEmpty()
 
-    val uiState: StateFlow<RecipeLoad> = combine(recipes.observe(recipeId), members.me()) { details, me ->
-        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens)
+    val uiState: StateFlow<RecipeLoad> = combine(recipes.observe(recipeId), members.me(), shops?.foodPrices() ?: flowOf(emptyMap())) { details, me, prices ->
+        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens, prices)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), RecipeLoad.Loading)
 
     /** The food picker for swapping an ingredient. */

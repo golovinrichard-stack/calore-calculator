@@ -20,6 +20,7 @@ internal fun BatchEntity.toDomain() = Batch(
     cookedAt = cookedAt,
     rawGrams = rawGrams,
     cookedGrams = cookedGrams,
+    costHalers = costHalers,
     per100g = Nutrients(
         kcal = kcalPer100g,
         protein = proteinPer100g,

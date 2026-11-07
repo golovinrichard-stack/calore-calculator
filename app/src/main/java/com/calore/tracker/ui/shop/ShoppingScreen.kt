@@ -193,6 +193,7 @@ fun ShoppingScreen(
                     line.storeProductId?.let { state.products[it] }?.let { product ->
                         product.brand?.let { Text(it) }
                         product.barcode?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
+                        ProductPrices(product.id, viewModel)
                     }
                 }
             },
@@ -391,5 +392,25 @@ internal fun formatShareText(title: String, groups: List<Pair<String, List<Strin
     groups.forEach { (shop, lines) ->
         append("\n\n").append(shop).append(':')
         lines.forEach { append("\n• ").append(it) }
+    }
+}
+
+/** A product's price history and a field to add one (M5.8). */
+@Composable
+private fun ProductPrices(productId: String, viewModel: ShoppingViewModel) {
+    val history by remember(productId) { viewModel.priceHistory(productId) }.collectAsStateWithLifecycle(emptyList())
+    val formatter = com.calore.tracker.ui.rememberMediumDateFormatter()
+    var text by rememberSaveable { mutableStateOf("") }
+    val price = parseDecimal(text)?.takeIf { it > 0 && it < 100_000 }
+    SectionHeader(stringResource(R.string.product_prices))
+    history.take(5).forEach { (date, halers) ->
+        Text("${date.format(formatter)} · ${formatNumber(halers / 100.0, decimals = 2)} ${stringResource(R.string.unit_czk)}", style = MaterialTheme.typography.bodySmall)
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        NumberField(value = text, onValueChange = { text = it }, label = stringResource(R.string.product_add_price), suffix = stringResource(R.string.unit_czk), modifier = Modifier.weight(1f))
+        TextButton(onClick = {
+            price?.let { viewModel.addPrice(productId, Math.round(it * 100)) }
+            text = ""
+        }, enabled = price != null) { Text(stringResource(R.string.save)) }
     }
 }

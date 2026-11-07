@@ -7,6 +7,7 @@ import com.calore.tracker.ui.UNKNOWN_VALUE
 import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.domain.parsePortionGrams
 import com.calore.tracker.domain.parseDecimalIn
+import com.calore.tracker.domain.RecipeCosts
 import com.calore.tracker.domain.Recipes
 import com.calore.tracker.domain.Food
 import androidx.compose.ui.platform.LocalResources
@@ -177,6 +178,7 @@ fun RecipeDetailScreen(
             is RecipeLoad.Loaded -> RecipeContent(
                 details = current.details,
                 myAllergens = current.myAllergens,
+                prices = current.prices,
                 scale = scale,
                 onScaleChange = { scale = it },
                 onSwap = { index ->
@@ -258,6 +260,7 @@ fun RecipeDetailScreen(
 private fun RecipeContent(
     details: RecipeDetails,
     myAllergens: Set<Allergen>,
+    prices: Map<String, Double>,
     scale: Double,
     onScaleChange: (Double) -> Unit,
     onSwap: (index: Int) -> Unit,
@@ -291,6 +294,17 @@ private fun RecipeContent(
         }
 
         RecipeNutritionCards(details)
+        // A18: only when every ingredient has a known price.
+        RecipeCosts.cost(details.ingredients, nutrition, recipe.servings, prices).takeIf { it.complete && it.totalHalers > 0 }?.let { cost ->
+            Text(
+                listOfNotNull(
+                    stringResource(R.string.recipe_cost, formatNumber(cost.perServingHalers / 100, decimals = 0)),
+                    cost.per100gProteinHalers?.let { stringResource(R.string.recipe_cost_protein, formatNumber(it / 100, decimals = 1)) },
+                ).joinToString(" · "),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             SectionHeader(stringResource(R.string.recipe_allergens))

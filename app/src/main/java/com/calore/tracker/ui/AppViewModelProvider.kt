@@ -108,7 +108,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock)
+            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock, c.shopRepository)
         }
         initializer {
             val c = container()
@@ -133,7 +133,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            WeekPlanViewModel(c.planRepository, c.memberRepository, c.recipeRepository, c.appPrefs, c.clock)
+            WeekPlanViewModel(c.planRepository, c.memberRepository, c.recipeRepository, c.appPrefs, c.clock, c.shopRepository)
         }
         initializer {
             val c = container()
@@ -149,7 +149,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository, c.pantryRepository)
+            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository, c.pantryRepository, c.shopRepository)
         }
         initializer {
             val c = container()

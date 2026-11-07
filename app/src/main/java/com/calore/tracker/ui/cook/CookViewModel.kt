@@ -9,11 +9,13 @@ import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
+import com.calore.tracker.data.repository.ShopRepository
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.domain.Batch
 import com.calore.tracker.domain.Batches
 import com.calore.tracker.domain.CookingSessions
+import com.calore.tracker.domain.Costs
 import com.calore.tracker.domain.BoxFilling
 import com.calore.tracker.domain.BoxSplitter
 import com.calore.tracker.domain.FillMode
@@ -199,6 +201,7 @@ class CookViewModel(
     private val clock: Clock,
     private val plans: PlanRepository? = null,
     private val pantry: PantryRepository? = null,
+    private val shops: ShopRepository? = null,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(CookUiState(today = LocalDate.now(clock)))
@@ -323,6 +326,7 @@ class CookViewModel(
         state.update { it.copy(saving = true) }
         viewModelScope.launch {
             val me = members.me().first()
+            val prices = shops?.foodPrices()?.first().orEmpty()
             val short = mutableListOf<String>()
             val saved = s.items.map { item ->
                 val batch = item.batch ?: cooking.saveBatch(
@@ -332,6 +336,9 @@ class CookViewModel(
                     ingredients = item.ingredients(),
                     cookedGrams = item.cookedGrams(s.pots)!!,
                     cookedByMemberId = me.id.takeIf { it.isNotEmpty() },
+                    // A18: the batch's cost, stored only when every ingredient has a price.
+                    costHalers = Costs.batchCost(item.ingredients().map { (food, grams) -> grams to prices[food.uuid] })
+                        .takeIf { !it.second }?.let { Math.round(it.first) },
                 ).also {
                     // What went in comes out of the pantry, oldest first (A17).
                     pantry?.takeForCooking(item.ingredients())?.forEach { food -> short += food.displayName() }

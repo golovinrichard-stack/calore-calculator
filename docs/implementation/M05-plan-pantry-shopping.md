@@ -94,9 +94,11 @@ As built: the list updates from the plan when the Shop tab opens (and with the r
 
 ### M5.8 Prices and costs
 
-- [ ] Price history per product (from ticks, the seed, or typed in on the product).
-- [ ] Costs with A18: per batch, per box (shown in the box detail), per meal, day and week in the plan. Cost per 100 g protein on recipes.
-- [ ] If a weekly budget is set: the plan shows the estimated total and warns when it is over budget.
+- [x] Price history per product (from ticks, the seed, or typed in on the product).
+- [x] Costs with A18: per batch, per box (shown in the box detail), per meal, day and week in the plan. Cost per 100 g protein on recipes.
+- [x] If a weekly budget is set: the plan shows the estimated total and warns when it is over budget.
+
+As built: a food's price per gram is its preferred product's latest price, otherwise the cheapest known. A batch's cost is stored when it is cooked and every ingredient has a price (otherwise it shows no cost rather than a part of it). Recipe costs show only when complete. The plan's week total counts the meals whose cost is known.
 
 ### M5.9 Statistics: waste and money
 
