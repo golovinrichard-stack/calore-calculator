@@ -37,9 +37,10 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Calorie calculator**: Mifflin-St Jeor, or Katch-McArdle when you know your body fat; goals by speed (lose, maintain, gain or recomp) showing kg per week and kcal per day; automatic macros from protein per kg, or your own split.
 - **Body**: weight history with a smoothed trend line, body fat from a tape measure (US Navy method, with a short how-to) or a number you know.
 - **Weekly check-in**: after a few weeks of logging, Calore compares your weight trend with what you ate and suggests a new target in small steps.
-- **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner later).
+- **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner).
 - **Hide-numbers mode**: log food without seeing calories and macros.
 - **Optional reminders** for the weekly check-in and for measuring body fat; a "Is the food in the fridge?" reminder 2 hours after cooking.
+- **Help research** (built, not switched on yet): people who choose to can send weekly summaries (never names, exact dates or food names) to a research database, see every summary, stop and delete their data. It appears only in builds with a research server address; see [M10](docs/implementation/M10-research-data.md) and [`server/`](server/README.md).
 - **Backup to a file:** export everything (foods, diary, weights, profile, body, recipes, ratings, boxes, plans, pantry, shops, the shopping list, cycle data and supplements), and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.

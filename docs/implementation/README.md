@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M9 are done (app version 0.11.0). Next: M10.
+> **Status:** M0–M10 are done (app version 0.12.0); research stays switched off until owner inputs #3 and #4. Next: M11.
 > **Date:** 6 November 2026
 
 ## Files
@@ -146,7 +146,7 @@ Update this table when a milestone starts or ends.
 | M7 Cycle tracking | Done |
 | M8 Supplements | Done |
 | M9 Home-screen widget | Done |
-| M10 Research data program | Not started |
+| M10 Research data program | Built; switched off until hosting (#3) and the legal review (#4), M10.7 |
 | M11 Household over home Wi-Fi | Not started |
 
 The owner ran the instrumented tests and checked the app on a phone for M0–M4 on 7 November 2026: no problems found.
