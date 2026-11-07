@@ -31,15 +31,15 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 ### M11.1 Household and members (database version 12)
 
 - [x] Tables `household`, `household_devices`, `requests`, `activity`, `sync_ops`, `sync_field_clock` and `sync_peers` (data-model M11). *As built:* database version 12; also `sync_changes` and `sync_state` (local change capture, M11.3). The same migration gives rows with a natural key the same id on every phone (`StableIds`): basic foods, barcode products, starter recipes with their ingredients and steps, seed shops and products, and week plans (one plan per week for the household); every reference follows. Foods sync too, because shared recipes, the pantry and the list refer to them.
-- [ ] Members of kind `HOUSEHOLD` represent the other people; their phones are rows in `household_devices`.
-- [ ] Roles: the **host** (creates the household, runs the hub, adds and removes members), **members**, and **managed profiles** (children without a phone, looked after by a member).
+- [x] Members of kind `HOUSEHOLD` represent the other people; their phones are rows in `household_devices`. *As built:* after each sync, every other phone's row becomes (or updates) a `HOUSEHOLD` member with the same id as that person's own profile, with their name and colour, and their targets only if they share them.
+- [x] Roles: the **host** (creates the household, runs the hub, adds and removes members), **members**, and **managed profiles** (children without a phone, looked after by a member). *As built:* the host is the hub phone (handing over the hub hands over the host role too); managed profiles stay the member's "people I cook for" on that member's phone, and their boxes show for everyone with their owner's label.
 
 ### M11.2 Joining with a QR code
 
-- [ ] The host taps **Create household** and gets a QR code with `{v: 1, householdId, name, hubDeviceId, key}`, where `key` is 32 random bytes in Base64.
-- [ ] A member scans it (the M2 scanner in QR mode) and gets **Join "Novák family"?**. The host confirms the new phone.
-- [ ] The household key is stored encrypted with a key from the Android Keystore; it is never in the database or in backups.
-- [ ] **Leave household** and **Remove member** (the host creates a new key and shows a new QR code to the remaining members).
+- [x] The host taps **Create household** and gets a QR code with `{v: 1, householdId, name, hubDeviceId, key}`, where `key` is 32 random bytes in Base64. *As built:* `HouseholdInvite` (made with ZXing on the phone); everything shared that was already on the phone goes to the household.
+- [x] A member scans it (the M2 scanner in QR mode) and gets **Join "Novák family"?**. The host confirms the new phone. *As built:* until confirmed, the hub takes only the new phone's own row and sends back only phone rows; the host gets a notification. A phone's row can be changed only by that phone or the hub.
+- [x] The household key is stored encrypted with a key from the Android Keystore; it is never in the database or in backups. *As built:* `HouseholdKeys`, in the app's no-backup folder together with the device id (so a restored phone gets a new id and scans the code again).
+- [x] **Leave household** and **Remove member** (the host creates a new key and shows a new QR code to the remaining members). *As built:* the other phones see "The household code has changed" and scan the new code once; their data stays. The hub can leave only after handing the hub over.
 
 ### M11.3 The sync engine
 
@@ -52,14 +52,14 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 
 ### M11.4 Discovery and the connection
 
-- [ ] NSD service type `_calore._tcp`, with a hash of the household id in the TXT record (never the name or the key).
+- [x] NSD service type `_calore._tcp`, with a hash of the household id in the TXT record (never the name or the key). *As built:* `HouseholdNetwork`; the service name also starts with the first 8 characters of that hash, so phones resolve only their own hub.
 - [x] TCP with frames: 4-byte length, 12-byte nonce, then AES-256-GCM ciphertext of a JSON message, with the household id as associated data. A frame that fails to decrypt closes the connection. *As built:* `data/sync/SyncFrames` (the frames; the socket comes with the hub service).
 - [x] Messages: `HELLO {deviceId, versionVector}`, `OPS {ops}`, `ACK`. At most 1 MB per frame and 500 ops per batch; 10-second timeouts. *As built:* `SyncMessage`; the timeouts come with the socket.
-- [ ] When to sync: when the app opens on Wi-Fi, 5 seconds after a local change (combined), and while hub mode is on.
+- [x] When to sync: when the app opens on Wi-Fi, 5 seconds after a local change (combined), and while hub mode is on. *As built:* `HouseholdSync`; also once a minute while the app is open, so phones see each other's changes without restarting. The hub listens while hub mode is on or while Calore is open on it (the fallback from the decision record). `SyncSession`: HELLO, then the phone's ops, then the hub's, 500 per batch with ACK, 10-second timeouts.
 
 ### M11.5 Hub mode, and telling users why
 
-- [ ] Show this to the host before hub mode starts (English and Czech):
+- [x] Show this to the host before hub mode starts (English and Czech):
 
   > **Your phone will be the household hub.**
   > Calore has no paid servers, which keeps it free. So your household's shared list, fridge and boxes are kept on this phone and shared over your home Wi-Fi.
@@ -67,9 +67,9 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
   > - Others sync when they are on the same Wi-Fi as this phone.
   > - Your own diary, weight and cycle data are never shared.
 
-- [ ] While hub mode is on, there is a notification (required for the foreground service) with the number of members and the last sync.
-- [ ] A status screen: members, their last sync, the number of changes waiting.
-- [ ] **Hand over the hub** to another member's phone.
+- [x] While hub mode is on, there is a notification (required for the foreground service) with the number of members and the last sync. *As built:* `HubService` (`connectedDevice`), a quiet channel; a wake lock only while charging; starts again after a restart if it was on.
+- [x] A status screen: members, their last sync, the number of changes waiting. *As built:* Me → Household.
+- [x] **Hand over the hub** to another member's phone. *As built:* the old hub keeps serving until the new hub has synced once more; the new hub's user is asked to turn hub mode on.
 
 ### M11.6 Sharing and ownership
 

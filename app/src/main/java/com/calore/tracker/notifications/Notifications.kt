@@ -19,7 +19,12 @@ import com.calore.tracker.R
  * Notification channels (M1.6). Each one is created only when its feature is first switched on,
  * so Android's settings never list channels for features the user doesn't use.
  */
-enum class CaloreChannel(val id: String, @StringRes val title: Int, @StringRes val description: Int) {
+enum class CaloreChannel(
+    val id: String,
+    @StringRes val title: Int,
+    @StringRes val description: Int,
+    val importance: Int = NotificationManager.IMPORTANCE_DEFAULT,
+) {
     /** Weekly check-ins and body-fat measuring reminders (M1). */
     PROGRESS("progress", R.string.channel_progress, R.string.channel_progress_desc),
 
@@ -34,6 +39,9 @@ enum class CaloreChannel(val id: String, @StringRes val title: Int, @StringRes v
 
     /** Household requests and activity (M11). */
     HOUSEHOLD("household", R.string.channel_household, R.string.channel_household_desc),
+
+    /** The quiet, ongoing notification while hub mode is on (M11.5). */
+    HUB("household_hub", R.string.channel_hub, R.string.channel_hub_desc, NotificationManager.IMPORTANCE_LOW),
 }
 
 object Notifications {
@@ -50,11 +58,20 @@ object Notifications {
     /** Supplement reminders (M8.4) use ids from here up, one per supplement. */
     const val ID_SUPPLEMENT_BASE = 3000
 
+    /** Household (M11). */
+    const val ID_HUB = 4000
+    const val ID_HOUSEHOLD_PHONE = 4001
+    const val ID_HOUSEHOLD_HUB_NOW = 4002
+    const val ID_HOUSEHOLD_TAKEN = 4003
+
+    /** Household requests and answers use ids from here up. */
+    const val ID_REQUEST_BASE = 5000
+
     fun ensureChannel(context: Context, channel: CaloreChannel) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
         if (manager.getNotificationChannel(channel.id) != null) return
         manager.createNotificationChannel(
-            NotificationChannel(channel.id, context.getString(channel.title), NotificationManager.IMPORTANCE_DEFAULT).apply {
+            NotificationChannel(channel.id, context.getString(channel.title), channel.importance).apply {
                 description = context.getString(channel.description)
             },
         )
@@ -68,6 +85,16 @@ object Notifications {
             return false
         }
         return NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
+
+    /** Updates an ongoing notification (hub mode); nothing without permission. */
+    fun notifyOngoing(context: Context, id: Int, notification: android.app.Notification) {
+        if (!canPost(context)) return
+        try {
+            NotificationManagerCompat.from(context).notify(id, notification)
+        } catch (e: SecurityException) {
+            // The permission was withdrawn between the check and the post.
+        }
     }
 
     /** Posts a notification that opens the app at [openRoute] when tapped. Does nothing without permission. */

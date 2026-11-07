@@ -42,6 +42,18 @@ object SyncTriggers {
 
     fun spec(table: String): SyncTableSpec? = SPECS.firstOrNull { it.table == table }
 
+    /**
+     * Shared rows that point at a food. A food goes to the household only once one of these uses it,
+     * so a food that is only in the (private) diary never leaves the phone.
+     */
+    val FOOD_REFS: Map<String, String> = mapOf(
+        "recipe_ingredients" to "foodUuid",
+        "batch_ingredients" to "foodUuid",
+        "pantry_items" to "foodUuid",
+        "store_products" to "foodUuid",
+        "shopping_items" to "foodUuid",
+    )
+
     /** The synced columns of a table, given all its columns. */
     fun syncedColumns(spec: SyncTableSpec, columns: List<String>): List<String> = columns.filter { it !in spec.localColumns }
 

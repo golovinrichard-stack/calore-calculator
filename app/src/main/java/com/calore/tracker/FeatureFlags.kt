@@ -15,7 +15,11 @@ package com.calore.tracker
  */
 object FeatureFlags {
 
-    // No unfinished features right now: everything up to M9 is finished.
+    /**
+     * M11: the household over home Wi-Fi. Built, but the decision record still needs battery and
+     * discovery measurements on real phones (M11.0), so release builds don't show it yet.
+     */
+    val household: Boolean = unfinished()
 
     /**
      * M10: "Help research" shows only when the build has a research server address
@@ -27,7 +31,6 @@ object FeatureFlags {
      * True only in debug builds. [BuildConfig.DEBUG] is a constant, so R8 removes code behind a
      * false flag from release builds completely.
      */
-    @Suppress("unused") // Used by the flags above as soon as a milestone adds one.
     private fun unfinished(): Boolean = isVisible(finished = false, debugBuild = BuildConfig.DEBUG)
 
     /** The rule behind every flag: finished features always show; unfinished ones only in debug builds. */

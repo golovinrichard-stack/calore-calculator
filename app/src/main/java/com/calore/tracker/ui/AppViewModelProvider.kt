@@ -33,6 +33,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.combine
 import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
+import com.calore.tracker.household.HubService
+import com.calore.tracker.ui.household.HouseholdJoinViewModel
+import com.calore.tracker.ui.household.HouseholdViewModel
 import com.calore.tracker.ui.addfood.AddFoodViewModel
 import com.calore.tracker.ui.backup.BackupViewModel
 import com.calore.tracker.ui.body.BodyFatViewModel
@@ -220,6 +223,17 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             CookModeViewModel(createSavedStateHandle(), c.recipeRepository, c.reminders, c.appPrefs, c.clock)
+        }
+        initializer {
+            val c = container()
+            val app = this[APPLICATION_KEY] as CaloreApp
+            HouseholdViewModel(c.householdRepository, c.householdSync) { on ->
+                if (on) HubService.start(app) else HubService.stop(app)
+            }
+        }
+        initializer {
+            val c = container()
+            HouseholdJoinViewModel(c.householdRepository, c.householdSync)
         }
         initializer {
             val c = container()

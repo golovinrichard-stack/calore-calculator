@@ -56,8 +56,14 @@ class MainActivity : FragmentActivity() {
     }
 
     /** M7.6: leaving the screen locks the app (and the cycle section) again; turning the phone doesn't. */
+    override fun onStart() {
+        super.onStart()
+        (application as CaloreApp).container.householdSync.onForeground()
+    }
+
     override fun onStop() {
         super.onStop()
+        if (!isChangingConfigurations) (application as CaloreApp).container.householdSync.onBackground()
         if (!isChangingConfigurations) (application as CaloreApp).container.appLock.lock()
     }
 

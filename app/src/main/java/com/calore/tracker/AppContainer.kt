@@ -1,5 +1,12 @@
 package com.calore.tracker
 
+import com.calore.tracker.data.household.HouseholdKeys
+import com.calore.tracker.data.household.HouseholdNetwork
+import com.calore.tracker.data.household.HouseholdRepository
+import com.calore.tracker.data.household.HouseholdSync
+import com.calore.tracker.data.sync.SyncStore
+import com.calore.tracker.household.HouseholdNotifier
+
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
@@ -142,6 +149,18 @@ class AppContainer(context: Context) {
         appVersion = BuildConfig.VERSION_NAME,
     )
 
+    /** M11: the household over home Wi-Fi. Nothing syncs until the user creates or joins one. */
+    val syncStore = SyncStore(database, clock)
+    val householdRepository = HouseholdRepository(
+        database.householdDao(),
+        syncStore,
+        HouseholdKeys(context),
+        memberRepository,
+        clock,
+    )
+    val householdNotifier = HouseholdNotifier(context, householdRepository, database.householdDao()) { _, _ -> }
+    val householdSync = HouseholdSync(householdRepository, HouseholdNetwork(context), applicationScope, clock, householdNotifier)
+
     init {
         // M10.4: keep the weekly research job while the user takes part (only in builds with a server).
         if (FeatureFlags.research) {
@@ -164,6 +183,8 @@ class AppContainer(context: Context) {
             val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
             products?.use { shopRepository.importProducts(it) }
         }
+        // M11.4: sync 5 s after local changes; serve as the hub while hub mode is on or the app is open.
+        householdSync.start()
         // The weekly check-in job; KEEP means this costs nothing once it is scheduled.
         reminders.scheduleWeeklyCheckin()
     }

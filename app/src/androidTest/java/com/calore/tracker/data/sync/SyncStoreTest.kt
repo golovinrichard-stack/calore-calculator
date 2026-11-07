@@ -146,15 +146,28 @@ class SyncStoreTest {
     }
 
     @Test
-    fun aCustomFoodArrivesWithoutThePhoneOnlyColumns() = runBlocking {
+    fun aFoodIsSharedOnlyOnceSomethingSharedUsesIt() = runBlocking {
         phoneA.sql("INSERT INTO foods (name, kcalPer100g, source, lastUsedAt, uuid) VALUES ('Granola', 450, 'CUSTOM', 999, 'f1')")
         phoneA.sql("INSERT INTO foods (name, kcalPer100g, source, lastUsedAt, uuid, `key`) VALUES ('Oats', 370, 'BASIC', 1, 'f2', 'oats')")
+        // Only in the diary so far: nothing leaves the phone.
+        assertEquals(0, a.flush("A"))
+
+        phoneA.sql("INSERT INTO shopping_items (id, name, section, foodUuid, createdAt, updatedAt) VALUES ('i1', 'Granola', 'OTHER', 'f1', 1, 1)")
+        phoneA.sql("INSERT INTO shopping_items (id, name, section, foodUuid, createdAt, updatedAt) VALUES ('i2', 'Oats', 'OTHER', 'f2', 1, 1)")
+        assertEquals(3, a.flush("A"))
+        val ops = a.opsFor(emptyMap())
+        assertEquals(listOf("foods", "shopping_items", "shopping_items"), ops.map { it.table })
+        val food = ops.first()
+        assertEquals("f1", food.rowId)
+        assertEquals(false, food.changes.containsKey("lastUsedAt") || food.changes.containsKey("id"))
+
+        // Later changes to the food are shared now.
+        phoneA.sql("UPDATE foods SET kcalPer100g = 460 WHERE uuid = 'f1'")
         assertEquals(1, a.flush("A"))
-        val op = a.opsFor(emptyMap()).single()
-        assertEquals(null, op.changes["lastUsedAt"])
-        assertEquals(false, op.changes.containsKey("id"))
-        b.apply("B", listOf(op))
+
+        b.apply("B", a.opsFor(emptyMap()))
         assertEquals("Granola", phoneB.text("SELECT name FROM foods WHERE uuid = 'f1'"))
+        assertEquals("460.0", phoneB.text("SELECT kcalPer100g FROM foods WHERE uuid = 'f1'"))
         assertEquals("0", phoneB.text("SELECT lastUsedAt FROM foods WHERE uuid = 'f1'"))
     }
 

@@ -163,7 +163,7 @@ fun ScannerScreen(
 }
 
 @Composable
-private fun CameraPreview(torchOn: Boolean, onTorchAvailable: (Boolean) -> Unit, onCode: (String) -> Unit) {
+internal fun CameraPreview(torchOn: Boolean, onTorchAvailable: (Boolean) -> Unit, onCode: (String) -> Unit) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }

@@ -23,8 +23,13 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.longOrNull
 import java.time.Clock
 
+/** A row an incoming op changed: which columns, and which phone made the change. */
+data class AppliedRow(val table: String, val rowId: String, val columns: Set<String>, val deviceId: String)
+
 /** What applying a batch of incoming ops did. */
-data class ApplyOutcome(val applied: Int, val parked: Int, val conflicts: List<TakeConflict>, val tables: Set<String>)
+data class ApplyOutcome(val applied: Int, val parked: Int, val conflicts: List<TakeConflict>, val rows: List<AppliedRow>) {
+    val tables: Set<String> get() = rows.mapTo(HashSet()) { it.table }
+}
 
 /**
  * The sync bookkeeping in the database (M11.3, A22): turns recorded local changes into ops
@@ -65,9 +70,20 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
         val clockNow = clockFor(deviceId)
         var seq = query("SELECT COALESCE(MAX(seq), 0) FROM sync_ops WHERE deviceId = ?", arrayOf(deviceId)).use { it.moveToFirst(); it.getLong(0) }
         var made = 0
+        val sent = HashSet<String>()
+        fun emit(table: String, rowId: String, values: Map<String, String?>) {
+            val op = SyncOp(newId(), deviceId, ++seq, clockNow.tick(), table, rowId, values)
+            insertOp(this, op, applied = true)
+            values.keys.forEach { setFieldClock(this, table, rowId, it, op.hlc) }
+            made++
+        }
+        val foods = SyncTriggers.spec("foods")!!
+        fun everSynced(table: String, rowId: String) =
+            query("SELECT 1 FROM sync_field_clock WHERE tableName = ? AND rowId = ? LIMIT 1", arrayOf(table, rowId)).use { it.moveToFirst() }
         for ((key, group) in changes.groupBy({ it.second }, { it.third })) {
             val (table, rowId) = key
             val spec = SyncTriggers.spec(table) ?: continue
+            if (table == "foods" && (rowId in sent || (!everSynced(table, rowId) && !foodInUse(this, rowId)))) continue
             val row = readRow(this, spec, rowId)
             val values: Map<String, String?> = when {
                 row == null && SyncTriggers.DELETED in group -> mapOf(SyncTriggers.DELETED to "true")
@@ -76,14 +92,24 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
                 else -> group.filter { it in row }.associateWith { row[it] }
             }
             if (values.isEmpty()) continue
-            val op = SyncOp(newId(), deviceId, ++seq, clockNow.tick(), table, rowId, values)
-            insertOp(this, op, applied = true)
-            values.keys.forEach { setFieldClock(this, table, rowId, it, op.hlc) }
-            made++
+            // The food a shared row points at goes first, the first time.
+            val foodUuid = SyncTriggers.FOOD_REFS[table]?.let { values[it] }?.let { decode(it) as? String }
+            if (foodUuid != null && foodUuid !in sent && !everSynced("foods", foodUuid)) {
+                readRow(this, foods, foodUuid)?.takeIf { it["key"] == null }?.let { food ->
+                    emit("foods", foodUuid, food)
+                    sent += foodUuid
+                }
+            }
+            emit(table, rowId, values)
+            if (table == "foods") sent += rowId
         }
         execSQL("DELETE FROM sync_changes WHERE id <= ?", arrayOf(changes.last().first))
         if (made > 0) setMaxSeen(this, deviceId, seq)
         made
+    }
+
+    private fun foodInUse(db: SupportSQLiteDatabase, uuid: String): Boolean = SyncTriggers.FOOD_REFS.any { (table, column) ->
+        db.query("SELECT 1 FROM `$table` WHERE `$column` = ? LIMIT 1", arrayOf(uuid)).use { it.moveToFirst() }
     }
 
     /** Applies incoming ops (A22) in clock order; ops whose row isn't here yet wait and are tried again. */
@@ -91,7 +117,7 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
         execSQL("UPDATE sync_state SET mode = 2 WHERE id = 1")
         val clockNow = clockFor(myDeviceId)
         val conflicts = ArrayList<TakeConflict>()
-        val tables = HashSet<String>()
+        val rows = ArrayList<AppliedRow>()
         var applied = 0
         try {
             for (op in ops.sortedBy { it.hlc }) {
@@ -104,7 +130,7 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
                 advanceSeen(this, op.deviceId)
                 if (result != null) {
                     applied++
-                    tables += op.table
+                    if (result.applied.isNotEmpty()) rows += AppliedRow(op.table, op.rowId, result.applied.keys, op.deviceId)
                     result.conflict?.let(conflicts::add)
                 }
             }
@@ -116,7 +142,7 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
                     val result = tryApply(this, op, myDeviceId) ?: continue
                     markApplied(this, op.opId)
                     applied++
-                    tables += op.table
+                    if (result.applied.isNotEmpty()) rows += AppliedRow(op.table, op.rowId, result.applied.keys, op.deviceId)
                     result.conflict?.let(conflicts::add)
                     progress = true
                 }
@@ -124,7 +150,7 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
         } finally {
             execSQL("UPDATE sync_state SET mode = 1 WHERE id = 1")
         }
-        ApplyOutcome(applied, parkedOps(this).size, conflicts, tables)
+        ApplyOutcome(applied, parkedOps(this).size, conflicts, rows)
     }
 
     /** This phone's version vector (A22). */
