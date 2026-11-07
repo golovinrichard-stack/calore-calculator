@@ -36,8 +36,17 @@ import androidx.room.TypeConverters
         SupplementEntity::class,
         SupplementLogEntity::class,
         ResearchReportEntity::class,
+        HouseholdEntity::class,
+        HouseholdDeviceEntity::class,
+        RequestEntity::class,
+        ActivityEntity::class,
+        SyncOpEntity::class,
+        SyncFieldClockEntity::class,
+        SyncPeerEntity::class,
+        SyncChangeEntity::class,
+        SyncStateEntity::class,
     ],
-    version = 11,
+    version = 12,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)

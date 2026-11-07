@@ -36,6 +36,8 @@ data class DatabaseSnapshot(
     val supplements: List<SupplementEntity>? = emptyList(),
     val supplementLogs: List<SupplementLogEntity>? = emptyList(),
     val researchReports: List<ResearchReportEntity>? = emptyList(),
+    val requests: List<RequestEntity>? = emptyList(),
+    val activity: List<ActivityEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -258,6 +260,24 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertResearchReports(rows: List<ResearchReportEntity>)
 
+    @Query("SELECT * FROM requests ORDER BY createdAt, id")
+    protected abstract suspend fun allRequests(): List<RequestEntity>
+
+    @Query("DELETE FROM requests")
+    protected abstract suspend fun deleteAllRequests()
+
+    @Insert
+    protected abstract suspend fun insertRequests(rows: List<RequestEntity>)
+
+    @Query("SELECT * FROM activity ORDER BY at, id")
+    protected abstract suspend fun allActivity(): List<ActivityEntity>
+
+    @Query("DELETE FROM activity")
+    protected abstract suspend fun deleteAllActivity()
+
+    @Insert
+    protected abstract suspend fun insertActivity(rows: List<ActivityEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -324,6 +344,8 @@ abstract class BackupDao {
         supplements = allSupplements(),
         supplementLogs = allSupplementLogs(),
         researchReports = allResearchReports(),
+        requests = allRequests(),
+        activity = allActivity(),
     )
 
     /**
@@ -438,6 +460,14 @@ abstract class BackupDao {
         snapshot.researchReports?.let {
             deleteAllResearchReports()
             insertResearchReports(it)
+        }
+        snapshot.requests?.let {
+            deleteAllRequests()
+            insertRequests(it)
+        }
+        snapshot.activity?.let {
+            deleteAllActivity()
+            insertActivity(it)
         }
     }
 }

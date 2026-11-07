@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.calore.tracker.domain.MealType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import com.calore.tracker.domain.StableIds
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -215,6 +216,52 @@ class MigrationTest {
         helper.runMigrationsAndValidate(TEST_DB, 11, true, *ALL_MIGRATIONS).use { db ->
             assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
             assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM research_reports"))
+        }
+    }
+
+    @Test
+    fun migration11To12AddsHouseholdTablesAndGivesNaturalKeysTheSameIdEverywhere() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 11, true, *ALL_MIGRATIONS).use { db ->
+            val oats = db.strings("SELECT uuid FROM foods WHERE id = 1").single()
+            db.execSQL("UPDATE foods SET `key` = 'generic:rice' WHERE id = 2")
+            val rice = db.strings("SELECT uuid FROM foods WHERE id = 2").single()
+            db.execSQL(
+                "INSERT INTO recipes (id, `key`, name, userEdited, shortCode, servings, mealTypes, tags, equipment, fridgeDays, freezable, " +
+                    "freezerMonths, mealPrepFriendly, learnedYieldCount, visibility, createdAt, updatedAt) " +
+                    "VALUES ('r-old', 'starter:cz:rice', 'Rýže', 0, 'R', 2, '[]', '[]', '[]', 3, 0, 3, 0, 0, 'SHARED', 1, 1)",
+            )
+            db.execSQL("INSERT INTO recipe_ingredients (id, recipeId, position, foodUuid, grams, optional) VALUES ('i-old', 'r-old', 0, '$rice', 100, 0)")
+            db.execSQL("INSERT INTO recipe_steps (id, recipeId, position, text, passive) VALUES ('s-old', 'r-old', 0, 'Vařit', 0)")
+            db.execSQL("INSERT INTO plans (id, weekStart, createdAt, updatedAt) VALUES ('p-old', '2026-11-09', 1, 1)")
+            db.execSQL(
+                "INSERT INTO plan_slots (id, planId, date, meal, memberId, kind, recipeId, locked, done, createdAt, updatedAt) " +
+                    "VALUES ('slot', 'p-old', '2026-11-09', 'LUNCH', 'me', 'BOX', 'r-old', 0, 0, 1, 1)",
+            )
+            db.execSQL("INSERT INTO stores (id, `key`, name, sectionOrder, favorite, defaultForSections, createdAt, updatedAt) VALUES ('st-old', 'cz:lidl', 'Lidl', '[]', 0, '[]', 1, 1)")
+            db.execSQL(
+                "INSERT INTO shopping_items (id, foodUuid, storeId, name, section, manual, createdAt, updatedAt) " +
+                    "VALUES ('line', '$oats', 'st-old', 'Oats', 'GRAINS', 0, 1, 1)",
+            )
+        }
+
+        helper.runMigrationsAndValidate(TEST_DB, 12, true, *ALL_MIGRATIONS).use { db ->
+            val oats = StableIds.barcode("123")
+            val rice = StableIds.food("generic:rice")
+            val recipe = StableIds.recipe("starter:cz:rice")
+            assertEquals(listOf(oats, rice), db.strings("SELECT uuid FROM foods ORDER BY id"))
+            assertEquals(listOf(recipe), db.strings("SELECT id FROM recipes"))
+            assertEquals(listOf(StableIds.recipeIngredient("starter:cz:rice", 0) + " " + recipe + " " + rice), db.strings("SELECT id || ' ' || recipeId || ' ' || foodUuid FROM recipe_ingredients"))
+            assertEquals(listOf(StableIds.recipeStep("starter:cz:rice", 0)), db.strings("SELECT id FROM recipe_steps"))
+            assertEquals(listOf(StableIds.plan("2026-11-09")), db.strings("SELECT id FROM plans"))
+            assertEquals(listOf(StableIds.plan("2026-11-09") + " " + recipe), db.strings("SELECT planId || ' ' || recipeId FROM plan_slots"))
+            assertEquals(listOf(StableIds.store("cz:lidl")), db.strings("SELECT id FROM stores"))
+            assertEquals(listOf(StableIds.store("cz:lidl") + " " + oats), db.strings("SELECT storeId || ' ' || foodUuid FROM shopping_items"))
+            // The diary refers to foods by number and is untouched.
+            assertEquals(listOf("1"), db.strings("SELECT foodId FROM diary_entries WHERE foodId IS NOT NULL"))
+            for (table in listOf("household", "household_devices", "requests", "activity", "sync_ops", "sync_field_clock", "sync_peers", "sync_changes", "sync_state")) {
+                assertEquals(table, listOf("0"), db.strings("SELECT COUNT(*) FROM $table"))
+            }
         }
     }
 

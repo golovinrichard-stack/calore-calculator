@@ -16,21 +16,21 @@ The owner is a student and can't pay for servers for every user. So the househol
 
 ### M11.0 Spike: can a phone be a reliable hub? (decision record)
 
-*Status:* not done. It needs real Android 15, 16 and 17 phones and a 24-hour battery measurement, which the build machine can't do. The hub service, discovery, hub mode and the screens (M11.1, M11.2, M11.4 discovery, M11.5–M11.10) wait for it. What doesn't depend on it is built: the A22 engine and the encrypted frames.
+*Status:* decided from Android's documented rules in [decisions/0001-household-hub.md](decisions/0001-household-hub.md): a `connectedDevice` foreground service, a wake lock only while charging, and syncing whenever the app is open as the fallback. The battery numbers still have to be measured on real phones (the record says how).
 
 Before building, test on Android 15, 16 and 17 and write `docs/implementation/decisions/0001-household-hub.md`:
 
-- [ ] A foreground service that keeps a `ServerSocket` and an NSD registration while hub mode is on. Which service type fits? `dataSync` is limited to 6 hours per 24 hours on Android 15+; check `connectedDevice` and the alternatives, and their permission rules.
-- [ ] Does it accept connections with the screen off and in Doze? What does it cost in battery over 24 hours?
-- [ ] NSD discovery between two phones on a typical home router.
-- [ ] Android 17 blocks local network access by default for apps targeting it (API 37): the app must request `ACCESS_LOCAL_NETWORK` at runtime once `targetSdk` is raised to 37. Check the flow.
-- [ ] Fallback if a permanent hub is not practical: sync only when the hub app is open, plus a short sync window when the hub phone is charging on home Wi-Fi.
+- [x] A foreground service that keeps a `ServerSocket` and an NSD registration while hub mode is on. Which service type fits? `dataSync` is limited to 6 hours per 24 hours on Android 15+; check `connectedDevice` and the alternatives, and their permission rules.
+- [ ] Does it accept connections with the screen off and in Doze? What does it cost in battery over 24 hours? *(to measure on real phones; table in the decision record)*
+- [ ] NSD discovery between two phones on a typical home router. *(to check on real phones)*
+- [x] Android 17 blocks local network access by default for apps targeting it (API 37): the app must request `ACCESS_LOCAL_NETWORK` at runtime once `targetSdk` is raised to 37. Check the flow.
+- [x] Fallback if a permanent hub is not practical: sync only when the hub app is open, plus a short sync window when the hub phone is charging on home Wi-Fi.
 
 **Done when:** the decision record says which approach to use and why, with measured battery numbers.
 
 ### M11.1 Household and members (database version 12)
 
-- [ ] Tables `household`, `household_devices`, `requests`, `activity`, `sync_ops`, `sync_field_clock` and `sync_peers` (data-model M11).
+- [x] Tables `household`, `household_devices`, `requests`, `activity`, `sync_ops`, `sync_field_clock` and `sync_peers` (data-model M11). *As built:* database version 12; also `sync_changes` and `sync_state` (local change capture, M11.3). The same migration gives rows with a natural key the same id on every phone (`StableIds`): basic foods, barcode products, starter recipes with their ingredients and steps, seed shops and products, and week plans (one plan per week for the household); every reference follows. Foods sync too, because shared recipes, the pantry and the list refer to them.
 - [ ] Members of kind `HOUSEHOLD` represent the other people; their phones are rows in `household_devices`.
 - [ ] Roles: the **host** (creates the household, runs the hub, adds and removes members), **members**, and **managed profiles** (children without a phone, looked after by a member).
 
