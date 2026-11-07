@@ -50,6 +50,8 @@ import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
 import com.calore.tracker.ui.profile.ProfileScreen
 import com.calore.tracker.ui.recipes.PlanScreen
+import com.calore.tracker.ui.plan.PlanWeekScreen
+import com.calore.tracker.ui.kitchen.UseItUpScreen
 import com.calore.tracker.ui.recipes.RecipeDetailScreen
 import com.calore.tracker.ui.recipes.RecipeEditScreen
 import com.calore.tracker.ui.scanner.ScannerScreen
@@ -286,11 +288,15 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
         KitchenScreen(
             onOpenWaste = { navController.navigate(Routes.WASTE) },
             onScanForPantry = { navController.navigate(Routes.SCANNER_PICK) },
+            onUseItUp = { navController.navigate(Routes.USE_IT_UP) },
             scannedFoodId = scanned,
             onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
         )
     }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.USE_IT_UP) {
+        UseItUpScreen(onBack = { navController.popBackStack() }, onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) })
+    }
     composable(Routes.SHOPS) { ShopsScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.STATS) { StatsScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.SHOP) { entry ->
@@ -346,6 +352,14 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
             onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
             onNewRecipe = { navController.navigate(Routes.recipeEdit()) },
             onCookFromPlan = { date -> navController.navigate(Routes.cookFromPlan(date)) },
+            onPlanWeek = { weekStart -> navController.navigate(Routes.planWeek(weekStart)) },
+        )
+    }
+    composable(Routes.PLAN_WEEK, arguments = listOf(navArgument(Routes.ARG_WEEK_START) { type = NavType.StringType })) {
+        PlanWeekScreen(
+            onBack = { navController.popBackStack() },
+            onDone = { navController.popBackStack() },
+            onOpenProfile = { navController.navigate(Routes.PROFILE) },
         )
     }
     composable(Routes.RECIPE, arguments = listOf(recipeIdArg)) {

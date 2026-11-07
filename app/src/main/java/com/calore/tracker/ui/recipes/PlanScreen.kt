@@ -64,6 +64,7 @@ fun PlanScreen(
     onOpenRecipe: (id: String) -> Unit,
     onNewRecipe: () -> Unit,
     onCookFromPlan: (java.time.LocalDate) -> Unit = {},
+    onPlanWeek: (java.time.LocalDate) -> Unit = {},
     viewModel: RecipeListViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     var showRecipes by rememberSaveable { mutableStateOf(false) }
@@ -91,7 +92,7 @@ fun PlanScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            if (showRecipes) RecipeList(viewModel, onOpenRecipe) else WeekPlanContent(snackbarHostState, onCook = onCookFromPlan)
+            if (showRecipes) RecipeList(viewModel, onOpenRecipe) else WeekPlanContent(snackbarHostState, onCook = onCookFromPlan, onPlanWeek = onPlanWeek)
         }
     }
 }

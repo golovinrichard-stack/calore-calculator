@@ -23,6 +23,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -85,6 +86,7 @@ private data class SlotRef(val date: LocalDate, val meal: MealType, val memberId
 fun WeekPlanContent(
     snackbarHostState: SnackbarHostState,
     onCook: (LocalDate) -> Unit = {},
+    onPlanWeek: (LocalDate) -> Unit = {},
     viewModel: WeekPlanViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -104,6 +106,16 @@ fun WeekPlanContent(
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item(key = "header") {
             WeekHeader(state, viewModel, onEditCooking = { editingCooking = true })
+        }
+        // M6.3 and M6.5: the smart planner for this week, or for the rest of it.
+        val today = LocalDate.now()
+        if (!state.weekStart.plusDays(6).isBefore(today)) {
+            item(key = "plan_my_week") {
+                val replan = !state.weekStart.isAfter(today) && state.slots.any { it.recipeId != null && !it.date.isBefore(today) }
+                Button(onClick = { onPlanWeek(state.weekStart) }, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(if (replan) R.string.plan_week_replan_rest else R.string.plan_week_button))
+                }
+            }
         }
         val cooks = state.cooks
         if (cooks.isNotEmpty()) {

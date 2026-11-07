@@ -873,4 +873,88 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="rate_like">I like it</string>
     <string name="rate_dislike">I don\'t like it</string>
     <string name="rate_your_rating">Do you like it?</string>
+
+    <!-- Plan my week (M6.3) -->
+    <string name="close">Close</string>
+    <string name="plan_week_title">Plan my week</string>
+    <string name="plan_week_button">Plan my week</string>
+    <string name="plan_week_replan_rest">Replan the rest of the week</string>
+    <string name="plan_week_planning">Planning…</string>
+    <string name="plan_week_saving">Saving…</string>
+    <string name="plan_week_next">Next week</string>
+    <string name="plan_checklist_title">Plan my week works better when it knows:</string>
+    <string name="plan_checklist_optional">All of these are optional. You can fill them in later in Me → Profile.</string>
+    <string name="plan_checklist_fill">Fill in my profile</string>
+    <string name="plan_pref_allergens">Your allergies</string>
+    <string name="plan_pref_liked">Foods you like</string>
+    <string name="plan_pref_disliked">Foods you don\'t like</string>
+    <string name="plan_pref_cuisines">Cuisines you like</string>
+    <string name="plan_pref_equipment">Your kitchen equipment</string>
+    <string name="plan_pref_budget">Your weekly food budget</string>
+    <string name="plan_pref_cook_days">The days you cook</string>
+    <string name="plan_replan_title">This week already has a plan</string>
+    <string name="plan_replan_text">Meals you have eaten, boxes you have cooked, locked meals and eating out stay as they are. The rest is planned again.</string>
+    <string name="plan_replan_go">Plan the rest</string>
+    <string name="plan_regenerate">Regenerate</string>
+    <string name="plan_accept">Accept</string>
+    <string name="plan_shopping_estimate">Shopping: about %1$s Kč</string>
+    <string name="plan_lock_hint">Tap a meal to see why it was chosen or to swap it. Locked meals stay when you regenerate.</string>
+    <string name="plan_session_minutes">%1$s · about %2$d min of cooking</string>
+    <string name="plan_cook_line">%1$s × %2$d · %3$s g</string>
+    <string name="plan_no_recipe">No recipe fits</string>
+    <string name="plan_kept">Stays as it is</string>
+    <string name="plan_lock">Lock</string>
+    <string name="plan_unlock">Unlock</string>
+    <string name="plan_swap_title">Other recipes for this meal</string>
+    <string name="plan_swap_none">No other recipe fits this meal.</string>
+    <string name="plan_reason_rated">You like it</string>
+    <string name="plan_reason_liked">Has foods you like</string>
+    <string name="plan_reason_cuisine">A cuisine you like</string>
+    <string name="plan_reason_cuisine_named">%1$s, a cuisine you like</string>
+    <string name="plan_reason_protein">Protein fits your target</string>
+    <string name="plan_reason_cheap">Cheap</string>
+    <string name="plan_reason_pantry">Uses your %1$s before it goes off</string>
+    <string name="plan_reason_phase">Suits your cycle</string>
+    <string name="plan_reason_freezes">Freezes well</string>
+    <plurals name="plan_unpriced">
+        <item quantity="one">%d item has no price yet</item>
+        <item quantity="other">%d items have no price yet</item>
+    </plurals>
+    <plurals name="plan_frozen">
+        <item quantity="one">%d box goes in the freezer</item>
+        <item quantity="other">%d boxes go in the freezer</item>
+    </plurals>
+    <plurals name="plan_unplanned">
+        <item quantity="one">%d meal has no recipe that fits</item>
+        <item quantity="other">%d meals have no recipe that fits</item>
+    </plurals>
+    <string name="plan_regenerate_hint">Changed your profile? Tap Regenerate to use it.</string>
+
+    <!-- Use it up (M6.4) -->
+    <string name="use_it_up_title">Use it up</string>
+    <string name="use_it_up_empty">Nothing in the pantry goes off in the next 4 days.</string>
+    <string name="use_it_up_no_recipes">No recipe uses it yet.</string>
+    <string name="use_it_up_add">Add to plan</string>
+    <string name="use_it_up_add_hint">Planned as cooked fresh, for you and the people you cook for who can eat it.</string>
+    <string name="use_it_up_added">Added to the plan</string>
+    <plurals name="use_it_up_card">
+        <item quantity="one">%d item goes off soon</item>
+        <item quantity="other">%d items go off soon</item>
+    </plurals>
+
+    <!-- When plans change (M6.5) -->
+    <string name="today_eat_out">I\'m eating out</string>
+    <string name="today_eat_out_box">Eating out: what about the box?</string>
+    <string name="today_eat_out_keep">Keep it in the fridge for now</string>
+
+    <!-- Check-in and the plan (M6.6) -->
+    <string name="checkin_resize">Update them</string>
+    <plurals name="checkin_resize_offer">
+        <item quantity="one">%d planned meal this week is not cooked yet. Size it for the new target?</item>
+        <item quantity="other">%d planned meals this week are not cooked yet. Size them for the new target?</item>
+    </plurals>
+    <plurals name="checkin_resized">
+        <item quantity="one">%d meal now uses the new target.</item>
+        <item quantity="other">%d meals now use the new target.</item>
+    </plurals>
 </resources>

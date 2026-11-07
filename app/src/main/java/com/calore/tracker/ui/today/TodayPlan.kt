@@ -134,29 +134,39 @@ class TodayPlanViewModel(
         return box.storage == Storage.FREEZER || !day.isAfter(box.eatByDate)
     }
 
-    fun move(meal: PlannedMeal, day: LocalDate) {
+    /** [eatOut]: M6.5, the meal becomes "eat out" after its box is taken care of. */
+    fun move(meal: PlannedMeal, day: LocalDate, eatOut: Boolean = false) {
         val box = meal.box ?: return
         viewModelScope.launch {
             cooking.move(box.box, day, meal.slot.meal)
-            plans.freeSlot(meal.slot.id)
+            freeOrEatOut(meal, eatOut)
             plans.planBox(day, meal.slot.meal, meal.slot.memberId, meal.slot.recipeId, meal.slot.target, box.box.id)
         }
     }
 
-    fun freeze(meal: PlannedMeal) {
+    fun freeze(meal: PlannedMeal, eatOut: Boolean = false) {
         val box = meal.box ?: return
         viewModelScope.launch {
-            if (cooking.freeze(box.box)) plans.freeSlot(meal.slot.id)
+            if (cooking.freeze(box.box)) freeOrEatOut(meal, eatOut)
         }
     }
 
-    fun give(meal: PlannedMeal, person: Member) {
+    fun give(meal: PlannedMeal, person: Member, eatOut: Boolean = false) {
         val box = meal.box ?: return
         viewModelScope.launch {
             cooking.giveTo(box.box, person.id)
-            plans.freeSlot(meal.slot.id)
+            freeOrEatOut(meal, eatOut)
             plans.planBox(meal.slot.date, meal.slot.meal, person.id, meal.slot.recipeId, person.mealTarget(meal.slot.meal), box.box.id)
         }
+    }
+
+    /** M6.5 "I'm eating out": the meal is eaten out; a box stays in the fridge until moved, frozen or given. */
+    fun eatOut(meal: PlannedMeal) {
+        viewModelScope.launch { plans.eatOut(meal.slot.id) }
+    }
+
+    private suspend fun freeOrEatOut(meal: PlannedMeal, eatOut: Boolean) {
+        if (eatOut) plans.eatOut(meal.slot.id) else plans.freeSlot(meal.slot.id)
     }
 }
 
@@ -173,6 +183,7 @@ fun PlannedTodayCard(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val resources = LocalResources.current
     var skipping by remember { mutableStateOf<PlannedMeal?>(null) }
+    var eatingOut by remember { mutableStateOf(false) }
     LaunchedEffect(viewModel) {
         viewModel.eaten.collect { (eaten, code) ->
             val result = snackbarHostState.showSnackbar(
@@ -188,15 +199,40 @@ fun PlannedTodayCard(
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(R.string.today_planned), style = MaterialTheme.typography.titleMedium)
             state.meals.forEach { meal ->
-                PlannedRow(meal, onEat = { viewModel.eat(meal) }, onSkip = { skipping = meal }, onOpenRecipe = onOpenRecipe, onQuickAdd = onQuickAdd)
+                PlannedRow(
+                    meal,
+                    onEat = { viewModel.eat(meal) },
+                    onSkip = {
+                        eatingOut = false
+                        skipping = meal
+                    },
+                    onEatOut = {
+                        // A filled box needs a new plan (M6.5); otherwise the meal just becomes "eat out".
+                        if (meal.box != null) {
+                            eatingOut = true
+                            skipping = meal
+                        } else {
+                            viewModel.eatOut(meal)
+                        }
+                    },
+                    onOpenRecipe = onOpenRecipe,
+                    onQuickAdd = onQuickAdd,
+                )
             }
         }
     }
-    skipping?.let { meal -> SkipDialog(meal, state, viewModel, onDone = { skipping = null }) }
+    skipping?.let { meal -> SkipDialog(meal, state, viewModel, eatOut = eatingOut, onDone = { skipping = null }) }
 }
 
 @Composable
-private fun PlannedRow(meal: PlannedMeal, onEat: () -> Unit, onSkip: () -> Unit, onOpenRecipe: (String) -> Unit, onQuickAdd: (com.calore.tracker.domain.MealType) -> Unit) {
+private fun PlannedRow(
+    meal: PlannedMeal,
+    onEat: () -> Unit,
+    onSkip: () -> Unit,
+    onEatOut: () -> Unit,
+    onOpenRecipe: (String) -> Unit,
+    onQuickAdd: (com.calore.tracker.domain.MealType) -> Unit,
+) {
     var menu by remember { mutableStateOf(false) }
     val mealName = stringResource(meal.slot.meal.labelRes())
     val name = meal.recipeName.orEmpty()
@@ -214,11 +250,19 @@ private fun PlannedRow(meal: PlannedMeal, onEat: () -> Unit, onSkip: () -> Unit,
         }
         when {
             meal.slot.done -> Text(stringResource(R.string.box_ate_it), color = MaterialTheme.colorScheme.primary)
-            meal.slot.kind == SlotKind.BOX && meal.box != null -> {
-                TextButton(onClick = onEat) { Text(stringResource(R.string.box_ate_it)) }
-                Box {
-                    IconButton(onClick = { menu = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.more_options)) }
-                    DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+            meal.slot.kind == SlotKind.BOX && meal.box != null -> TextButton(onClick = onEat) { Text(stringResource(R.string.box_ate_it)) }
+            meal.slot.kind == SlotKind.COOK_FRESH && meal.slot.recipeId != null -> TextButton(onClick = { onOpenRecipe(meal.slot.recipeId) }) { Text(stringResource(R.string.today_recipe)) }
+            meal.slot.kind == SlotKind.EAT_OUT -> TextButton(onClick = { onQuickAdd(meal.slot.meal) }) { Text(stringResource(R.string.quick_add_title)) }
+        }
+        if (!meal.slot.done && (meal.slot.kind == SlotKind.BOX || meal.slot.kind == SlotKind.COOK_FRESH)) {
+            Box {
+                IconButton(onClick = { menu = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.more_options)) }
+                DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                    DropdownMenuItem(text = { Text(stringResource(R.string.today_eat_out)) }, onClick = {
+                        menu = false
+                        onEatOut()
+                    })
+                    if (meal.box != null) {
                         DropdownMenuItem(text = { Text(stringResource(R.string.today_skip)) }, onClick = {
                             menu = false
                             onSkip()
@@ -226,36 +270,40 @@ private fun PlannedRow(meal: PlannedMeal, onEat: () -> Unit, onSkip: () -> Unit,
                     }
                 }
             }
-            meal.slot.kind == SlotKind.COOK_FRESH && meal.slot.recipeId != null -> TextButton(onClick = { onOpenRecipe(meal.slot.recipeId) }) { Text(stringResource(R.string.today_recipe)) }
-            meal.slot.kind == SlotKind.EAT_OUT -> TextButton(onClick = { onQuickAdd(meal.slot.meal) }) { Text(stringResource(R.string.quick_add_title)) }
         }
     }
 }
 
 /** Skip or move a planned box (M5.11): another day if the eat-by date allows, otherwise freeze it or give it away. */
 @Composable
-private fun SkipDialog(meal: PlannedMeal, state: TodayPlanState, viewModel: TodayPlanViewModel, onDone: () -> Unit) {
+private fun SkipDialog(meal: PlannedMeal, state: TodayPlanState, viewModel: TodayPlanViewModel, eatOut: Boolean, onDone: () -> Unit) {
     var picking by remember { mutableStateOf(false) }
     var tooLate by remember { mutableStateOf(false) }
     val box = meal.box?.box
     AlertDialog(
         onDismissRequest = onDone,
-        title = { Text(stringResource(R.string.today_skip)) },
+        title = { Text(stringResource(if (eatOut) R.string.today_eat_out_box else R.string.today_skip)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { picking = true }) { Text(stringResource(R.string.skip_move)) }
                 if (tooLate) Text(stringResource(R.string.skip_too_late), color = MaterialTheme.colorScheme.error)
                 if (box != null && box.storage == Storage.FRIDGE && Freshness.canFreeze(box.eatByDate, state.today)) {
                     OutlinedButton(onClick = {
-                        viewModel.freeze(meal)
+                        viewModel.freeze(meal, eatOut)
                         onDone()
                     }) { Text(stringResource(R.string.box_freeze)) }
                 }
                 state.others.forEach { person ->
                     OutlinedButton(onClick = {
-                        viewModel.give(meal, person)
+                        viewModel.give(meal, person, eatOut)
                         onDone()
                     }) { Text(stringResource(R.string.skip_give, person.name)) }
+                }
+                if (eatOut) {
+                    OutlinedButton(onClick = {
+                        viewModel.eatOut(meal)
+                        onDone()
+                    }) { Text(stringResource(R.string.today_eat_out_keep)) }
                 }
             }
         },
@@ -269,7 +317,7 @@ private fun SkipDialog(meal: PlannedMeal, state: TodayPlanState, viewModel: Toda
             onConfirm = { day ->
                 picking = false
                 if (viewModel.canMoveTo(meal, day)) {
-                    viewModel.move(meal, day)
+                    viewModel.move(meal, day, eatOut)
                     onDone()
                 } else {
                     tooLate = true

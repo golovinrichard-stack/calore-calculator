@@ -48,6 +48,10 @@ abstract class PlanDao {
     @Query("UPDATE plan_slots SET kind = 'FREE', recipeId = NULL, boxId = NULL, updatedAt = :now WHERE id = :slotId")
     abstract suspend fun freeSlot(slotId: String, now: Long)
 
+    /** M6.5: "I'm eating out": the meal is eaten out; its recipe and box are no longer planned for it. */
+    @Query("UPDATE plan_slots SET kind = 'EAT_OUT', recipeId = NULL, boxId = NULL, locked = 0, updatedAt = :now WHERE id = :slotId")
+    abstract suspend fun eatOut(slotId: String, now: Long)
+
     @Query("UPDATE plan_slots SET boxId = :boxId, updatedAt = :now WHERE id = :slotId")
     abstract suspend fun linkBox(slotId: String, boxId: String, now: Long)
 
@@ -56,6 +60,31 @@ abstract class PlanDao {
 
     @Query("SELECT * FROM plan_cooks WHERE planId = :planId AND ${SoftDelete.NOT_DELETED}")
     abstract fun observeCooks(planId: String): Flow<List<PlanCookEntity>>
+
+    @Query("SELECT * FROM plan_cooks WHERE planId = :planId AND ${SoftDelete.NOT_DELETED}")
+    abstract suspend fun cooks(planId: String): List<PlanCookEntity>
+
+    /** M6.3: planned cooks not cooked yet; an accepted plan replaces them. */
+    @Query("UPDATE plan_cooks SET deletedAt = :now, updatedAt = :now WHERE planId = :planId AND batchId IS NULL AND deletedAt IS NULL")
+    protected abstract suspend fun deletePlannedCooks(planId: String, now: Long)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    protected abstract suspend fun insertCooks(cooks: List<PlanCookEntity>)
+
+    @Query("UPDATE plans SET generatorSeed = :seed, updatedAt = :now WHERE id = :planId")
+    protected abstract suspend fun setSeed(planId: String, seed: Long, now: Long)
+
+    @Query("UPDATE plan_slots SET locked = :locked, updatedAt = :now WHERE id = :slotId")
+    abstract suspend fun setLocked(slotId: String, locked: Boolean, now: Long)
+
+    /** M6.3 **Accept**: the changed slots, the planned cooks and the planner's seed, in one transaction. */
+    @Transaction
+    open suspend fun accept(planId: String, slots: List<PlanSlotEntity>, cooks: List<PlanCookEntity>, seed: Long, now: Long) {
+        upsertSlots(slots)
+        deletePlannedCooks(planId, now)
+        insertCooks(cooks)
+        setSeed(planId, seed, now)
+    }
 
     @Query("UPDATE plan_slots SET deletedAt = :now, updatedAt = :now WHERE planId = :planId AND deletedAt IS NULL")
     protected abstract suspend fun deleteSlotsOf(planId: String, now: Long)

@@ -34,6 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import com.calore.tracker.domain.plan.UseItUp
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Card
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.PantryEntry
 import com.calore.tracker.data.repository.PantryRepository
@@ -111,6 +115,7 @@ fun PantryContent(
     onAddingDone: () -> Unit,
     scannedFoodId: Long?,
     onScannedFoodUsed: () -> Unit,
+    onUseItUp: () -> Unit = {},
     viewModel: PantryViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val entries by viewModel.entries.collectAsStateWithLifecycle()
@@ -129,6 +134,18 @@ fun PantryContent(
     LaunchedEffect(adding) { if (adding) viewModel.picker.onQueryChange("") }
 
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 96.dp)) {
+        // M6.4: food that goes off within 4 days, and recipes to use it up.
+        val expiring = UseItUp.expiring(entries.map { it.item }, today).size
+        if (expiring > 0) {
+            item(key = "use_it_up") {
+                Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    Row(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(pluralStringResource(R.plurals.use_it_up_card, expiring, expiring), modifier = Modifier.weight(1f))
+                        TextButton(onClick = onUseItUp) { Text(stringResource(R.string.use_it_up_title)) }
+                    }
+                }
+            }
+        }
         if (entries.isEmpty()) {
             item(key = "empty") { Text(stringResource(R.string.pantry_empty), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(16.dp)) }
         }

@@ -87,6 +87,7 @@ import java.time.ZoneId
 fun KitchenScreen(
     onOpenWaste: () -> Unit,
     onScanForPantry: () -> Unit = {},
+    onUseItUp: () -> Unit = {},
     scannedFoodId: Long? = null,
     onScannedFoodUsed: () -> Unit = {},
     viewModel: KitchenViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -153,6 +154,7 @@ fun KitchenScreen(
                     onAddingDone = { addingToPantry = false },
                     scannedFoodId = scannedFoodId,
                     onScannedFoodUsed = onScannedFoodUsed,
+                    onUseItUp = onUseItUp,
                 )
             }
             return@Scaffold

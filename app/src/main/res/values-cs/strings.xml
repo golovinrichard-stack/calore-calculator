@@ -906,4 +906,100 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="rate_like">Chutná mi</string>
     <string name="rate_dislike">Nechutná mi</string>
     <string name="rate_your_rating">Chutná ti?</string>
+
+    <!-- Plan my week (M6.3) -->
+    <string name="close">Zavřít</string>
+    <string name="plan_week_title">Naplánuj můj týden</string>
+    <string name="plan_week_button">Naplánuj můj týden</string>
+    <string name="plan_week_replan_rest">Přeplánovat zbytek týdne</string>
+    <string name="plan_week_planning">Plánuji…</string>
+    <string name="plan_week_saving">Ukládám…</string>
+    <string name="plan_week_next">Příští týden</string>
+    <string name="plan_checklist_title">Plánování funguje lépe, když ví:</string>
+    <string name="plan_checklist_optional">Vše je nepovinné. Můžeš to doplnit později v Já → Profil.</string>
+    <string name="plan_checklist_fill">Doplnit profil</string>
+    <string name="plan_pref_allergens">Tvoje alergie</string>
+    <string name="plan_pref_liked">Co ti chutná</string>
+    <string name="plan_pref_disliked">Co ti nechutná</string>
+    <string name="plan_pref_cuisines">Oblíbené kuchyně</string>
+    <string name="plan_pref_equipment">Vybavení tvé kuchyně</string>
+    <string name="plan_pref_budget">Týdenní rozpočet na jídlo</string>
+    <string name="plan_pref_cook_days">Dny, kdy vaříš</string>
+    <string name="plan_replan_title">Tento týden už má plán</string>
+    <string name="plan_replan_text">Snědená jídla, uvařené krabičky, zamčená jídla a jídla venku zůstanou, jak jsou. Zbytek se naplánuje znovu.</string>
+    <string name="plan_replan_go">Naplánovat zbytek</string>
+    <string name="plan_regenerate">Znovu</string>
+    <string name="plan_accept">Přijmout</string>
+    <string name="plan_shopping_estimate">Nákup: asi %1$s Kč</string>
+    <string name="plan_lock_hint">Klepni na jídlo a uvidíš, proč bylo vybráno, nebo ho vyměníš. Zamčená jídla při opakování zůstanou.</string>
+    <string name="plan_session_minutes">%1$s · asi %2$d min vaření</string>
+    <string name="plan_cook_line">%1$s × %2$d · %3$s g</string>
+    <string name="plan_no_recipe">Žádný vhodný recept</string>
+    <string name="plan_kept">Zůstává</string>
+    <string name="plan_lock">Zamknout</string>
+    <string name="plan_unlock">Odemknout</string>
+    <string name="plan_swap_title">Jiné recepty na toto jídlo</string>
+    <string name="plan_swap_none">Žádný jiný recept se sem nehodí.</string>
+    <string name="plan_reason_rated">Chutná ti</string>
+    <string name="plan_reason_liked">Obsahuje oblíbené suroviny</string>
+    <string name="plan_reason_cuisine">Oblíbená kuchyně</string>
+    <string name="plan_reason_cuisine_named">%1$s – oblíbená kuchyně</string>
+    <string name="plan_reason_protein">Bílkoviny sedí na tvůj cíl</string>
+    <string name="plan_reason_cheap">Levné</string>
+    <string name="plan_reason_pantry">Spotřebuje %1$s, než se zkazí</string>
+    <string name="plan_reason_phase">Hodí se k tvému cyklu</string>
+    <string name="plan_reason_freezes">Dá se zamrazit</string>
+    <plurals name="plan_unpriced">
+        <item quantity="one">%d položka zatím nemá cenu</item>
+        <item quantity="few">%d položky zatím nemají cenu</item>
+        <item quantity="many">%d položky zatím nemá cenu</item>
+        <item quantity="other">%d položek zatím nemá cenu</item>
+    </plurals>
+    <plurals name="plan_frozen">
+        <item quantity="one">%d krabička půjde do mrazáku</item>
+        <item quantity="few">%d krabičky půjdou do mrazáku</item>
+        <item quantity="many">%d krabičky půjde do mrazáku</item>
+        <item quantity="other">%d krabiček půjde do mrazáku</item>
+    </plurals>
+    <plurals name="plan_unplanned">
+        <item quantity="one">%d jídlo nemá vhodný recept</item>
+        <item quantity="few">%d jídla nemají vhodný recept</item>
+        <item quantity="many">%d jídla nemá vhodný recept</item>
+        <item quantity="other">%d jídel nemá vhodný recept</item>
+    </plurals>
+    <string name="plan_regenerate_hint">Po změně profilu klepni na Znovu.</string>
+
+    <!-- Use it up (M6.4) -->
+    <string name="use_it_up_title">Spotřebuj to</string>
+    <string name="use_it_up_empty">Ve spíži se v příštích 4 dnech nic nezkazí.</string>
+    <string name="use_it_up_no_recipes">Zatím to nepoužívá žádný recept.</string>
+    <string name="use_it_up_add">Přidat do plánu</string>
+    <string name="use_it_up_add_hint">Naplánuje se jako vaření čerstvě, pro tebe a lidi, pro které vaříš a kteří to mohou jíst.</string>
+    <string name="use_it_up_added">Přidáno do plánu</string>
+    <plurals name="use_it_up_card">
+        <item quantity="one">%d věc se brzy zkazí</item>
+        <item quantity="few">%d věci se brzy zkazí</item>
+        <item quantity="many">%d věci se brzy zkazí</item>
+        <item quantity="other">%d věcí se brzy zkazí</item>
+    </plurals>
+
+    <!-- When plans change (M6.5) -->
+    <string name="today_eat_out">Jím venku</string>
+    <string name="today_eat_out_box">Jíš venku: co s krabičkou?</string>
+    <string name="today_eat_out_keep">Zatím nechat v lednici</string>
+
+    <!-- Check-in and the plan (M6.6) -->
+    <string name="checkin_resize">Upravit</string>
+    <plurals name="checkin_resize_offer">
+        <item quantity="one">%d naplánované jídlo tento týden ještě není uvařené. Upravit ho na nový cíl?</item>
+        <item quantity="few">%d naplánovaná jídla tento týden ještě nejsou uvařená. Upravit je na nový cíl?</item>
+        <item quantity="many">%d naplánovaného jídla tento týden ještě není uvařeno. Upravit je na nový cíl?</item>
+        <item quantity="other">%d naplánovaných jídel tento týden ještě není uvařeno. Upravit je na nový cíl?</item>
+    </plurals>
+    <plurals name="checkin_resized">
+        <item quantity="one">%d jídlo teď počítá s novým cílem.</item>
+        <item quantity="few">%d jídla teď počítají s novým cílem.</item>
+        <item quantity="many">%d jídla teď počítá s novým cílem.</item>
+        <item quantity="other">%d jídel teď počítá s novým cílem.</item>
+    </plurals>
 </resources>

@@ -14,6 +14,8 @@ import com.calore.tracker.domain.RecipeNutrition
 import com.calore.tracker.domain.RecipeStep
 import com.calore.tracker.domain.Recipes
 import com.calore.tracker.domain.newId
+import com.calore.tracker.domain.plan.PlannerRecipe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.Clock
@@ -55,6 +57,14 @@ class RecipeRepository(
                 steps = emptyList(),
                 foods = own.mapNotNull { i -> foodsByUuid[i.foodUuid]?.let { i.foodUuid to it } }.toMap(),
             )
+        }
+    }
+
+    /** Every live recipe as the planner sees it (M6), with [prices] per gram by food (A18). */
+    suspend fun forPlanner(prices: Map<String, Double>): List<PlannerRecipe> {
+        val minutes = recipeDao.activeMinutes().associate { it.recipeId to it.minutes }
+        return observeAll().first().map { d ->
+            PlannerRecipe.of(d.recipe, d.ingredients, d.foods, emptyList(), prices).copy(activeMinutes = minutes[d.recipe.id] ?: 0)
         }
     }
 

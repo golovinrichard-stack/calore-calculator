@@ -44,6 +44,8 @@ data class AppSettings(
     val thawReminders: Boolean = false,
     /** The week plan asked how often the user wants to cook (M5.2). */
     val cookingAsked: Boolean = false,
+    /** "Plan my week" showed the checklist of missing preferences (M6.1). */
+    val plannerPrefsAsked: Boolean = false,
     /** Seed versions of the shops and the owner's products (M5.6); 0 = never imported. */
     val storesSeedVersion: Int = 0,
     val productsSeedVersion: Int = 0,
@@ -76,6 +78,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 freshnessReminders = prefs[FRESHNESS_REMINDERS] ?: false,
                 thawReminders = prefs[THAW_REMINDERS] ?: false,
                 cookingAsked = prefs[COOKING_ASKED] ?: false,
+                plannerPrefsAsked = prefs[PLANNER_PREFS_ASKED] ?: false,
                 storesSeedVersion = prefs[STORES_SEED_VERSION] ?: 0,
                 productsSeedVersion = prefs[PRODUCTS_SEED_VERSION] ?: 0,
             )
@@ -133,6 +136,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[COOKING_ASKED] = true }
     }
 
+    suspend fun setPlannerPrefsAsked() {
+        dataStore.edit { it[PLANNER_PREFS_ASKED] = true }
+    }
+
     suspend fun setThawReminders(on: Boolean) {
         dataStore.edit { it[THAW_REMINDERS] = on }
     }
@@ -171,6 +178,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val FRESHNESS_REMINDERS = booleanPreferencesKey("freshness_reminders")
         private val THAW_REMINDERS = booleanPreferencesKey("thaw_reminders")
         private val COOKING_ASKED = booleanPreferencesKey("cooking_asked")
+        private val PLANNER_PREFS_ASKED = booleanPreferencesKey("planner_prefs_asked")
         private val STORES_SEED_VERSION = intPreferencesKey("stores_seed_version")
         private val PRODUCTS_SEED_VERSION = intPreferencesKey("products_seed_version")
     }

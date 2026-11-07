@@ -14,6 +14,7 @@ object Routes {
     const val ARG_RECIPE_IDS = "recipeIds"
     const val ARG_MEMBER_ID = "memberId"
     const val ARG_PLAN_DATE = "planDate"
+    const val ARG_WEEK_START = "weekStart"
 
     /** Where a picked food's row id goes back to the screen below (the recipe editor). */
     const val RESULT_PICKED_FOOD_ID = "picked_food_id"
@@ -40,6 +41,8 @@ object Routes {
     const val WASTE = "waste"
     const val COOK = "cook?$ARG_RECIPE_ID={$ARG_RECIPE_ID}&$ARG_PLAN_DATE={$ARG_PLAN_DATE}"
     const val COOK_MODE = "cook_mode/{$ARG_RECIPE_IDS}"
+    const val PLAN_WEEK = "plan_week/{$ARG_WEEK_START}"
+    const val USE_IT_UP = "use_it_up"
     const val PEOPLE = "people"
     const val SHOPS = "shops"
     const val SHOP = "shop"
@@ -63,6 +66,9 @@ object Routes {
     fun cookMode(recipeIds: List<String>) = "cook_mode/${recipeIds.joinToString(",")}"
 
     fun cook(recipeId: String? = null) = if (recipeId == null) "cook" else "cook?$ARG_RECIPE_ID=$recipeId"
+
+    /** M6.3: "Plan my week" for the week that starts on [weekStart]. */
+    fun planWeek(weekStart: LocalDate) = "plan_week/$weekStart"
 
     /** M5.4: cook everything the plan needs on [date]. */
     fun cookFromPlan(date: LocalDate) = "cook?$ARG_PLAN_DATE=$date"

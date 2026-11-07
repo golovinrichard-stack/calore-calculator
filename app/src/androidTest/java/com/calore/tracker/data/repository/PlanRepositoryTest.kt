@@ -114,4 +114,39 @@ class PlanRepositoryTest {
         assertEquals(setOf(later, later.plusDays(2)), plans.slots(plans.planFor(later)).first().map { it.date }.toSet())
         assertEquals("nothing before an empty week", 0, plans.repeatLastWeek(monday.plusWeeks(10)))
     }
+
+    @Test
+    fun eatingOutClearsTheRecipeAndTheBox() = runTest {
+        val me = members.ensureMe()
+        val planId = plans.planFor(monday)
+        plans.setSlot(planId, monday, MealType.DINNER, me.id, SlotKind.BOX, "curry", me.mealTarget(MealType.DINNER))
+        val slot = plans.slots(planId).first().single()
+        plans.linkBoxes(listOf(slot.id to "box-1"))
+        plans.eatOut(slot.id)
+        val after = plans.slots(planId).first().single()
+        assertEquals(SlotKind.EAT_OUT, after.kind)
+        assertEquals(null, after.recipeId)
+        assertEquals(null, after.boxId)
+    }
+
+    @Test
+    fun aNewTargetResizesOnlyMealsNotCookedOrEatenYet() = runTest {
+        val old = members.updateMe { it.copy(targets = NutritionGoals(2400, 160, 260, 80)) }
+        val planId = plans.planFor(monday)
+        for (day in 0L..2L) plans.setSlot(planId, monday.plusDays(day), MealType.LUNCH, old.id, SlotKind.COOK_FRESH, "chili", old.mealTarget(MealType.LUNCH))
+        plans.setSlot(planId, monday, MealType.DINNER, old.id, SlotKind.EAT_OUT, null, old.mealTarget(MealType.DINNER))
+        // Tuesday's lunch is already in a box.
+        val tuesday = plans.slots(planId).first().single { it.date == monday.plusDays(1) && it.meal == MealType.LUNCH }
+        plans.linkBoxes(listOf(tuesday.id to "box-1"))
+
+        val me = members.updateMe { it.copy(targets = NutritionGoals(2000, 150, 200, 70)) }
+        val resizable = plans.retargetable(me, monday)
+        assertEquals(listOf(monday, monday.plusDays(2)), resizable.map { it.date }.sorted())
+        plans.retarget(me, resizable)
+        val slots = plans.slots(planId).first()
+        val newLunch = Math.round(me.mealTarget(MealType.LUNCH)!!.kcal).toDouble()
+        assertEquals(newLunch, slots.single { it.date == monday && it.meal == MealType.LUNCH }.target!!.kcal, 0.0)
+        assertEquals(Math.round(old.mealTarget(MealType.LUNCH)!!.kcal).toDouble(), slots.single { it.id == tuesday.id }.target!!.kcal, 0.0)
+        assertEquals(emptyList<Any>(), plans.retargetable(me, monday))
+    }
 }
