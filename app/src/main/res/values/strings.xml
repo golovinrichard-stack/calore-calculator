@@ -858,4 +858,12 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="stats_legend_wasted">Thrown away</string>
     <string name="stats_previous">Previous month</string>
     <string name="stats_next">Next month</string>
+    <string name="today_planned">Planned</string>
+    <string name="today_box_not_filled">%1$s: the box is not filled yet</string>
+    <string name="today_cook">Cook: %1$s</string>
+    <string name="today_recipe">Recipe</string>
+    <string name="today_skip">Skip or move</string>
+    <string name="skip_move">Move to another day</string>
+    <string name="skip_too_late">That day is after the eat-by date. Freeze the box, or give it to someone else.</string>
+    <string name="skip_give">Give to %1$s</string>
 </resources>

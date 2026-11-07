@@ -90,5 +90,16 @@ class PlanToPotTest {
         assertTrue(plans.slots(planId).first().single { it.boxId == view.box.id }.done)
         cooking.undoEat(eaten)
         assertFalse(plans.slots(planId).first().single { it.boxId == view.box.id }.done)
+
+        // M5.11: moving the box a day later frees its old slot and plans it on the new day.
+        val oldSlot = plans.slots(planId).first().single { it.boxId == view.box.id }
+        val newDay = oldSlot.date.plusDays(1)
+        cooking.move(view.box, newDay, oldSlot.meal)
+        plans.freeSlot(oldSlot.id)
+        plans.planBox(newDay, oldSlot.meal, oldSlot.memberId, oldSlot.recipeId, oldSlot.target, view.box.id)
+        val slots = plans.slots(planId).first()
+        assertEquals(SlotKind.FREE, slots.single { it.id == oldSlot.id }.kind)
+        assertEquals(view.box.id, slots.single { it.date == newDay && it.meal == oldSlot.meal }.boxId)
+        assertEquals(newDay, cooking.activeBoxes().first().single { it.box.id == view.box.id }.box.plannedDate)
     }
 }

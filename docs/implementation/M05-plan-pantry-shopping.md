@@ -113,8 +113,10 @@ As built: money spent counts ticked items with a price, also after "Clear ticked
 
 ### M5.11 Today, and when plans change
 
-- [ ] Today shows the planned meals: box slots with **Ate it** (M4.7), cook-fresh slots with a link to the recipe, eat-out slots with **Quick add**.
-- [ ] **Skip / move** a planned box: move it to another day if its eat-by date allows; otherwise suggest freezing it (if it isn't past its date) or offer it to another person.
+- [x] Today shows the planned meals: box slots with **Ate it** (M4.7), cook-fresh slots with a link to the recipe, eat-out slots with **Quick add**.
+- [x] **Skip / move** a planned box: move it to another day if its eat-by date allows; otherwise suggest freezing it (if it isn't past its date) or offer it to another person.
+
+As built (M5.11): Today shows the phone's user's planned meals for the shown day. Moving a box frees its old slot and plans it on the new day (in that week's plan); a fridge box can only move up to its eat-by date, otherwise the dialog offers to freeze it or give it to one of the people I cook for (their slot gets the box with their meal target).
 
 ## Out of scope
 

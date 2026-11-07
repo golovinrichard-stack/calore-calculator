@@ -45,6 +45,9 @@ abstract class PlanDao {
     @Query("UPDATE plan_slots SET deletedAt = :now, updatedAt = :now WHERE id = :id")
     abstract suspend fun deleteSlot(id: String, now: Long)
 
+    @Query("UPDATE plan_slots SET kind = 'FREE', recipeId = NULL, boxId = NULL, updatedAt = :now WHERE id = :slotId")
+    abstract suspend fun freeSlot(slotId: String, now: Long)
+
     @Query("UPDATE plan_slots SET boxId = :boxId, updatedAt = :now WHERE id = :slotId")
     abstract suspend fun linkBox(slotId: String, boxId: String, now: Long)
 

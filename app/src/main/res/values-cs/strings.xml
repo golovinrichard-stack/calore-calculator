@@ -891,4 +891,12 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="stats_legend_wasted">Vyhozeno</string>
     <string name="stats_previous">Předchozí měsíc</string>
     <string name="stats_next">Další měsíc</string>
+    <string name="today_planned">Naplánováno</string>
+    <string name="today_box_not_filled">%1$s: krabička ještě není naplněná</string>
+    <string name="today_cook">Uvařit: %1$s</string>
+    <string name="today_recipe">Recept</string>
+    <string name="today_skip">Přeskočit nebo přesunout</string>
+    <string name="skip_move">Přesunout na jiný den</string>
+    <string name="skip_too_late">Ten den je po datu, do kdy se má sníst. Krabičku zamrazte, nebo ji dejte někomu jinému.</string>
+    <string name="skip_give">Dát: %1$s</string>
 </resources>

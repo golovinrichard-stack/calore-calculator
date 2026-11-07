@@ -59,6 +59,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
@@ -90,6 +91,7 @@ import kotlin.math.abs
 @Composable
 fun TodayScreen(
     onAddFood: (LocalDate, MealType) -> Unit,
+    onOpenRecipe: (String) -> Unit = {},
     viewModel: TodayViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -135,6 +137,18 @@ fun TodayScreen(
             onChangeBirthDate = { changingBirthDate = true },
             eatFirst = if (state.date == state.today) {
                 { EatFirst(snackbarHostState) }
+            } else {
+                null
+            },
+            planned = if (FeatureFlags.weekPlan) {
+                {
+                    PlannedTodayCard(
+                        date = state.date,
+                        snackbarHostState = snackbarHostState,
+                        onOpenRecipe = onOpenRecipe,
+                        onQuickAdd = { meal -> onAddFood(state.date, meal) },
+                    )
+                }
             } else {
                 null
             },
@@ -221,6 +235,8 @@ fun TodayContent(
     onChangeBirthDate: () -> Unit = {},
     /** Today's "Eat first" card (M4.9), when there are boxes. */
     eatFirst: (@Composable () -> Unit)? = null,
+    /** The day's planned meals (M5.11). */
+    planned: (@Composable () -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -240,6 +256,7 @@ fun TodayContent(
                 BirthDateCard(birthDate = birthDate, onConfirm = onConfirmBirthDate, onChange = onChangeBirthDate)
             }
         }
+        planned?.let { card -> item(key = "planned") { card() } }
         eatFirst?.let { card -> item(key = "eat_first") { card() } }
         item(key = "summary") {
             if (state.hideNumbers) {

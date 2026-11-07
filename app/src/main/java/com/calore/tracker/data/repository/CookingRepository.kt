@@ -227,6 +227,11 @@ class CookingRepository(
         cookingDao.updateBox(box.copy(state = BoxState.WASTED, wastedReason = reason, updatedAt = clock.millis()).toEntity())
     }
 
+    /** M5.11: the box goes to someone else. */
+    suspend fun giveTo(box: Box, memberId: String?) {
+        cookingDao.updateBox(box.copy(ownerMemberId = memberId, updatedAt = clock.millis()).toEntity())
+    }
+
     suspend fun move(box: Box, date: LocalDate?, meal: MealType?) {
         cookingDao.updateBox(box.copy(plannedDate = date, plannedMeal = meal, updatedAt = clock.millis()).toEntity())
     }

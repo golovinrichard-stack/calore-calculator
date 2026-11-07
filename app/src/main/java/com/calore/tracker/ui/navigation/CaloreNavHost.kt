@@ -138,7 +138,10 @@ fun CaloreNavHost(
                 )
             }
             composable(Routes.DIARY) {
-                TodayScreen(onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) })
+                TodayScreen(
+                    onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) },
+                    onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
+                )
             }
             composable(Routes.ADD_FOOD, arguments = dateAndMealArgs) {
                 AddFoodScreen(

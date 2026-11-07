@@ -58,6 +58,16 @@ class PlanRepository(private val planDao: PlanDao, private val clock: Clock) {
 
     suspend fun clearSlot(slotId: String) = planDao.deleteSlot(slotId, clock.millis())
 
+    /** M5.11: the meal no longer eats its box (it moved, was frozen or given away). */
+    suspend fun freeSlot(slotId: String) = planDao.freeSlot(slotId, clock.millis())
+
+    /** M5.11: plans [boxId] for [memberId] on [date] and [meal] (in that week's plan) and links it. */
+    suspend fun planBox(date: LocalDate, meal: MealType, memberId: String, recipeId: String?, target: MealTarget?, boxId: String) {
+        val planId = planFor(date)
+        setSlot(planId, date, meal, memberId, SlotKind.BOX, recipeId, target)
+        planDao.slot(planId, date.toString(), meal.name, memberId)?.let { planDao.linkBox(it.id, boxId, clock.millis()) }
+    }
+
     /** M5.4: the boxes filled for these slots. */
     suspend fun linkBoxes(slotToBox: List<Pair<String, String>>) {
         val now = clock.millis()
