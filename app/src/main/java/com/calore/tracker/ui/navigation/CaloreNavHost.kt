@@ -42,6 +42,7 @@ import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PeopleScreen
 import com.calore.tracker.ui.shop.ShopsScreen
 import com.calore.tracker.ui.shop.ShoppingScreen
+import com.calore.tracker.ui.shop.StatsScreen
 import com.calore.tracker.FeatureFlags
 import com.calore.tracker.ui.kitchen.PersonScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
@@ -218,6 +219,7 @@ fun CaloreNavHost(
                             MeDestination.SETTINGS -> Routes.SETTINGS
                             MeDestination.ABOUT -> Routes.ABOUT
                             MeDestination.PEOPLE -> Routes.PEOPLE
+                            MeDestination.STATS -> Routes.STATS
                         }
                         navController.navigate(route)
                     },
@@ -289,6 +291,7 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.SHOPS) { ShopsScreen(onBack = { navController.popBackStack() }) }
     if (FeatureFlags.weekPlan) {
+        composable(Routes.STATS) { StatsScreen(onBack = { navController.popBackStack() }) }
         composable(Routes.SHOP) { entry ->
             val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
             ShoppingScreen(

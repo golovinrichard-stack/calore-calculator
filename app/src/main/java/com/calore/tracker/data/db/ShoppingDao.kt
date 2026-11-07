@@ -18,6 +18,10 @@ abstract class ShoppingDao {
     @Query("SELECT * FROM shopping_items WHERE ${SoftDelete.NOT_DELETED}")
     abstract suspend fun items(): List<ShoppingItemEntity>
 
+    /** Everything bought with a price, cleared from the list or not (M5.9). */
+    @Query("SELECT * FROM shopping_items WHERE checkedAt IS NOT NULL AND priceHalers IS NOT NULL")
+    abstract fun observeBought(): Flow<List<ShoppingItemEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(item: ShoppingItemEntity)
 

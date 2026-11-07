@@ -43,6 +43,7 @@ object Routes {
     const val PEOPLE = "people"
     const val SHOPS = "shops"
     const val SHOP = "shop"
+    const val STATS = "stats"
     const val PERSON = "person?$ARG_MEMBER_ID={$ARG_MEMBER_ID}"
     const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
     const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"

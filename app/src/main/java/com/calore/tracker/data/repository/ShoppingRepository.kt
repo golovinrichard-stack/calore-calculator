@@ -107,6 +107,13 @@ class ShoppingRepository(
         return rows.size
     }
 
+    /** What was bought with a price: the day, the price, the product (M5.9). */
+    fun bought(): Flow<List<Triple<LocalDate, Long, String?>>> = shoppingDao.observeBought().map { rows ->
+        rows.map { row -> Triple(dayOf(row.checkedAt!!), row.priceHalers!!, row.storeProductId) }
+    }
+
+    private fun dayOf(millis: Long): LocalDate = java.time.Instant.ofEpochMilli(millis).atZone(clock.zone).toLocalDate()
+
     suspend fun addManual(name: String, section: ShopSection = ShopSection.OTHER, storeId: String? = null) {
         val now = clock.millis()
         shoppingDao.insert(

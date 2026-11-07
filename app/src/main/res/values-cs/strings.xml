@@ -874,4 +874,21 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="week_over_budget">To je víc než váš týdenní rozpočet %1$s Kč.</string>
     <string name="product_prices">Ceny</string>
     <string name="product_add_price">Přidat cenu</string>
+    <string name="stats_title">Statistiky</string>
+    <string name="stats_desc">Plýtvání a peníze po měsících</string>
+    <plurals name="stats_wasted">
+        <item quantity="one">Vyhozena %1$d krabička · %2$s kcal</item>
+        <item quantity="few">Vyhozeny %1$d krabičky · %2$s kcal</item>
+        <item quantity="many">Vyhozeno %1$d krabičky · %2$s kcal</item>
+        <item quantity="other">Vyhozeno %1$d krabiček · %2$s kcal</item>
+    </plurals>
+    <string name="stats_wasted_money">Vyhozené peníze: %1$s Kč</string>
+    <string name="stats_spent">Utraceno: %1$s Kč</string>
+    <string name="stats_per_day">Na den: %1$s Kč</string>
+    <string name="stats_cheapest_protein">Nejlevnější bílkoviny, které jste koupili</string>
+    <string name="stats_chart">Utraceno a vyhozeno za posledních 6 měsíců</string>
+    <string name="stats_legend_spent">Utraceno</string>
+    <string name="stats_legend_wasted">Vyhozeno</string>
+    <string name="stats_previous">Předchozí měsíc</string>
+    <string name="stats_next">Další měsíc</string>
 </resources>

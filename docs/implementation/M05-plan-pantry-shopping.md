@@ -102,8 +102,10 @@ As built: a food's price per gram is its preferred product's latest price, other
 
 ### M5.9 Statistics: waste and money
 
-- [ ] Me → **Stats**, per month: boxes and calories thrown away, money thrown away, money spent, average cost per day, and your cheapest protein sources (cost per 100 g protein, from what you bought).
-- [ ] Simple bar charts in the same style as the weight chart.
+- [x] Me → **Stats**, per month: boxes and calories thrown away, money thrown away, money spent, average cost per day, and your cheapest protein sources (cost per 100 g protein, from what you bought).
+- [x] Simple bar charts in the same style as the weight chart.
+
+As built: money spent counts ticked items with a price, also after "Clear ticked items". Money thrown away counts boxes (their cost × the part left) and pantry items (their cost follows the amount left after cooking took some). The cheapest protein list uses products that were bought with a price.
 
 ### M5.10 Share the list as text
 

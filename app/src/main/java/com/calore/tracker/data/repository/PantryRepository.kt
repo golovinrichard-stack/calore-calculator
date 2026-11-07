@@ -29,6 +29,9 @@ class PantryRepository(private val pantryDao: PantryDao, private val foodDao: Fo
         rows.mapNotNull { it.toDomain() }.map { PantryEntry(it, it.foodUuid?.let { uuid -> foodDao.getByUuid(uuid)?.toDomain() }) }
     }
 
+    /** The day an item was changed last, which for a wasted item is when it was thrown away. */
+    fun dayOf(item: PantryItem): LocalDate = java.time.Instant.ofEpochMilli(item.updatedAt).atZone(clock.zone).toLocalDate()
+
     fun wasted(): Flow<List<PantryItem>> = pantryDao.observeWasted().map { rows -> rows.mapNotNull { it.toDomain() } }
 
     /**
@@ -95,7 +98,9 @@ class PantryRepository(private val pantryDao: PantryDao, private val foodDao: Fo
                 val item = items.first { it.id == id }
                 val perUnit = if (item.unit == AmountUnit.PIECE) food.gramsPerPiece ?: continue else 1.0
                 val left = item.amount - takenGrams / perUnit
-                update(if (left <= 0.0001) item.copy(amount = 0.0, state = PantryState.USED_UP) else item.copy(amount = left))
+                // The cost follows the amount, so throwing the rest away later counts only its share (A18).
+                val cost = item.costHalers?.let { if (item.amount > 0) Math.round(it * left.coerceAtLeast(0.0) / item.amount) else 0L }
+                update(if (left <= 0.0001) item.copy(amount = 0.0, state = PantryState.USED_UP, costHalers = 0) else item.copy(amount = left, costHalers = cost))
             }
             if (missing > 0) short += food
         }

@@ -843,4 +843,19 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="week_over_budget">That is more than your weekly budget of %1$s Kč.</string>
     <string name="product_prices">Prices</string>
     <string name="product_add_price">Add a price</string>
+    <string name="stats_title">Stats</string>
+    <string name="stats_desc">Waste and money, month by month</string>
+    <plurals name="stats_wasted">
+        <item quantity="one">%1$d box thrown away · %2$s kcal</item>
+        <item quantity="other">%1$d boxes thrown away · %2$s kcal</item>
+    </plurals>
+    <string name="stats_wasted_money">Money thrown away: %1$s Kč</string>
+    <string name="stats_spent">Money spent: %1$s Kč</string>
+    <string name="stats_per_day">Per day: %1$s Kč</string>
+    <string name="stats_cheapest_protein">Cheapest protein you bought</string>
+    <string name="stats_chart">Spent and thrown away, last 6 months</string>
+    <string name="stats_legend_spent">Spent</string>
+    <string name="stats_legend_wasted">Thrown away</string>
+    <string name="stats_previous">Previous month</string>
+    <string name="stats_next">Next month</string>
 </resources>

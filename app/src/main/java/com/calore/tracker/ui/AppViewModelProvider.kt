@@ -8,6 +8,7 @@ import com.calore.tracker.ui.kitchen.PantryViewModel
 import com.calore.tracker.ui.kitchen.PeopleViewModel
 import com.calore.tracker.ui.shop.ShoppingViewModel
 import com.calore.tracker.ui.shop.ShopsViewModel
+import com.calore.tracker.ui.shop.StatsViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
 import com.calore.tracker.ui.kitchen.WasteViewModel
@@ -122,6 +123,10 @@ object AppViewModelProvider {
         }
         initializer {
             ShopsViewModel(container().shopRepository)
+        }
+        initializer {
+            val c = container()
+            StatsViewModel(c.cookingRepository, c.pantryRepository, c.shoppingRepository, c.shopRepository, c.recipeRepository, c.clock)
         }
         initializer {
             val c = container()
