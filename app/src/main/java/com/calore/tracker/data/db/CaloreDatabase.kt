@@ -46,6 +46,7 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun cookingDao(): CookingDao
     abstract fun planDao(): PlanDao
     abstract fun pantryDao(): PantryDao
+    abstract fun shopDao(): ShopDao
 
     companion object {
         private const val FILE_NAME = "calore.db"

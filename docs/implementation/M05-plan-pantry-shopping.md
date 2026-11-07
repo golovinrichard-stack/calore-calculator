@@ -52,7 +52,7 @@ As built: the "pantry was short" message names only foods the pantry had some of
 
 ### M5.6 Shops and exact products
 
-- [ ] Seed `app/src/main/assets/seed/cz/stores.json` with the common Czech shops: Albert, Billa, Globus, Kaufland, Lidl, Penny, Tesco, Rohlik.cz, Košík.cz, and "Market / other". The user picks favourites, and a default shop per section (for example meat at Lidl, vegetables at the market).
+- [x] Seed `app/src/main/assets/seed/cz/stores.json` with the common Czech shops: Albert, Billa, Globus, Kaufland, Lidl, Penny, Tesco, Rohlik.cz, Košík.cz, and "Market / other". The user picks favourites, and a default shop per section (for example meat at Lidl, vegetables at the market).
 - [ ] **Exact products** come from three places, in this order:
   1. **The owner's research** (input #1), converted into `app/src/main/assets/seed/cz/store-products.json`:
 
@@ -74,6 +74,8 @@ As built: the "pantry was short" message names only foods the pantry had some of
   2. **The user's own picks:** on any shopping line, **Pick a product**: search Open Food Facts (Czech products, the shop's tag if possible), scan the barcode in the shop, or type the name and pack size. It is saved as this shop's preferred product for that food and used from then on.
   3. **Open Food Facts** data for a scanned product (pack size from `product_quantity`).
 - [ ] Store product detail: name, brand, pack size, barcode, last price and its date.
+
+As built so far: the shops seed (names only, a general section order) imports once per version; Settings → Shops sets favourites and a default shop per section. The loader for `store-products.json` is ready and runs only when the file exists (it isn't shipped until input #1); products keep their seed key, a user's pick stays preferred, and prices are stored only when the research has them. Picking a product on a shopping line comes with M5.7.
 
 **Done when:** with the seed file present, the chicken line shows the seeded product; without it, the line shows the basic food and **Pick a product**, and after one pick the product appears every time.
 

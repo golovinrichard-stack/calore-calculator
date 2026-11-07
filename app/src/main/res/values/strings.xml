@@ -808,4 +808,10 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="pantry_used_up">Used up</string>
     <string name="pantry_amount_value">%1$s %2$s</string>
     <string name="pantry_short">Your pantry had less %1$s than the recipe needed; check your pantry.</string>
+    <string name="shops_title">Shops</string>
+    <string name="shops_desc">Favourite shops, and where you buy each kind of food</string>
+    <string name="shops_favourites">Favourite shops</string>
+    <string name="shops_defaults">Where you buy</string>
+    <string name="shops_default_none">No default shop</string>
+    <string name="store_other">Market / other</string>
 </resources>

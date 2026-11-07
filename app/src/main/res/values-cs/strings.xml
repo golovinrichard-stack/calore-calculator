@@ -839,4 +839,10 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="pantry_used_up">Spotřebováno</string>
     <string name="pantry_amount_value">%1$s %2$s</string>
     <string name="pantry_short">V zásobách bylo méně těchto potravin, než recept potřeboval: %1$s. Zkontrolujte zásoby.</string>
+    <string name="shops_title">Obchody</string>
+    <string name="shops_desc">Oblíbené obchody a kde kupujete jednotlivé druhy potravin</string>
+    <string name="shops_favourites">Oblíbené obchody</string>
+    <string name="shops_defaults">Kde nakupujete</string>
+    <string name="shops_default_none">Bez výchozího obchodu</string>
+    <string name="store_other">Trh / jiný obchod</string>
 </resources>

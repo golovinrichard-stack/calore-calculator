@@ -40,6 +40,7 @@ import com.calore.tracker.ui.cook.CookModeScreen
 import com.calore.tracker.ui.cook.CookScreen
 import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PeopleScreen
+import com.calore.tracker.ui.shop.ShopsScreen
 import com.calore.tracker.ui.kitchen.PersonScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.kitchen.WasteScreen
@@ -246,6 +247,7 @@ fun CaloreNavHost(
                     onBack = { navController.popBackStack() },
                     onOpenBackup = { navController.navigate(Routes.BACKUP) },
                     onOpenPots = { navController.navigate(Routes.POTS) },
+                    onOpenShops = { navController.navigate(Routes.SHOPS) },
                 )
             }
             kitchenRoutes(navController)
@@ -279,6 +281,7 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
         )
     }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.SHOPS) { ShopsScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.PEOPLE) {
         PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })
     }

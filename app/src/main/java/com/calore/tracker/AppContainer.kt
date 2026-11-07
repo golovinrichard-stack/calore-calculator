@@ -21,6 +21,7 @@ import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
+import com.calore.tracker.data.repository.ShopRepository
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.notifications.ReminderScheduler
 import com.calore.tracker.notifications.WorkManagerReminders
@@ -70,6 +71,7 @@ class AppContainer(context: Context) {
     val cookingRepository = CookingRepository(database.cookingDao(), clock)
     val planRepository = PlanRepository(database.planDao(), clock)
     val pantryRepository = PantryRepository(database.pantryDao(), database.foodDao(), clock)
+    val shopRepository = ShopRepository(database.shopDao(), database.foodDao(), appPrefs, clock)
 
     /** Background reminders; WorkManager initialises itself on first use. */
     val reminders: ReminderScheduler = WorkManagerReminders(context, clock)
@@ -95,6 +97,10 @@ class AppContainer(context: Context) {
         applicationScope.launch {
             genericFoods.importIfNewer()
             starterRecipes.importIfNewer()
+            // Shops (M5.6), then the owner's products for them, once that file exists (input #1).
+            context.assets.open(ShopRepository.STORES_ASSET).use { shopRepository.importStores(it) }
+            val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
+            products?.use { shopRepository.importProducts(it) }
         }
         // The weekly check-in job; KEEP means this costs nothing once it is scheduled.
         reminders.scheduleWeeklyCheckin()
