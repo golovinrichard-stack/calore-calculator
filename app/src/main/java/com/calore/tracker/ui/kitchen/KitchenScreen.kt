@@ -113,6 +113,7 @@ fun KitchenScreen(
                     if (result == SnackbarResult.ActionPerformed) viewModel.undo(event.eaten)
                 }
                 KitchenEvent.CantFreeze -> snackbarHostState.showSnackbar(resources.getString(R.string.box_cant_freeze))
+                is KitchenEvent.Asked -> snackbarHostState.showSnackbar(resources.getString(R.string.request_sent_to, event.owner))
             }
         }
     }
@@ -179,27 +180,27 @@ fun KitchenScreen(
                     )
                 }
             }
-            boxSection("fridge", R.string.kitchen_fridge, state.fridge, state.today) { openId = it.box.id }
-            boxSection("freezer", R.string.kitchen_freezer, state.freezer, state.today) { openId = it.box.id }
+            boxSection("fridge", R.string.kitchen_fridge, state.fridge, state.today, state.inHousehold) { openId = it.box.id }
+            boxSection("freezer", R.string.kitchen_freezer, state.freezer, state.today, state.inHousehold) { openId = it.box.id }
         }
     }
 
     val open = (state.fridge + state.freezer).firstOrNull { it.box.id == openId }
     if (open != null) {
-        BoxSheet(item = open, today = state.today, viewModel = viewModel, onDismiss = { openId = null })
+        BoxSheet(item = open, today = state.today, inHousehold = state.inHousehold, viewModel = viewModel, onDismiss = { openId = null })
     }
 }
 
-private fun LazyListScope.boxSection(key: String, title: Int, items: List<KitchenItem>, today: LocalDate, onClick: (KitchenItem) -> Unit) {
+private fun LazyListScope.boxSection(key: String, title: Int, items: List<KitchenItem>, today: LocalDate, inHousehold: Boolean, onClick: (KitchenItem) -> Unit) {
     if (items.isEmpty()) return
     item(key = "${key}_header") {
         SectionHeader(stringResource(title), modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp))
     }
-    items(items, key = { it.box.id }) { item -> BoxRow(item, today, onClick = { onClick(item) }) }
+    items(items, key = { it.box.id }) { item -> BoxRow(item, today, inHousehold, onClick = { onClick(item) }) }
 }
 
 @Composable
-private fun BoxRow(item: KitchenItem, today: LocalDate, onClick: () -> Unit) {
+private fun BoxRow(item: KitchenItem, today: LocalDate, inHousehold: Boolean, onClick: () -> Unit) {
     val box = item.box
     val frozen = box.storage == Storage.FREEZER
     val colour = item.view.colour(today)
@@ -229,6 +230,7 @@ private fun BoxRow(item: KitchenItem, today: LocalDate, onClick: () -> Unit) {
                     stringResource(R.string.box_planned, date.format(formatter), box.plannedMeal?.let { stringResource(it.labelRes()) } ?: "")
                 }
                 listOfNotNull(owner, planned).takeIf { it.isNotEmpty() }?.let { Text(it.joinToString(" · ")) }
+                if (inHousehold) OwnershipLabel(box.visibility, item.owner)
             }
         },
         trailingContent = if (hideNumbers) {
@@ -242,7 +244,7 @@ private fun BoxRow(item: KitchenItem, today: LocalDate, onClick: () -> Unit) {
 /** Box detail and actions (M4.6, M4.7). */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-private fun BoxSheet(item: KitchenItem, today: LocalDate, viewModel: KitchenViewModel, onDismiss: () -> Unit) {
+private fun BoxSheet(item: KitchenItem, today: LocalDate, inHousehold: Boolean, viewModel: KitchenViewModel, onDismiss: () -> Unit) {
     val box = item.box
     val frozen = box.storage == Storage.FREEZER
     val colour = item.view.colour(today)
@@ -260,6 +262,10 @@ private fun BoxSheet(item: KitchenItem, today: LocalDate, viewModel: KitchenView
         ) {
             Text("${box.code} · ${item.view.name}", style = MaterialTheme.typography.titleLarge)
             Text(item.owner?.name ?: stringResource(R.string.box_owner_everyone), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (inHousehold) {
+                OwnershipLabel(box.visibility, item.owner)
+                if (item.canChangeLabel) LabelPicker(box.visibility) { viewModel.setVisibility(box, it) }
+            }
             if (frozen) {
                 val frozenDay = box.frozenAt?.let { Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate() }
                 if (frozenDay != null && Freshness.freezerQualityOver(frozenDay, Recipe.DEFAULT_FREEZER_MONTHS, today)) {
@@ -295,10 +301,18 @@ private fun BoxSheet(item: KitchenItem, today: LocalDate, viewModel: KitchenView
             }
 
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Button(onClick = { if (colour == FreshnessColour.RED && !frozen) dialog = "red" else eat(null) }) {
-                    Text(stringResource(R.string.box_ate_it))
+                if (item.canTake) {
+                    Button(onClick = { if (colour == FreshnessColour.RED && !frozen) dialog = "red" else eat(null) }) {
+                        Text(stringResource(R.string.box_ate_it))
+                    }
+                    OutlinedButton(onClick = { dialog = "part" }) { Text(stringResource(R.string.box_ate_part)) }
+                } else {
+                    // M11.6: someone else's "Mine, don't touch" box.
+                    Button(onClick = {
+                        viewModel.askFor(item)
+                        onDismiss()
+                    }) { Text(stringResource(R.string.request_can_i_have)) }
                 }
-                OutlinedButton(onClick = { dialog = "part" }) { Text(stringResource(R.string.box_ate_part)) }
                 if (frozen) {
                     OutlinedButton(onClick = {
                         viewModel.thaw(box)

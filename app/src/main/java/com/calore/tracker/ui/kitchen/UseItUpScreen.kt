@@ -117,7 +117,7 @@ class UseItUpViewModel(
         viewModelScope.launch {
             val me = members.me().first()
             val rated = ratings.all()
-            val people = listOf(me) + members.managed().first().filter { person ->
+            val people = listOf(me) + members.cookFor().first().filter { person ->
                 person.mealTarget(meal) != null && Planner.allowedForPerson(PlannerMember(person, rated[person.id].orEmpty()), recipe)
             }
             val planId = plans.planFor(date)

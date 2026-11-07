@@ -1261,4 +1261,85 @@ This is an estimate. It can be off by a few percent, but it is good for followin
         <item quantity="one">%d other phone</item>
         <item quantity="other">%d other phones</item>
     </plurals>
+
+    <!-- Household requests, labels and feed (M11.6-M11.8) -->
+    <string name="requests_title">Requests and activity</string>
+    <string name="requests_tab">Requests</string>
+    <string name="activity_tab">Activity</string>
+    <string name="requests_for_me">For me</string>
+    <string name="requests_sent">Sent by me</string>
+    <string name="requests_none">Nothing here.</string>
+    <string name="request_cook_for_me">Cook for me</string>
+    <string name="request_buy_for_me">Buy for me</string>
+    <string name="request_can_i_have">Can I have it?</string>
+    <string name="request_who">Who</string>
+    <string name="request_anyone">Anyone</string>
+    <string name="request_any_recipe">Any dish</string>
+    <string name="request_message">Message (optional)</string>
+    <string name="request_item">What to buy</string>
+    <string name="request_buy_hint">It goes on the shared shopping list with your name.</string>
+    <string name="request_send">Send</string>
+    <string name="request_accept">Accept</string>
+    <string name="request_decline">Decline</string>
+    <string name="request_suggest">Suggest another time</string>
+    <string name="request_yes">Yes</string>
+    <string name="request_no">No</string>
+    <string name="request_done">Done</string>
+    <string name="request_cancel">Cancel the request</string>
+    <string name="request_from">From %1$s</string>
+    <string name="request_to">To %1$s</string>
+    <string name="request_to_anyone">To anyone</string>
+    <string name="request_someone">Someone</string>
+    <string name="request_buy_what">Buy for me: %1$s</string>
+    <string name="request_can_i_have_what">Can I have it? %1$s</string>
+    <string name="request_status_open">Waiting for an answer</string>
+    <string name="request_status_accepted">Accepted</string>
+    <string name="request_status_declined">Declined</string>
+    <string name="request_status_yes">Yes</string>
+    <string name="request_status_no">No</string>
+    <string name="request_status_done">Done</string>
+    <string name="request_status_cancelled">Cancelled</string>
+    <string name="request_send_as_message">Send as a message</string>
+    <string name="request_message_from">From %1$s (Calore):</string>
+    <string name="request_sent_to">Asked %1$s. You\'ll get the answer with the next sync.</string>
+    <string name="request_notify_new">Request from %1$s</string>
+    <string name="request_notify_answer">%1$s: %2$s</string>
+    <string name="request_notify_suggested">Another time was suggested</string>
+    <string name="activity_hint">What happened in the household in the last 30 days.</string>
+    <string name="activity_none">Nothing yet.</string>
+    <string name="activity_bought">%1$s bought %2$s</string>
+    <string name="activity_cooked">%1$s cooked %2$s</string>
+    <string name="activity_took">%1$s took %2$s</string>
+    <string name="activity_threw_away">%1$s threw away %2$s</string>
+    <string name="activity_requested">%1$s asked for %2$s</string>
+    <string name="activity_answered">%1$s answered a request</string>
+    <string name="list_and">%1$s and %2$s</string>
+    <string name="label_mine">🔒 Mine, don\'t touch</string>
+    <string name="label_mine_of">🔒 %1$s\'s, don\'t touch</string>
+    <string name="label_pick_mine">🔒 Mine</string>
+    <string name="label_shared">Shared</string>
+    <string name="label_up_for_grabs">Up for grabs</string>
+    <string name="pantry_reserve">Reserve for a planned meal</string>
+    <string name="pantry_reserve_title">Reserve %1$s for…</string>
+    <string name="pantry_not_reserved">Not reserved</string>
+    <string name="pantry_no_cooks">No cooking is planned yet.</string>
+    <string name="pantry_reserved">Reserved for %1$s on %2$s</string>
+    <string name="pantry_reserved_of">Reserved for %1$s\'s %2$s on %3$s</string>
+    <string name="today_up_for_grabs">Up for grabs</string>
+    <string name="today_take_it">Take it</string>
+    <string name="shop_for">For %1$s</string>
+    <plurals name="request_cook_what">
+        <item quantity="one">Cook for me: %1$s, %2$s, %3$d portion</item>
+        <item quantity="other">Cook for me: %1$s, %2$s, %3$d portions</item>
+    </plurals>
+    <plurals name="request_portions">
+        <item quantity="one">%d portion</item>
+        <item quantity="other">%d portions</item>
+    </plurals>
+    <plurals name="activity_cooked_boxes">
+        <item quantity="one">%1$s cooked %2$s (%3$d box)</item>
+        <item quantity="other">%1$s cooked %2$s (%3$d boxes)</item>
+    </plurals>
+    <string name="activity_requested_any">%1$s sent a request</string>
+
 </resources>

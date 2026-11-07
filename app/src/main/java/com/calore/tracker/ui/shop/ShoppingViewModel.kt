@@ -33,6 +33,8 @@ data class ShoppingUiState(
     val foods: Map<String, Food> = emptyMap(),
     /** Food uuid → names of the planned recipes that need it. */
     val neededFor: Map<String, List<String>> = emptyMap(),
+    /** "Buy for me" (M11.7): member id → name, for "for Anna". */
+    val names: Map<String, String> = emptyMap(),
 ) {
     val open: List<ShoppingItem> get() = items.filter { it.checkedAt == null }
     val basket: List<ShoppingItem> get() = items.filter { it.checkedAt != null }
@@ -50,8 +52,12 @@ class ShoppingViewModel(
 
     private val extra = MutableStateFlow(ShoppingUiState())
 
-    val uiState: StateFlow<ShoppingUiState> = combine(shopping.items(), shops.stores(), shops.products(), extra) { items, stores, products, extra ->
-        extra.copy(loaded = true, items = items, stores = stores, products = products.associateBy { it.id })
+    private val names = combine(members.me(), members.managed(), members.household()) { me, managed, household ->
+        (listOf(me) + managed + household).associate { it.id to it.name }
+    }
+
+    val uiState: StateFlow<ShoppingUiState> = combine(shopping.items(), shops.stores(), shops.products(), extra, names) { items, stores, products, extra, names ->
+        extra.copy(loaded = true, items = items, stores = stores, products = products.associateBy { it.id }, names = names)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ShoppingUiState())
 
     /** The line a product is being picked for, kept while the scanner is open. */

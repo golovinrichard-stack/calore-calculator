@@ -93,7 +93,7 @@ class TodayPlanViewModel(
         date.flatMapLatest { plans.slotsBetween(it, it) },
         cooking.activeBoxes(),
         members.me(),
-        members.managed(),
+        members.cookFor(),
         recipes.observeAll(),
     ) { slots, boxes, me, managed, all ->
         val names = all.associate { it.recipe.id to it.recipe.displayName() }

@@ -54,6 +54,7 @@ object Routes {
     const val SHOPS = "shops"
     const val HOUSEHOLD = "household"
     const val HOUSEHOLD_JOIN = "household_join"
+    const val REQUESTS = "requests"
     const val SHOP = "shop"
     const val STATS = "stats"
     const val PERSON = "person?$ARG_MEMBER_ID={$ARG_MEMBER_ID}"

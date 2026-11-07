@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.set
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
@@ -27,7 +28,7 @@ private fun qrBitmap(text: String): ImageBitmap {
     val matrix = QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, 0, 0, hints)
     val bitmap = createBitmap(matrix.width, matrix.height)
     for (y in 0 until matrix.height) {
-        for (x in 0 until matrix.width) bitmap.setPixel(x, y, if (matrix[x, y]) BLACK else WHITE)
+        for (x in 0 until matrix.width) bitmap[x, y] = if (matrix[x, y]) BLACK else WHITE
     }
     return bitmap.asImageBitmap()
 }

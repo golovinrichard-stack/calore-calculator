@@ -35,7 +35,9 @@ import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.household.HubService
 import com.calore.tracker.ui.household.HouseholdJoinViewModel
+import com.calore.tracker.ui.household.HouseholdTodayViewModel
 import com.calore.tracker.ui.household.HouseholdViewModel
+import com.calore.tracker.ui.household.RequestsViewModel
 import com.calore.tracker.ui.addfood.AddFoodViewModel
 import com.calore.tracker.ui.backup.BackupViewModel
 import com.calore.tracker.ui.body.BodyFatViewModel
@@ -152,7 +154,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            PantryViewModel(c.pantryRepository, c.foodRepository, c.clock)
+            PantryViewModel(c.pantryRepository, c.foodRepository, c.clock, c.memberRepository, c.requestRepository, c.inHousehold, c.plannedCooks)
         }
         initializer {
             val c = container()
@@ -164,7 +166,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock, c.ratingRepository, c.ratingPrompt)
+            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock, c.ratingRepository, c.ratingPrompt, c.requestRepository, c.inHousehold)
         }
         initializer {
             val c = container()
@@ -234,6 +236,14 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             HouseholdJoinViewModel(c.householdRepository, c.householdSync)
+        }
+        initializer {
+            val c = container()
+            HouseholdTodayViewModel(c.householdRepository, c.cookingRepository, c.memberRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            RequestsViewModel(c.requestRepository, c.memberRepository, c.recipeRepository, c.householdDao, c::householdItemName, c.clock)
         }
         initializer {
             val c = container()

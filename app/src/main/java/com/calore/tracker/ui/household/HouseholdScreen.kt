@@ -58,6 +58,7 @@ import java.util.Date
 fun HouseholdScreen(
     onBack: () -> Unit,
     onJoin: () -> Unit,
+    onOpenRequests: () -> Unit,
     viewModel: HouseholdViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -95,6 +96,7 @@ fun HouseholdScreen(
                     onRemove = viewModel::remove,
                     onHandOver = viewModel::handOver,
                     onSharesTargets = viewModel::setSharesTargets,
+                    onOpenRequests = onOpenRequests,
                     onLeave = { confirmLeave = true },
                 )
             }
@@ -164,6 +166,7 @@ private fun InHousehold(
     onRemove: (String) -> Unit,
     onHandOver: (String) -> Unit,
     onSharesTargets: (Boolean) -> Unit,
+    onOpenRequests: () -> Unit,
     onLeave: () -> Unit,
 ) {
     var removing by rememberSaveable { mutableStateOf<String?>(null) }
@@ -212,6 +215,10 @@ private fun InHousehold(
         }
     }
 
+
+    if (household.approved) {
+        Button(onClick = onOpenRequests, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.requests_title)) }
+    }
 
     if (household.isHub) {
         SectionHeader(stringResource(R.string.household_hub_section))

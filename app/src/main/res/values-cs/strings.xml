@@ -1314,4 +1314,91 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
         <item quantity="many">%d dalšího telefonu</item>
         <item quantity="other">%d dalších telefonů</item>
     </plurals>
+
+    <!-- Household requests, labels and feed (M11.6-M11.8) -->
+    <string name="requests_title">Žádosti a dění</string>
+    <string name="requests_tab">Žádosti</string>
+    <string name="activity_tab">Dění</string>
+    <string name="requests_for_me">Pro mě</string>
+    <string name="requests_sent">Odeslané</string>
+    <string name="requests_none">Nic tu není.</string>
+    <string name="request_cook_for_me">Uvař mi</string>
+    <string name="request_buy_for_me">Kup mi</string>
+    <string name="request_can_i_have">Můžu si to vzít?</string>
+    <string name="request_who">Kdo</string>
+    <string name="request_anyone">Kdokoli</string>
+    <string name="request_any_recipe">Jakékoli jídlo</string>
+    <string name="request_message">Zpráva (nepovinné)</string>
+    <string name="request_item">Co koupit</string>
+    <string name="request_buy_hint">Přidá se na sdílený nákupní seznam s vaším jménem.</string>
+    <string name="request_send">Poslat</string>
+    <string name="request_accept">Přijmout</string>
+    <string name="request_decline">Odmítnout</string>
+    <string name="request_suggest">Navrhnout jiný čas</string>
+    <string name="request_yes">Ano</string>
+    <string name="request_no">Ne</string>
+    <string name="request_done">Hotovo</string>
+    <string name="request_cancel">Zrušit žádost</string>
+    <string name="request_from">Od: %1$s</string>
+    <string name="request_to">Pro: %1$s</string>
+    <string name="request_to_anyone">Pro kohokoli</string>
+    <string name="request_someone">Někdo</string>
+    <string name="request_buy_what">Kup mi: %1$s</string>
+    <string name="request_can_i_have_what">Můžu si to vzít? %1$s</string>
+    <string name="request_status_open">Čeká na odpověď</string>
+    <string name="request_status_accepted">Přijato</string>
+    <string name="request_status_declined">Odmítnuto</string>
+    <string name="request_status_yes">Ano</string>
+    <string name="request_status_no">Ne</string>
+    <string name="request_status_done">Hotovo</string>
+    <string name="request_status_cancelled">Zrušeno</string>
+    <string name="request_send_as_message">Poslat jako zprávu</string>
+    <string name="request_message_from">Od: %1$s (Calore):</string>
+    <string name="request_sent_to">Zeptali jste se: %1$s. Odpověď přijde s další synchronizací.</string>
+    <string name="request_notify_new">Žádost od: %1$s</string>
+    <string name="request_notify_answer">%1$s: %2$s</string>
+    <string name="request_notify_suggested">Byl navržen jiný čas</string>
+    <string name="activity_hint">Co se v domácnosti stalo za posledních 30 dní.</string>
+    <string name="activity_none">Zatím nic.</string>
+    <string name="activity_bought">%1$s koupil(a) %2$s</string>
+    <string name="activity_cooked">%1$s uvařil(a) %2$s</string>
+    <string name="activity_took">%1$s si vzal(a) %2$s</string>
+    <string name="activity_threw_away">%1$s vyhodil(a) %2$s</string>
+    <string name="activity_requested">%1$s požádal(a) o %2$s</string>
+    <string name="activity_answered">%1$s odpověděl(a) na žádost</string>
+    <string name="list_and">%1$s a %2$s</string>
+    <string name="label_mine">🔒 Moje, nesahat</string>
+    <string name="label_mine_of">🔒 Patří: %1$s, nesahat</string>
+    <string name="label_pick_mine">🔒 Moje</string>
+    <string name="label_shared">Společné</string>
+    <string name="label_up_for_grabs">Kdo dřív přijde</string>
+    <string name="pantry_reserve">Rezervovat pro plánované jídlo</string>
+    <string name="pantry_reserve_title">Rezervovat %1$s pro…</string>
+    <string name="pantry_not_reserved">Nerezervováno</string>
+    <string name="pantry_no_cooks">Zatím není naplánované žádné vaření.</string>
+    <string name="pantry_reserved">Rezervováno pro %1$s (%2$s)</string>
+    <string name="pantry_reserved_of">Rezervováno: %1$s, %2$s (%3$s)</string>
+    <string name="today_up_for_grabs">Kdo dřív přijde</string>
+    <string name="today_take_it">Vzít si</string>
+    <string name="shop_for">Pro: %1$s</string>
+    <plurals name="request_cook_what">
+        <item quantity="one">Uvař mi: %1$s, %2$s, %3$d porce</item>
+        <item quantity="few">Uvař mi: %1$s, %2$s, %3$d porce</item>
+        <item quantity="many">Uvař mi: %1$s, %2$s, %3$d porce</item>
+        <item quantity="other">Uvař mi: %1$s, %2$s, %3$d porcí</item>
+    </plurals>
+    <plurals name="request_portions">
+        <item quantity="one">%d porce</item>
+        <item quantity="few">%d porce</item>
+        <item quantity="many">%d porce</item>
+        <item quantity="other">%d porcí</item>
+    </plurals>
+    <plurals name="activity_cooked_boxes">
+        <item quantity="one">%1$s uvařil(a) %2$s (%3$d krabička)</item>
+        <item quantity="few">%1$s uvařil(a) %2$s (%3$d krabičky)</item>
+        <item quantity="many">%1$s uvařil(a) %2$s (%3$d krabičky)</item>
+        <item quantity="other">%1$s uvařil(a) %2$s (%3$d krabiček)</item>
+    </plurals>
+    <string name="activity_requested_any">%1$s poslal(a) žádost</string>
+
 </resources>

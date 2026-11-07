@@ -36,6 +36,8 @@ data class Box(
     /** The plan slot this box is for (M5.4). */
     val planSlotId: String? = null,
     val wastedReason: WasteReason? = null,
+    /** M11.6: "Mine, don't touch", "Shared" or "Up for grabs". */
+    val visibility: Visibility = Visibility.SHARED,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
 )
@@ -103,6 +105,9 @@ data class PantryItem(
     val state: PantryState = PantryState.AVAILABLE,
     val costHalers: Long? = null,
     val reservedForCookId: String? = null,
+    /** M11.6: whose it is (null: the household's) and its label. */
+    val ownerMemberId: String? = null,
+    val visibility: Visibility = Visibility.SHARED,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
 ) {

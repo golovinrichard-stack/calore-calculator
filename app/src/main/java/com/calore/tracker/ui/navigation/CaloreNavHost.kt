@@ -29,6 +29,7 @@ import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.ui.household.HouseholdJoinScreen
 import com.calore.tracker.ui.household.HouseholdScreen
+import com.calore.tracker.ui.household.RequestsScreen
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
 import com.calore.tracker.ui.backup.BackupScreen
@@ -283,8 +284,10 @@ fun CaloreNavHost(
                     HouseholdScreen(
                         onBack = { navController.popBackStack() },
                         onJoin = { navController.navigate(Routes.HOUSEHOLD_JOIN) },
+                        onOpenRequests = { navController.navigate(Routes.REQUESTS) },
                     )
                 }
+                composable(Routes.REQUESTS) { RequestsScreen(onBack = { navController.popBackStack() }) }
                 composable(Routes.HOUSEHOLD_JOIN) {
                     HouseholdJoinScreen(onBack = { navController.popBackStack() }, onJoined = { navController.popBackStack() })
                 }
@@ -483,7 +486,7 @@ private fun NavHostController.returnPickedFood(foodId: Long) {
 }
 
 /** Screens a notification may open. */
-private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT, Routes.CHECKIN, Routes.HOUSEHOLD)
+private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT, Routes.CHECKIN, Routes.HOUSEHOLD, Routes.REQUESTS)
 
 private fun NavHostController.navigateToTopLevel(route: String) {
     navigate(route) {

@@ -1,5 +1,7 @@
 package com.calore.tracker.data.db
 
+import com.calore.tracker.domain.Visibility
+
 import com.calore.tracker.domain.AmountUnit
 import com.calore.tracker.domain.PantryItem
 import com.calore.tracker.domain.PantryState
@@ -21,6 +23,8 @@ internal fun PantryItemEntity.toDomain(): PantryItem? = PantryItem(
     state = JsonColumns.enumByName<PantryState>(state) ?: PantryState.AVAILABLE,
     costHalers = costHalers,
     reservedForCookId = reservedForCookId,
+    ownerMemberId = ownerMemberId,
+    visibility = JsonColumns.enumByName<Visibility>(visibility) ?: Visibility.SHARED,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )
@@ -39,6 +43,8 @@ internal fun PantryItem.toEntity() = PantryItemEntity(
     state = state.name,
     costHalers = costHalers,
     reservedForCookId = reservedForCookId,
+    ownerMemberId = ownerMemberId,
+    visibility = visibility.name,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )

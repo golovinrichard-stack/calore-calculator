@@ -62,6 +62,14 @@ class MemberRepository(
     /** The people of the other phones in the household (M11). */
     fun household(): Flow<List<Member>> = memberDao.observeHousehold().map { rows -> rows.map { it.toDomain() } }
 
+    /**
+     * Everyone the cook flow and the planner cook for besides me: the people I cook for, and
+     * household members who share their meal targets (M11.9).
+     */
+    fun cookFor(): Flow<List<Member>> = kotlinx.coroutines.flow.combine(managed(), household()) { managed, household ->
+        managed + household.filter { it.sharesTargets && it.targets != null }
+    }
+
     /** Removes a person I cook for; their boxes and history stay (soft delete). */
     suspend fun removeManaged(member: Member) {
         val now = clock.millis()

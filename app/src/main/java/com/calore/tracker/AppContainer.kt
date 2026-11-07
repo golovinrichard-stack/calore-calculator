@@ -3,9 +3,18 @@ package com.calore.tracker
 import com.calore.tracker.data.household.HouseholdKeys
 import com.calore.tracker.data.household.HouseholdNetwork
 import com.calore.tracker.data.household.HouseholdRepository
+import com.calore.tracker.data.household.HouseholdState
+import kotlinx.coroutines.flow.Flow
+import com.calore.tracker.ui.kitchen.CookChoice
+import java.time.LocalDate
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import com.calore.tracker.data.household.HouseholdSync
 import com.calore.tracker.data.sync.SyncStore
 import com.calore.tracker.household.HouseholdNotifier
+import com.calore.tracker.household.HouseholdRequestNotifier
+import com.calore.tracker.data.household.HouseholdActivityLog
+import com.calore.tracker.data.household.RequestRepository
 
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -158,7 +167,40 @@ class AppContainer(context: Context) {
         memberRepository,
         clock,
     )
-    val householdNotifier = HouseholdNotifier(context, householdRepository, database.householdDao()) { _, _ -> }
+    val householdDao = database.householdDao()
+
+    /** M11.6: planned cooks from today on, with recipe names, for reserving pantry food. */
+    val plannedCooks: Flow<List<CookChoice>> = planRepository.cooksFrom(LocalDate.now(clock)).map { cooks ->
+        cooks.mapNotNull { (id, recipeId, date) -> recipeRepository.details(recipeId)?.recipe?.name?.let { CookChoice(id, it, date) } }
+    }
+
+    /** True while this phone is in a household with its key: labels and requests show only then (M11.6). */
+    val inHousehold: Flow<Boolean> = householdRepository.state.map { it is HouseholdState.In }.distinctUntilChanged()
+
+    /** M11.8: the feed, written by the kitchen, pantry and shopping list while in a household. */
+    val activityLog = HouseholdActivityLog(database.householdDao(), database.memberDao(), clock)
+    val requestRepository = RequestRepository(
+        database.householdDao(), memberRepository, cookingRepository, pantryRepository, shoppingRepository, planRepository, activityLog, clock,
+    )
+
+    /** Names of what requests point at, for notifications and the inbox. */
+    suspend fun householdItemName(refTable: String?, refId: String?): String? {
+        val id = refId ?: return null
+        return when (refTable) {
+            "recipes" -> recipeRepository.details(id)?.recipe?.name
+            "boxes" -> cookingRepository.activeBoxes().first().firstOrNull { it.box.id == id }?.let { "${it.box.code} · ${it.name}" }
+            "pantry_items" -> pantryRepository.item(id)?.name
+            "shopping_items" -> shoppingRepository.itemName(id)
+            else -> null
+        }
+    }
+
+    val householdNotifier = HouseholdNotifier(
+        context,
+        householdRepository,
+        database.householdDao(),
+        HouseholdRequestNotifier(context, database.householdDao(), database.memberDao(), ::householdItemName),
+    )
     val householdSync = HouseholdSync(householdRepository, HouseholdNetwork(context), applicationScope, clock, householdNotifier)
 
     init {
@@ -183,6 +225,10 @@ class AppContainer(context: Context) {
             val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
             products?.use { shopRepository.importProducts(it) }
         }
+        // M11.8: kitchen, pantry and list write the household feed (only while in a household).
+        cookingRepository.activity = activityLog
+        pantryRepository.activity = activityLog
+        shoppingRepository.activity = activityLog
         // M11.4: sync 5 s after local changes; serve as the hub while hub mode is on or the app is open.
         householdSync.start()
         // The weekly check-in job; KEEP means this costs nothing once it is scheduled.

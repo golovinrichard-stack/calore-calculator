@@ -64,6 +64,10 @@ abstract class PlanDao {
     @Query("SELECT * FROM plan_cooks WHERE planId = :planId AND ${SoftDelete.NOT_DELETED}")
     abstract suspend fun cooks(planId: String): List<PlanCookEntity>
 
+    /** M11.6: cooks not cooked yet from [from] on, for reserving pantry food. */
+    @Query("SELECT * FROM plan_cooks WHERE date >= :from AND batchId IS NULL AND ${SoftDelete.NOT_DELETED} ORDER BY date")
+    abstract fun observeCooksFrom(from: String): Flow<List<PlanCookEntity>>
+
     /** M6.3: planned cooks not cooked yet; an accepted plan replaces them. */
     @Query("UPDATE plan_cooks SET deletedAt = :now, updatedAt = :now WHERE planId = :planId AND batchId IS NULL AND deletedAt IS NULL")
     protected abstract suspend fun deletePlannedCooks(planId: String, now: Long)

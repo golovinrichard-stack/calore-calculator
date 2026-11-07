@@ -1,5 +1,12 @@
 package com.calore.tracker.ui.kitchen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Text
+import com.calore.tracker.domain.Member
+import com.calore.tracker.domain.Visibility
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -42,4 +49,42 @@ fun WasteReason.labelRes(): Int = when (this) {
     WasteReason.SPOILED -> R.string.waste_spoiled
     WasteReason.DIDNT_LIKE -> R.string.waste_didnt_like
     WasteReason.OTHER -> R.string.waste_other
+}
+
+/** M11.6: "🔒 Anna's, don't touch" in Anna's colour, "Shared" or "Up for grabs". */
+@Composable
+fun OwnershipLabel(visibility: Visibility, owner: Member?) {
+    when (visibility) {
+        Visibility.MINE -> Text(
+            if (owner != null) stringResource(R.string.label_mine_of, owner.name) else stringResource(R.string.label_mine),
+            color = owner?.let { Color(it.colour) } ?: MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelLarge,
+        )
+        Visibility.SHARED -> Text(stringResource(R.string.label_shared), style = MaterialTheme.typography.labelLarge)
+        Visibility.UP_FOR_GRABS -> Text(stringResource(R.string.label_up_for_grabs), color = Color(0xFF2E7D32), style = MaterialTheme.typography.labelLarge)
+    }
+}
+
+/** The owner changes the label (M11.6). */
+@Composable
+fun LabelPicker(current: Visibility, onPick: (Visibility) -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Visibility.entries.forEach { v ->
+            FilterChip(
+                selected = current == v,
+                onClick = { onPick(v) },
+                label = {
+                    Text(
+                        stringResource(
+                            when (v) {
+                                Visibility.MINE -> R.string.label_pick_mine
+                                Visibility.SHARED -> R.string.label_shared
+                                Visibility.UP_FOR_GRABS -> R.string.label_up_for_grabs
+                            },
+                        ),
+                    )
+                },
+            )
+        }
+    }
 }

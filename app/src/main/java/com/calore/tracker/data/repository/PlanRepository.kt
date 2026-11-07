@@ -1,5 +1,7 @@
 package com.calore.tracker.data.repository
 
+import com.calore.tracker.domain.parseIsoDate
+
 import com.calore.tracker.data.db.PlanDao
 import com.calore.tracker.data.db.PlanCookEntity
 import com.calore.tracker.data.db.PlanEntity
@@ -29,6 +31,11 @@ data class PlanTemplate(val id: String, val name: String)
 class PlanRepository(private val planDao: PlanDao, private val clock: Clock) {
 
     /** The plan for the week that starts on [weekStart], created when needed. */
+    /** M11.6: planned cooks from [from] on (id, recipe, day), for "Reserved for Anna's curry on Wednesday". */
+    fun cooksFrom(from: LocalDate): Flow<List<Triple<String, String, LocalDate>>> = planDao.observeCooksFrom(from.toString()).map { rows ->
+        rows.mapNotNull { row -> parseIsoDate(row.date)?.let { Triple(row.id, row.recipeId, it) } }
+    }
+
     suspend fun planFor(weekStart: LocalDate): String {
         val monday = ReminderSchedule.weekStart(weekStart)
         planDao.planForWeek(monday.toString())?.let { return it.id }

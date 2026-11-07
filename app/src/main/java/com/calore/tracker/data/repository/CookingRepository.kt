@@ -1,5 +1,9 @@
 package com.calore.tracker.data.repository
 
+import com.calore.tracker.data.household.ActivityLog
+import com.calore.tracker.domain.Visibility
+import com.calore.tracker.domain.household.ActivityType
+
 import com.calore.tracker.data.db.BatchEntity
 import com.calore.tracker.data.db.BatchIngredientEntity
 import com.calore.tracker.data.db.BoxPartEntity
@@ -52,6 +56,9 @@ class CookingRepository(
     private val cookingDao: CookingDao,
     private val clock: Clock,
 ) {
+    /** M11.8: the household feed ("Tom cooked chili (6 boxes)"); nothing outside a household. */
+    var activity: ActivityLog = ActivityLog.NONE
+
     private fun today(): LocalDate = LocalDate.now(clock)
 
     // Pots (M4.2)
@@ -157,6 +164,9 @@ class CookingRepository(
             StoredBox(box.toEntity(), spec.parts.map { (batchId, grams) -> BoxPartEntity(newId(), box.id, batchId, grams) }) to box
         }
         cookingDao.insertBoxes(boxes.map { it.first })
+        val batchIds = specs.flatMap { spec -> spec.parts.map { it.first } }.distinct()
+        val names = batchIds.mapNotNull { cookingDao.batch(it)?.name }.distinct()
+        if (boxes.isNotEmpty()) activity.log(ActivityType.COOKED, "batches", batchIds.firstOrNull(), names, boxes.size)
         return boxes.map { it.second }
     }
 
@@ -200,6 +210,7 @@ class CookingRepository(
             entryType = EntryType.BOX,
         ).toEntity().copy(boxId = box.id)
         val entryId = cookingDao.eatBox(updated.toEntity(), entry, clock.millis())
+        activity.log(ActivityType.TOOK, "boxes", box.id, "${box.code} · ${view.name}")
         return EatenBox(previous = box, diaryEntryId = entryId, meal = meal)
     }
 
@@ -225,7 +236,15 @@ class CookingRepository(
 
     suspend fun throwAway(box: Box, reason: WasteReason) {
         cookingDao.updateBox(box.copy(state = BoxState.WASTED, wastedReason = reason, updatedAt = clock.millis()).toEntity())
+        activity.log(ActivityType.THREW_AWAY, "boxes", box.id, box.code)
     }
+
+    /** M11.6: the owner's label for a box. */
+    suspend fun setVisibility(box: Box, visibility: Visibility) {
+        cookingDao.updateBox(box.copy(visibility = visibility, updatedAt = clock.millis()).toEntity())
+    }
+
+    suspend fun box(id: String): Box? = activeBoxes().first().firstOrNull { it.box.id == id }?.box
 
     /** M5.11: the box goes to someone else. */
     suspend fun giveTo(box: Box, memberId: String?) {
