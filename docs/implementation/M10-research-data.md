@@ -71,8 +71,8 @@ The status screen afterwards shows the categories, the last report sent, and thr
 
 A separate Gradle build in `server/` (own `settings.gradle.kts`), so the Android build stays as it is.
 
-- [ ] Kotlin + Ktor + PostgreSQL.
-- [ ] Endpoints:
+- [x] Kotlin + Ktor + PostgreSQL. *As built:* Ktor 3.6.1 (Netty, rate limits), the PostgreSQL JDBC driver 42.7.14, plain JDBC (one connection per call; the traffic is tiny). Run with the app's wrapper: `./gradlew -p server test`; CI runs it too.
+- [x] Endpoints:
 
 | Method and path | Auth | What it does |
 |---|---|---|
@@ -82,12 +82,12 @@ A separate Gradle build in `server/` (own `settings.gradle.kts`), so the Android
 | `DELETE /v1/participants/{id}` | Bearer secret | Delete the participant and all their reports |
 | `GET /v1/health` | none | For monitoring |
 
-- [ ] **Validation:** reject unknown fields, values out of range and bodies over 16 KB. The allowed fields are exactly appendix A.
-- [ ] **No IP addresses stored:** no IPs in the app logs, and the reverse proxy configured not to log them. Store the received ISO week, not a timestamp.
-- [ ] **Rate limits:** per participant and per IP, in memory only.
-- [ ] **Statistics export:** a command that writes CSV aggregates (by week, age band, sex, region) and **suppresses any group smaller than 10 people**. Only aggregates leave the database.
-- [ ] **Deployment:** `Dockerfile` and `docker-compose.yml` (server, PostgreSQL, Caddy for HTTPS), configuration via environment variables, and a short `server/README.md` that also covers backups (encrypted) and updates.
-- [ ] Tests with Ktor `testApplication` and a test database.
+- [x] **Validation:** reject unknown fields, values out of range and bodies over 16 KB. The allowed fields are exactly appendix A. *As built:* also missing fields and sections of categories the participant didn't agree to.
+- [x] **No IP addresses stored:** no IPs in the app logs, and the reverse proxy configured not to log them. Store the received ISO week, not a timestamp.
+- [x] **Rate limits:** per participant and per IP, in memory only. *As built:* 30 and 60 requests per hour (*tunable*).
+- [x] **Statistics export:** a command that writes CSV aggregates (by week, age band, sex, region) and **suppresses any group smaller than 10 people**. Only aggregates leave the database. *As built:* `export-stats <dir>` writes nutrition averages; a person counts once per group.
+- [x] **Deployment:** `Dockerfile` and `docker-compose.yml` (server, PostgreSQL, Caddy for HTTPS), configuration via environment variables, and a short `server/README.md` that also covers backups (encrypted) and updates. *As built:* not tried here (no Docker in the build machine); `installDist` builds.
+- [x] Tests with Ktor `testApplication` and a test database. *As built:* H2 in PostgreSQL mode (a test-only library) as the test database; `ServerTest` (incl. "no rows left after deletion") and `StatsTest`.
 
 ### M10.7 Switching it on (owner and builder together)
 
