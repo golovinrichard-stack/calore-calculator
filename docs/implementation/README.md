@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M6 are done (app version 0.8.0). Next: M7.
+> **Status:** M0–M7 are done (app version 0.9.0). Next: M8.
 > **Date:** 6 November 2026
 
 ## Files
@@ -143,7 +143,7 @@ Update this table when a milestone starts or ends.
 | M4 Cooking, prep boxes and freshness | Done |
 | M5 Weekly plan, pantry and shopping | Done (the product seed file waits for input #1) |
 | M6 Smart planner | Done |
-| M7 Cycle tracking | In progress (M7.2 done) |
+| M7 Cycle tracking | Done |
 | M8 Supplements | Not started |
 | M9 Home-screen widget | Not started |
 | M10 Research data program | Not started |
