@@ -76,3 +76,38 @@ object BoxEating {
         return if (left <= EMPTY) Triple(eaten, 0.0, BoxState.EATEN) else Triple(eaten, left, BoxState.PART_EATEN)
     }
 }
+
+enum class PantryState { AVAILABLE, USED_UP, WASTED }
+
+/** Food at home (M5.5). Amounts are grams, millilitres or pieces. */
+data class PantryItem(
+    val id: String,
+    val foodUuid: String?,
+    val storeProductId: String? = null,
+    val name: String,
+    val amount: Double,
+    val unit: AmountUnit,
+    val storage: Storage,
+    val boughtDate: LocalDate,
+    /** The date on the pack, or a default (A17). */
+    val bestBeforeDate: LocalDate?,
+    val openedDate: LocalDate? = null,
+    val state: PantryState = PantryState.AVAILABLE,
+    val costHalers: Long? = null,
+    val reservedForCookId: String? = null,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+) {
+    /** The best-before date that counts: an opened fridge item gets at most 3 more days (A17). */
+    val effectiveBestBefore: LocalDate?
+        get() = openedDate?.let { Pantry.bestBeforeAfterOpening(bestBeforeDate, it, storage) } ?: bestBeforeDate
+
+    /** Grams, converting pieces with the food's grams per piece; null when that is unknown. */
+    fun grams(gramsPerPiece: Double?): Double? = when (unit) {
+        AmountUnit.G, AmountUnit.ML -> amount
+        AmountUnit.PIECE -> gramsPerPiece?.let { amount * it }
+    }
+}
+
+/** `Unit` in the data model (G, ML, PIECE); named so it doesn't clash with Kotlin's Unit. */
+enum class AmountUnit { G, ML, PIECE }

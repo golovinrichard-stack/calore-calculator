@@ -792,4 +792,20 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="week_cook_line">%1$s · %2$s × %3$d · %4$s g</string>
     <string name="week_cooked">Cooked</string>
     <string name="fill_use_plan">Boxes from the plan</string>
+    <string name="kitchen_tab_boxes">Boxes</string>
+    <string name="kitchen_tab_pantry">Pantry</string>
+    <string name="storage_cupboard">Cupboard</string>
+    <string name="pantry_empty">Nothing here yet. Add what you have at home, or tick items on the shopping list.</string>
+    <string name="pantry_add">Add food</string>
+    <string name="pantry_amount">Amount</string>
+    <string name="unit_pieces">pcs</string>
+    <string name="unit_ml">ml</string>
+    <string name="pantry_best_before">Best before %1$s</string>
+    <string name="pantry_no_date">No date</string>
+    <string name="pantry_set_date">Best before</string>
+    <string name="pantry_opened">Opened %1$s</string>
+    <string name="pantry_open_today">Opened today</string>
+    <string name="pantry_used_up">Used up</string>
+    <string name="pantry_amount_value">%1$s %2$s</string>
+    <string name="pantry_short">Your pantry had less %1$s than the recipe needed; check your pantry.</string>
 </resources>

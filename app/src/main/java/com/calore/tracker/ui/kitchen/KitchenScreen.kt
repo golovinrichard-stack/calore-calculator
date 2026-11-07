@@ -1,5 +1,15 @@
 package com.calore.tracker.ui.kitchen
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.res.painterResource
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Tab
+import androidx.compose.material3.PrimaryTabRow
+import com.calore.tracker.FeatureFlags
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -75,9 +85,16 @@ import java.time.ZoneId
 @Composable
 fun KitchenScreen(
     onOpenWaste: () -> Unit,
+    onScanForPantry: () -> Unit = {},
+    scannedFoodId: Long? = null,
+    onScannedFoodUsed: () -> Unit = {},
     viewModel: KitchenViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showPantry by rememberSaveable { mutableStateOf(false) }
+    var addingToPantry by rememberSaveable { mutableStateOf(false) }
+    // A scanned food goes to the pantry tab.
+    LaunchedEffect(scannedFoodId) { if (scannedFoodId != null) showPantry = true }
     var openId by rememberSaveable { mutableStateOf<String?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
     val resources = LocalResources.current
@@ -100,13 +117,47 @@ fun KitchenScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.nav_kitchen)) },
-                actions = { TextButton(onClick = onOpenWaste) { Text(stringResource(R.string.kitchen_thrown_away)) } },
-            )
+            Column {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.nav_kitchen)) },
+                    actions = {
+                        if (showPantry) {
+                            IconButton(onClick = onScanForPantry) { Icon(painterResource(R.drawable.ic_barcode), stringResource(R.string.scanner_title)) }
+                        } else {
+                            TextButton(onClick = onOpenWaste) { Text(stringResource(R.string.kitchen_thrown_away)) }
+                        }
+                    },
+                )
+                if (FeatureFlags.weekPlan) {
+                    PrimaryTabRow(selectedTabIndex = if (showPantry) 1 else 0) {
+                        Tab(selected = !showPantry, onClick = { showPantry = false }, text = { Text(stringResource(R.string.kitchen_tab_boxes)) })
+                        Tab(selected = showPantry, onClick = { showPantry = true }, text = { Text(stringResource(R.string.kitchen_tab_pantry)) })
+                    }
+                }
+            }
+        },
+        floatingActionButton = {
+            if (showPantry) {
+                ExtendedFloatingActionButton(
+                    onClick = { addingToPantry = true },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text(stringResource(R.string.pantry_add)) },
+                )
+            }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
+        if (showPantry) {
+            Box(modifier = Modifier.padding(padding)) {
+                PantryContent(
+                    adding = addingToPantry,
+                    onAddingDone = { addingToPantry = false },
+                    scannedFoodId = scannedFoodId,
+                    onScannedFoodUsed = onScannedFoodUsed,
+                )
+            }
+            return@Scaffold
+        }
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(bottom = 24.dp)) {
             item(key = "filters") {
                 Row(

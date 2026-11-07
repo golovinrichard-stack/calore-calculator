@@ -284,6 +284,9 @@ private fun FillStep(state: CookUiState, viewModel: CookViewModel) {
     val formatter = rememberMediumDateFormatter()
     var pickingDate by rememberSaveable { mutableStateOf(false) }
     val mixed = fill.mixed && state.batches.size > 1
+    if (state.pantryShort.isNotEmpty()) {
+        Text(stringResource(R.string.pantry_short, state.pantryShort.joinToString(", ")), color = MaterialTheme.colorScheme.error)
+    }
     if (state.items.any { it.planned != null }) {
         SwitchLine(stringResource(R.string.fill_use_plan), fill.usePlan) { on -> viewModel.editFill { it.copy(usePlan = on) } }
     }

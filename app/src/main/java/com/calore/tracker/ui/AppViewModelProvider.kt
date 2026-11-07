@@ -4,6 +4,7 @@ import com.calore.tracker.ui.plan.WeekPlanViewModel
 import com.calore.tracker.ui.cook.CookModeViewModel
 import com.calore.tracker.ui.cook.CookViewModel
 import com.calore.tracker.ui.kitchen.KitchenViewModel
+import com.calore.tracker.ui.kitchen.PantryViewModel
 import com.calore.tracker.ui.kitchen.PeopleViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
@@ -119,6 +120,10 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
+            PantryViewModel(c.pantryRepository, c.foodRepository, c.clock)
+        }
+        initializer {
+            val c = container()
             WeekPlanViewModel(c.planRepository, c.memberRepository, c.recipeRepository, c.appPrefs, c.clock)
         }
         initializer {
@@ -135,7 +140,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository)
+            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository, c.pantryRepository)
         }
         initializer {
             val c = container()

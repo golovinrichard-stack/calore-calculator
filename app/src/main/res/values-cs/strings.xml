@@ -823,4 +823,20 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="week_cook_line">%1$s · %2$s × %3$d · %4$s g</string>
     <string name="week_cooked">Uvařeno</string>
     <string name="fill_use_plan">Krabičky podle plánu</string>
+    <string name="kitchen_tab_boxes">Krabičky</string>
+    <string name="kitchen_tab_pantry">Zásoby</string>
+    <string name="storage_cupboard">Spíž</string>
+    <string name="pantry_empty">Zatím tu nic není. Přidejte, co máte doma, nebo odškrtněte položky na nákupním seznamu.</string>
+    <string name="pantry_add">Přidat potravinu</string>
+    <string name="pantry_amount">Množství</string>
+    <string name="unit_pieces">ks</string>
+    <string name="unit_ml">ml</string>
+    <string name="pantry_best_before">Trvanlivost do %1$s</string>
+    <string name="pantry_no_date">Bez data</string>
+    <string name="pantry_set_date">Trvanlivost do</string>
+    <string name="pantry_opened">Otevřeno %1$s</string>
+    <string name="pantry_open_today">Otevřeno dnes</string>
+    <string name="pantry_used_up">Spotřebováno</string>
+    <string name="pantry_amount_value">%1$s %2$s</string>
+    <string name="pantry_short">V zásobách bylo méně těchto potravin, než recept potřeboval: %1$s. Zkontrolujte zásoby.</string>
 </resources>

@@ -269,7 +269,15 @@ fun CaloreNavHost(
 /** Cooking, boxes, pots and people (M4). */
 private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
     composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
-    composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
+    composable(Routes.KITCHEN) { entry ->
+        val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
+        KitchenScreen(
+            onOpenWaste = { navController.navigate(Routes.WASTE) },
+            onScanForPantry = { navController.navigate(Routes.SCANNER_PICK) },
+            scannedFoodId = scanned,
+            onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
+        )
+    }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.PEOPLE) {
         PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })

@@ -41,12 +41,14 @@ As built: the week shows "Cooking for this plan" (day, recipe, portions, target 
 
 ### M5.5 Pantry
 
-- [ ] Kitchen tab → **Pantry**: items grouped by fridge, freezer and cupboard, coloured by best-before date with the same rules as boxes.
-- [ ] Add items by hand, by scanning a barcode (M2.4), or automatically when ticking the shopping list.
-- [ ] Edit amount, best-before date (the date on the pack wins over A17 defaults), opened date. Actions: **Used up**, **Throw away**.
-- [ ] Cooking takes ingredients out first-in-first-out (A17), with the "pantry was short" message.
+- [x] Kitchen tab → **Pantry**: items grouped by fridge, freezer and cupboard, coloured by best-before date with the same rules as boxes.
+- [x] Add items by hand, by scanning a barcode (M2.4), or automatically when ticking the shopping list (that part comes with M5.7).
+- [x] Edit amount, best-before date (the date on the pack wins over A17 defaults), opened date. Actions: **Used up**, **Throw away**.
+- [x] Cooking takes ingredients out first-in-first-out (A17), with the "pantry was short" message.
 
 **Done when:** ticking 3 packs of chicken adds 1,500 g to the pantry; cooking a recipe with 1,150 g leaves 350 g.
+
+As built: the "pantry was short" message names only foods the pantry had some of; foods never added to the pantry are taken as not tracked. Pieces count with the food's grams per piece. Items without a food (toilet paper) default to the cupboard and 180 days.
 
 ### M5.6 Shops and exact products
 

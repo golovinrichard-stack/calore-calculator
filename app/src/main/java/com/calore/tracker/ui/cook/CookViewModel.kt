@@ -7,6 +7,7 @@ import com.calore.tracker.data.repository.BoxSpec
 import com.calore.tracker.data.repository.CookingRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.MemberRepository
+import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.data.repository.RecipeRepository
@@ -141,6 +142,8 @@ data class CookUiState(
     /** Prefixes of active boxes and their recipes, for two-letter codes (A10). */
     val prefixOwners: Map<String, String?> = emptyMap(),
     val today: LocalDate = LocalDate.MIN,
+    /** Foods the pantry had less of than the recipes needed (A17). */
+    val pantryShort: List<String> = emptyList(),
 ) {
     val batches: List<Batch> get() = items.mapNotNull { it.batch }
 
@@ -195,6 +198,7 @@ class CookViewModel(
     foods: FoodRepository,
     private val clock: Clock,
     private val plans: PlanRepository? = null,
+    private val pantry: PantryRepository? = null,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(CookUiState(today = LocalDate.now(clock)))
@@ -319,6 +323,7 @@ class CookViewModel(
         state.update { it.copy(saving = true) }
         viewModelScope.launch {
             val me = members.me().first()
+            val short = mutableListOf<String>()
             val saved = s.items.map { item ->
                 val batch = item.batch ?: cooking.saveBatch(
                     recipeId = item.recipe?.recipe?.id,
@@ -327,12 +332,17 @@ class CookViewModel(
                     ingredients = item.ingredients(),
                     cookedGrams = item.cookedGrams(s.pots)!!,
                     cookedByMemberId = me.id.takeIf { it.isNotEmpty() },
-                )
+                ).also {
+                    // What went in comes out of the pantry, oldest first (A17).
+                    pantry?.takeForCooking(item.ingredients())?.forEach { food -> short += food.displayName() }
+                }
                 item.copy(batch = batch)
             }
             val codes = cooking.activeCodes()
             val owners = cooking.activePrefixOwners()
-            state.update { it.copy(items = saved, step = CookStep.FILL, saving = false, showErrors = false, activeCodes = codes, prefixOwners = owners) }
+            state.update {
+                it.copy(items = saved, step = CookStep.FILL, saving = false, showErrors = false, activeCodes = codes, prefixOwners = owners, pantryShort = short.distinct())
+            }
         }
     }
 
