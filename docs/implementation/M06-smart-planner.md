@@ -16,12 +16,13 @@
 
 ### M6.2 The planner engine
 
-- [ ] `domain/plan/Planner.kt` implementing A15 exactly: hard filters → scores → greedy fill → 200 improvement iterations (seeded) → box sizes → `plan_cooks` → shopping list.
-- [ ] All weights and limits in one `PlannerConfig`.
-- [ ] A `PhaseBonusProvider` interface that returns 0 for now (filled in by M7).
-- [ ] A result object that explains itself: for each chosen recipe, the main reasons ("you like it", "uses your spinach before it expires", "cheap protein"), so the UI can show them.
+- [x] `domain/plan/Planner.kt` implementing A15 exactly: hard filters → scores → greedy fill → 200 improvement iterations (seeded) → box sizes → `plan_cooks` → shopping list. *As built:* `Planner.plan` does steps 1–3; `PlanEstimates` gives step 4 (the cooks, with `PlanCooks`) and the inputs for step 5 (needs and the estimated cost; the list itself is made by A16 when the plan is accepted). See the as-built notes in algorithms.md A15.
+- [x] All weights and limits in one `PlannerConfig`.
+- [x] A `PhaseBonusProvider` interface that returns 0 for now (filled in by M7).
+- [x] A result object that explains itself: for each chosen recipe, the main reasons ("you like it", "uses your spinach before it expires", "cheap protein"), so the UI can show them. *As built:* `PlanResult.choices` with up to 3 `PlanReason`s each; `Planner.alternatives` gives the top 5 for **Swap** with their reasons.
 
 **Tests (JVM):** all A15 test cases; a performance test with 300 synthetic recipes, 3 people and 7 days × 4 meals under 500 ms; the same seed gives the same plan; locked slots never change; no plan ever contains a filtered recipe (property test over random inputs).
+*As built:* `PlannerTest` (19 tests, including all of these; the 300-recipe plan takes about 90 ms on the build machine) and `PlanEstimatesTest`.
 
 ### M6.3 "Plan my week"
 
