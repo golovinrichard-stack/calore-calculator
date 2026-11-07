@@ -785,4 +785,38 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="notify_thaw_title">Rozmrazit na zítra</string>
     <string name="notify_thaw_text">Přesuňte %1$s z mrazáku do lednice.</string>
     <string name="today_eat_first">Sníst nejdřív</string>
+    <!-- M5: týdenní plán -->
+    <string name="plan_tab_week">Týden</string>
+    <string name="week_this">Tento týden</string>
+    <string name="week_previous">Předchozí týden</string>
+    <string name="week_next">Další týden</string>
+    <string name="week_range">%1$s – %2$s</string>
+    <string name="week_cooking_day">Den vaření</string>
+    <string name="slot_box">Krabička</string>
+    <string name="slot_cook_fresh">Uvařit čerstvé</string>
+    <string name="slot_eat_out">Jídlo venku</string>
+    <string name="slot_free">Volné</string>
+    <string name="slot_empty">Nenaplánováno</string>
+    <string name="slot_box_recipe">Krabička: %1$s</string>
+    <string name="slot_fresh_recipe">Čerstvé: %1$s</string>
+    <string name="slot_choose_recipe">Vyberte recept</string>
+    <string name="slot_clear">Odebrat z plánu</string>
+    <string name="week_planned">%1$s / %2$s kcal · %3$s / %4$s g bílkovin</string>
+    <plurals name="week_box_frozen">
+        <item quantity="one">Krabička bude %1$d den stará: půjde do mrazáku.</item>
+        <item quantity="few">Krabička bude %1$d dny stará: půjde do mrazáku.</item>
+        <item quantity="many">Krabička bude %1$d dne stará: půjde do mrazáku.</item>
+        <item quantity="other">Krabička bude %1$d dní stará: půjde do mrazáku.</item>
+    </plurals>
+    <string name="week_repeat">Zopakovat minulý týden</string>
+    <string name="week_repeat_none">Minulý týden nemá plán.</string>
+    <string name="week_save_template">Uložit jako šablonu</string>
+    <string name="week_use_template">Použít šablonu</string>
+    <string name="week_template_name">Název šablony</string>
+    <string name="week_no_templates">Zatím nemáte žádné šablony.</string>
+    <string name="week_cooking_days">Dny vaření</string>
+    <string name="cooking_setup_title">Jak často chcete vařit?</string>
+    <string name="cooking_covers">%1$s: %2$s až %3$s</string>
+    <string name="cooking_day_meal">%1$s %2$s</string>
+    <string name="cooking_freezer_warning">S jedním dnem vaření bude zhruba polovina krabiček zmrazená.</string>
 </resources>

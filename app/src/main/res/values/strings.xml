@@ -756,4 +756,36 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="notify_thaw_title">Thaw for tomorrow</string>
     <string name="notify_thaw_text">Move %1$s from the freezer to the fridge.</string>
     <string name="today_eat_first">Eat first</string>
+    <!-- M5: week plan -->
+    <string name="plan_tab_week">Week</string>
+    <string name="week_this">This week</string>
+    <string name="week_previous">Previous week</string>
+    <string name="week_next">Next week</string>
+    <string name="week_range">%1$s – %2$s</string>
+    <string name="week_cooking_day">Cooking day</string>
+    <string name="slot_box">Prep box</string>
+    <string name="slot_cook_fresh">Cook fresh</string>
+    <string name="slot_eat_out">Eat out</string>
+    <string name="slot_free">Free</string>
+    <string name="slot_empty">Not planned</string>
+    <string name="slot_box_recipe">Box: %1$s</string>
+    <string name="slot_fresh_recipe">Fresh: %1$s</string>
+    <string name="slot_choose_recipe">Choose a recipe</string>
+    <string name="slot_clear">Remove from plan</string>
+    <string name="week_planned">%1$s / %2$s kcal · %3$s / %4$s g protein</string>
+    <plurals name="week_box_frozen">
+        <item quantity="one">This box will be %1$d day old: it will go in the freezer.</item>
+        <item quantity="other">This box will be %1$d days old: it will go in the freezer.</item>
+    </plurals>
+    <string name="week_repeat">Repeat last week</string>
+    <string name="week_repeat_none">Last week has no plan.</string>
+    <string name="week_save_template">Save as template</string>
+    <string name="week_use_template">Use template</string>
+    <string name="week_template_name">Template name</string>
+    <string name="week_no_templates">No templates yet.</string>
+    <string name="week_cooking_days">Cooking days</string>
+    <string name="cooking_setup_title">How often do you want to cook?</string>
+    <string name="cooking_covers">%1$s: %2$s to %3$s</string>
+    <string name="cooking_day_meal">%1$s %2$s</string>
+    <string name="cooking_freezer_warning">With one cooking day, about half of your boxes will be frozen.</string>
 </resources>

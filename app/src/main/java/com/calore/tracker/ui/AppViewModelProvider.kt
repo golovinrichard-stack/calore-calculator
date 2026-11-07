@@ -1,5 +1,6 @@
 package com.calore.tracker.ui
 
+import com.calore.tracker.ui.plan.WeekPlanViewModel
 import com.calore.tracker.ui.cook.CookModeViewModel
 import com.calore.tracker.ui.cook.CookViewModel
 import com.calore.tracker.ui.kitchen.KitchenViewModel
@@ -115,6 +116,10 @@ object AppViewModelProvider {
         }
         initializer {
             PeopleViewModel(container().memberRepository)
+        }
+        initializer {
+            val c = container()
+            WeekPlanViewModel(c.planRepository, c.memberRepository, c.recipeRepository, c.appPrefs, c.clock)
         }
         initializer {
             val c = container()

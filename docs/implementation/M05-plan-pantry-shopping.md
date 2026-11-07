@@ -17,18 +17,20 @@
 
 The user decides how many times a week to cook.
 
-- [ ] The first time the week plan opens, ask: **How many times a week do you want to cook?** (1–7), which days (optional; otherwise A14 picks them), minutes per session, and which meals come from prep boxes. Also editable in Me → Profile → Cooking.
-- [ ] Show what it means: "Sunday covers Monday to Wednesday, Wednesday covers Thursday to Saturday", and the freezer warning for one session a week (A14).
+- [x] The first time the week plan opens, ask: **How many times a week do you want to cook?** (1–7), which days (optional; otherwise A14 picks them), minutes per session, and which meals come from prep boxes. Also editable in Me → Profile → Cooking.
+- [x] Show what it means: "Sunday: Sunday dinner to Wednesday lunch; Wednesday: Wednesday dinner to Sunday lunch" (for lunches and dinners from boxes), and the freezer warning for one session a week (A14).
 
 ### M5.3 The week plan, by hand
 
-- [ ] Plan tab → **Week**: a grid of days × meals, for the chosen people (me plus people I cook for). Cooking days are marked.
-- [ ] Tap a meal: **Prep box** (choose a recipe), **Cook fresh** (choose a recipe), **Eat out**, or **Free** (log whatever you eat).
-- [ ] Every day shows planned calories and macros against the targets (A8), respecting hide-numbers mode.
-- [ ] Warnings: "This box will be 4 days old: it will go in the freezer" (A13).
-- [ ] **Repeat last week** and **Save as template** / **Use template**.
+- [x] Plan tab → **Week**: a grid of days × meals, for the chosen people (me plus people I cook for). Cooking days are marked.
+- [x] Tap a meal: **Prep box** (choose a recipe), **Cook fresh** (choose a recipe), **Eat out**, or **Free** (log whatever you eat).
+- [x] Every day shows planned calories and macros against the targets (A8), respecting hide-numbers mode.
+- [x] Warnings: "This box will be 4 days old: it will go in the freezer" (A13).
+- [x] **Repeat last week** and **Save as template** / **Use template**.
 
 **Done when:** a week can be planned for two people with 2 cooking days, and the daily totals match the slot targets.
+
+As built: a cooking session is in the afternoon (after lunch), so with Sunday and Wednesday the two sessions share the week's prepped meals exactly (see A14). A day's planned calories are the targets of its prep-box and cook-fresh slots; "Eat out" and "Free" count as unplanned. Templates keep their original dates and are moved to the chosen week when used. The Week tab stays behind `FeatureFlags.weekPlan` until M5 is finished.
 
 ### M5.4 From the plan to the pot
 

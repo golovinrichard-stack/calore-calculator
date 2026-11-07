@@ -37,6 +37,8 @@ class NavigationTest {
             val container = (context.applicationContext as CaloreApp).container
             container.memberRepository.ensureMe()
             container.appPrefs.setFirstRunDone(true)
+            // The week plan's first-time question (M5.2) is not part of these tests.
+            container.appPrefs.setCookingAsked()
         }
         scenario = ActivityScenario.launch(MainActivity::class.java)
     }
@@ -62,13 +64,14 @@ class NavigationTest {
     }
 
     @Test
-    fun planShowsTheRecipeBook() {
+    fun planShowsTheWeekAndTheRecipeBook() {
         compose.onNodeWithText(text(R.string.nav_plan)).performClick()
-        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.plan_tab_week)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.recipes_title)).performClick()
         compose.onNodeWithText(text(R.string.recipes_new)).performClick()
         compose.onNodeWithText(text(R.string.recipe_new_title)).assertIsDisplayed()
         back()
-        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.recipes_new)).assertIsDisplayed()
     }
 
     @Test

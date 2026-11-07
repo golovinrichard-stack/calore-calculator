@@ -213,7 +213,7 @@ Dates are local calendar dates.
 | 6 | Every day except Saturday |
 | 7 | Every day |
 
-- A session covers the prepped meals from the next meal after the session until the meal before the next session's first covered meal.
+- A session covers the prepped meals from the next meal after the session until the meal before the next session's first covered meal. *As built:* a session is in the afternoon, after lunch (*tunable*), so its first covered meal is dinner on the cooking day. With sessions on Sunday and Wednesday and lunches and dinners from boxes, Sunday covers Sunday dinner to Wednesday lunch and Wednesday covers Wednesday dinner to Sunday lunch.
 - Meals in a session's range that fall after the fridge eat-by date are planned as freezer boxes (A13). With 1 session a week the app warns: "With one cooking day, about half of your boxes will be frozen."
 
 ## A15. Smart planner ("Plan my week")

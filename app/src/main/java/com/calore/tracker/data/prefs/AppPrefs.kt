@@ -42,6 +42,8 @@ data class AppSettings(
     /** Morning "eat today" and evening "thaw" reminders (M4.9). */
     val freshnessReminders: Boolean = false,
     val thawReminders: Boolean = false,
+    /** The week plan asked how often the user wants to cook (M5.2). */
+    val cookingAsked: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -70,6 +72,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 exactAlarmHintShown = prefs[EXACT_ALARM_HINT_SHOWN] ?: false,
                 freshnessReminders = prefs[FRESHNESS_REMINDERS] ?: false,
                 thawReminders = prefs[THAW_REMINDERS] ?: false,
+                cookingAsked = prefs[COOKING_ASKED] ?: false,
             )
         }
 
@@ -113,6 +116,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[FRESHNESS_REMINDERS] = on }
     }
 
+    suspend fun setCookingAsked() {
+        dataStore.edit { it[COOKING_ASKED] = true }
+    }
+
     suspend fun setThawReminders(on: Boolean) {
         dataStore.edit { it[THAW_REMINDERS] = on }
     }
@@ -150,5 +157,6 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val EXACT_ALARM_HINT_SHOWN = booleanPreferencesKey("exact_alarm_hint_shown")
         private val FRESHNESS_REMINDERS = booleanPreferencesKey("freshness_reminders")
         private val THAW_REMINDERS = booleanPreferencesKey("thaw_reminders")
+        private val COOKING_ASKED = booleanPreferencesKey("cooking_asked")
     }
 }

@@ -17,6 +17,7 @@ import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.GoalsRepository
 import com.calore.tracker.data.repository.MemberRepository
+import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.WeightRepository
@@ -66,6 +67,7 @@ class AppContainer(context: Context) {
     val bodyRepository = BodyRepository(database.bodyDao(), memberRepository, clock)
     val recipeRepository = RecipeRepository(database.recipeDao(), database.foodDao(), clock)
     val cookingRepository = CookingRepository(database.cookingDao(), clock)
+    val planRepository = PlanRepository(database.planDao(), clock)
 
     /** Background reminders; WorkManager initialises itself on first use. */
     val reminders: ReminderScheduler = WorkManagerReminders(context, clock)
