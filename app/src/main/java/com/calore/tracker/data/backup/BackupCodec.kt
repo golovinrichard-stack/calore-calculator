@@ -33,8 +33,9 @@ object BackupCodec {
      * 7: + recipe ratings (M6).
      * 8: + cycle periods and days (M7).
      * 9: + supplements and supplement logs (M8).
+     * 10: + research reports (M10).
      */
-    const val VERSION = 9
+    const val VERSION = 10
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -128,7 +129,9 @@ object BackupCodec {
             tables.cycleDays.ok({ it.id }) { parseIsoDate(it.date) != null } &&
             tables.cycleDays.orEmpty().isUnique { it.date } &&
             tables.supplements.ok({ it.id }) { parseIsoDate(it.startDate) != null && it.doseAmount.isAmount() } &&
-            tables.supplementLogs.ok({ it.id }) { it.status == "TAKEN" || it.status == "SKIPPED" }
+            tables.supplementLogs.ok({ it.id }) { it.status == "TAKEN" || it.status == "SKIPPED" } &&
+            tables.researchReports.ok({ it.id }) { it.status in setOf("PENDING", "SENT", "FAILED") && it.attempts >= 0 } &&
+            tables.researchReports.orEmpty().isUnique { it.isoWeek }
     }
 
     private fun areCookingTablesConsistent(tables: BackupTables): Boolean {

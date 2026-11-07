@@ -20,6 +20,9 @@ import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.data.repository.ResearchRepository
+import com.calore.tracker.data.prefs.ResearchPrefs
+import com.calore.tracker.data.remote.ResearchClient
 import com.calore.tracker.data.repository.SupplementRepository
 import com.calore.tracker.notifications.SupplementReminders
 import com.calore.tracker.data.repository.CycleRepository
@@ -27,6 +30,7 @@ import com.calore.tracker.data.prefs.CyclePrefs
 import com.calore.tracker.ui.rating.RatingPrompt
 import com.calore.tracker.ui.cycle.AppLockState
 import com.calore.tracker.widget.WidgetUpdates
+import com.calore.tracker.notifications.ResearchWork
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.ShopRepository
@@ -112,6 +116,24 @@ class AppContainer(context: Context) {
     private val starterRecipes = StarterRecipeImporter(database.recipeDao(), database.foodDao(), appPrefs, clock) {
         context.assets.open(StarterRecipeImporter.ASSET_PATH)
     }
+    /** M10: research reports, only when the user agreed (and the build has a server address). */
+    val researchRepository = ResearchRepository(
+        prefs = ResearchPrefs(PreferenceDataStoreFactory.create { context.preferencesDataStoreFile(ResearchPrefs.FILE_NAME) }),
+        researchDao = database.researchDao(),
+        client = ResearchClient(BuildConfig.RESEARCH_SERVER_URL, userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; research)"),
+        diaryDao = database.diaryDao(),
+        foodDao = database.foodDao(),
+        cookingDao = database.cookingDao(),
+        members = memberRepository,
+        weights = weightRepository,
+        body = bodyRepository,
+        plans = planRepository,
+        recipes = recipeRepository,
+        cycle = cycleRepository,
+        supplements = supplementRepository,
+        appVersion = BuildConfig.VERSION_NAME,
+        clock = clock,
+    )
     val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock, cycleRepository)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
@@ -121,6 +143,14 @@ class AppContainer(context: Context) {
     )
 
     init {
+        // M10.4: keep the weekly research job while the user takes part (only in builds with a server).
+        if (FeatureFlags.research) {
+            applicationScope.launch {
+                val consent = researchRepository.consent.first()
+                if (consent.active) ResearchWork.scheduleWeekly(context, clock)
+                if (consent.pendingDeletion || consent.registrationPending) ResearchWork.sendSoon(context)
+            }
+        }
         // M9.2: the widget follows diary, box and plan changes.
         WidgetUpdates.observe(context, database.invalidationTracker, applicationScope)
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.

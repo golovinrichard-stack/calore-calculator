@@ -421,7 +421,7 @@ Cycle settings live in DataStore (`cycle_prefs`): `enabled`, `contraception` (`N
 | `attempts` | INTEGER | |
 | `createdAt`, `sentAt` | INTEGER, INTEGER NULL | |
 
-Consent lives in DataStore (`research_prefs`): `participantId`, `participantSecret` (random, 32 bytes, Base64), `consentVersion`, `consentedAt`, `categories`, `region` (optional Czech region code), `lastReportWeek`.
+Consent lives in DataStore (`research_prefs`): `participantId`, `participantSecret` (random, 32 bytes, Base64), `consentVersion`, `consentedAt`, `categories`, `region` (optional Czech region code), `lastReportWeek`. *As built:* also `withdrawnAt` (Stop sharing), `pendingDeletion` and `registrationPending`. `isoWeek` is unique.
 
 ## M11: household (version 12)
 

@@ -21,6 +21,11 @@ android {
         versionName = "0.11.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // M10.4: the research server's address, from the Gradle property calore.researchServerUrl.
+        // Empty (the default) keeps the whole research feature hidden and sends nothing.
+        val researchServerUrl = providers.gradleProperty("calore.researchServerUrl").getOrElse("")
+        buildConfigField("String", "RESEARCH_SERVER_URL", "\"" + researchServerUrl.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
     }
 
     buildTypes {

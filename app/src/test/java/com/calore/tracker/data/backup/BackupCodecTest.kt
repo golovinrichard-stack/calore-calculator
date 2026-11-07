@@ -219,6 +219,7 @@ class BackupCodecTest {
                 ),
             ),
             supplementLogs = listOf(SupplementLogRow("6ba7b81a-9dad-41d1-80b4-00c04fd430c8", "6ba7b819-9dad-41d1-80b4-00c04fd430c8", 14, 14, "TAKEN", null, 14, 14)),
+            researchReports = listOf(ResearchReportRow("6ba7b81b-9dad-41d1-80b4-00c04fd430c8", "2026-W45", listOf("NUTRITION"), "{}", "SENT", 1, 15, 16)),
         ),
     )
 
@@ -242,7 +243,7 @@ class BackupCodecTest {
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
                 "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
-                "recipe_ratings", "cycle_periods", "cycle_days", "supplements", "supplement_logs",
+                "recipe_ratings", "cycle_periods", "cycle_days", "supplements", "supplement_logs", "research_reports",
             ),
             root["tables"]!!.jsonObject.keys,
         )

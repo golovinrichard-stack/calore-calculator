@@ -21,11 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.calore.tracker.BuildConfig
 import com.calore.tracker.R
+import com.calore.tracker.FeatureFlags
+import androidx.compose.material3.TextButton
 import com.calore.tracker.ui.components.SectionHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(onBack: () -> Unit) {
+fun AboutScreen(onBack: () -> Unit, onOpenPolicy: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -55,6 +57,10 @@ fun AboutScreen(onBack: () -> Unit) {
             Text(stringResource(R.string.about_tagline), style = MaterialTheme.typography.bodyLarge)
 
             AboutSection(R.string.about_privacy_title, R.string.about_privacy)
+            // M10.1: the full policy; a draft until the owner's legal review, so shown with the research feature.
+            if (FeatureFlags.research) {
+                TextButton(onClick = onOpenPolicy) { Text(stringResource(R.string.about_policy_open)) }
+            }
             AboutSection(R.string.about_data_title, R.string.about_data)
             // M7.7: cycle tracking is not for birth control or getting pregnant.
             AboutSection(R.string.about_health_title, R.string.cycle_disclaimer)

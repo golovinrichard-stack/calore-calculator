@@ -35,8 +35,9 @@ import androidx.room.TypeConverters
         CycleDayEntity::class,
         SupplementEntity::class,
         SupplementLogEntity::class,
+        ResearchReportEntity::class,
     ],
-    version = 10,
+    version = 11,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -56,6 +57,7 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun ratingDao(): RatingDao
     abstract fun cycleDao(): CycleDao
     abstract fun supplementDao(): SupplementDao
+    abstract fun researchDao(): ResearchDao
 
     companion object {
         private const val FILE_NAME = "calore.db"

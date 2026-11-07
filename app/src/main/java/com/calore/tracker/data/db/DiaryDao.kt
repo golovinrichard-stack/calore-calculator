@@ -37,6 +37,10 @@ interface DiaryDao {
     @Query("DELETE FROM diary_entries WHERE id = :id")
     suspend fun delete(id: Long)
 
+    /** M10: the phone's user's entries between two dates, for a research report. */
+    @Query("SELECT * FROM diary_entries WHERE date >= :from AND date <= :to AND memberId IS NULL ORDER BY date, createdAt, id")
+    suspend fun entriesBetween(from: String, to: String): List<DiaryEntryEntity>
+
     /** M8.5: removes the entry a supplement made, by its uuid. */
     @Query("DELETE FROM diary_entries WHERE uuid = :uuid")
     suspend fun deleteByUuid(uuid: String)

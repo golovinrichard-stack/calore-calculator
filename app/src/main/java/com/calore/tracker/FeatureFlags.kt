@@ -15,7 +15,13 @@ package com.calore.tracker
  */
 object FeatureFlags {
 
-    // No unfinished features right now: everything up to M7 is finished.
+    // No unfinished features right now: everything up to M9 is finished.
+
+    /**
+     * M10: "Help research" shows only when the build has a research server address
+     * (`calore.researchServerUrl`). Without one, nothing about research is shown or sent.
+     */
+    val research: Boolean = BuildConfig.RESEARCH_SERVER_URL.isNotBlank()
 
     /**
      * True only in debug builds. [BuildConfig.DEBUG] is a constant, so R8 removes code behind a

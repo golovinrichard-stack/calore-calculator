@@ -18,6 +18,7 @@ object SyncScope {
         "cycle_days",
         "supplements",
         "supplement_logs",
+        "research_reports",
     )
 
     /** May sync to the household's phones in M11. */

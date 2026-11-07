@@ -35,6 +35,7 @@ data class DatabaseSnapshot(
     val cycleDays: List<CycleDayEntity>? = emptyList(),
     val supplements: List<SupplementEntity>? = emptyList(),
     val supplementLogs: List<SupplementLogEntity>? = emptyList(),
+    val researchReports: List<ResearchReportEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -248,6 +249,15 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertSupplementLogs(rows: List<SupplementLogEntity>)
 
+    @Query("SELECT * FROM research_reports ORDER BY isoWeek")
+    protected abstract suspend fun allResearchReports(): List<ResearchReportEntity>
+
+    @Query("DELETE FROM research_reports")
+    protected abstract suspend fun deleteAllResearchReports()
+
+    @Insert
+    protected abstract suspend fun insertResearchReports(rows: List<ResearchReportEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -313,6 +323,7 @@ abstract class BackupDao {
         cycleDays = allCycleDays(),
         supplements = allSupplements(),
         supplementLogs = allSupplementLogs(),
+        researchReports = allResearchReports(),
     )
 
     /**
@@ -423,6 +434,10 @@ abstract class BackupDao {
         snapshot.supplementLogs?.let {
             deleteAllSupplementLogs()
             insertSupplementLogs(it)
+        }
+        snapshot.researchReports?.let {
+            deleteAllResearchReports()
+            insertResearchReports(it)
         }
     }
 }

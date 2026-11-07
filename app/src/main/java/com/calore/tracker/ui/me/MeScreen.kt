@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.calore.tracker.R
+import com.calore.tracker.FeatureFlags
 
 /** Where everything about the user lives (M1.9). Optional features add their rows here later. */
 enum class MeDestination(@StringRes val title: Int, @StringRes val description: Int, @DrawableRes val icon: Int) {
@@ -30,6 +31,7 @@ enum class MeDestination(@StringRes val title: Int, @StringRes val description: 
     STATS(R.string.stats_title, R.string.stats_desc, R.drawable.ic_nav_shop),
     CYCLE(R.string.cycle_title, R.string.cycle_me_desc, R.drawable.ic_cycle),
     SUPPLEMENTS(R.string.supplements_title, R.string.supplements_me_desc, R.drawable.ic_supplement),
+    RESEARCH(R.string.research_title, R.string.research_me_desc, R.drawable.ic_info),
     SETTINGS(R.string.me_settings, R.string.me_settings_desc, R.drawable.ic_settings),
     ABOUT(R.string.me_about, R.string.me_about_desc, R.drawable.ic_info),
 }
@@ -50,7 +52,8 @@ fun MeContent(padding: PaddingValues, onOpen: (MeDestination) -> Unit) {
             .padding(padding)
             .verticalScroll(rememberScrollState()),
     ) {
-        MeDestination.entries.forEach { destination ->
+        // M10: "Help research" only exists in builds with a research server address.
+        MeDestination.entries.filter { it != MeDestination.RESEARCH || FeatureFlags.research }.forEach { destination ->
             ListItem(
                 headlineContent = { Text(stringResource(destination.title)) },
                 supportingContent = { Text(stringResource(destination.description)) },

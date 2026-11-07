@@ -19,6 +19,7 @@ import com.calore.tracker.data.db.RecipeRatingEntity
 import com.calore.tracker.data.db.CycleDayEntity
 import com.calore.tracker.data.db.CyclePeriodEntity
 import com.calore.tracker.data.db.SupplementEntity
+import com.calore.tracker.data.db.ResearchReportEntity
 import com.calore.tracker.data.db.SupplementLogEntity
 import com.calore.tracker.data.db.ShoppingItemEntity
 import com.calore.tracker.domain.ShopSection
@@ -89,6 +90,7 @@ data class BackupTables(
     @SerialName("cycle_days") val cycleDays: List<CycleDayRow>? = null,
     val supplements: List<SupplementRow>? = null,
     @SerialName("supplement_logs") val supplementLogs: List<SupplementLogRow>? = null,
+    @SerialName("research_reports") val researchReports: List<ResearchReportRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -587,6 +589,22 @@ internal fun SupplementRow.toEntity() = SupplementEntity(
 internal fun SupplementLogEntity.toRow() = SupplementLogRow(id, supplementId, scheduledAt, takenAt, status, diaryEntryUuid, createdAt, updatedAt)
 
 internal fun SupplementLogRow.toEntity() = SupplementLogEntity(id, supplementId, scheduledAt, takenAt, status, diaryEntryUuid, createdAt, updatedAt)
+
+@Serializable
+data class ResearchReportRow(
+    val id: String,
+    val isoWeek: String,
+    val categories: List<String> = emptyList(),
+    val payload: String,
+    val status: String,
+    val attempts: Int = 0,
+    val createdAt: Long,
+    val sentAt: Long? = null,
+)
+
+internal fun ResearchReportEntity.toRow() = ResearchReportRow(id, isoWeek, categories, payload, status, attempts, createdAt, sentAt)
+
+internal fun ResearchReportRow.toEntity() = ResearchReportEntity(id, isoWeek, categories, payload, status, attempts, createdAt, sentAt)
 
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,

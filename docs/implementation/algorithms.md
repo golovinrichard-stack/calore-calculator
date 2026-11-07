@@ -361,6 +361,8 @@ Rules:
 - **Cycle** summaries are sent per completed cycle (cycle length, period length, symptom counts per phase, average intake per phase), never with dates.
 - The payload is stored in `research_reports.payload` before sending, so the "See what we send" screen shows exactly what leaves the phone.
 
+**As built (M10.3):** BMI bands are written `<18.5`, `18.5-24.9`, `25-29.9`, `30-34.9`, `>=35`; body-fat bands `20-24`. A day counts for nutrition with at least half the daily target logged (A7). Food groups come from the food's shop section; a dish or a box uses its recipe's ingredients (weighted by their calories); a quick add counts as OTHER and a supplement as SUPPLEMENTS. "Plan adherence" is eaten planned meals ÷ planned meals (boxes and cook fresh) of the week. A cycle "ends this week" when the next period started this week; its period length is sent only if the end was logged. Phase calories use counted days only. Supplements are grouped by kind; adherence is doses taken ÷ doses due that week.
+
 ## A22. Household sync
 
 - **Hybrid logical clock (HLC):** `(wallMillis, counter, deviceId)`, compared in that order, encoded as `%013d-%05d-<deviceId>` so text order equals clock order.

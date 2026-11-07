@@ -15,6 +15,8 @@ import com.calore.tracker.ui.rating.RatePromptViewModel
 import com.calore.tracker.ui.cycle.CycleViewModel
 import com.calore.tracker.ui.supplements.SupplementEditViewModel
 import com.calore.tracker.ui.supplements.SupplementsViewModel
+import com.calore.tracker.ui.research.ResearchViewModel
+import com.calore.tracker.notifications.ResearchWork
 import com.calore.tracker.ui.shop.StatsViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
@@ -188,6 +190,16 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             SupplementsViewModel(c.supplementRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            val app = this[APPLICATION_KEY] as CaloreApp
+            ResearchViewModel(
+                c.researchRepository,
+                onAgreed = { ResearchWork.scheduleWeekly(app, c.clock) },
+                onStopped = { ResearchWork.cancelWeekly(app) },
+                onSend = { ResearchWork.sendSoon(app) },
+            )
         }
         initializer {
             val c = container()

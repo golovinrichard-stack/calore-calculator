@@ -54,6 +54,9 @@ import com.calore.tracker.ui.plan.PlanWeekScreen
 import com.calore.tracker.ui.kitchen.UseItUpScreen
 import com.calore.tracker.ui.cycle.CycleScreen
 import com.calore.tracker.ui.supplements.SupplementEditScreen
+import com.calore.tracker.ui.research.ResearchReportsScreen
+import com.calore.tracker.ui.research.ResearchScreen
+import com.calore.tracker.ui.about.PolicyScreen
 import com.calore.tracker.ui.supplements.SupplementsScreen
 import com.calore.tracker.ui.cycle.LocalAppLock
 import com.calore.tracker.ui.recipes.RecipeDetailScreen
@@ -231,6 +234,7 @@ fun CaloreNavHost(
                             MeDestination.STATS -> Routes.STATS
                             MeDestination.CYCLE -> Routes.CYCLE
                             MeDestination.SUPPLEMENTS -> Routes.SUPPLEMENTS
+                            MeDestination.RESEARCH -> Routes.RESEARCH
                         }
                         navController.navigate(route)
                     },
@@ -277,7 +281,7 @@ fun CaloreNavHost(
                 )
             }
             composable(Routes.ABOUT) {
-                AboutScreen(onBack = { navController.popBackStack() })
+                AboutScreen(onBack = { navController.popBackStack() }, onOpenPolicy = { navController.navigate(Routes.POLICY) })
             }
             composable(Routes.BACKUP) {
                 BackupScreen(onBack = { navController.popBackStack() })
@@ -301,6 +305,15 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
         )
     }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.RESEARCH) {
+        ResearchScreen(
+            onBack = { navController.popBackStack() },
+            onOpenPolicy = { navController.navigate(Routes.POLICY) },
+            onOpenReports = { navController.navigate(Routes.RESEARCH_REPORTS) },
+        )
+    }
+    composable(Routes.RESEARCH_REPORTS) { ResearchReportsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.POLICY) { PolicyScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.SUPPLEMENTS) {
         SupplementsScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.supplementEdit(id)) })
     }
