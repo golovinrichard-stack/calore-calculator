@@ -43,6 +43,7 @@ object Routes {
     const val COOK_MODE = "cook_mode/{$ARG_RECIPE_IDS}"
     const val PLAN_WEEK = "plan_week/{$ARG_WEEK_START}"
     const val USE_IT_UP = "use_it_up"
+    const val CYCLE = "cycle"
     const val PEOPLE = "people"
     const val SHOPS = "shops"
     const val SHOP = "shop"

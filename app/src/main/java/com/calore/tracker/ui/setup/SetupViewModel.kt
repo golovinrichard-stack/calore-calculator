@@ -1,6 +1,8 @@
 package com.calore.tracker.ui.setup
 
 import androidx.lifecycle.ViewModel
+import com.calore.tracker.data.repository.CycleRepository
+import com.calore.tracker.domain.Sex
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.data.repository.MemberRepository
@@ -22,6 +24,8 @@ enum class SetupStep { BODY, ACTIVITY, GOAL, RESULT }
 data class SetupUiState(
     val step: SetupStep = SetupStep.BODY,
     val form: TargetForm = TargetForm(),
+    /** M7.1: "Track your cycle?", answered on the last step (only offered to people who chose female). */
+    val trackCycle: Boolean = false,
 )
 
 /**
@@ -33,6 +37,7 @@ class SetupViewModel(
     private val weights: WeightRepository,
     private val appPrefs: AppPrefs,
     private val clock: Clock,
+    private val cycle: CycleRepository? = null,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(SetupUiState())
@@ -69,9 +74,13 @@ class SetupViewModel(
         }
     }
 
+    fun setTrackCycle(on: Boolean) = state.update { it.copy(trackCycle = on) }
+
     fun finish() {
         val form = state.value.form
+        val trackCycle = state.value.trackCycle && form.sex == Sex.FEMALE
         viewModelScope.launch {
+            if (trackCycle) cycle?.setEnabled(true)
             val result = form.result(today)
             members.updateMe { form.applyTo(it, result) }
             val kg = form.weightValue?.takeIf { form.profile(today) != null }

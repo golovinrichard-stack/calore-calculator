@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import com.calore.tracker.ui.rating.RatePromptCard
+import com.calore.tracker.ui.cycle.CycleTodayCard
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -92,6 +93,7 @@ import kotlin.math.abs
 fun TodayScreen(
     onAddFood: (LocalDate, MealType) -> Unit,
     onOpenRecipe: (String) -> Unit = {},
+    onOpenCycle: () -> Unit = {},
     viewModel: TodayViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -141,6 +143,11 @@ fun TodayScreen(
                 null
             },
             rate = { RatePromptCard() },
+            cycle = if (state.date == state.today) {
+                { CycleTodayCard(onOpen = onOpenCycle) }
+            } else {
+                null
+            },
             planned = {
                 PlannedTodayCard(
                     date = state.date,
@@ -236,6 +243,8 @@ fun TodayContent(
     planned: (@Composable () -> Unit)? = null,
     /** "How was …? 👍 👎" after eating a box (M6.1). */
     rate: (@Composable () -> Unit)? = null,
+    /** The cycle card (M7.3), when cycle tracking is on. */
+    cycle: (@Composable () -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -256,6 +265,7 @@ fun TodayContent(
             }
         }
         rate?.let { card -> item(key = "rate") { card() } }
+        cycle?.let { card -> item(key = "cycle") { card() } }
         planned?.let { card -> item(key = "planned") { card() } }
         eatFirst?.let { card -> item(key = "eat_first") { card() } }
         item(key = "summary") {

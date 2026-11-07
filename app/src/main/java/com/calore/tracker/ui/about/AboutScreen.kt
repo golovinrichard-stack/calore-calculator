@@ -56,6 +56,8 @@ fun AboutScreen(onBack: () -> Unit) {
 
             AboutSection(R.string.about_privacy_title, R.string.about_privacy)
             AboutSection(R.string.about_data_title, R.string.about_data)
+            // M7.7: cycle tracking is not for birth control or getting pregnant.
+            AboutSection(R.string.about_health_title, R.string.cycle_disclaimer)
             AboutSection(R.string.about_license_title, R.string.about_license)
         }
     }

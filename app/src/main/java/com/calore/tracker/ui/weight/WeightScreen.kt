@@ -128,7 +128,7 @@ fun WeightScreen(
             }
 
             item(key = "chart") {
-                ChartCard(points = state.trend, dateFormatter = dateFormatter)
+                ChartCard(points = state.trend, dateFormatter = dateFormatter, waterDays = state.waterDays)
             }
 
             item(key = "body_fat") {
@@ -179,7 +179,7 @@ fun WeightScreen(
 }
 
 @Composable
-private fun ChartCard(points: List<TrendPoint>, dateFormatter: DateTimeFormatter) {
+private fun ChartCard(points: List<TrendPoint>, dateFormatter: DateTimeFormatter, waterDays: Set<LocalDate> = emptySet()) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             when {
@@ -211,6 +211,7 @@ private fun ChartCard(points: List<TrendPoint>, dateFormatter: DateTimeFormatter
                     )
                     WeightChart(
                         points = points,
+                        shaded = waterDays,
                         description = stringResource(
                             R.string.weight_chart_description,
                             formatKg(first.kg),
@@ -219,6 +220,9 @@ private fun ChartCard(points: List<TrendPoint>, dateFormatter: DateTimeFormatter
                             last.date.format(dateFormatter),
                         ),
                     )
+                    if (waterDays.any { it >= points.first().date }) {
+                        Text(stringResource(R.string.weight_water_days), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                     Text(
                         text = stringResource(
                             R.string.weight_range,

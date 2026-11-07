@@ -23,6 +23,7 @@ import com.calore.tracker.data.repository.RatingRepository
 import com.calore.tracker.data.repository.CycleRepository
 import com.calore.tracker.data.prefs.CyclePrefs
 import com.calore.tracker.ui.rating.RatingPrompt
+import com.calore.tracker.ui.cycle.AppLockState
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.ShopRepository
@@ -84,6 +85,9 @@ class AppContainer(context: Context) {
         clock,
     )
 
+    /** The app lock (M7.6), in memory: locked again whenever the app leaves the screen. */
+    val appLock = AppLockState()
+
     /** Recipes waiting for an optional 👍 / 👎 after eating (M6.1); in memory only. */
     val ratingPrompt = RatingPrompt()
     val pantryRepository = PantryRepository(database.pantryDao(), database.foodDao(), clock)
@@ -101,7 +105,7 @@ class AppContainer(context: Context) {
     private val starterRecipes = StarterRecipeImporter(database.recipeDao(), database.foodDao(), appPrefs, clock) {
         context.assets.open(StarterRecipeImporter.ASSET_PATH)
     }
-    val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock)
+    val checkinService = CheckinService(database.diaryDao(), weightRepository, memberRepository, bodyRepository, clock, cycleRepository)
     val backupRepository = BackupRepository(
         backupDao = database.backupDao(),
         contentResolver = context.contentResolver,

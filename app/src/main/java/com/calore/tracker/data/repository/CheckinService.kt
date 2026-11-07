@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.first
 import java.time.Clock
 import java.time.LocalDate
 import kotlin.math.roundToInt
+import com.calore.tracker.domain.cycle.Cycles
 
 /** The weekly check-in (M1.7): gathers the data for A7, saves the check-in, applies an accepted target. */
 class CheckinService(
@@ -31,6 +32,7 @@ class CheckinService(
     private val members: MemberRepository,
     private val body: BodyRepository,
     private val clock: Clock,
+    private val cycle: CycleRepository? = null,
 ) {
     /** What the check-in says today. Nothing is saved. */
     suspend fun evaluate(): CheckinOutcome {
@@ -41,6 +43,11 @@ class CheckinService(
             .mapNotNull { row -> parseStoredDate(row.date)?.let { DayIntake(it, row.kcal) } }
         val weighIns = weights.entries().first()
         val target = me.effectiveTargets.kcal
+        // A7 step 4 (M7.5): likely water-retention days from cycle tracking are left out of the trend.
+        val waterDays = cycle?.let { repository ->
+            val first = weighIns.minOfOrNull { it.date } ?: return@let emptySet()
+            Cycles.waterDays(first, today, repository.periodsNow(), repository.settings.first())
+        }.orEmpty()
         return SmartMaintenance.run(
             CheckinInput(
                 today = today,
@@ -48,6 +55,7 @@ class CheckinService(
                 // That day's target isn't stored per day, so the current target is used for every day.
                 dailyTargetKcal = target,
                 weighIns = weighIns,
+                excludedWeighInDates = waterDays,
                 formulaTdee = formulaTdee(me, weighIns.lastOrNull()?.kg, today),
                 sex = me.sex ?: Sex.FEMALE,
                 goalType = me.goalType ?: GoalType.MAINTAIN,

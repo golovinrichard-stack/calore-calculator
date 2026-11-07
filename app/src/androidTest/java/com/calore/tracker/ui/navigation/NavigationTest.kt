@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -99,6 +100,14 @@ class NavigationTest {
         compose.onNodeWithText(text(R.string.nav_shop)).performClick()
         compose.onNodeWithText(text(R.string.shop_title)).assertIsDisplayed()
         compose.onNodeWithText(text(R.string.shop_add_item)).assertIsDisplayed()
+    }
+
+    @Test
+    fun cycleIsInMeAndStartsWithTheIntro() {
+        openMe()
+        compose.onNodeWithText(text(R.string.cycle_title)).performScrollTo().performClick()
+        compose.onNodeWithText(text(R.string.cycle_intro_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.cycle_switch_on)).assertIsDisplayed()
     }
 
     @Test

@@ -26,6 +26,10 @@ import com.calore.tracker.domain.SlotKind
 import com.calore.tracker.domain.StoreInfo
 import com.calore.tracker.domain.parseIsoDate
 import com.calore.tracker.domain.plan.PlanAlternative
+import com.calore.tracker.domain.plan.PhaseBonusProvider
+import com.calore.tracker.domain.cycle.CyclePhaseBonus
+import com.calore.tracker.domain.cycle.Cycles
+import com.calore.tracker.data.repository.CycleRepository
 import com.calore.tracker.domain.plan.PlanEstimates
 import com.calore.tracker.domain.plan.PlanReason
 import com.calore.tracker.domain.plan.PlanResult
@@ -116,6 +120,7 @@ class PlanWeekViewModel(
     private val appPrefs: AppPrefs,
     private val clock: Clock,
     private val compute: CoroutineDispatcher = Dispatchers.Default,
+    private val cycle: CycleRepository? = null,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(PlanWeekUiState())
@@ -283,11 +288,21 @@ class PlanWeekViewModel(
             b.me = members.me().first()
             b.people = listOf(b.me) + members.managed().first()
             b.ratings = ratings.all()
-            plan(b, s, previous, runSeed)
+            // M7.4 (A20): the cycle bonus for me, only when tracking is on and not paused.
+            val phase = cycle?.let { repository ->
+                val settings = repository.settings.first()
+                val periods = repository.periodsNow()
+                if (settings.enabled && !settings.paused && periods.isNotEmpty()) {
+                    CyclePhaseBonus(b.me.id) { date -> Cycles.phaseOn(date, periods, settings) }
+                } else {
+                    null
+                }
+            } ?: PhaseBonusProvider.NONE
+            plan(b, s, previous, runSeed, phase)
         }
     }
 
-    private suspend fun plan(b: Base, s: PlanWeekUiState, previous: Map<SlotKey, String>, runSeed: Long) {
+    private suspend fun plan(b: Base, s: PlanWeekUiState, previous: Map<SlotKey, String>, runSeed: Long, phase: PhaseBonusProvider) {
         val lockedSlots = s.slots.filter { it.key in s.locked }.map { it.copy(locked = true) }
         val lockedKeys = lockedSlots.map { it.key }.toSet()
         val kept = b.existing.filter { isFixed(it) && it.key !in lockedKeys } + lockedSlots
@@ -306,6 +321,7 @@ class PlanWeekViewModel(
             pantry = b.pantry,
             kept = kept,
             recent = b.recent,
+            phase = phase,
         )
         input = plannerInput
         val result = withContext(compute) { Planner.plan(plannerInput, runSeed, previous) }

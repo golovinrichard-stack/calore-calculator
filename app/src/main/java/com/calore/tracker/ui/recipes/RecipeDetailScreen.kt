@@ -62,6 +62,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import com.calore.tracker.domain.cycle.CycleTips
+import com.calore.tracker.domain.cycle.RecipeBadge
+import androidx.compose.material3.AssistChip
 import com.calore.tracker.ui.rating.ThumbButtons
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.domain.Allergen
@@ -181,6 +184,7 @@ fun RecipeDetailScreen(
                 myAllergens = current.myAllergens,
                 prices = current.prices,
                 rating = current.myRating,
+                showBadges = current.showBadges,
                 onRate = viewModel::rate,
                 scale = scale,
                 onScaleChange = { scale = it },
@@ -266,6 +270,7 @@ private fun RecipeContent(
     prices: Map<String, Double>,
     rating: Int?,
     onRate: (Int?) -> Unit,
+    showBadges: Boolean,
     scale: Double,
     onScaleChange: (Double) -> Unit,
     onSwap: (index: Int) -> Unit,
@@ -304,6 +309,16 @@ private fun RecipeContent(
         }
 
         RecipeNutritionCards(details)
+        if (showBadges) {
+            val badges = CycleTips.badges(nutrition.perServing)
+            if (badges.isNotEmpty()) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    badges.forEach { badge ->
+                        AssistChip(onClick = {}, label = { Text(stringResource(if (badge == RecipeBadge.IRON_RICH) R.string.badge_iron_rich else R.string.badge_magnesium_rich)) })
+                    }
+                }
+            }
+        }
         // A18: only when every ingredient has a known price.
         RecipeCosts.cost(details.ingredients, nutrition, recipe.servings, prices).takeIf { it.complete && it.totalHalers > 0 }?.let { cost ->
             Text(

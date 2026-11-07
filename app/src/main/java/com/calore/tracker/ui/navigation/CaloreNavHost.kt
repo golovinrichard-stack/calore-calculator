@@ -52,6 +52,8 @@ import com.calore.tracker.ui.profile.ProfileScreen
 import com.calore.tracker.ui.recipes.PlanScreen
 import com.calore.tracker.ui.plan.PlanWeekScreen
 import com.calore.tracker.ui.kitchen.UseItUpScreen
+import com.calore.tracker.ui.cycle.CycleScreen
+import com.calore.tracker.ui.cycle.LocalAppLock
 import com.calore.tracker.ui.recipes.RecipeDetailScreen
 import com.calore.tracker.ui.recipes.RecipeEditScreen
 import com.calore.tracker.ui.scanner.ScannerScreen
@@ -142,6 +144,7 @@ fun CaloreNavHost(
                 TodayScreen(
                     onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) },
                     onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
+                    onOpenCycle = { navController.navigate(Routes.CYCLE) },
                 )
             }
             composable(Routes.ADD_FOOD, arguments = dateAndMealArgs) {
@@ -224,6 +227,7 @@ fun CaloreNavHost(
                             MeDestination.ABOUT -> Routes.ABOUT
                             MeDestination.PEOPLE -> Routes.PEOPLE
                             MeDestination.STATS -> Routes.STATS
+                            MeDestination.CYCLE -> Routes.CYCLE
                         }
                         navController.navigate(route)
                     },
@@ -294,6 +298,7 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
         )
     }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.CYCLE) { CycleScreen(onBack = { navController.popBackStack() }, lockState = LocalAppLock.current) }
     composable(Routes.USE_IT_UP) {
         UseItUpScreen(onBack = { navController.popBackStack() }, onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) })
     }

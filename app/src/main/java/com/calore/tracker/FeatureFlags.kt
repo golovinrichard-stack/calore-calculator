@@ -15,7 +15,7 @@ package com.calore.tracker
  */
 object FeatureFlags {
 
-    // No unfinished features right now: everything up to M5 is finished.
+    // No unfinished features right now: everything up to M7 is finished.
 
     /**
      * True only in debug builds. [BuildConfig.DEBUG] is a constant, so R8 removes code behind a

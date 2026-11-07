@@ -3,6 +3,7 @@ package com.calore.tracker.ui.recipes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.data.repository.CycleRepository
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
@@ -40,6 +41,8 @@ sealed interface RecipeLoad {
         val prices: Map<String, Double> = emptyMap(),
         /** My 👍 (1) or 👎 (−1), M6.1. */
         val myRating: Int? = null,
+        /** M7.4: iron-rich and magnesium-rich badges, when cycle tracking is on. */
+        val showBadges: Boolean = false,
     ) : RecipeLoad
 }
 
@@ -59,6 +62,7 @@ class RecipeDetailViewModel(
     private val clock: Clock = Clock.systemDefaultZone(),
     shops: ShopRepository? = null,
     private val ratings: RatingRepository? = null,
+    cycle: CycleRepository? = null,
 ) : ViewModel() {
 
     val recipeId: String = savedStateHandle.get<String>(Routes.ARG_RECIPE_ID).orEmpty()
@@ -68,8 +72,9 @@ class RecipeDetailViewModel(
         members.me(),
         shops?.foodPrices() ?: flowOf(emptyMap()),
         ratings?.observeAll() ?: flowOf(emptyMap()),
-    ) { details, me, prices, rated ->
-        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens, prices, rated[me.id]?.get(recipeId))
+        cycle?.settings?.map { it.enabled } ?: flowOf(false),
+    ) { details, me, prices, rated, badges ->
+        if (details == null) RecipeLoad.NotFound else RecipeLoad.Loaded(details, me.allergens, prices, rated[me.id]?.get(recipeId), badges)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), RecipeLoad.Loading)
 
     private val meId = members.me().map { it.id }
