@@ -364,13 +364,13 @@ Waste is not a separate table: boxes have `state = WASTED` and pantry items have
 
 ### `recipe_ratings` (shared)
 
-`id`, `memberId`, `recipeId`, `rating` (−1 or 1), `updatedAt`. Unique index on (`memberId`, `recipeId`).
+`id`, `memberId`, `recipeId`, `rating` (−1 or 1), `createdAt`, `updatedAt`, `deletedAt` (taking a rating back). Unique index on (`memberId`, `recipeId`).
 
 ## M7: cycle (version 9), private, never synced
 
 ### `cycle_periods`
 
-`id`, `startDate`, `endDate` NULL, timestamps.
+`id`, `startDate` (unique), `endDate` NULL, `createdAt`, `updatedAt`. Cycle rows are deleted for real (no `deletedAt`): private health data that never syncs.
 
 ### `cycle_days`
 
@@ -405,7 +405,7 @@ Cycle settings live in DataStore (`cycle_prefs`): `enabled`, `contraception` (`N
 
 ### `supplement_logs`
 
-`id`, `supplementId`, `scheduledAt` INTEGER NULL, `takenAt` INTEGER NULL, `status` (`TAKEN`, `SKIPPED`), `diaryEntryUuid` TEXT NULL, timestamps.
+`id`, `supplementId`, `scheduledAt` INTEGER NULL, `takenAt` INTEGER NULL, `status` (`TAKEN`, `SKIPPED`), `diaryEntryUuid` TEXT NULL, `createdAt`, `updatedAt`. Unique on (`supplementId`, `scheduledAt`). *As built:* supplement rows and logs are deleted for real (private, never synced); nutrients per dose are `kcal`, `protein`, `carbs`, `fat`, `fiber`, `sugar`.
 
 ## M10: research (version 11), private
 
@@ -421,7 +421,7 @@ Cycle settings live in DataStore (`cycle_prefs`): `enabled`, `contraception` (`N
 | `attempts` | INTEGER | |
 | `createdAt`, `sentAt` | INTEGER, INTEGER NULL | |
 
-Consent lives in DataStore (`research_prefs`): `participantId`, `participantSecret` (random, 32 bytes, Base64), `consentVersion`, `consentedAt`, `categories`, `region` (optional Czech region code), `lastReportWeek`.
+Consent lives in DataStore (`research_prefs`): `participantId`, `participantSecret` (random, 32 bytes, Base64), `consentVersion`, `consentedAt`, `categories`, `region` (optional Czech region code), `lastReportWeek`. *As built:* also `withdrawnAt` (Stop sharing), `pendingDeletion` and `registrationPending`. `isoWeek` is unique.
 
 ## M11: household (version 12)
 

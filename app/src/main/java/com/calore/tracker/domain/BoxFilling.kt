@@ -16,6 +16,8 @@ data class PlannedBox(
     val plannedDate: LocalDate? = null,
     /** The solver could not reach this box's target (A11). */
     val missesTarget: Boolean = false,
+    /** The plan slot this box is for (M5.4). */
+    val planSlotId: String? = null,
 ) {
     val grams: Double get() = parts.sumOf { it.second }
 }

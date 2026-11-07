@@ -40,6 +40,9 @@ import com.calore.tracker.ui.cook.CookModeScreen
 import com.calore.tracker.ui.cook.CookScreen
 import com.calore.tracker.ui.kitchen.KitchenScreen
 import com.calore.tracker.ui.kitchen.PeopleScreen
+import com.calore.tracker.ui.shop.ShopsScreen
+import com.calore.tracker.ui.shop.ShoppingScreen
+import com.calore.tracker.ui.shop.StatsScreen
 import com.calore.tracker.ui.kitchen.PersonScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.kitchen.WasteScreen
@@ -47,6 +50,15 @@ import com.calore.tracker.ui.me.MeDestination
 import com.calore.tracker.ui.me.MeScreen
 import com.calore.tracker.ui.profile.ProfileScreen
 import com.calore.tracker.ui.recipes.PlanScreen
+import com.calore.tracker.ui.plan.PlanWeekScreen
+import com.calore.tracker.ui.kitchen.UseItUpScreen
+import com.calore.tracker.ui.cycle.CycleScreen
+import com.calore.tracker.ui.supplements.SupplementEditScreen
+import com.calore.tracker.ui.research.ResearchReportsScreen
+import com.calore.tracker.ui.research.ResearchScreen
+import com.calore.tracker.ui.about.PolicyScreen
+import com.calore.tracker.ui.supplements.SupplementsScreen
+import com.calore.tracker.ui.cycle.LocalAppLock
 import com.calore.tracker.ui.recipes.RecipeDetailScreen
 import com.calore.tracker.ui.recipes.RecipeEditScreen
 import com.calore.tracker.ui.scanner.ScannerScreen
@@ -61,12 +73,16 @@ import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
 /** The bottom bar: Today · Plan · Me (M3). Kitchen and Shop join in M4–M5. */
+/** The bottom bar: Today · Plan · Kitchen · Shop · Me. */
 private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
     TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
     PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan),
     KITCHEN(Routes.KITCHEN, R.string.nav_kitchen, R.drawable.ic_nav_kitchen),
+    SHOP(Routes.SHOP, R.string.nav_shop, R.drawable.ic_nav_shop),
     ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
+
+private val topLevelTabs = TopLevel.entries
 
 private val dateAndMealArgs = listOf(
     navArgument(Routes.ARG_DATE) { type = NavType.StringType },
@@ -92,7 +108,7 @@ fun CaloreNavHost(
         if (openRoute != null) onOpened()
     }
     val currentRoute = backStackEntry?.destination?.route
-    val showBottomBar = TopLevel.entries.any { it.route == currentRoute }
+    val showBottomBar = topLevelTabs.any { it.route == currentRoute }
 
     // Each screen has its own Scaffold for its top bar; this outer one only hosts the
     // bottom navigation, so it leaves window insets to the inner screens.
@@ -101,7 +117,7 @@ fun CaloreNavHost(
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
-                    TopLevel.entries.forEach { destination ->
+                    topLevelTabs.forEach { destination ->
                         NavigationBarItem(
                             selected = currentRoute == destination.route,
                             onClick = { navController.navigateToTopLevel(destination.route) },
@@ -130,7 +146,11 @@ fun CaloreNavHost(
                 )
             }
             composable(Routes.DIARY) {
-                TodayScreen(onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) })
+                TodayScreen(
+                    onAddFood = { date, meal -> navController.navigate(Routes.addFood(date, meal)) },
+                    onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
+                    onOpenCycle = { navController.navigate(Routes.CYCLE) },
+                )
             }
             composable(Routes.ADD_FOOD, arguments = dateAndMealArgs) {
                 AddFoodScreen(
@@ -211,6 +231,10 @@ fun CaloreNavHost(
                             MeDestination.SETTINGS -> Routes.SETTINGS
                             MeDestination.ABOUT -> Routes.ABOUT
                             MeDestination.PEOPLE -> Routes.PEOPLE
+                            MeDestination.STATS -> Routes.STATS
+                            MeDestination.CYCLE -> Routes.CYCLE
+                            MeDestination.SUPPLEMENTS -> Routes.SUPPLEMENTS
+                            MeDestination.RESEARCH -> Routes.RESEARCH
                         }
                         navController.navigate(route)
                     },
@@ -246,6 +270,7 @@ fun CaloreNavHost(
                     onBack = { navController.popBackStack() },
                     onOpenBackup = { navController.navigate(Routes.BACKUP) },
                     onOpenPots = { navController.navigate(Routes.POTS) },
+                    onOpenShops = { navController.navigate(Routes.SHOPS) },
                 )
             }
             kitchenRoutes(navController)
@@ -256,7 +281,7 @@ fun CaloreNavHost(
                 )
             }
             composable(Routes.ABOUT) {
-                AboutScreen(onBack = { navController.popBackStack() })
+                AboutScreen(onBack = { navController.popBackStack() }, onOpenPolicy = { navController.navigate(Routes.POLICY) })
             }
             composable(Routes.BACKUP) {
                 BackupScreen(onBack = { navController.popBackStack() })
@@ -269,8 +294,53 @@ fun CaloreNavHost(
 /** Cooking, boxes, pots and people (M4). */
 private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
     composable(Routes.POTS) { PotsScreen(onBack = { navController.popBackStack() }) }
-    composable(Routes.KITCHEN) { KitchenScreen(onOpenWaste = { navController.navigate(Routes.WASTE) }) }
+    composable(Routes.KITCHEN) { entry ->
+        val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
+        KitchenScreen(
+            onOpenWaste = { navController.navigate(Routes.WASTE) },
+            onScanForPantry = { navController.navigate(Routes.SCANNER_PICK) },
+            onUseItUp = { navController.navigate(Routes.USE_IT_UP) },
+            scannedFoodId = scanned,
+            onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
+        )
+    }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.RESEARCH) {
+        ResearchScreen(
+            onBack = { navController.popBackStack() },
+            onOpenPolicy = { navController.navigate(Routes.POLICY) },
+            onOpenReports = { navController.navigate(Routes.RESEARCH_REPORTS) },
+        )
+    }
+    composable(Routes.RESEARCH_REPORTS) { ResearchReportsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.POLICY) { PolicyScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.SUPPLEMENTS) {
+        SupplementsScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.supplementEdit(id)) })
+    }
+    composable(
+        Routes.SUPPLEMENT_EDIT,
+        arguments = listOf(
+            navArgument(Routes.ARG_SUPPLEMENT_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) { SupplementEditScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.CYCLE) { CycleScreen(onBack = { navController.popBackStack() }, lockState = LocalAppLock.current) }
+    composable(Routes.USE_IT_UP) {
+        UseItUpScreen(onBack = { navController.popBackStack() }, onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) })
+    }
+    composable(Routes.SHOPS) { ShopsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.STATS) { StatsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.SHOP) { entry ->
+        val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
+        ShoppingScreen(
+            onScanProduct = { navController.navigate(Routes.SCANNER_PICK) },
+            onOpenShops = { navController.navigate(Routes.SHOPS) },
+            scannedFoodId = scanned,
+            onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
+        )
+    }
     composable(Routes.PEOPLE) {
         PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })
     }
@@ -287,6 +357,10 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
         Routes.COOK,
         arguments = listOf(
             navArgument(Routes.ARG_RECIPE_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+            navArgument(Routes.ARG_PLAN_DATE) {
                 type = NavType.StringType
                 defaultValue = ""
             },
@@ -310,6 +384,15 @@ private fun NavGraphBuilder.recipeRoutes(navController: NavHostController) {
         PlanScreen(
             onOpenRecipe = { id -> navController.navigate(Routes.recipe(id)) },
             onNewRecipe = { navController.navigate(Routes.recipeEdit()) },
+            onCookFromPlan = { date -> navController.navigate(Routes.cookFromPlan(date)) },
+            onPlanWeek = { weekStart -> navController.navigate(Routes.planWeek(weekStart)) },
+        )
+    }
+    composable(Routes.PLAN_WEEK, arguments = listOf(navArgument(Routes.ARG_WEEK_START) { type = NavType.StringType })) {
+        PlanWeekScreen(
+            onBack = { navController.popBackStack() },
+            onDone = { navController.popBackStack() },
+            onOpenProfile = { navController.navigate(Routes.PROFILE) },
         )
     }
     composable(Routes.RECIPE, arguments = listOf(recipeIdArg)) {

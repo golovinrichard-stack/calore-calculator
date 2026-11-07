@@ -7,6 +7,7 @@ import com.calore.tracker.ui.UNKNOWN_VALUE
 import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.domain.parsePortionGrams
 import com.calore.tracker.domain.parseDecimalIn
+import com.calore.tracker.domain.RecipeCosts
 import com.calore.tracker.domain.Recipes
 import com.calore.tracker.domain.Food
 import androidx.compose.ui.platform.LocalResources
@@ -61,6 +62,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import com.calore.tracker.domain.cycle.CycleTips
+import com.calore.tracker.domain.cycle.RecipeBadge
+import androidx.compose.material3.AssistChip
+import com.calore.tracker.ui.rating.ThumbButtons
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.Equipment
@@ -177,6 +182,10 @@ fun RecipeDetailScreen(
             is RecipeLoad.Loaded -> RecipeContent(
                 details = current.details,
                 myAllergens = current.myAllergens,
+                prices = current.prices,
+                rating = current.myRating,
+                showBadges = current.showBadges,
+                onRate = viewModel::rate,
                 scale = scale,
                 onScaleChange = { scale = it },
                 onSwap = { index ->
@@ -258,6 +267,10 @@ fun RecipeDetailScreen(
 private fun RecipeContent(
     details: RecipeDetails,
     myAllergens: Set<Allergen>,
+    prices: Map<String, Double>,
+    rating: Int?,
+    onRate: (Int?) -> Unit,
+    showBadges: Boolean,
     scale: Double,
     onScaleChange: (Double) -> Unit,
     onSwap: (index: Int) -> Unit,
@@ -290,7 +303,33 @@ private fun RecipeContent(
             )
         }
 
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(stringResource(R.string.rate_your_rating), modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+            ThumbButtons(current = rating, onRate = { onRate(it) }, onClear = { onRate(null) })
+        }
+
         RecipeNutritionCards(details)
+        if (showBadges) {
+            val badges = CycleTips.badges(nutrition.perServing)
+            if (badges.isNotEmpty()) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    badges.forEach { badge ->
+                        AssistChip(onClick = {}, label = { Text(stringResource(if (badge == RecipeBadge.IRON_RICH) R.string.badge_iron_rich else R.string.badge_magnesium_rich)) })
+                    }
+                }
+            }
+        }
+        // A18: only when every ingredient has a known price.
+        RecipeCosts.cost(details.ingredients, nutrition, recipe.servings, prices).takeIf { it.complete && it.totalHalers > 0 }?.let { cost ->
+            Text(
+                listOfNotNull(
+                    stringResource(R.string.recipe_cost, formatNumber(cost.perServingHalers / 100, decimals = 0)),
+                    cost.per100gProteinHalers?.let { stringResource(R.string.recipe_cost_protein, formatNumber(it / 100, decimals = 1)) },
+                ).joinToString(" · "),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             SectionHeader(stringResource(R.string.recipe_allergens))

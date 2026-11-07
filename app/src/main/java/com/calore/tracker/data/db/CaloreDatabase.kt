@@ -30,8 +30,14 @@ import androidx.room.TypeConverters
         StoreProductEntity::class,
         PriceEntity::class,
         ShoppingItemEntity::class,
+        RecipeRatingEntity::class,
+        CyclePeriodEntity::class,
+        CycleDayEntity::class,
+        SupplementEntity::class,
+        SupplementLogEntity::class,
+        ResearchReportEntity::class,
     ],
-    version = 7,
+    version = 11,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -44,6 +50,14 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun bodyDao(): BodyDao
     abstract fun recipeDao(): RecipeDao
     abstract fun cookingDao(): CookingDao
+    abstract fun planDao(): PlanDao
+    abstract fun pantryDao(): PantryDao
+    abstract fun shopDao(): ShopDao
+    abstract fun shoppingDao(): ShoppingDao
+    abstract fun ratingDao(): RatingDao
+    abstract fun cycleDao(): CycleDao
+    abstract fun supplementDao(): SupplementDao
+    abstract fun researchDao(): ResearchDao
 
     companion object {
         private const val FILE_NAME = "calore.db"

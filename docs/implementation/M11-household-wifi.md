@@ -16,6 +16,8 @@ The owner is a student and can't pay for servers for every user. So the househol
 
 ### M11.0 Spike: can a phone be a reliable hub? (decision record)
 
+*Status:* not done. It needs real Android 15, 16 and 17 phones and a 24-hour battery measurement, which the build machine can't do. The hub service, discovery, hub mode and the screens (M11.1, M11.2, M11.4 discovery, M11.5–M11.10) wait for it. What doesn't depend on it is built: the A22 engine and the encrypted frames.
+
 Before building, test on Android 15, 16 and 17 and write `docs/implementation/decisions/0001-household-hub.md`:
 
 - [ ] A foreground service that keeps a `ServerSocket` and an NSD registration while hub mode is on. Which service type fits? `dataSync` is limited to 6 hours per 24 hours on Android 15+; check `connectedDevice` and the alternatives, and their permission rules.
@@ -42,16 +44,17 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 ### M11.3 The sync engine
 
 - [ ] Every write to a **shared** table goes through one `SyncWriter`, which writes the row and an op (A22) in the same transaction. Writes to private tables never create ops (test).
-- [ ] Applying incoming ops as in A22: hybrid logical clocks, newest change per column wins, the earlier "take" wins for boxes.
-- [ ] Compaction of old ops.
+- [x] Applying incoming ops as in A22: hybrid logical clocks, newest change per column wins, the earlier "take" wins for boxes. *As built:* `domain/sync` (`Hlc`, `HlcClock`, `SyncEngine`). The box values follow "newest change per column" too, because a separate "earlier take wins" rule would let devices end up different depending on the order ops arrive; the earlier take wins in what users are told: the later taker gets a `TakeConflict` ("Anna had already taken box C3").
+- [x] Compaction of old ops. *As built:* the rule (`SyncEngine.compactable`); deleting from `sync_ops` comes with the tables.
 
 **Tests:** all A22 test cases, including the randomised convergence test with 3 devices and 500 ops.
+*As built:* `SyncEngineTest` (JVM): all A22 cases; the convergence test runs 5 rounds with ops replayed and shuffled.
 
 ### M11.4 Discovery and the connection
 
 - [ ] NSD service type `_calore._tcp`, with a hash of the household id in the TXT record (never the name or the key).
-- [ ] TCP with frames: 4-byte length, 12-byte nonce, then AES-256-GCM ciphertext of a JSON message, with the household id as associated data. A frame that fails to decrypt closes the connection.
-- [ ] Messages: `HELLO {deviceId, versionVector}`, `OPS {ops}`, `ACK`. At most 1 MB per frame and 500 ops per batch; 10-second timeouts.
+- [x] TCP with frames: 4-byte length, 12-byte nonce, then AES-256-GCM ciphertext of a JSON message, with the household id as associated data. A frame that fails to decrypt closes the connection. *As built:* `data/sync/SyncFrames` (the frames; the socket comes with the hub service).
+- [x] Messages: `HELLO {deviceId, versionVector}`, `OPS {ops}`, `ACK`. At most 1 MB per frame and 500 ops per batch; 10-second timeouts. *As built:* `SyncMessage`; the timeouts come with the socket.
 - [ ] When to sync: when the app opens on Wi-Fi, 5 seconds after a local change (combined), and while hub mode is on.
 
 ### M11.5 Hub mode, and telling users why
@@ -97,10 +100,10 @@ Before building, test on Android 15, 16 and 17 and write `docs/implementation/de
 
 ### M11.11 Security and privacy tests
 
-- [ ] Private tables never appear in ops.
-- [ ] A wrong key or a changed frame is rejected.
-- [ ] A replayed op changes nothing.
-- [ ] A removed member's phone can't sync after the key changes.
+- [x] Private tables never appear in ops. *As built:* `WireOp` refuses any table not in `SyncScope.SHARED`, both ways (`SyncFramesTest`). The same check goes into `SyncWriter` when the tables come.
+- [x] A wrong key or a changed frame is rejected.
+- [x] A replayed op changes nothing.
+- [x] A removed member's phone can't sync after the key changes. *As built:* frames sealed with the old key fail to open with the new one.
 
 ## Out of scope
 

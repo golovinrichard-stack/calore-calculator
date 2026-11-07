@@ -213,7 +213,7 @@ Dates are local calendar dates.
 | 6 | Every day except Saturday |
 | 7 | Every day |
 
-- A session covers the prepped meals from the next meal after the session until the meal before the next session's first covered meal.
+- A session covers the prepped meals from the next meal after the session until the meal before the next session's first covered meal. *As built:* a session is in the afternoon, after lunch (*tunable*), so its first covered meal is dinner on the cooking day. With sessions on Sunday and Wednesday and lunches and dinners from boxes, Sunday covers Sunday dinner to Wednesday lunch and Wednesday covers Wednesday dinner to Sunday lunch.
 - Meals in a session's range that fall after the fridge eat-by date are planned as freezer boxes (A13). With 1 session a week the app warns: "With one cooking day, about half of your boxes will be frozen."
 
 ## A15. Smart planner ("Plan my week")
@@ -259,6 +259,17 @@ Dates are local calendar dates.
 - With variety 1 and 2 sessions, each session has one lunch recipe.
 - A pantry item expiring in 2 days raises the recipes that use it.
 - Same seed twice gives the same plan; a new seed changes at least one unlocked slot when there are alternatives.
+
+**As built (M6.2):**
+- *Which meals.* Every person's meals with a share in their meal split, from today to Sunday, minus the kept slots (locked, eaten, with a box, eat out, free). Prepped meals are boxes from the session that covers them (A14); if that session is already over, the meal is cooked fresh. Meal types, cooking days, prepped meals, minutes and variety are the cook's (the phone's user).
+- *One pot per meal.* Everyone eating the same meal from the same session, or the same fresh meal, gets the same recipe when one passes everyone's filters. If none does, each person gets their own pot, and if that fails too, each day on its own. A meal nothing fits stays empty and is reported as unplanned.
+- *Filters, details.* A recipe without meal types counts as lunch and dinner. A recipe without calories can't be sized and is left out. Disliked foods match the food key, the food or its shop section, optional ingredients included (like allergens and diet).
+- *Scores, details.* Points are counted per meal (slot) and summed for a pot. Protein fit = 15 × (1 − |recipe share − target share| ÷ target share), at least 0; shares are protein kcal ÷ kcal, the target from the person's daily targets. Cost = the meal's cost (cost per kcal × the meal's kcal target) against the budget per meal (weekly budget ÷ planned meals of the week): 15 points at half the budget or less, 0 at 1.5 times or more, linear in between. Pantry food "expiring within 4 days": best-before from today to today + 4, not reserved; the share is min(ingredient grams, pantry grams) ÷ the recipe's grams. "Needs a frozen box": eaten after the session day + the default 3 fridge days.
+- *Variety.* "Used in the last 7 days" counts the recipes each person had in the 7 days before the week and those already chosen earlier in the week (an earlier session or day). The `k` recipes of a session and meal are different from each other when there are enough candidates.
+- *Improve.* Each round picks a pot at random and tries one of its 10 best other candidates.
+- *Totals.* A day is "more than 10 % off" when |planned protein − target| > 10 % of the target, both summed over the person's planned meals that day (planned protein = the meal's kcal target × the recipe's protein per kcal); the penalty is 20 per person and day. A session over the minutes costs 30.
+- *Regenerate* passes the last proposal: its recipes lose 15 points for those meals, and if the plan still comes out the same, the pot whose next best recipe loses least takes it. That is what makes "a new seed changes at least one unlocked slot" always true.
+- *Ties* are broken by an order shuffled with the seed.
 
 ## A16. Shopping list
 
@@ -324,6 +335,8 @@ Dates are local calendar dates.
 | Cycles 24, 35, 28 | irregular, range ± 5.5 days |
 | Contraception PILL | no phases, no tips |
 
+**As built (M7.2):** before 2 complete cycles exist, the range is ± 3 days (*tunable*), since there is nothing to measure it from. A period's own logged end sets its period days; other cycles use the average logged period length. Cycles after the last logged start are predicted every average length (for the calendar and the water days). Water days are counted around every logged start and every predicted one.
+
 ## A20. Cycle tips and planner bonus
 
 No calorie target changes. Research finds only a small rise in resting energy use in the luteal phase (about 40–45 kcal per day in a 2024 study), so the app doesn't change targets.
@@ -347,6 +360,8 @@ Rules:
 - **Nutrition** is sent only for weeks with at least 3 counted days (A7).
 - **Cycle** summaries are sent per completed cycle (cycle length, period length, symptom counts per phase, average intake per phase), never with dates.
 - The payload is stored in `research_reports.payload` before sending, so the "See what we send" screen shows exactly what leaves the phone.
+
+**As built (M10.3):** BMI bands are written `<18.5`, `18.5-24.9`, `25-29.9`, `30-34.9`, `>=35`; body-fat bands `20-24`. A day counts for nutrition with at least half the daily target logged (A7). Food groups come from the food's shop section; a dish or a box uses its recipe's ingredients (weighted by their calories); a quick add counts as OTHER and a supplement as SUPPLEMENTS. "Plan adherence" is eaten planned meals ÷ planned meals (boxes and cook fresh) of the week. A cycle "ends this week" when the next period started this week; its period length is sent only if the end was logged. Phase calories use counted days only. Supplements are grouped by kind; adherence is doses taken ÷ doses due that week.
 
 ## A22. Household sync
 

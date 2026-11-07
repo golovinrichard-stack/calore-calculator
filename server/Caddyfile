@@ -1,0 +1,8 @@
+# HTTPS in front of the research server (M10.6). Caddy gets the certificate by itself.
+# No "log" directive: Caddy writes no access logs, so no IP addresses are kept.
+{$RESEARCH_DOMAIN} {
+    request_body {
+        max_size 16KB
+    }
+    reverse_proxy server:8080
+}

@@ -71,6 +71,10 @@ abstract class RecipeDao {
     )
     abstract suspend fun recipesUsing(foodUuid: String): Int
 
+    /** M6: minutes of the steps that need the cook, per recipe. */
+    @Query("SELECT recipeId, SUM(COALESCE(minutes, 0)) AS minutes FROM recipe_steps WHERE passive = 0 GROUP BY recipeId")
+    abstract suspend fun activeMinutes(): List<RecipeMinutes>
+
     @Query("SELECT shortCode FROM recipes WHERE ${SoftDelete.NOT_DELETED}")
     abstract suspend fun shortCodes(): List<String>
 
@@ -105,3 +109,6 @@ abstract class RecipeDao {
         insertSteps(recipe.steps)
     }
 }
+
+/** Active cooking minutes of one recipe (M6). */
+data class RecipeMinutes(val recipeId: String, val minutes: Int)

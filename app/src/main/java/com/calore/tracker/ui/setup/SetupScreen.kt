@@ -29,6 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import androidx.compose.ui.Alignment
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Card
+import com.calore.tracker.domain.Sex
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.profile.ActivitySection
 import com.calore.tracker.ui.profile.BodyBasicsSection
@@ -99,6 +103,19 @@ fun SetupScreen(
                             ResultCard(result = result, form = form)
                         } else {
                             Text(stringResource(R.string.setup_result_missing), style = MaterialTheme.typography.bodyLarge)
+                        }
+                        // M7.1: one optional card for people who chose female.
+                        if (form.sex == Sex.FEMALE) {
+                            Card(modifier = Modifier.fillMaxWidth()) {
+                                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                    Text(stringResource(R.string.cycle_setup_title), style = MaterialTheme.typography.titleSmall)
+                                    Text(stringResource(R.string.cycle_setup_text), style = MaterialTheme.typography.bodyMedium)
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(stringResource(R.string.cycle_setup_yes), modifier = Modifier.weight(1f))
+                                        Switch(checked = state.trackCycle, onCheckedChange = viewModel::setTrackCycle)
+                                    }
+                                }
+                            }
                         }
                         Text(
                             stringResource(R.string.setup_change_later),

@@ -51,6 +51,7 @@ fun SettingsScreen(
     onBack: () -> Unit,
     onOpenBackup: () -> Unit,
     onOpenPots: () -> Unit = {},
+    onOpenShops: () -> Unit = {},
     viewModel: SettingsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -164,6 +165,11 @@ fun SettingsScreen(
                 headlineContent = { Text(stringResource(R.string.pots_title)) },
                 supportingContent = { Text(stringResource(R.string.pots_desc)) },
                 modifier = Modifier.clickable(onClick = onOpenPots),
+            )
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.shops_title)) },
+                supportingContent = { Text(stringResource(R.string.shops_desc)) },
+                modifier = Modifier.clickable(onClick = onOpenShops),
             )
             SectionHeader(stringResource(R.string.settings_data), modifier = Modifier.padding(start = 16.dp, top = 8.dp))
             ListItem(

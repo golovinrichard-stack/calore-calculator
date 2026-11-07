@@ -1,9 +1,23 @@
 package com.calore.tracker.ui
 
+import com.calore.tracker.ui.plan.WeekPlanViewModel
+import com.calore.tracker.ui.plan.PlanWeekViewModel
 import com.calore.tracker.ui.cook.CookModeViewModel
 import com.calore.tracker.ui.cook.CookViewModel
 import com.calore.tracker.ui.kitchen.KitchenViewModel
+import com.calore.tracker.ui.kitchen.UseItUpViewModel
+import com.calore.tracker.ui.kitchen.PantryViewModel
 import com.calore.tracker.ui.kitchen.PeopleViewModel
+import com.calore.tracker.ui.shop.ShoppingViewModel
+import com.calore.tracker.ui.shop.ShopsViewModel
+import com.calore.tracker.ui.today.TodayPlanViewModel
+import com.calore.tracker.ui.rating.RatePromptViewModel
+import com.calore.tracker.ui.cycle.CycleViewModel
+import com.calore.tracker.ui.supplements.SupplementEditViewModel
+import com.calore.tracker.ui.supplements.SupplementsViewModel
+import com.calore.tracker.ui.research.ResearchViewModel
+import com.calore.tracker.notifications.ResearchWork
+import com.calore.tracker.ui.shop.StatsViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
 import com.calore.tracker.ui.kitchen.WasteViewModel
@@ -16,6 +30,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import com.calore.tracker.AppContainer
 import com.calore.tracker.CaloreApp
 import com.calore.tracker.ui.addfood.AddFoodViewModel
@@ -69,6 +84,7 @@ object AppViewModelProvider {
                 c.bodyRepository.measurements(),
                 c.appPrefs.settings.map { it.hideNumbers },
                 c.bodyRepository.checkins(),
+                c.cycleRepository.periods().combine(c.cycleRepository.settings) { periods, settings -> periods to settings },
             )
         }
         initializer {
@@ -80,7 +96,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CheckinViewModel(c.checkinService)
+            CheckinViewModel(c.checkinService, c.planRepository, c.memberRepository, c.clock)
         }
         initializer {
             val c = container()
@@ -104,7 +120,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock)
+            RecipeDetailViewModel(createSavedStateHandle(), c.recipeRepository, c.memberRepository, c.foodRepository, c.diaryRepository, c.clock, c.shopRepository, c.ratingRepository, c.cycleRepository)
         }
         initializer {
             val c = container()
@@ -117,12 +133,81 @@ object AppViewModelProvider {
             PeopleViewModel(container().memberRepository)
         }
         initializer {
+            ShopsViewModel(container().shopRepository)
+        }
+        initializer {
+            val c = container()
+            TodayPlanViewModel(c.planRepository, c.cookingRepository, c.memberRepository, c.recipeRepository, c.clock, c.ratingRepository, c.ratingPrompt)
+        }
+        initializer {
+            val c = container()
+            StatsViewModel(c.cookingRepository, c.pantryRepository, c.shoppingRepository, c.shopRepository, c.recipeRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            ShoppingViewModel(c.shoppingRepository, c.shopRepository, c.memberRepository, c.foodRepository, c.recipeRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            PantryViewModel(c.pantryRepository, c.foodRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            WeekPlanViewModel(c.planRepository, c.memberRepository, c.recipeRepository, c.appPrefs, c.clock, c.shopRepository)
+        }
+        initializer {
             val c = container()
             PersonViewModel(createSavedStateHandle(), c.memberRepository, c.clock)
         }
         initializer {
             val c = container()
-            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock)
+            KitchenViewModel(c.cookingRepository, c.memberRepository, c.clock, c.ratingRepository, c.ratingPrompt)
+        }
+        initializer {
+            val c = container()
+            PlanWeekViewModel(
+                createSavedStateHandle(),
+                c.planRepository,
+                c.memberRepository,
+                c.recipeRepository,
+                c.ratingRepository,
+                c.pantryRepository,
+                c.shopRepository,
+                c.shoppingRepository,
+                c.appPrefs,
+                c.clock,
+                cycle = c.cycleRepository,
+            )
+        }
+        initializer {
+            val c = container()
+            UseItUpViewModel(c.pantryRepository, c.recipeRepository, c.planRepository, c.memberRepository, c.ratingRepository, c.shopRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            CycleViewModel(c.cycleRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            SupplementsViewModel(c.supplementRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            val app = this[APPLICATION_KEY] as CaloreApp
+            ResearchViewModel(
+                c.researchRepository,
+                onAgreed = { ResearchWork.scheduleWeekly(app, c.clock) },
+                onStopped = { ResearchWork.cancelWeekly(app) },
+                onSend = { ResearchWork.sendSoon(app) },
+            )
+        }
+        initializer {
+            val c = container()
+            SupplementEditViewModel(createSavedStateHandle(), c.supplementRepository, c.supplementReminders, c.clock)
+        }
+        initializer {
+            val c = container()
+            RatePromptViewModel(c.ratingPrompt, c.ratingRepository)
         }
         initializer {
             val c = container()
@@ -130,7 +215,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock)
+            CookViewModel(createSavedStateHandle(), c.recipeRepository, c.cookingRepository, c.memberRepository, c.foodRepository, c.clock, c.planRepository, c.pantryRepository, c.shopRepository)
         }
         initializer {
             val c = container()
@@ -138,7 +223,7 @@ object AppViewModelProvider {
         }
         initializer {
             val c = container()
-            SetupViewModel(c.memberRepository, c.weightRepository, c.appPrefs, c.clock)
+            SetupViewModel(c.memberRepository, c.weightRepository, c.appPrefs, c.clock, c.cycleRepository)
         }
     }
 

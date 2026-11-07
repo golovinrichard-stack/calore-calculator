@@ -76,7 +76,24 @@ fun CheckinScreen(
             when {
                 state.loading -> LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 checkin != null && !numbersVisible -> ShowNumbersButton(onClick = showNumbers)
-                checkin != null -> CheckinDetails(checkin, state.decided, viewModel::useIt, viewModel::keepTarget)
+                checkin != null -> {
+                    CheckinDetails(checkin, state.decided, viewModel::useIt, viewModel::keepTarget)
+                    // M6.6: this week's meals that are not cooked yet can take the new target.
+                    if (state.resizable > 0) {
+                        Card(modifier = Modifier.fillMaxWidth()) {
+                            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text(pluralStringResource(R.plurals.checkin_resize_offer, state.resizable, state.resizable))
+                                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                    Button(onClick = viewModel::resizeThisWeek) { Text(stringResource(R.string.checkin_resize)) }
+                                    OutlinedButton(onClick = viewModel::dontResize) { Text(stringResource(R.string.rate_not_now)) }
+                                }
+                            }
+                        }
+                    }
+                    state.resized?.let { count ->
+                        Text(pluralStringResource(R.plurals.checkin_resized, count, count), style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
                 notEnough != null -> {
                     Text(stringResource(R.string.checkin_not_enough), style = MaterialTheme.typography.bodyLarge)
                     if (notEnough.daysMissing > 0) {

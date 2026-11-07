@@ -47,6 +47,9 @@ object Notifications {
     /** Cook-mode timers use ids from here up, one per step. */
     const val ID_TIMER_BASE = 2000
 
+    /** Supplement reminders (M8.4) use ids from here up, one per supplement. */
+    const val ID_SUPPLEMENT_BASE = 3000
+
     fun ensureChannel(context: Context, channel: CaloreChannel) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
         if (manager.getNotificationChannel(channel.id) != null) return

@@ -15,7 +15,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | In use (M2): 6 foods; NutriDatabaze waiting |
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
-| List of shops | Written by us | 0BSD | Shipped seed file | Planned (M5) |
+| List of shops | Written by us | 0BSD | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
 | Recipes | Starter pack written by us; the user's own | 0BSD | Shipped seed file; the app | In use (M3): 30 starter recipes |
 | Storage times | Czech and EU consumer advice, USDA, NHS | Public guidance | Default values in the code | Planned (M4) |
 | Calorie and body-fat formulas | Published equations | Facts | In the code | In use; more in M1 |

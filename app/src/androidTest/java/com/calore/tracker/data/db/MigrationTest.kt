@@ -166,6 +166,58 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration7To8AddsRecipeRatings() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 7, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 8, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM recipe_ratings"))
+            db.execSQL("INSERT INTO recipe_ratings (id, memberId, recipeId, rating, createdAt, updatedAt) VALUES ('r1', 'm', 'x', 1, 1, 1)")
+            // One rating per person and recipe.
+            val duplicate = runCatching {
+                db.execSQL("INSERT INTO recipe_ratings (id, memberId, recipeId, rating, createdAt, updatedAt) VALUES ('r2', 'm', 'x', -1, 2, 2)")
+            }
+            assertEquals(true, duplicate.isFailure)
+        }
+    }
+
+    @Test
+    fun migration8To9AddsCycleTables() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 8, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 9, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM cycle_periods"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM cycle_days"))
+        }
+    }
+
+    @Test
+    fun migration9To10AddsSupplements() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 9, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 10, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM supplements"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM supplement_logs"))
+        }
+    }
+
+    @Test
+    fun migration10To11AddsResearchReports() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 10, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 11, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM research_reports"))
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }

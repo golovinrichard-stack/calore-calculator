@@ -1,6 +1,9 @@
 package com.calore.tracker.ui.kitchen
 
 import androidx.lifecycle.ViewModel
+import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.ui.rating.RatingPrompt
+import com.calore.tracker.ui.rating.askAbout
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.CookingRepository
 import com.calore.tracker.data.repository.EatenBox
@@ -52,6 +55,8 @@ class KitchenViewModel(
     private val cooking: CookingRepository,
     private val members: MemberRepository,
     private val clock: Clock,
+    private val ratings: RatingRepository? = null,
+    private val ratingPrompt: RatingPrompt? = null,
 ) : ViewModel() {
 
     private val mineOnly = MutableStateFlow(false)
@@ -94,6 +99,7 @@ class KitchenViewModel(
             val ownerIsMe = box.ownerMemberId == null || box.ownerMemberId == me.id
             val eaten = cooking.eat(item.view, share, meal, LocalDate.now(clock), ownerIsMe)
             eventChannel.send(KitchenEvent.Eaten(eaten, box.code))
+            if (ratings != null) ratingPrompt?.askAbout(item.view, box.ownerMemberId ?: me.id, ratings)
         }
     }
 

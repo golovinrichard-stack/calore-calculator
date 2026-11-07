@@ -30,6 +30,12 @@ data class DatabaseSnapshot(
     val storeProducts: List<StoreProductEntity>? = emptyList(),
     val prices: List<PriceEntity>? = emptyList(),
     val shoppingItems: List<ShoppingItemEntity>? = emptyList(),
+    val recipeRatings: List<RecipeRatingEntity>? = emptyList(),
+    val cyclePeriods: List<CyclePeriodEntity>? = emptyList(),
+    val cycleDays: List<CycleDayEntity>? = emptyList(),
+    val supplements: List<SupplementEntity>? = emptyList(),
+    val supplementLogs: List<SupplementLogEntity>? = emptyList(),
+    val researchReports: List<ResearchReportEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -198,6 +204,60 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertShoppingItems(rows: List<ShoppingItemEntity>)
 
+    @Query("SELECT * FROM recipe_ratings ORDER BY createdAt, id")
+    protected abstract suspend fun allRecipeRatings(): List<RecipeRatingEntity>
+
+    @Query("DELETE FROM recipe_ratings")
+    protected abstract suspend fun deleteAllRecipeRatings()
+
+    @Insert
+    protected abstract suspend fun insertRecipeRatings(rows: List<RecipeRatingEntity>)
+
+    @Query("SELECT * FROM cycle_periods ORDER BY startDate")
+    protected abstract suspend fun allCyclePeriods(): List<CyclePeriodEntity>
+
+    @Query("DELETE FROM cycle_periods")
+    protected abstract suspend fun deleteAllCyclePeriods()
+
+    @Insert
+    protected abstract suspend fun insertCyclePeriods(rows: List<CyclePeriodEntity>)
+
+    @Query("SELECT * FROM cycle_days ORDER BY date")
+    protected abstract suspend fun allCycleDays(): List<CycleDayEntity>
+
+    @Query("DELETE FROM cycle_days")
+    protected abstract suspend fun deleteAllCycleDays()
+
+    @Insert
+    protected abstract suspend fun insertCycleDays(rows: List<CycleDayEntity>)
+
+    @Query("SELECT * FROM supplements ORDER BY createdAt, id")
+    protected abstract suspend fun allSupplements(): List<SupplementEntity>
+
+    @Query("DELETE FROM supplements")
+    protected abstract suspend fun deleteAllSupplements()
+
+    @Insert
+    protected abstract suspend fun insertSupplements(rows: List<SupplementEntity>)
+
+    @Query("SELECT * FROM supplement_logs ORDER BY createdAt, id")
+    protected abstract suspend fun allSupplementLogs(): List<SupplementLogEntity>
+
+    @Query("DELETE FROM supplement_logs")
+    protected abstract suspend fun deleteAllSupplementLogs()
+
+    @Insert
+    protected abstract suspend fun insertSupplementLogs(rows: List<SupplementLogEntity>)
+
+    @Query("SELECT * FROM research_reports ORDER BY isoWeek")
+    protected abstract suspend fun allResearchReports(): List<ResearchReportEntity>
+
+    @Query("DELETE FROM research_reports")
+    protected abstract suspend fun deleteAllResearchReports()
+
+    @Insert
+    protected abstract suspend fun insertResearchReports(rows: List<ResearchReportEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -258,6 +318,12 @@ abstract class BackupDao {
         storeProducts = allStoreProducts(),
         prices = allPrices(),
         shoppingItems = allShoppingItems(),
+        recipeRatings = allRecipeRatings(),
+        cyclePeriods = allCyclePeriods(),
+        cycleDays = allCycleDays(),
+        supplements = allSupplements(),
+        supplementLogs = allSupplementLogs(),
+        researchReports = allResearchReports(),
     )
 
     /**
@@ -348,6 +414,30 @@ abstract class BackupDao {
         snapshot.shoppingItems?.let {
             deleteAllShoppingItems()
             insertShoppingItems(it)
+        }
+        snapshot.recipeRatings?.let {
+            deleteAllRecipeRatings()
+            insertRecipeRatings(it)
+        }
+        snapshot.cyclePeriods?.let {
+            deleteAllCyclePeriods()
+            insertCyclePeriods(it)
+        }
+        snapshot.cycleDays?.let {
+            deleteAllCycleDays()
+            insertCycleDays(it)
+        }
+        snapshot.supplements?.let {
+            deleteAllSupplements()
+            insertSupplements(it)
+        }
+        snapshot.supplementLogs?.let {
+            deleteAllSupplementLogs()
+            insertSupplementLogs(it)
+        }
+        snapshot.researchReports?.let {
+            deleteAllResearchReports()
+            insertResearchReports(it)
         }
     }
 }

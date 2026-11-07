@@ -17,10 +17,15 @@ android {
         minSdk = 26
         // Meets Google Play's current requirement. Raise to 37 after testing on Android 17.
         targetSdk = 36
-        versionCode = 6
-        versionName = "0.6.0"
+        versionCode = 12
+        versionName = "0.12.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // M10.4: the research server's address, from the Gradle property calore.researchServerUrl.
+        // Empty (the default) keeps the whole research feature hidden and sends nothing.
+        val researchServerUrl = providers.gradleProperty("calore.researchServerUrl").getOrElse("")
+        buildConfigField("String", "RESEARCH_SERVER_URL", "\"" + researchServerUrl.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
     }
 
     buildTypes {
@@ -67,6 +72,11 @@ ksp {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    // M7.6: the app lock (fingerprint, face or the phone's PIN). Open source, part of AndroidX.
+    implementation(libs.androidx.biometric)
+    // M9: the home-screen widget. Open source, part of AndroidX.
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)

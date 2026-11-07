@@ -7,10 +7,15 @@ import com.calore.tracker.data.repository.BoxSpec
 import com.calore.tracker.data.repository.CookingRepository
 import com.calore.tracker.data.repository.FoodRepository
 import com.calore.tracker.data.repository.MemberRepository
+import com.calore.tracker.data.repository.PantryRepository
+import com.calore.tracker.data.repository.PlanRepository
+import com.calore.tracker.data.repository.ShopRepository
 import com.calore.tracker.data.repository.RecipeDetails
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.domain.Batch
 import com.calore.tracker.domain.Batches
+import com.calore.tracker.domain.CookingSessions
+import com.calore.tracker.domain.Costs
 import com.calore.tracker.domain.BoxFilling
 import com.calore.tracker.domain.BoxSplitter
 import com.calore.tracker.domain.FillMode
@@ -18,13 +23,17 @@ import com.calore.tracker.domain.FillResult
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.Freshness
 import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.MealTarget
 import com.calore.tracker.domain.Member
 import com.calore.tracker.domain.PersonMeal
+import com.calore.tracker.domain.PlanCooks
+import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.Pot
 import com.calore.tracker.domain.Recipe
 import com.calore.tracker.domain.Recipes
 import com.calore.tracker.domain.mealTarget
 import com.calore.tracker.domain.newId
+import com.calore.tracker.domain.parseIsoDate
 import com.calore.tracker.domain.parseDecimalIn
 import com.calore.tracker.domain.parsePortionGrams
 import com.calore.tracker.domain.parseWholeIn
@@ -61,6 +70,8 @@ data class CookItem(
     /** The full pot with [potId], otherwise the food alone. */
     val weightText: String = "",
     val batch: Batch? = null,
+    /** Cooked for the week plan (M5.4): the slots its boxes are for. */
+    val planned: PlannedCook? = null,
 ) {
     val name: String get() = recipe?.recipe?.displayName() ?: food?.displayName().orEmpty()
     val fridgeDays: Int get() = recipe?.recipe?.fridgeDays ?: Recipe.DEFAULT_FRIDGE_DAYS
@@ -113,6 +124,8 @@ data class FillSettings(
     val fixedTexts: Map<String, String> = emptyMap(),
     val planStart: LocalDate? = null,
     val planMeal: MealType? = null,
+    /** Recipes cooked for the plan fill one box per planned slot (M5.4). */
+    val usePlan: Boolean = true,
 )
 
 /** A box in the preview, with its future code and where it goes. */
@@ -131,6 +144,8 @@ data class CookUiState(
     /** Prefixes of active boxes and their recipes, for two-letter codes (A10). */
     val prefixOwners: Map<String, String?> = emptyMap(),
     val today: LocalDate = LocalDate.MIN,
+    /** Foods the pantry had less of than the recipes needed (A17). */
+    val pantryShort: List<String> = emptyList(),
 ) {
     val batches: List<Batch> get() = items.mapNotNull { it.batch }
 
@@ -148,6 +163,8 @@ data class CookUiState(
         val me = people.firstOrNull()?.id
         return items.mapNotNull { item ->
             val batch = item.batch ?: return@mapNotNull null
+            val planned = item.planned
+            if (fill.usePlan && planned != null) return@mapNotNull item to fromPlan(batch, planned, me)
             val result = when (fill.mode) {
                 FillMode.EQUAL -> parseWholeIn(fill.countText, 1..50)?.let { BoxFilling.singleBatch(batch, FillMode.EQUAL, count = it, owner = me) }
                 FillMode.BY_CALORIES -> parseDecimalIn(fill.targetKcalText, 50.0..3000.0)?.let {
@@ -162,7 +179,19 @@ data class CookUiState(
     }
 }
 
-/** The cook flow (M4.3) and filling boxes (M4.5). */
+/** One box per planned slot, sized to the slot's target with the weighed density (M5.4). */
+private fun fromPlan(batch: Batch, planned: PlannedCook, me: String?): FillResult {
+    val perServing = batch.per100g.kcal * batch.cookedGrams / 100 / planned.portions.coerceAtLeast(1)
+    val people = planned.slots.map { slot -> PersonMeal(slot.memberId, slot.meal, slot.target ?: MealTarget(perServing, 0.0, 0.0, 0.0)) }
+    val result = BoxFilling.singleBatch(batch, FillMode.BY_PERSON, people = people, owner = me)
+    return result.copy(
+        boxes = result.boxes.mapIndexed { i, box ->
+            planned.slots.getOrNull(i)?.let { slot -> box.copy(plannedDate = slot.date, plannedMeal = slot.meal, planSlotId = slot.id) } ?: box
+        },
+    )
+}
+
+/** The cook flow (M4.3) and filling boxes (M4.5), also straight from the week plan (M5.4). */
 class CookViewModel(
     savedStateHandle: SavedStateHandle,
     private val recipes: RecipeRepository,
@@ -170,6 +199,9 @@ class CookViewModel(
     private val members: MemberRepository,
     foods: FoodRepository,
     private val clock: Clock,
+    private val plans: PlanRepository? = null,
+    private val pantry: PantryRepository? = null,
+    private val shops: ShopRepository? = null,
 ) : ViewModel() {
 
     private val state = MutableStateFlow(CookUiState(today = LocalDate.now(clock)))
@@ -185,6 +217,7 @@ class CookViewModel(
 
     init {
         savedStateHandle.get<String>(Routes.ARG_RECIPE_ID)?.takeIf { it.isNotBlank() }?.let(::addRecipe)
+        parseIsoDate(savedStateHandle.get<String>(Routes.ARG_PLAN_DATE))?.let(::addPlannedCooks)
         viewModelScope.launch {
             val me = members.me().first()
             val lunch = me.mealTarget(MealType.LUNCH)
@@ -203,6 +236,34 @@ class CookViewModel(
         viewModelScope.launch {
             val details = recipes.details(id) ?: return@launch
             state.update { it.copy(items = it.items + CookItem(id = newId(), recipe = details, amountText = details.recipe.servings.toString())) }
+        }
+    }
+
+    /** M5.4: everything the plan cooks on [date], by target cooked weight, linked to its slots. */
+    private fun addPlannedCooks(date: LocalDate) {
+        val plans = plans ?: return
+        viewModelScope.launch {
+            val me = members.me().first()
+            // A cooking day can cover meals of the next week too (Sunday for Monday to Wednesday).
+            val slots = plans.slots(plans.planFor(date)).first() + plans.slots(plans.planFor(date.plusWeeks(1))).first()
+            val all = recipes.observeAll().first().associateBy { it.recipe.id }
+            val cooks = PlanCooks.compute(
+                slots,
+                all.mapValues { (_, d) -> d.recipe to d.nutrition },
+                CookingSessions.days(me.cookSessionsPerWeek, me.cookDays),
+                me.preppedMeals,
+            ).filter { it.date == date }
+            val items = cooks.mapNotNull { cook ->
+                val details = recipes.details(cook.recipeId) ?: return@mapNotNull null
+                CookItem(
+                    id = newId(),
+                    recipe = details,
+                    amountText = formatEditable(Math.round(cook.targetCookedGrams).toDouble()),
+                    byWeight = true,
+                    planned = cook,
+                )
+            }
+            state.update { it.copy(items = it.items + items) }
         }
     }
 
@@ -265,6 +326,8 @@ class CookViewModel(
         state.update { it.copy(saving = true) }
         viewModelScope.launch {
             val me = members.me().first()
+            val prices = shops?.foodPrices()?.first().orEmpty()
+            val short = mutableListOf<String>()
             val saved = s.items.map { item ->
                 val batch = item.batch ?: cooking.saveBatch(
                     recipeId = item.recipe?.recipe?.id,
@@ -273,12 +336,20 @@ class CookViewModel(
                     ingredients = item.ingredients(),
                     cookedGrams = item.cookedGrams(s.pots)!!,
                     cookedByMemberId = me.id.takeIf { it.isNotEmpty() },
-                )
+                    // A18: the batch's cost, stored only when every ingredient has a price.
+                    costHalers = Costs.batchCost(item.ingredients().map { (food, grams) -> grams to prices[food.uuid] })
+                        .takeIf { !it.second }?.let { Math.round(it.first) },
+                ).also {
+                    // What went in comes out of the pantry, oldest first (A17).
+                    pantry?.takeForCooking(item.ingredients())?.forEach { food -> short += food.displayName() }
+                }
                 item.copy(batch = batch)
             }
             val codes = cooking.activeCodes()
             val owners = cooking.activePrefixOwners()
-            state.update { it.copy(items = saved, step = CookStep.FILL, saving = false, showErrors = false, activeCodes = codes, prefixOwners = owners) }
+            state.update {
+                it.copy(items = saved, step = CookStep.FILL, saving = false, showErrors = false, activeCodes = codes, prefixOwners = owners, pantryShort = short.distinct())
+            }
         }
     }
 
@@ -287,7 +358,8 @@ class CookViewModel(
         var taken = s.activeCodes
         return s.fillResults().flatMap { (item, result) ->
             val prefix = prefixOf(item, s)
-            val boxes = s.fill.planStart?.let { BoxFilling.planDays(result.boxes, it, s.fill.planMeal) } ?: result.boxes
+            val fromThePlan = item?.planned != null && s.fill.usePlan
+            val boxes = if (fromThePlan) result.boxes else s.fill.planStart?.let { BoxFilling.planDays(result.boxes, it, s.fill.planMeal) } ?: result.boxes
             val codes = BoxSplitter.nextCodes(prefix, boxes.size, taken)
             taken = taken + codes
             boxes.mapIndexed { i, box ->
@@ -313,8 +385,14 @@ class CookViewModel(
             val fridgeDays = s.items.mapNotNull { item -> item.batch?.let { it.id to item.fridgeDays } }.toMap()
             for ((item, result) in results) {
                 val prefix = prefixOf(item, s)
-                val boxes = s.fill.planStart?.let { BoxFilling.planDays(result.boxes, it, s.fill.planMeal) } ?: result.boxes
-                cooking.fillBoxes(prefix, boxes.map { BoxSpec(it.parts, it.ownerMemberId, it.plannedDate, it.plannedMeal) }, fridgeDays)
+                val planned = item?.planned?.takeIf { s.fill.usePlan }
+                val boxes = if (planned == null) s.fill.planStart?.let { BoxFilling.planDays(result.boxes, it, s.fill.planMeal) } ?: result.boxes else result.boxes
+                val saved = cooking.fillBoxes(prefix, boxes.map { BoxSpec(it.parts, it.ownerMemberId, it.plannedDate, it.plannedMeal, it.planSlotId) }, fridgeDays)
+                val batch = item?.batch
+                if (planned != null && batch != null) {
+                    plans?.linkBoxes(saved.mapNotNull { box -> box.planSlotId?.let { it to box.id } })
+                    planned.slots.groupBy { it.planId }.forEach { (planId, own) -> plans?.saveCooked(planId, planned.copy(slots = own), batch.id) }
+                }
             }
             state.update { it.copy(saving = false) }
             doneChannel.send(Unit)

@@ -13,6 +13,9 @@ object Routes {
     const val ARG_RECIPE_ID = "recipeId"
     const val ARG_RECIPE_IDS = "recipeIds"
     const val ARG_MEMBER_ID = "memberId"
+    const val ARG_PLAN_DATE = "planDate"
+    const val ARG_WEEK_START = "weekStart"
+    const val ARG_SUPPLEMENT_ID = "supplementId"
 
     /** Where a picked food's row id goes back to the screen below (the recipe editor). */
     const val RESULT_PICKED_FOOD_ID = "picked_food_id"
@@ -37,9 +40,20 @@ object Routes {
     const val POTS = "pots"
     const val KITCHEN = "kitchen"
     const val WASTE = "waste"
-    const val COOK = "cook?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
+    const val COOK = "cook?$ARG_RECIPE_ID={$ARG_RECIPE_ID}&$ARG_PLAN_DATE={$ARG_PLAN_DATE}"
     const val COOK_MODE = "cook_mode/{$ARG_RECIPE_IDS}"
+    const val PLAN_WEEK = "plan_week/{$ARG_WEEK_START}"
+    const val USE_IT_UP = "use_it_up"
+    const val CYCLE = "cycle"
+    const val SUPPLEMENTS = "supplements"
+    const val RESEARCH = "research"
+    const val RESEARCH_REPORTS = "research_reports"
+    const val POLICY = "policy"
+    const val SUPPLEMENT_EDIT = "supplement_edit?$ARG_SUPPLEMENT_ID={$ARG_SUPPLEMENT_ID}"
     const val PEOPLE = "people"
+    const val SHOPS = "shops"
+    const val SHOP = "shop"
+    const val STATS = "stats"
     const val PERSON = "person?$ARG_MEMBER_ID={$ARG_MEMBER_ID}"
     const val RECIPE = "recipe/{$ARG_RECIPE_ID}"
     const val RECIPE_EDIT = "recipe_edit?$ARG_RECIPE_ID={$ARG_RECIPE_ID}"
@@ -59,6 +73,14 @@ object Routes {
     fun cookMode(recipeIds: List<String>) = "cook_mode/${recipeIds.joinToString(",")}"
 
     fun cook(recipeId: String? = null) = if (recipeId == null) "cook" else "cook?$ARG_RECIPE_ID=$recipeId"
+
+    fun supplementEdit(id: String? = null) = if (id == null) "supplement_edit" else "supplement_edit?$ARG_SUPPLEMENT_ID=$id"
+
+    /** M6.3: "Plan my week" for the week that starts on [weekStart]. */
+    fun planWeek(weekStart: LocalDate) = "plan_week/$weekStart"
+
+    /** M5.4: cook everything the plan needs on [date]. */
+    fun cookFromPlan(date: LocalDate) = "cook?$ARG_PLAN_DATE=$date"
 
     fun recipeEdit(id: String? = null) = if (id == null) "recipe_edit" else "recipe_edit?$ARG_RECIPE_ID=$id"
 

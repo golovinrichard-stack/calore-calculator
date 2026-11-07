@@ -1,5 +1,14 @@
 package com.calore.tracker.ui.kitchen
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.res.painterResource
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Tab
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import com.calore.tracker.ui.rating.RatePromptCard
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -65,6 +75,7 @@ import com.calore.tracker.ui.components.NutrientTable
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.formatGrams
 import com.calore.tracker.ui.formatKcal
+import com.calore.tracker.ui.formatNumber
 import com.calore.tracker.ui.labelRes
 import com.calore.tracker.ui.rememberMediumDateFormatter
 import java.time.Instant
@@ -75,9 +86,17 @@ import java.time.ZoneId
 @Composable
 fun KitchenScreen(
     onOpenWaste: () -> Unit,
+    onScanForPantry: () -> Unit = {},
+    onUseItUp: () -> Unit = {},
+    scannedFoodId: Long? = null,
+    onScannedFoodUsed: () -> Unit = {},
     viewModel: KitchenViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showPantry by rememberSaveable { mutableStateOf(false) }
+    var addingToPantry by rememberSaveable { mutableStateOf(false) }
+    // A scanned food goes to the pantry tab.
+    LaunchedEffect(scannedFoodId) { if (scannedFoodId != null) showPantry = true }
     var openId by rememberSaveable { mutableStateOf<String?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
     val resources = LocalResources.current
@@ -100,13 +119,46 @@ fun KitchenScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.nav_kitchen)) },
-                actions = { TextButton(onClick = onOpenWaste) { Text(stringResource(R.string.kitchen_thrown_away)) } },
-            )
+            Column {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.nav_kitchen)) },
+                    actions = {
+                        if (showPantry) {
+                            IconButton(onClick = onScanForPantry) { Icon(painterResource(R.drawable.ic_barcode), stringResource(R.string.scanner_title)) }
+                        } else {
+                            TextButton(onClick = onOpenWaste) { Text(stringResource(R.string.kitchen_thrown_away)) }
+                        }
+                    },
+                )
+                PrimaryTabRow(selectedTabIndex = if (showPantry) 1 else 0) {
+                    Tab(selected = !showPantry, onClick = { showPantry = false }, text = { Text(stringResource(R.string.kitchen_tab_boxes)) })
+                    Tab(selected = showPantry, onClick = { showPantry = true }, text = { Text(stringResource(R.string.kitchen_tab_pantry)) })
+                }
+            }
+        },
+        floatingActionButton = {
+            if (showPantry) {
+                ExtendedFloatingActionButton(
+                    onClick = { addingToPantry = true },
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text(stringResource(R.string.pantry_add)) },
+                )
+            }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
+        if (showPantry) {
+            Box(modifier = Modifier.padding(padding)) {
+                PantryContent(
+                    adding = addingToPantry,
+                    onAddingDone = { addingToPantry = false },
+                    scannedFoodId = scannedFoodId,
+                    onScannedFoodUsed = onScannedFoodUsed,
+                    onUseItUp = onUseItUp,
+                )
+            }
+            return@Scaffold
+        }
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(bottom = 24.dp)) {
             item(key = "filters") {
                 Row(
@@ -117,6 +169,7 @@ fun KitchenScreen(
                     FilterChip(selected = !state.mineOnly, onClick = { viewModel.setMineOnly(false) }, label = { Text(stringResource(R.string.kitchen_filter_all)) })
                 }
             }
+            item(key = "rate") { RatePromptCard(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) }
             if (!state.loading && state.isEmpty) {
                 item(key = "empty") {
                     Text(
@@ -237,6 +290,9 @@ private fun BoxSheet(item: KitchenItem, today: LocalDate, viewModel: KitchenView
                 }
             }
             if (!LocalHideNumbers.current) NutrientTable(item.view.remainingNutrients)
+            item.view.costHalers?.let { cost ->
+                Text(stringResource(R.string.box_cost, formatNumber(cost * box.remainingFraction / 100, decimals = 0)))
+            }
 
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Button(onClick = { if (colour == FreshnessColour.RED && !frozen) dialog = "red" else eat(null) }) {

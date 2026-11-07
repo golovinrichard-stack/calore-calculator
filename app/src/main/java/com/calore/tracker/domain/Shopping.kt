@@ -146,3 +146,24 @@ object Costs {
 
     fun costPer100gProtein(cost: Double, proteinGrams: Double): Double? = if (proteinGrams > 0) cost / proteinGrams * 100 else null
 }
+
+/** What a recipe costs (A18), from the price per gram of each food; [missing] foods have no price yet. */
+data class RecipeCost(val totalHalers: Double, val perServingHalers: Double, val per100gProteinHalers: Double?, val missing: Int) {
+    val complete: Boolean get() = missing == 0
+}
+
+object RecipeCosts {
+
+    /** The food's price per gram (haléře): its preferred product's latest price, otherwise the cheapest known. */
+    fun pricePerGramByFood(products: List<ProductOption>): Map<String, Double> =
+        products.filter { it.pricePerGram != null }.groupBy { it.foodUuid }.mapValues { (_, options) ->
+            (options.firstOrNull { it.preferred } ?: options.minBy { it.pricePerGram!! }).pricePerGram!!
+        }
+
+    fun cost(ingredients: List<RecipeIngredient>, nutrition: RecipeNutrition, servings: Int, prices: Map<String, Double>): RecipeCost {
+        val counted = ingredients.filter { !it.optional }
+        val (total, _) = Costs.batchCost(counted.map { it.grams to prices[it.foodUuid] })
+        val missing = counted.count { prices[it.foodUuid] == null }
+        return RecipeCost(total, total / servings.coerceAtLeast(1), nutrition.total.protein?.let { Costs.costPer100gProtein(total, it) }, missing)
+    }
+}

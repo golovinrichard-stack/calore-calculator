@@ -30,8 +30,12 @@ object BackupCodec {
      * 4: + recipes, recipe ingredients and steps, diary recipeId and servings (M3).
      * 5: + pots, batches, batch ingredients, boxes, box parts, diary boxId (M4).
      * 6: + plans, plan slots and cooks, pantry items, stores, store products, prices, shopping items (M5).
+     * 7: + recipe ratings (M6).
+     * 8: + cycle periods and days (M7).
+     * 9: + supplements and supplement logs (M8).
+     * 10: + research reports (M10).
      */
-    const val VERSION = 6
+    const val VERSION = 10
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -118,7 +122,16 @@ object BackupCodec {
             tables.stores.ok({ it.id }) &&
             tables.storeProducts.ok({ it.id }) { it.packAmount > 0 } &&
             tables.prices.ok({ it.id }) { it.priceHalers >= 0 && parseIsoDate(it.date) != null } &&
-            tables.shoppingItems.ok({ it.id })
+            tables.shoppingItems.ok({ it.id }) &&
+            tables.recipeRatings.ok({ it.id }) { it.rating == 1 || it.rating == -1 } &&
+            tables.cyclePeriods.ok({ it.id }) { p -> parseIsoDate(p.startDate) != null && (p.endDate == null || parseIsoDate(p.endDate) != null) } &&
+            tables.cyclePeriods.orEmpty().isUnique { it.startDate } &&
+            tables.cycleDays.ok({ it.id }) { parseIsoDate(it.date) != null } &&
+            tables.cycleDays.orEmpty().isUnique { it.date } &&
+            tables.supplements.ok({ it.id }) { parseIsoDate(it.startDate) != null && it.doseAmount.isAmount() } &&
+            tables.supplementLogs.ok({ it.id }) { it.status == "TAKEN" || it.status == "SKIPPED" } &&
+            tables.researchReports.ok({ it.id }) { it.status in setOf("PENDING", "SENT", "FAILED") && it.attempts >= 0 } &&
+            tables.researchReports.orEmpty().isUnique { it.isoWeek }
     }
 
     private fun areCookingTablesConsistent(tables: BackupTables): Boolean {

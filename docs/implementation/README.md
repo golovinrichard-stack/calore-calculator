@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M4 are done (app version 0.6.0). Next: M5.
+> **Status:** M0–M10 are done (app version 0.12.0); research stays switched off until owner inputs #3 and #4. M11 is in progress: the sync engine and the encrypted frames are built; the rest waits for the M11.0 spike on real phones.
 > **Date:** 6 November 2026
 
 ## Files
@@ -139,12 +139,14 @@ Update this table when a milestone starts or ends.
 | M0 Groundwork | Done |
 | M1 Profile, body and smart calorie tracking | Done |
 | M2 Foods, barcode scanner and manual logging | Done (the optional NutriDatabaze step waits for input #2) |
-| M3 Recipes and dishes | Done (the owner should look through the 30 starter recipes) |
-| M4 Cooking, prep boxes and freshness | Done (marking plan slots comes with M5) |
-| M5 Weekly plan, pantry and shopping | In progress (M5.1 done) |
-| M6 Smart planner | Not started |
-| M7 Cycle tracking | Not started |
-| M8 Supplements | Not started |
-| M9 Home-screen widget | Not started |
-| M10 Research data program | Not started |
-| M11 Household over home Wi-Fi | Not started |
+| M3 Recipes and dishes | Done (the owner accepted the starter recipes as they are) |
+| M4 Cooking, prep boxes and freshness | Done |
+| M5 Weekly plan, pantry and shopping | Done (the product seed file waits for input #1) |
+| M6 Smart planner | Done |
+| M7 Cycle tracking | Done |
+| M8 Supplements | Done |
+| M9 Home-screen widget | Done |
+| M10 Research data program | Built; switched off until hosting (#3) and the legal review (#4), M10.7 |
+| M11 Household over home Wi-Fi | In progress (A22 engine and frames done; the hub waits for the M11.0 phone spike) |
+
+The owner ran the instrumented tests and checked the app on a phone for M0–M4 on 7 November 2026: no problems found.

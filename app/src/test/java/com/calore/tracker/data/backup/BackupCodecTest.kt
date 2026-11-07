@@ -195,6 +195,8 @@ class BackupCodecTest {
         ingredients: List<RecipeIngredientRow> = listOf(ingredient),
         steps: List<RecipeStepRow> = listOf(step),
         boxes: List<BoxRow> = listOf(box),
+        ratings: List<RecipeRatingRow> = listOf(RecipeRatingRow("6ba7b815-9dad-41d1-80b4-00c04fd430c8", me.id, recipe.id, 1, 10, 10)),
+        cyclePeriods: List<CyclePeriodRow> = listOf(CyclePeriodRow("6ba7b816-9dad-41d1-80b4-00c04fd430c8", "2026-10-01", "2026-10-05", 11, 11)),
     ) = BackupFile(
         format = BackupCodec.FORMAT,
         version = version,
@@ -207,6 +209,17 @@ class BackupCodecTest {
             batchIngredients = listOf(BatchIngredientRow("6ba7b813-9dad-41d1-80b4-00c04fd430c8", batch.id, food.uuid, 800.0)),
             boxes = boxes,
             boxParts = listOf(BoxPartRow("6ba7b814-9dad-41d1-80b4-00c04fd430c8", box.id, batch.id, 500.0)),
+            recipeRatings = ratings,
+            cyclePeriods = cyclePeriods,
+            cycleDays = listOf(CycleDayRow("6ba7b817-9dad-41d1-80b4-00c04fd430c8", "2026-10-02", "MEDIUM", listOf("CRAMPS"), "note", 12, 12)),
+            supplements = listOf(
+                SupplementRow(
+                    "6ba7b819-9dad-41d1-80b4-00c04fd430c8", "Protein", "PROTEIN_POWDER", 30.0, "G", listOf("08:00"), emptyList(), "2026-10-01",
+                    kcal = 120.0, protein = 24.0, createdAt = 13, updatedAt = 13,
+                ),
+            ),
+            supplementLogs = listOf(SupplementLogRow("6ba7b81a-9dad-41d1-80b4-00c04fd430c8", "6ba7b819-9dad-41d1-80b4-00c04fd430c8", 14, 14, "TAKEN", null, 14, 14)),
+            researchReports = listOf(ResearchReportRow("6ba7b81b-9dad-41d1-80b4-00c04fd430c8", "2026-W45", listOf("NUTRITION"), "{}", "SENT", 1, 15, 16)),
         ),
     )
 
@@ -230,6 +243,7 @@ class BackupCodecTest {
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
                 "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
+                "recipe_ratings", "cycle_periods", "cycle_days", "supplements", "supplement_logs", "research_reports",
             ),
             root["tables"]!!.jsonObject.keys,
         )
@@ -266,6 +280,21 @@ class BackupCodecTest {
         for ((name, broken) in cases) {
             assertEquals(name, BackupReadResult.Damaged, decode(broken))
         }
+    }
+
+    @Test
+    fun ratingsOtherThanUpOrDownAreDamaged() {
+        val rating = RecipeRatingRow("6ba7b815-9dad-41d1-80b4-00c04fd430c8", me.id, recipe.id, 1, 10, 10)
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(rating = 2)))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating.copy(id = "x")))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(ratings = listOf(rating, rating))))
+    }
+
+    @Test
+    fun brokenCycleRowsAreDamaged() {
+        val period = CyclePeriodRow("6ba7b816-9dad-41d1-80b4-00c04fd430c8", "2026-10-01", null, 11, 11)
+        assertEquals(BackupReadResult.Damaged, decode(backup(cyclePeriods = listOf(period.copy(startDate = "October")))))
+        assertEquals(BackupReadResult.Damaged, decode(backup(cyclePeriods = listOf(period, period.copy(id = "6ba7b818-9dad-41d1-80b4-00c04fd430c8")))))
     }
 
     @Test

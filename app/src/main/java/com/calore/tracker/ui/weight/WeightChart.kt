@@ -15,6 +15,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.calore.tracker.domain.TrendPoint
+import androidx.compose.ui.geometry.Size
+import java.time.LocalDate
 
 /**
  * Body weight over time (M1.5): each weigh-in is a dot, the smoothed trend (A6) is a line.
@@ -22,8 +24,9 @@ import com.calore.tracker.domain.TrendPoint
  * Needs at least two points, oldest first.
  */
 @Composable
-fun WeightChart(points: List<TrendPoint>, description: String, modifier: Modifier = Modifier) {
+fun WeightChart(points: List<TrendPoint>, description: String, modifier: Modifier = Modifier, shaded: Set<LocalDate> = emptySet()) {
     val lineColor = MaterialTheme.colorScheme.primary
+    val shadeColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f)
     val dotColor = MaterialTheme.colorScheme.tertiary
     val gridColor = MaterialTheme.colorScheme.outlineVariant
 
@@ -52,6 +55,15 @@ fun WeightChart(points: List<TrendPoint>, description: String, modifier: Modifie
             x = inset + (date - firstDay) / daySpan * width,
             y = inset + height - ((kg - low).toFloat() / kgSpan) * height,
         )
+
+        // M7.5: likely water-retention days (cycle tracking), one band per day.
+        val dayWidth = (width / daySpan).coerceAtLeast(1f)
+        shaded.forEach { day ->
+            val epoch = day.toEpochDay()
+            if (epoch < firstDay || epoch > points.last().date.toEpochDay()) return@forEach
+            val x = inset + (epoch - firstDay) / daySpan * width
+            drawRect(shadeColor, topLeft = Offset((x - dayWidth / 2).coerceAtLeast(inset), inset), size = Size(dayWidth, height))
+        }
 
         for (i in 0..GRID_LINES) {
             val y = inset + height * i / GRID_LINES

@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -37,6 +38,8 @@ class NavigationTest {
             val container = (context.applicationContext as CaloreApp).container
             container.memberRepository.ensureMe()
             container.appPrefs.setFirstRunDone(true)
+            // The week plan's first-time question (M5.2) is not part of these tests.
+            container.appPrefs.setCookingAsked()
         }
         scenario = ActivityScenario.launch(MainActivity::class.java)
     }
@@ -62,13 +65,14 @@ class NavigationTest {
     }
 
     @Test
-    fun planShowsTheRecipeBook() {
+    fun planShowsTheWeekAndTheRecipeBook() {
         compose.onNodeWithText(text(R.string.nav_plan)).performClick()
-        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.plan_tab_week)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.recipes_title)).performClick()
         compose.onNodeWithText(text(R.string.recipes_new)).performClick()
         compose.onNodeWithText(text(R.string.recipe_new_title)).assertIsDisplayed()
         back()
-        compose.onNodeWithText(text(R.string.recipes_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.recipes_new)).assertIsDisplayed()
     }
 
     @Test
@@ -89,6 +93,21 @@ class NavigationTest {
         compose.onNodeWithText(text(R.string.me_settings)).performClick()
         compose.onNodeWithText(text(R.string.pots_title)).performClick()
         compose.onNodeWithText(text(R.string.pots_add)).assertIsDisplayed()
+    }
+
+    @Test
+    fun shopShowsTheShoppingList() {
+        compose.onNodeWithText(text(R.string.nav_shop)).performClick()
+        compose.onNodeWithText(text(R.string.shop_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.shop_add_item)).assertIsDisplayed()
+    }
+
+    @Test
+    fun cycleIsInMeAndStartsWithTheIntro() {
+        openMe()
+        compose.onNodeWithText(text(R.string.cycle_title)).performScrollTo().performClick()
+        compose.onNodeWithText(text(R.string.cycle_intro_title)).assertIsDisplayed()
+        compose.onNodeWithText(text(R.string.cycle_switch_on)).assertIsDisplayed()
     }
 
     @Test

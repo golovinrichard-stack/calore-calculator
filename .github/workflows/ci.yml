@@ -33,6 +33,9 @@ jobs:
       - name: Unit tests, lint, debug APK, instrumented tests compile
         run: ./gradlew testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest
 
+      - name: Research server tests (M10.6, a separate build)
+        run: ./gradlew -p server test
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v5
         with:

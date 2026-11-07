@@ -40,6 +40,8 @@ data class BoxSpec(
     val ownerMemberId: String?,
     val plannedDate: LocalDate? = null,
     val plannedMeal: MealType? = null,
+    /** The plan slot this box is for (M5.4). */
+    val planSlotId: String? = null,
 )
 
 /** What "Ate it" did, so it can be undone (M4.7). */
@@ -76,6 +78,7 @@ class CookingRepository(
         ingredients: List<Pair<Food, Double>>,
         cookedGrams: Double,
         cookedByMemberId: String?,
+        costHalers: Long? = null,
     ): Batch {
         val now = clock.millis()
         val rawGrams = ingredients.sumOf { it.second }
@@ -97,6 +100,7 @@ class CookingRepository(
             ironMgPer100g = per100g.ironMg,
             magnesiumMgPer100g = per100g.magnesiumMg,
             vitaminCMgPer100g = per100g.vitaminCMg,
+            costHalers = costHalers,
             createdAt = now,
             updatedAt = now,
         )
@@ -146,6 +150,7 @@ class CookingRepository(
                 frozenAt = if (frozen) now else null,
                 plannedDate = spec.plannedDate,
                 plannedMeal = spec.plannedMeal,
+                planSlotId = spec.planSlotId,
                 createdAt = now,
                 updatedAt = now,
             )
@@ -194,12 +199,12 @@ class CookingRepository(
             memberId = if (ownerIsMe) null else box.ownerMemberId,
             entryType = EntryType.BOX,
         ).toEntity().copy(boxId = box.id)
-        val entryId = cookingDao.eatBox(updated.toEntity(), entry)
+        val entryId = cookingDao.eatBox(updated.toEntity(), entry, clock.millis())
         return EatenBox(previous = box, diaryEntryId = entryId, meal = meal)
     }
 
     /** Undo of [eat]: the diary entry goes, the box comes back as it was. */
-    suspend fun undoEat(eaten: EatenBox) = cookingDao.undoEat(eaten.previous.toEntity(), eaten.diaryEntryId)
+    suspend fun undoEat(eaten: EatenBox) = cookingDao.undoEat(eaten.previous.toEntity(), eaten.diaryEntryId, clock.millis())
 
     // Freezer, waste and moving (M4.6, M4.10)
 
@@ -220,6 +225,11 @@ class CookingRepository(
 
     suspend fun throwAway(box: Box, reason: WasteReason) {
         cookingDao.updateBox(box.copy(state = BoxState.WASTED, wastedReason = reason, updatedAt = clock.millis()).toEntity())
+    }
+
+    /** M5.11: the box goes to someone else. */
+    suspend fun giveTo(box: Box, memberId: String?) {
+        cookingDao.updateBox(box.copy(ownerMemberId = memberId, updatedAt = clock.millis()).toEntity())
     }
 
     suspend fun move(box: Box, date: LocalDate?, meal: MealType?) {

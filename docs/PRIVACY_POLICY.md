@@ -49,7 +49,7 @@ This policy covers the Calore app for Android and the Calore research server. It
 |---|---|---|
 | Profile and goals | Sex, birth date, height, activity, goal, targets, food preferences, allergies, cooking days, budget | When you enter it |
 | Food diary | What you ate, when (day and meal), amounts, calories and nutrients | When you log food |
-| Food lists | Your own foods, recipes, cooked batches, prep boxes, plans, pantry, shopping lists, shops, products, prices | When you use these features |
+| Food lists | Your own foods, recipes and your 👍 / 👎 for them, cooked batches, prep boxes, plans, pantry, shopping lists, shops, products, prices | When you use these features |
 | Body | Weight, tape measurements, body fat, weekly check-ins | When you enter them |
 | Cycle (only if switched on) | Period days, flow, symptoms, notes, contraception and pregnancy settings | When you enter them |
 | Supplements (only if switched on) | Supplements, doses, schedule, taken or skipped | When you enter them |

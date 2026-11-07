@@ -67,6 +67,12 @@ class BackupRepository(
                 storeProducts = snapshot.storeProducts.orEmpty().map { it.toRow() },
                 prices = snapshot.prices.orEmpty().map { it.toRow() },
                 shoppingItems = snapshot.shoppingItems.orEmpty().map { it.toRow() },
+                recipeRatings = snapshot.recipeRatings.orEmpty().map { it.toRow() },
+                cyclePeriods = snapshot.cyclePeriods.orEmpty().map { it.toRow() },
+                cycleDays = snapshot.cycleDays.orEmpty().map { it.toRow() },
+                supplements = snapshot.supplements.orEmpty().map { it.toRow() },
+                supplementLogs = snapshot.supplementLogs.orEmpty().map { it.toRow() },
+                researchReports = snapshot.researchReports.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -115,6 +121,12 @@ class BackupRepository(
                 storeProducts = tables.storeProducts?.map { it.toEntity() },
                 prices = tables.prices?.map { it.toEntity() },
                 shoppingItems = tables.shoppingItems?.map { it.toEntity() },
+                recipeRatings = tables.recipeRatings?.map { it.toEntity() },
+                cyclePeriods = tables.cyclePeriods?.map { it.toEntity() },
+                cycleDays = tables.cycleDays?.map { it.toEntity() },
+                supplements = tables.supplements?.map { it.toEntity() },
+                supplementLogs = tables.supplementLogs?.map { it.toEntity() },
+                researchReports = tables.researchReports?.map { it.toEntity() },
             ),
         )
     }

@@ -265,5 +265,71 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
     }
 }
 
+/** Version 8 (M6): 👍 / 👎 ratings of recipes, per person. */
+val MIGRATION_7_8 = object : Migration(7, 8) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `recipe_ratings` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, " +
+                "`recipeId` TEXT NOT NULL, `rating` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, " +
+                "`updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE UNIQUE INDEX IF NOT EXISTS `index_recipe_ratings_memberId_recipeId` " +
+                "ON `recipe_ratings` (`memberId`, `recipeId`)",
+        )
+    }
+}
+
+/** Version 9 (M7): periods and logged cycle days. Private, never synced. */
+val MIGRATION_8_9 = object : Migration(8, 9) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `cycle_periods` (`id` TEXT NOT NULL, `startDate` TEXT NOT NULL, " +
+                "`endDate` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cycle_periods_startDate` ON `cycle_periods` (`startDate`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `cycle_days` (`id` TEXT NOT NULL, `date` TEXT NOT NULL, `flow` TEXT, " +
+                "`symptoms` TEXT NOT NULL, `note` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cycle_days_date` ON `cycle_days` (`date`)")
+    }
+}
+
+/** Version 10 (M8): supplements and their logs. Private, never synced. */
+val MIGRATION_9_10 = object : Migration(9, 10) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `supplements` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `kind` TEXT NOT NULL, " +
+                "`doseAmount` REAL NOT NULL, `doseUnit` TEXT NOT NULL, `times` TEXT NOT NULL, `daysOfWeek` TEXT NOT NULL, " +
+                "`startDate` TEXT NOT NULL, `endDate` TEXT, `remindersOn` INTEGER NOT NULL, `kcal` REAL, `protein` REAL, " +
+                "`carbs` REAL, `fat` REAL, `fiber` REAL, `sugar` REAL, `active` INTEGER NOT NULL, " +
+                "`createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `supplement_logs` (`id` TEXT NOT NULL, `supplementId` TEXT NOT NULL, " +
+                "`scheduledAt` INTEGER, `takenAt` INTEGER, `status` TEXT NOT NULL, `diaryEntryUuid` TEXT, " +
+                "`createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE UNIQUE INDEX IF NOT EXISTS `index_supplement_logs_supplementId_scheduledAt` " +
+                "ON `supplement_logs` (`supplementId`, `scheduledAt`)",
+        )
+    }
+}
+
+/** Version 11 (M10): weekly research reports, exactly as sent. Private, never synced. */
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `research_reports` (`id` TEXT NOT NULL, `isoWeek` TEXT NOT NULL, " +
+                "`categories` TEXT NOT NULL, `payload` TEXT NOT NULL, `status` TEXT NOT NULL, `attempts` INTEGER NOT NULL, " +
+                "`createdAt` INTEGER NOT NULL, `sentAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_research_reports_isoWeek` ON `research_reports` (`isoWeek`)")
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11)

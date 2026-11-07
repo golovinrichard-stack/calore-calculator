@@ -14,6 +14,8 @@ data class Batch(
     val rawGrams: Double,
     val cookedGrams: Double,
     val per100g: Nutrients,
+    /** What went in cost (A18), when every price was known. */
+    val costHalers: Long? = null,
 )
 
 data class BoxPart(val id: String, val boxId: String, val batchId: String, val grams: Double)
@@ -31,6 +33,8 @@ data class Box(
     val thawedAt: Long? = null,
     val plannedDate: LocalDate? = null,
     val plannedMeal: MealType? = null,
+    /** The plan slot this box is for (M5.4). */
+    val planSlotId: String? = null,
     val wastedReason: WasteReason? = null,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
@@ -48,6 +52,12 @@ data class BoxView(val box: Box, val parts: List<Pair<BoxPart, Batch?>>) {
     val remainingNutrients: Nutrients get() = fullNutrients.scaledBy(box.remainingFraction)
 
     val fullGrams: Double get() = parts.sumOf { it.first.grams }
+
+    /** Box cost = batch cost × part grams ÷ cooked grams (A18); null when a part's cost is unknown. */
+    val costHalers: Double?
+        get() = parts.map { (part, batch) -> batch?.costHalers?.let { Triple(part.grams, it.toDouble(), batch.cookedGrams) } }
+            .takeIf { list -> list.isNotEmpty() && list.all { it != null } }
+            ?.let { Costs.boxCost(it.filterNotNull()) }
 
     /** "Chili", or "Chicken + Rice + Broccoli". */
     val name: String get() = parts.mapNotNull { it.second?.name }.distinct().joinToString(" + ")
@@ -74,3 +84,38 @@ object BoxEating {
         return if (left <= EMPTY) Triple(eaten, 0.0, BoxState.EATEN) else Triple(eaten, left, BoxState.PART_EATEN)
     }
 }
+
+enum class PantryState { AVAILABLE, USED_UP, WASTED }
+
+/** Food at home (M5.5). Amounts are grams, millilitres or pieces. */
+data class PantryItem(
+    val id: String,
+    val foodUuid: String?,
+    val storeProductId: String? = null,
+    val name: String,
+    val amount: Double,
+    val unit: AmountUnit,
+    val storage: Storage,
+    val boughtDate: LocalDate,
+    /** The date on the pack, or a default (A17). */
+    val bestBeforeDate: LocalDate?,
+    val openedDate: LocalDate? = null,
+    val state: PantryState = PantryState.AVAILABLE,
+    val costHalers: Long? = null,
+    val reservedForCookId: String? = null,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+) {
+    /** The best-before date that counts: an opened fridge item gets at most 3 more days (A17). */
+    val effectiveBestBefore: LocalDate?
+        get() = openedDate?.let { Pantry.bestBeforeAfterOpening(bestBeforeDate, it, storage) } ?: bestBeforeDate
+
+    /** Grams, converting pieces with the food's grams per piece; null when that is unknown. */
+    fun grams(gramsPerPiece: Double?): Double? = when (unit) {
+        AmountUnit.G, AmountUnit.ML -> amount
+        AmountUnit.PIECE -> gramsPerPiece?.let { amount * it }
+    }
+}
+
+/** `Unit` in the data model (G, ML, PIECE); named so it doesn't clash with Kotlin's Unit. */
+enum class AmountUnit { G, ML, PIECE }

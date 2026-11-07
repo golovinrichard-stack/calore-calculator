@@ -20,6 +20,7 @@ internal fun BatchEntity.toDomain() = Batch(
     cookedAt = cookedAt,
     rawGrams = rawGrams,
     cookedGrams = cookedGrams,
+    costHalers = costHalers,
     per100g = Nutrients(
         kcal = kcalPer100g,
         protein = proteinPer100g,
@@ -50,6 +51,7 @@ internal fun BoxEntity.toDomain(): Box? {
         thawedAt = thawedAt,
         plannedDate = parseIsoDate(plannedDate),
         plannedMeal = plannedMeal?.let { JsonColumns.enumByName<MealType>(it) },
+        planSlotId = planSlotId,
         wastedReason = wastedReason?.let { JsonColumns.enumByName<WasteReason>(it) },
         createdAt = createdAt,
         updatedAt = updatedAt,
@@ -68,6 +70,7 @@ internal fun Box.toEntity(deletedAt: Long? = null) = BoxEntity(
     thawedAt = thawedAt,
     plannedDate = plannedDate?.toString(),
     plannedMeal = plannedMeal?.name,
+    planSlotId = planSlotId,
     wastedReason = wastedReason?.name,
     createdAt = createdAt,
     updatedAt = updatedAt,

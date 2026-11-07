@@ -1,6 +1,9 @@
 package com.calore.tracker.ui.weight
 
 import androidx.lifecycle.ViewModel
+import com.calore.tracker.domain.cycle.CyclePeriod
+import com.calore.tracker.domain.cycle.CycleSettings
+import com.calore.tracker.domain.cycle.Cycles
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.domain.BodyMeasurement
@@ -41,6 +44,8 @@ data class WeightUiState(
     val hideNumbers: Boolean = false,
     /** Newest first. */
     val checkins: List<Checkin> = emptyList(),
+    /** M7.5: likely water-retention days from cycle tracking (A19), shaded on the chart. */
+    val waterDays: Set<LocalDate> = emptySet(),
 ) {
     /** Weigh-ins with the trend (A6), oldest first. */
     val trend: List<TrendPoint> = TrendWeight.of(entries)
@@ -52,6 +57,7 @@ class WeightViewModel(
     measurements: Flow<List<BodyMeasurement>> = flowOf(emptyList()),
     hideNumbers: Flow<Boolean> = flowOf(false),
     checkins: Flow<List<Checkin>> = flowOf(emptyList()),
+    cycle: Flow<Pair<List<CyclePeriod>, CycleSettings>> = flowOf(emptyList<CyclePeriod>() to CycleSettings()),
 ) : ViewModel() {
 
     private val input = MutableStateFlow(WeightInput(date = LocalDate.now(clock)))
@@ -71,6 +77,9 @@ class WeightViewModel(
             hideNumbers = hide,
             checkins = pastCheckins,
         )
+    }.combine(cycle) { state, (periods, settings) ->
+        val first = state.entries.firstOrNull()?.date ?: return@combine state
+        state.copy(waterDays = Cycles.waterDays(first, state.today, periods, settings))
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS),

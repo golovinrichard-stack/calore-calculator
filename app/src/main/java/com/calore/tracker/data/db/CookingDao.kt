@@ -99,17 +99,23 @@ abstract class CookingDao {
     @Query("DELETE FROM diary_entries WHERE id = :id")
     protected abstract suspend fun deleteDiaryEntry(id: Long)
 
-    /** "Ate it" (M4.7): the diary entry and the box change together, or not at all. */
+    /** The plan slot a box is for (M5.4) is done once the box is eaten (M4.7). */
+    @Query("UPDATE plan_slots SET done = :done, updatedAt = :now WHERE boxId = :boxId")
+    protected abstract suspend fun setSlotDone(boxId: String, done: Boolean, now: Long)
+
+    /** "Ate it" (M4.7): the diary entry, the box and its plan slot change together, or not at all. */
     @Transaction
-    open suspend fun eatBox(updated: BoxEntity, entry: DiaryEntryEntity): Long {
+    open suspend fun eatBox(updated: BoxEntity, entry: DiaryEntryEntity, now: Long): Long {
         updateBox(updated)
+        setSlotDone(updated.id, true, now)
         return insertDiaryEntry(entry)
     }
 
-    /** Undo of [eatBox]: the box as it was, and no diary entry. */
+    /** Undo of [eatBox]: the box as it was, its slot not done, and no diary entry. */
     @Transaction
-    open suspend fun undoEat(previous: BoxEntity, entryId: Long) {
+    open suspend fun undoEat(previous: BoxEntity, entryId: Long, now: Long) {
         updateBox(previous)
+        setSlotDone(previous.id, false, now)
         deleteDiaryEntry(entryId)
     }
 
