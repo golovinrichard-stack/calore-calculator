@@ -26,6 +26,7 @@ import com.calore.tracker.data.repository.CycleRepository
 import com.calore.tracker.data.prefs.CyclePrefs
 import com.calore.tracker.ui.rating.RatingPrompt
 import com.calore.tracker.ui.cycle.AppLockState
+import com.calore.tracker.widget.WidgetUpdates
 import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.data.repository.ReminderSettings
 import com.calore.tracker.data.repository.ShopRepository
@@ -120,6 +121,8 @@ class AppContainer(context: Context) {
     )
 
     init {
+        // M9.2: the widget follows diary, box and plan changes.
+        WidgetUpdates.observe(context, database.invalidationTracker, applicationScope)
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
         applicationScope.launch { memberRepository.ensureMe() }
         // Bundled basic foods, then the starter recipes that use them: once per version, in the background.

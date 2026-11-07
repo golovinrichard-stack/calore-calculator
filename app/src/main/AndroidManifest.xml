@@ -42,6 +42,21 @@
         <receiver
             android:name=".notifications.CookTimerReceiver"
             android:exported="false" />
+        <!-- The "Today" home-screen widget (M9). -->
+        <receiver
+            android:name=".widget.TodayWidgetReceiver"
+            android:exported="true"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.WidgetMidnightReceiver"
+            android:exported="false" />
         <receiver
             android:name=".notifications.SupplementReceiver"
             android:exported="false" />

@@ -1099,4 +1099,17 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="dose_scoop">scoop</string>
     <string name="notify_permission_denied">Notifications are off for Calore. You can allow them in the phone settings.</string>    <string name="supplement_entry_remove">Remove %1$s from the diary? To log it again, use Taken on Today.</string>
 
+
+    <!-- Widget (M9) -->
+    <string name="widget_name">Calore today</string>
+    <string name="widget_description">Today\'s calories and protein, the next planned meal and Ate it for its box.</string>
+    <string name="widget_kcal">%1$s / %2$s kcal</string>
+    <string name="widget_protein">%1$s / %2$s g protein</string>
+    <string name="widget_next">%1$s: %2$s</string>
+    <string name="widget_nothing_planned">Nothing planned</string>
+    <string name="widget_ate_it">Ate %1$s</string>
+    <plurals name="widget_boxes_today">
+        <item quantity="one">%d box to eat today</item>
+        <item quantity="other">%d boxes to eat today</item>
+    </plurals>
 </resources>

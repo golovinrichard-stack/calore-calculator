@@ -1146,4 +1146,19 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="dose_scoop">odměrka</string>
     <string name="notify_permission_denied">Oznámení pro Calore jsou vypnutá. Můžeš je povolit v nastavení telefonu.</string>    <string name="supplement_entry_remove">Odebrat %1$s z deníku? Znovu ho zapíšeš tlačítkem Vzato na Dnes.</string>
 
+
+    <!-- Widget (M9) -->
+    <string name="widget_name">Calore dnes</string>
+    <string name="widget_description">Dnešní kalorie a bílkoviny, další naplánované jídlo a Snědeno pro jeho krabičku.</string>
+    <string name="widget_kcal">%1$s / %2$s kcal</string>
+    <string name="widget_protein">%1$s / %2$s g bílkovin</string>
+    <string name="widget_next">%1$s: %2$s</string>
+    <string name="widget_nothing_planned">Nic naplánováno</string>
+    <string name="widget_ate_it">Snědeno %1$s</string>
+    <plurals name="widget_boxes_today">
+        <item quantity="one">Dnes sníst %d krabičku</item>
+        <item quantity="few">Dnes sníst %d krabičky</item>
+        <item quantity="many">Dnes sníst %d krabičky</item>
+        <item quantity="other">Dnes sníst %d krabiček</item>
+    </plurals>
 </resources>
