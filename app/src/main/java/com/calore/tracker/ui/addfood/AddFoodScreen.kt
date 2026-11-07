@@ -25,17 +25,25 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import com.calore.tracker.ui.quickadd.QuickAddDialog
+import com.calore.tracker.domain.QuickAddDraft
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,11 +51,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
+import com.calore.tracker.data.repository.RecipeDetails
+import com.calore.tracker.ui.recipes.LogDishDialog
 import com.calore.tracker.data.remote.RemoteFood
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.SectionHeader
+import com.calore.tracker.ui.LocalHideNumbers
 import com.calore.tracker.ui.formatKcal
 import com.calore.tracker.ui.labelRes
 import java.time.LocalDate
@@ -58,9 +69,42 @@ fun AddFoodScreen(
     onBack: () -> Unit,
     onFoodChosen: (foodId: Long, LocalDate, MealType) -> Unit,
     onCreateCustom: (LocalDate, MealType, name: String) -> Unit,
+    onScan: (LocalDate, MealType) -> Unit = { _, _ -> },
+    onQuickAdded: () -> Unit = onBack,
     viewModel: AddFoodViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val dishes by viewModel.dishes.collectAsStateWithLifecycle()
+    var quickAdding by rememberSaveable { mutableStateOf(false) }
+    var showDishes by rememberSaveable { mutableStateOf(false) }
+    var loggingDish by remember { mutableStateOf<RecipeDetails?>(null) }
+    loggingDish?.let { details ->
+        LogDishDialog(
+            name = details.recipe.displayName(),
+            nutrition = details.nutrition,
+            meal = viewModel.meal,
+            chooseMeal = false,
+            onLog = { servings, grams, _ ->
+                loggingDish = null
+                viewModel.logDish(details, servings, grams)
+            },
+            onDismiss = { loggingDish = null },
+        )
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.quickAddDone.collect { onQuickAdded() }
+    }
+    if (quickAdding) {
+        QuickAddDialog(
+            initial = QuickAddDraft(name = state.query.trim()),
+            onSave = { name, nutrients ->
+                quickAdding = false
+                viewModel.quickAdd(name, nutrients)
+            },
+            onDismiss = { quickAdding = false },
+        )
+    }
     val keyboard = LocalSoftwareKeyboardController.current
     val searchFocus = remember { FocusRequester() }
 
@@ -79,6 +123,11 @@ fun AddFoodScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onScan(viewModel.date, viewModel.meal) }) {
+                        Icon(painterResource(R.drawable.ic_barcode), stringResource(R.string.scanner_title))
                     }
                 },
             )
@@ -113,12 +162,29 @@ fun AddFoodScreen(
                     .focusRequester(searchFocus),
             )
             if (state.isSaving) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            // Foods, or dishes from the recipes (M3.5).
+            PrimaryTabRow(selectedTabIndex = if (showDishes) 1 else 0) {
+                Tab(selected = !showDishes, onClick = { showDishes = false }, text = { Text(stringResource(R.string.tab_foods)) })
+                Tab(selected = showDishes, onClick = { showDishes = true }, text = { Text(stringResource(R.string.tab_dishes)) })
+            }
+            if (showDishes) {
+                DishList(dishes, hasQuery = state.query.isNotBlank(), onDishClick = { loggingDish = it })
+                return@Column
+            }
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 24.dp),
             ) {
                 localSection(state, onFoodClick = { onFoodChosen(it.id, viewModel.date, viewModel.meal) })
+                item(key = "quick_add") {
+                    ListItem(
+                        modifier = Modifier.clickable { quickAdding = true },
+                        leadingContent = { Icon(Icons.Filled.Add, contentDescription = null) },
+                        headlineContent = { Text(stringResource(R.string.quick_add_title)) },
+                        supportingContent = { Text(stringResource(R.string.quick_add_entry_hint)) },
+                    )
+                }
                 item(key = "create") {
                     ListItem(
                         modifier = Modifier.clickable {
@@ -140,20 +206,44 @@ fun AddFoodScreen(
 
 private fun LazyListScope.localSection(state: AddFoodUiState, onFoodClick: (Food) -> Unit) {
     val isSearching = state.query.isNotBlank()
-    if (!isSearching || state.localFoods.isNotEmpty()) {
-        item(key = "local_header") {
+    if (!isSearching) {
+        item(key = "recent_header") {
             SectionHeader(
-                text = stringResource(if (isSearching) R.string.section_my_foods else R.string.section_recent),
+                text = stringResource(R.string.section_recent),
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
             )
         }
+        if (state.localFoods.isEmpty()) {
+            item(key = "no_recent") { HintText(stringResource(R.string.no_recent)) }
+        }
+        items(state.localFoods, key = { "local_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
+        return
     }
-    if (!isSearching && state.localFoods.isEmpty()) {
-        item(key = "no_recent") { HintText(stringResource(R.string.no_recent)) }
+    // While searching (M2.3): basic foods first, then the user's own foods.
+    val (basic, mine) = state.localFoods.partition { it.isGeneric }
+    if (basic.isNotEmpty()) {
+        item(key = "basic_header") {
+            SectionHeader(
+                text = stringResource(R.string.section_basic_foods),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            )
+        }
+        items(basic, key = { "basic_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
     }
-    items(state.localFoods, key = { "local_${it.id}" }) { food ->
-        FoodRow(name = food.name, brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
+    if (mine.isNotEmpty()) {
+        item(key = "mine_header") {
+            SectionHeader(
+                text = stringResource(R.string.section_my_foods),
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            )
+        }
+        items(mine, key = { "mine_${it.id}" }) { food -> LocalFoodRow(food, onFoodClick) }
     }
+}
+
+@Composable
+private fun LocalFoodRow(food: Food, onFoodClick: (Food) -> Unit) {
+    FoodRow(name = food.displayName(), brand = food.brand, kcalPer100g = food.per100g.kcal, onClick = { onFoodClick(food) })
 }
 
 private fun LazyListScope.onlineSection(
@@ -209,12 +299,15 @@ private fun LazyListScope.onlineSection(
 @Composable
 private fun FoodRow(name: String, brand: String?, kcalPer100g: Double, onClick: () -> Unit) {
     val kcal = formatKcal(kcalPer100g)
+    val hideNumbers = LocalHideNumbers.current
     ListItem(
         modifier = Modifier.clickable(onClick = onClick),
         headlineContent = { Text(name, maxLines = 2, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
             Text(
-                text = if (brand != null) {
+                text = if (hideNumbers) {
+                    brand.orEmpty()
+                } else if (brand != null) {
                     stringResource(R.string.food_per_100g_brand, brand, kcal)
                 } else {
                     stringResource(R.string.food_per_100g, kcal)
@@ -224,6 +317,27 @@ private fun FoodRow(name: String, brand: String?, kcalPer100g: Double, onClick: 
             )
         },
     )
+}
+
+@Composable
+private fun DishList(dishes: List<RecipeDetails>, hasQuery: Boolean, onDishClick: (RecipeDetails) -> Unit) {
+    val hideNumbers = LocalHideNumbers.current
+    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
+        if (dishes.isEmpty()) {
+            item(key = "none") { HintText(stringResource(if (hasQuery) R.string.recipes_no_match else R.string.dishes_none_yet)) }
+        }
+        items(dishes, key = { it.recipe.id }) { details ->
+            ListItem(
+                modifier = Modifier.clickable { onDishClick(details) },
+                headlineContent = { Text(details.recipe.displayName(), maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                supportingContent = if (hideNumbers) {
+                    null
+                } else {
+                    { Text(stringResource(R.string.recipe_kcal_per_serving, formatKcal(details.nutrition.perServing.kcal))) }
+                },
+            )
+        }
+    }
 }
 
 @Composable

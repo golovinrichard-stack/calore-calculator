@@ -4,10 +4,12 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.calore.tracker.data.repository.DiaryRepository
+import com.calore.tracker.data.repository.WeightRepository
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.FoodSource
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Nutrients
+import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -55,6 +57,8 @@ class DaoTest {
         servingGrams = null,
         source = FoodSource.CUSTOM.name,
         lastUsedAt = lastUsedAt,
+        uuid = newId(),
+        updatedAt = lastUsedAt,
     )
 
     @Test
@@ -113,6 +117,7 @@ class DaoTest {
             per100g = Nutrients(kcal = 130.0, protein = 2.7, carbs = 28.0, fat = 0.3),
             servingGrams = null,
             source = FoodSource.CUSTOM,
+            uuid = newId(),
         )
 
         repo.log(rice, grams = 200.0, meal = MealType.DINNER, date = day)
@@ -129,7 +134,7 @@ class DaoTest {
     @Test
     fun changingGramsScalesNutrientsAndUndoRestores() = runTest {
         val repo = DiaryRepository(db.diaryDao(), clock)
-        val bread = Food(1, "Bread", null, null, Nutrients(kcal = 250.0, protein = 9.0), null, FoodSource.CUSTOM)
+        val bread = Food(1, "Bread", null, null, Nutrients(kcal = 250.0, protein = 9.0), null, FoodSource.CUSTOM, newId())
         repo.log(bread, grams = 50.0, meal = MealType.BREAKFAST, date = day)
         val logged = repo.entriesFor(day).first().single()
 
@@ -147,7 +152,7 @@ class DaoTest {
     @Test
     fun entriesAreScopedToTheirDay() = runTest {
         val repo = DiaryRepository(db.diaryDao(), clock)
-        val apple = Food(1, "Apple", null, null, Nutrients(kcal = 52.0), null, FoodSource.CUSTOM)
+        val apple = Food(1, "Apple", null, null, Nutrients(kcal = 52.0), null, FoodSource.CUSTOM, newId())
         repo.log(apple, 100.0, MealType.SNACK, day)
         repo.log(apple, 100.0, MealType.SNACK, day.plusDays(1))
 
@@ -159,13 +164,98 @@ class DaoTest {
     @Test
     fun weightIsOnePerDay() = runTest {
         val dao = db.weightDao()
-        dao.upsert(WeightEntryEntity(date = "2026-10-20", kg = 80.0))
-        dao.upsert(WeightEntryEntity(date = "2026-10-21", kg = 79.5))
-        dao.upsert(WeightEntryEntity(date = "2026-10-21", kg = 79.0))
+        dao.upsert(WeightEntryEntity(date = "2026-10-20", kg = 80.0, uuid = newId()))
+        dao.upsert(WeightEntryEntity(date = "2026-10-21", kg = 79.5, uuid = newId()))
+        dao.upsert(WeightEntryEntity(date = "2026-10-21", kg = 79.0, uuid = newId()))
 
         val all = dao.all().first()
         assertEquals(listOf("2026-10-20", "2026-10-21"), all.map { it.date })
         assertEquals(79.0, all.last().kg, 0.0)
         assertEquals(79.0, dao.latest()!!.kg, 0.0)
+    }
+
+    @Test
+    fun refreshingAFoodByBarcodeKeepsItsUuid() = runTest {
+        val dao = db.foodDao()
+        val id = dao.upsertByBarcode(food("Oats", barcode = "123"))
+        val uuid = dao.getById(id)!!.uuid
+
+        dao.upsertByBarcode(food("Oats (new label)", barcode = "123"))
+
+        assertEquals(uuid, dao.getById(id)!!.uuid)
+    }
+
+    @Test
+    fun loggedEntriesGetUniqueUuidsThatSurviveEditsAndUndo() = runTest {
+        val repo = DiaryRepository(db.diaryDao(), clock)
+        val apple = Food(1, "Apple", null, null, Nutrients(kcal = 52.0), null, FoodSource.CUSTOM, newId())
+        repo.log(apple, 100.0, MealType.SNACK, day)
+        repo.log(apple, 150.0, MealType.SNACK, day)
+        val (first, second) = repo.entriesFor(day).first()
+        assertTrue(first.uuid != second.uuid)
+        assertEquals(36, first.uuid.length)
+
+        repo.changeGrams(first, 200.0)
+        val edited = repo.entriesFor(day).first().first()
+        assertEquals(first.uuid, edited.uuid)
+
+        repo.delete(edited)
+        repo.restore(edited)
+        assertEquals(first.uuid, repo.entriesFor(day).first().first().uuid)
+    }
+
+    @Test
+    fun savingAWeightAgainForTheSameDayKeepsItsUuidAndUndoRestoresIt() = runTest {
+        val repo = WeightRepository(db.weightDao())
+        repo.save(day, 80.0)
+        val saved = repo.entries().first().single()
+
+        repo.save(day, 79.0)
+        val replaced = repo.entries().first().single()
+        assertEquals(saved.uuid, replaced.uuid)
+        assertEquals(79.0, replaced.kg, 0.0)
+
+        repo.delete(replaced)
+        assertTrue(repo.entries().first().isEmpty())
+        repo.restore(replaced)
+        assertEquals(replaced, repo.entries().first().single())
+    }
+
+    @Test
+    fun aProductScannedBeforeIsFoundOnThePhone() = runTest {
+        // Any network call would fail here, so the result must come from the phone.
+        val offline = com.calore.tracker.data.remote.OpenFoodFactsClient(userAgent = "test")
+        val foods = com.calore.tracker.data.repository.FoodRepository(db.foodDao(), offline, clock)
+        val id = db.foodDao().insert(food("Tvaroh", barcode = "85936126"))
+
+        assertEquals(com.calore.tracker.data.repository.BarcodeResult.Found(id), foods.findByBarcode("85936126"))
+    }
+
+    @Test
+    fun quickAddCountsInTheDayAndCanBeEditedDeletedAndRestored() = runTest {
+        val repo = DiaryRepository(db.diaryDao(), clock)
+        val bread = Food(1, "Bread", null, null, Nutrients(kcal = 250.0, protein = 9.0), null, FoodSource.CUSTOM, newId())
+        repo.log(bread, grams = 100.0, meal = MealType.LUNCH, date = day)
+        repo.quickAdd("Pizza out", Nutrients(kcal = 850.0, protein = 32.0), MealType.DINNER, day)
+
+        val entries = repo.entriesFor(day).first()
+        val quick = entries.single { it.entryType == com.calore.tracker.domain.EntryType.QUICK_ADD }
+        assertEquals(0.0, quick.grams, 0.0)
+        assertNull(quick.foodId)
+        assertEquals(1100.0, com.calore.tracker.domain.DiaryTotals.summarize(entries).totals.kcal, 1e-9)
+
+        repo.updateQuickAdd(quick, "Pizza", Nutrients(kcal = 900.0))
+        val edited = repo.entriesFor(day).first().single { it.id == quick.id }
+        assertEquals("Pizza", edited.name)
+        assertEquals(900.0, edited.nutrients.kcal, 0.0)
+        assertEquals(quick.uuid, edited.uuid)
+
+        repo.changeGrams(edited, 200.0)
+        assertEquals("grams of a quick add don't change", 900.0, repo.entriesFor(day).first().single { it.id == quick.id }.nutrients.kcal, 0.0)
+
+        repo.delete(edited)
+        assertEquals(1, repo.entriesFor(day).first().size)
+        repo.restore(edited)
+        assertEquals(edited, repo.entriesFor(day).first().single { it.id == quick.id })
     }
 }

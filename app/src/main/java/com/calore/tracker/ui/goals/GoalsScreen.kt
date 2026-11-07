@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,13 +36,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.calore.tracker.R
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.NumberField
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.formatKcal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalsScreen(
+    onBack: () -> Unit,
     onOpenCalculator: () -> Unit,
-    onOpenAbout: () -> Unit,
     viewModel: GoalsViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -65,9 +67,9 @@ fun GoalsScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.goals_title)) },
-                actions = {
-                    IconButton(onClick = onOpenAbout) {
-                        Icon(Icons.Outlined.Info, stringResource(R.string.goals_about))
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back))
                     }
                 },
             )
@@ -83,6 +85,14 @@ fun GoalsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            val (numbersVisible, showNumbers) = rememberNumbersVisible()
+            if (!numbersVisible) {
+                ShowNumbersButton(onClick = showNumbers)
+                OutlinedButton(onClick = onOpenCalculator, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.goals_open_calculator))
+                }
+                return@Column
+            }
             NumberField(
                 value = form.kcal,
                 onValueChange = { text -> viewModel.updateForm { it.copy(kcal = text) } },

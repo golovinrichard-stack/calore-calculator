@@ -51,6 +51,8 @@ import com.calore.tracker.domain.MealType
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.components.NutrientTable
+import com.calore.tracker.ui.components.ShowNumbersButton
+import com.calore.tracker.ui.rememberNumbersVisible
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.formatEditable
 import com.calore.tracker.ui.formatGrams
@@ -91,7 +93,8 @@ fun FoodDetailScreen(
                     }
                 },
                 actions = {
-                    if (food != null) {
+                    // Basic foods come with the app and are updated with it, so they can't be changed here.
+                    if (food != null && !food.isGeneric) {
                         Box {
                             IconButton(onClick = { menuOpen = true }) {
                                 Icon(Icons.Filled.MoreVert, stringResource(R.string.more_options))
@@ -153,7 +156,7 @@ fun FoodDetailScreen(
     if (confirmDelete && food != null) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            text = { Text(stringResource(R.string.delete_food_confirm, food.name)) },
+            text = { Text(stringResource(R.string.delete_food_confirm, food.displayName())) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete = false
@@ -183,11 +186,16 @@ private fun FoodDetailContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column {
-            Text(food.name, style = MaterialTheme.typography.headlineSmall)
+            Text(food.displayName(), style = MaterialTheme.typography.headlineSmall)
             food.brand?.let { Text(it, style = MaterialTheme.typography.bodyLarge) }
             Text(
                 text = stringResource(
-                    if (food.source == FoodSource.OPEN_FOOD_FACTS) R.string.source_off else R.string.source_custom,
+                    when {
+                        food.isGeneric && food.sourceRef?.startsWith("off:") == true -> R.string.source_generic_off
+                        food.isGeneric -> R.string.source_generic_usda
+                        food.source == FoodSource.OPEN_FOOD_FACTS -> R.string.source_off
+                        else -> R.string.source_custom
+                    },
                 ),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -233,19 +241,24 @@ private fun FoodDetailContent(
             }
         }
 
-        state.portion?.let { portion ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    SectionHeader(stringResource(R.string.this_portion))
-                    NutrientTable(portion)
+        val (numbersVisible, showNumbers) = rememberNumbersVisible()
+        if (!numbersVisible) {
+            ShowNumbersButton(onClick = showNumbers)
+        } else {
+            state.portion?.let { portion ->
+                Card(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        SectionHeader(stringResource(R.string.this_portion))
+                        NutrientTable(portion)
+                    }
                 }
             }
-        }
 
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                SectionHeader(stringResource(R.string.per_100g))
-                NutrientTable(food.per100g)
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    SectionHeader(stringResource(R.string.per_100g))
+                    NutrientTable(food.per100g)
+                }
             }
         }
     }

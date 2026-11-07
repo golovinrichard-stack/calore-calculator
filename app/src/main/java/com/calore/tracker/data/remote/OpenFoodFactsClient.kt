@@ -31,18 +31,54 @@ class OpenFoodFactsClient(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
-    suspend fun search(query: String, locale: Locale = Locale.getDefault()): RemoteResult<List<RemoteFood>> =
-        withContext(ioDispatcher) {
-            val body = try {
-                fetch(searchUrl(query, locale))
-            } catch (e: IOException) {
-                return@withContext RemoteResult.NetworkError
-            } ?: return@withContext RemoteResult.BadResponse
+    /**
+     * Searches by name. With a [country] (an ISO code such as "CZ"), products sold there come
+     * first; when there are only a few, the rest of the world fills the list (M2.3). Only the
+     * query, the languages and the country are sent.
+     */
+    suspend fun search(
+        query: String,
+        locale: Locale = Locale.getDefault(),
+        country: String? = null,
+    ): RemoteResult<List<RemoteFood>> = withContext(ioDispatcher) {
+        val tag = country?.let { COUNTRY_TAGS[it.uppercase()] }
+        val words = searchWords(query)
+        if (tag == null || words.isEmpty()) return@withContext searchOnce(query, locale)
 
-            OpenFoodFactsParser.parseSearch(body)
-                ?.let { RemoteResult.Success(it) }
-                ?: RemoteResult.BadResponse
+        val local = searchOnce("$words countries_tags:\"$tag\"", locale)
+        if (local is RemoteResult.Success && local.value.size >= MIN_LOCAL_RESULTS) return@withContext local
+        if (local is RemoteResult.NetworkError) return@withContext local
+        when (val everywhere = searchOnce(query, locale)) {
+            is RemoteResult.Success -> {
+                val first = (local as? RemoteResult.Success)?.value.orEmpty()
+                RemoteResult.Success((first + everywhere.value).distinctBy { it.barcode }.take(PAGE_SIZE))
+            }
+            else -> if (local is RemoteResult.Success) local else everywhere
         }
+    }
+
+    /** One product by barcode (M2.4). Only the barcode is sent, with the fields Calore reads. */
+    suspend fun product(barcode: String): RemoteResult<OpenFoodFactsParser.ProductLookup> = withContext(ioDispatcher) {
+        val url = URL("$PRODUCT_ENDPOINT/${URLEncoder.encode(barcode, "UTF-8")}?fields=${URLEncoder.encode(FIELDS, "UTF-8")}")
+        val body = try {
+            fetch(url, acceptNotFound = true)
+        } catch (e: IOException) {
+            return@withContext RemoteResult.NetworkError
+        } ?: return@withContext RemoteResult.BadResponse
+        when (val lookup = OpenFoodFactsParser.parseProduct(body, barcode)) {
+            OpenFoodFactsParser.ProductLookup.Unreadable -> RemoteResult.BadResponse
+            else -> RemoteResult.Success(lookup)
+        }
+    }
+
+    private fun searchOnce(query: String, locale: Locale): RemoteResult<List<RemoteFood>> {
+        val body = try {
+            fetch(searchUrl(query, locale))
+        } catch (e: IOException) {
+            return RemoteResult.NetworkError
+        } ?: return RemoteResult.BadResponse
+        return OpenFoodFactsParser.parseSearch(body)?.let { RemoteResult.Success(it) } ?: RemoteResult.BadResponse
+    }
 
     private fun searchUrl(query: String, locale: Locale): URL {
         val language = locale.language.takeIf { it.isNotBlank() && it != "en" }
@@ -56,16 +92,24 @@ class OpenFoodFactsClient(
         return URL("$SEARCH_ENDPOINT?$params")
     }
 
-    /** Returns the body of a 200 response, or null for any other status or an oversized body. */
-    private fun fetch(url: URL): String? {
+    /**
+     * Returns the body of a 200 response (and of a 404 when [acceptNotFound], which the product
+     * endpoint uses for unknown barcodes), or null for any other status or an oversized body.
+     */
+    private fun fetch(url: URL, acceptNotFound: Boolean = false): String? {
         val connection = url.openConnection() as? HttpURLConnection ?: return null
         return try {
             connection.connectTimeout = CONNECT_TIMEOUT_MS
             connection.readTimeout = READ_TIMEOUT_MS
             connection.setRequestProperty("User-Agent", userAgent)
             connection.setRequestProperty("Accept", "application/json")
-            if (connection.responseCode != HttpURLConnection.HTTP_OK) return null
-            connection.inputStream.use { it.readCapped(MAX_BODY_BYTES) }?.toString(Charsets.UTF_8)
+            val code = connection.responseCode
+            val stream = when {
+                code == HttpURLConnection.HTTP_OK -> connection.inputStream
+                code == HttpURLConnection.HTTP_NOT_FOUND && acceptNotFound -> connection.errorStream ?: return """{"status":0}"""
+                else -> return null
+            }
+            stream.use { it.readCapped(MAX_BODY_BYTES) }?.toString(Charsets.UTF_8)
         } finally {
             connection.disconnect()
         }
@@ -83,10 +127,22 @@ class OpenFoodFactsClient(
         return out.toByteArray()
     }
 
-    private companion object {
+    internal companion object {
         const val SEARCH_ENDPOINT = "https://search.openfoodfacts.org/search"
+        const val PRODUCT_ENDPOINT = "https://world.openfoodfacts.org/api/v2/product"
         const val FIELDS =
-            "code,product_name,brands,nutriments,serving_quantity,serving_quantity_unit,serving_size"
+            "code,product_name,brands,nutriments,serving_quantity,serving_quantity_unit,serving_size," +
+                "quantity,product_quantity,product_quantity_unit,stores_tags,categories_tags,allergens_tags"
+
+        /** Fewer local results than this and the search also looks worldwide. */
+        const val MIN_LOCAL_RESULTS = 10
+
+        /** Open Food Facts country tags for the countries Calore supports. */
+        val COUNTRY_TAGS = mapOf("CZ" to "en:czech-republic")
+
+        /** The user's words without characters that have a meaning in the search syntax. */
+        fun searchWords(query: String): String =
+            query.replace(Regex("""[:"()\[\]{}^~*?\\/!+\-&|<>=]"""), " ").trim().replace(Regex("""\s+"""), " ")
         const val PAGE_SIZE = 25
         const val CONNECT_TIMEOUT_MS = 10_000
         const val READ_TIMEOUT_MS = 15_000

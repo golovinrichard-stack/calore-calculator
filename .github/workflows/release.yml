@@ -1,0 +1,82 @@
+# On a version tag (v0.2.0 …): test, build the release APK, sign it with the keystore from the
+# repository secrets and attach it to a GitHub release. Setup: docs/RELEASING.md.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      BUILD_TOOLS: 37.0.0
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check that the signing secrets exist
+        env:
+          CALORE_KEYSTORE_BASE64: ${{ secrets.CALORE_KEYSTORE_BASE64 }}
+          CALORE_KEYSTORE_PASSWORD: ${{ secrets.CALORE_KEYSTORE_PASSWORD }}
+          CALORE_KEY_ALIAS: ${{ secrets.CALORE_KEY_ALIAS }}
+          CALORE_KEY_PASSWORD: ${{ secrets.CALORE_KEY_PASSWORD }}
+        run: |
+          for name in CALORE_KEYSTORE_BASE64 CALORE_KEYSTORE_PASSWORD CALORE_KEY_ALIAS CALORE_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::The secret $name is missing. See docs/RELEASING.md."
+              exit 1
+            fi
+          done
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-read-only: true
+
+      - name: Install Android SDK platform 37
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.0" "build-tools;$BUILD_TOOLS" > /dev/null
+
+      - name: Test and build the release APK
+        run: ./gradlew testDebugUnitTest lintDebug assembleRelease
+
+      - name: Check that the tag matches the app version
+        run: |
+          version=$("$ANDROID_HOME/build-tools/$BUILD_TOOLS/aapt2" dump badging app/build/outputs/apk/release/app-release-unsigned.apk \
+            | sed -n "s/.*versionName='\([^']*\)'.*/\1/p")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match versionName $version in app/build.gradle.kts."
+            exit 1
+          fi
+
+      - name: Sign the APK
+        env:
+          CALORE_KEYSTORE_BASE64: ${{ secrets.CALORE_KEYSTORE_BASE64 }}
+          CALORE_KEYSTORE_PASSWORD: ${{ secrets.CALORE_KEYSTORE_PASSWORD }}
+          CALORE_KEY_ALIAS: ${{ secrets.CALORE_KEY_ALIAS }}
+          CALORE_KEY_PASSWORD: ${{ secrets.CALORE_KEY_PASSWORD }}
+        run: |
+          tools="$ANDROID_HOME/build-tools/$BUILD_TOOLS"
+          keystore="$RUNNER_TEMP/release.jks"
+          echo "$CALORE_KEYSTORE_BASE64" | base64 --decode > "$keystore"
+          "$tools/zipalign" -P 16 -f 4 app/build/outputs/apk/release/app-release-unsigned.apk "$RUNNER_TEMP/aligned.apk"
+          "$tools/apksigner" sign \
+            --ks "$keystore" --ks-pass env:CALORE_KEYSTORE_PASSWORD \
+            --ks-key-alias "$CALORE_KEY_ALIAS" --key-pass env:CALORE_KEY_PASSWORD \
+            --out "calore-$GITHUB_REF_NAME.apk" "$RUNNER_TEMP/aligned.apk"
+          rm -f "$keystore"
+          "$tools/apksigner" verify --print-certs "calore-$GITHUB_REF_NAME.apk"
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "calore-$GITHUB_REF_NAME.apk" \
+            --title "Calore ${GITHUB_REF_NAME#v}" --generate-notes

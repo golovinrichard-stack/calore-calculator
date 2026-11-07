@@ -1,6 +1,7 @@
 package com.calore.tracker.ui.today
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -40,8 +41,8 @@ class TodayContentTest {
     fun showsRemainingCaloriesAndEntries() {
         Locale.setDefault(Locale.US)
         val entries = listOf(
-            DiaryEntry(1, day, MealType.BREAKFAST, null, "Porridge", 250.0, Nutrients(400.0, 15.0, 60.0, 9.0), 1),
-            DiaryEntry(2, day, MealType.LUNCH, null, "Chicken salad", 300.0, Nutrients(450.0, 40.0, 10.0, 25.0), 2),
+            DiaryEntry(1, day, MealType.BREAKFAST, null, "Porridge", 250.0, Nutrients(400.0, 15.0, 60.0, 9.0), 1, "uuid-1"),
+            DiaryEntry(2, day, MealType.LUNCH, null, "Chicken salad", 300.0, Nutrients(450.0, 40.0, 10.0, 25.0), 2, "uuid-2"),
         )
 
         compose.setContent {
@@ -61,7 +62,7 @@ class TodayContentTest {
     fun overGoalIsShown() {
         Locale.setDefault(Locale.US)
         val entries = listOf(
-            DiaryEntry(1, day, MealType.DINNER, null, "Pizza", 800.0, Nutrients(2200.0), 1),
+            DiaryEntry(1, day, MealType.DINNER, null, "Pizza", 800.0, Nutrients(2200.0), 1, "uuid-1"),
         )
 
         compose.setContent {
@@ -86,5 +87,23 @@ class TodayContentTest {
         compose.onNodeWithContentDescription("Add food to Lunch").performClick()
 
         assertEquals(MealType.LUNCH, tapped)
+    }
+
+    @Test
+    fun hideNumbersShowsFoodsWithoutCalories() {
+        Locale.setDefault(Locale.US)
+        val entries = listOf(
+            DiaryEntry(1, day, MealType.BREAKFAST, null, "Porridge", 250.0, Nutrients(400.0, 15.0, 60.0, 9.0), 1, "uuid-1"),
+        )
+
+        compose.setContent {
+            CaloreTheme(dynamicColor = false) {
+                TodayContent(state(entries).copy(hideNumbers = true), PaddingValues(), onAddFood = {}, onEntryClick = {})
+            }
+        }
+
+        compose.onNodeWithText("Porridge").assertIsDisplayed()
+        compose.onAllNodes(androidx.compose.ui.test.hasText("kcal", substring = true)).assertCountEquals(0)
+        compose.onAllNodes(androidx.compose.ui.test.hasText("1,600")).assertCountEquals(0)
     }
 }

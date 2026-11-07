@@ -1,0 +1,9 @@
+{"hits": [
+  {"code": "1111111111116", "product_name": "Ovesné sušenky", "brands": ["Test"], "product_quantity": 1.5, "product_quantity_unit": "kg", "quantity": "1,5 kg",
+   "stores_tags": ["lidl", "albert"], "allergens_tags": ["en:gluten", "en:soybeans", "en:something-new"], "categories_tags": ["en:snacks", "en:sweet-snacks", "en:biscuits"],
+   "nutriments": {"energy-kcal_100g": 450, "proteins_100g": 7, "carbohydrates_100g": 65, "fat_100g": 17, "iron_100g": 0.0021, "magnesium_100g": 20, "vitamin-c_100g": 0.05}},
+  {"code": "2222222222222", "product_name": "Mléko polotučné", "product_quantity": 500, "product_quantity_unit": "ml", "categories_tags": ["en:dairies", "en:milks"],
+   "allergens_tags": ["en:milk"], "nutriments": {"energy-kcal_100g": 46}},
+  {"code": "3333333333338", "product_name": "Minerální voda", "quantity": "1,5 l", "categories_tags": ["en:beverages", "en:waters"], "nutriments": {"energy-kcal_100g": 0}},
+  {"code": "4444444444444", "product_name": "Bez údajů", "quantity": "a big jar", "nutriments": {"energy-kcal_100g": 100}}
+]}

@@ -18,6 +18,7 @@ class DiaryTotalsTest {
         grams = 100.0,
         nutrients = nutrients,
         loggedAt = id,
+        uuid = newId(),
     )
 
     @Test

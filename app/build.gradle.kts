@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
 
@@ -16,8 +17,8 @@ android {
         minSdk = 26
         // Meets Google Play's current requirement. Raise to 37 after testing on Android 17.
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 6
+        versionName = "0.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,6 +49,9 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    // Lets MigrationTestHelper read the exported schema of every database version.
+    sourceSets["androidTest"].assets.srcDirs(files("$projectDir/schemas"))
 }
 
 kotlin {
@@ -79,6 +83,13 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // Barcode scanner (M2.4): CameraX for the preview, ZXing (Apache 2.0) to decode. No ML Kit.
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.zxing.core)
     implementation(libs.kotlinx.serialization.json)
     // Declared directly (not just via AndroidX) so app and test code agree on one coroutines version.
     implementation(libs.kotlinx.coroutines.android)
@@ -89,6 +100,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 

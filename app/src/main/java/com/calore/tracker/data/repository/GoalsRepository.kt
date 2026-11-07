@@ -1,17 +1,16 @@
 package com.calore.tracker.data.repository
 
-import com.calore.tracker.data.prefs.CalculatorInputs
-import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.domain.NutritionGoals
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
-class GoalsRepository(private val settings: SettingsStore) {
+/** The phone's user's daily targets. Since M1 they live in the ME row of `members`. */
+class GoalsRepository(private val members: MemberRepository) {
 
-    val goals: Flow<NutritionGoals> = settings.goals
+    val goals: Flow<NutritionGoals> = members.me().map { it.effectiveTargets }.distinctUntilChanged()
 
-    val calculatorInputs: Flow<CalculatorInputs> = settings.calculatorInputs
-
-    suspend fun setGoals(goals: NutritionGoals) = settings.setGoals(goals)
-
-    suspend fun setCalculatorInputs(inputs: CalculatorInputs) = settings.setCalculatorInputs(inputs)
+    suspend fun setGoals(goals: NutritionGoals) {
+        members.updateMe { it.copy(targets = goals) }
+    }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.FoodRepository
+import com.calore.tracker.domain.Barcodes
 import com.calore.tracker.domain.FoodDraft
 import com.calore.tracker.domain.FoodDraftResult
 import com.calore.tracker.domain.FoodField
@@ -52,6 +53,9 @@ class CustomFoodViewModel(
     val meal: MealType = savedStateHandle.mealArg()
     private val editId: Long? = savedStateHandle.get<Long>(Routes.ARG_FOOD_ID)?.takeIf { it > 0 }
 
+    /** A scanned barcode Open Food Facts didn't know (M2.4); saved with the new food. */
+    private val barcode: String? = savedStateHandle.get<String>(Routes.ARG_BARCODE)?.let { Barcodes.normalize(it) }
+
     private val state = MutableStateFlow(
         CustomFoodUiState(
             draft = FoodDraft(name = savedStateHandle.get<String>(Routes.ARG_NAME).orEmpty()),
@@ -94,6 +98,7 @@ class CustomFoodViewModel(
                             brand = result.brand,
                             per100g = result.per100g,
                             servingGrams = result.servingGrams,
+                            barcode = barcode,
                         )
                         eventChannel.send(if (editId == null) CustomFoodEvent.Created(id) else CustomFoodEvent.Updated)
                     } finally {

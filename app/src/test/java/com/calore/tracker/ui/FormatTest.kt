@@ -13,6 +13,13 @@ class FormatTest {
     }
 
     @Test
+    fun countsAreGroupedByLocale() {
+        assertEquals("4,321", formatCount(4321, Locale.US))
+        assertEquals("1", formatCount(1, Locale.US))
+        assertEquals("10.000", formatCount(10_000, Locale.GERMANY))
+    }
+
+    @Test
     fun smallGramsKeepOneDecimal() {
         assertEquals("4.5", formatGrams(4.5, Locale.US))
         assertEquals("0.4", formatGrams(0.36, Locale.US))

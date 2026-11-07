@@ -3,8 +3,11 @@ package com.calore.tracker.ui.today
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.calore.tracker.data.prefs.AppPrefs
+import com.calore.tracker.data.prefs.AppSettings
 import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.GoalsRepository
+import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.domain.DaySummary
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.domain.DiaryTotals
@@ -28,6 +31,12 @@ data class TodayUiState(
     val summary: DaySummary,
     val goals: NutritionGoals,
     val isLoading: Boolean,
+    /** The one-time "What's new" card for people who updated from 0.x (M1.2). */
+    val whatsNew: Boolean = false,
+    /** A birth date guessed from the old age setting, waiting for the user to confirm it. */
+    val birthDateToConfirm: LocalDate? = null,
+    /** Hide-numbers mode (M1.8). */
+    val hideNumbers: Boolean = false,
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,6 +45,8 @@ class TodayViewModel(
     private val diary: DiaryRepository,
     goals: GoalsRepository,
     private val clock: Clock,
+    private val appPrefs: AppPrefs,
+    private val members: MemberRepository,
 ) : ViewModel() {
 
     private val selectedDate = MutableStateFlow(
@@ -45,13 +56,18 @@ class TodayViewModel(
     val uiState: StateFlow<TodayUiState> = combine(
         selectedDate.flatMapLatest { date -> diary.entriesFor(date).map { entries -> date to entries } },
         goals.goals,
-    ) { (date, entries), currentGoals ->
+        appPrefs.settings,
+        members.me(),
+    ) { (date, entries), currentGoals, settings: AppSettings, me ->
         TodayUiState(
             date = date,
             today = LocalDate.now(clock),
             summary = DiaryTotals.summarize(entries),
             goals = currentGoals,
             isLoading = false,
+            whatsNew = settings.whatsNewPending,
+            birthDateToConfirm = me.birthDate.takeIf { settings.birthDateToConfirm },
+            hideNumbers = settings.hideNumbers,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -76,8 +92,16 @@ class TodayViewModel(
 
     fun goToToday() = selectDate(LocalDate.now(clock))
 
+    fun changeServings(entry: DiaryEntry, servings: Double) {
+        viewModelScope.launch { diary.changeServings(entry, servings) }
+    }
+
     fun changeGrams(entry: DiaryEntry, grams: Double) {
         viewModelScope.launch { diary.changeGrams(entry, grams) }
+    }
+
+    fun updateQuickAdd(entry: DiaryEntry, name: String, nutrients: com.calore.tracker.domain.Nutrients) {
+        viewModelScope.launch { diary.updateQuickAdd(entry, name, nutrients) }
     }
 
     fun delete(entry: DiaryEntry) {
@@ -86,6 +110,17 @@ class TodayViewModel(
 
     fun restore(entry: DiaryEntry) {
         viewModelScope.launch { diary.restore(entry) }
+    }
+
+    fun dismissWhatsNew() {
+        viewModelScope.launch { appPrefs.setWhatsNewPending(false) }
+    }
+
+    fun confirmBirthDate(date: LocalDate) {
+        viewModelScope.launch {
+            members.updateMe { it.copy(birthDate = date) }
+            appPrefs.setBirthDateToConfirm(false)
+        }
     }
 
     private companion object {

@@ -11,7 +11,7 @@
 
 ### M5.1 Plan, pantry and shop data (database version 7)
 
-- [ ] Tables `plans`, `plan_slots`, `plan_cooks`, `pantry_items`, `stores`, `store_products`, `prices` and `shopping_items` (data-model M5).
+- [x] Tables `plans`, `plan_slots`, `plan_cooks`, `pantry_items`, `stores`, `store_products`, `prices` and `shopping_items` (data-model M5).
 
 ### M5.2 How often you cook
 

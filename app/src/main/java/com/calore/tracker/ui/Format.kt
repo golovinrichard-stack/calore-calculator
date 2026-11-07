@@ -13,6 +13,30 @@ fun formatKcal(kcal: Double, locale: Locale = Locale.getDefault()): String =
     String.format(locale, "%,d", kcal.roundToInt())
 
 /**
+ * A number with at most [decimals] decimals and at least [minDecimals], in the locale's style:
+ * `formatNumber(0.75, 2)` is "0.75", `formatNumber(1.0, 2)` is "1", `formatNumber(2.0, 1, 1)` is "2.0".
+ */
+fun formatNumber(value: Double, decimals: Int, minDecimals: Int = 0, locale: Locale = Locale.getDefault()): String {
+    val format = java.text.NumberFormat.getNumberInstance(locale)
+    format.maximumFractionDigits = decimals
+    format.minimumFractionDigits = minDecimals.coerceAtMost(decimals)
+    format.roundingMode = RoundingMode.HALF_UP
+    return format.format(value)
+}
+
+/** [magnitude] (already formatted, without sign) with a real minus sign or a plus sign, from [value]. */
+fun formatSigned(value: Double, magnitude: String): String = when {
+    magnitude.all { it == '0' || !it.isDigit() } -> magnitude
+    value < 0 -> "\u2212$magnitude"
+    value > 0 -> "+$magnitude"
+    else -> magnitude
+}
+
+/** A count with locale grouping, e.g. "4,321" or "4 321", for use in plurals. */
+fun formatCount(count: Int, locale: Locale = Locale.getDefault()): String =
+    String.format(locale, "%,d", count)
+
+/**
  * Grams for display: one decimal for small amounts where it matters (4.5 g),
  * whole numbers otherwise (0 g, 4 g, 12 g). Missing values show as a dash, not zero.
  */

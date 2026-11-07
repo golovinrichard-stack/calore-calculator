@@ -65,4 +65,25 @@ class NutrientsTest {
         assertEquals(0.0, portion.kcal, 0.0)
         assertEquals(0.0, portion.protein!!, 0.0)
     }
+
+    @Test
+    fun micronutrientsAddAndScaleLikeTheOthers() {
+        val spinach = Nutrients(kcal = 23.0, ironMg = 2.7, magnesiumMg = 79.0, vitaminCMg = 28.1)
+        val rice = Nutrients(kcal = 130.0)
+
+        val portion = spinach.forGramsOfPer100g(200.0)
+        assertEquals(5.4, portion.ironMg!!, 1e-9)
+        assertEquals(158.0, portion.magnesiumMg!!, 1e-9)
+
+        val meal = portion + rice
+        assertEquals(56.2, meal.vitaminCMg!!, 1e-9)
+        assertNull("unknown stays unknown", rice.ironMg)
+        assertNull((rice + rice).magnesiumMg)
+    }
+
+    @Test
+    fun dayTotalsLeaveMicronutrientsUnknownUntilAFoodHasThem() {
+        assertNull(Nutrients.ZERO.ironMg)
+        assertEquals(2.7, (Nutrients.ZERO + Nutrients(kcal = 23.0, ironMg = 2.7)).ironMg!!, 1e-9)
+    }
 }

@@ -18,15 +18,14 @@
     <string name="value_kg">%1$s kg</string>
 
     <!-- Navigation -->
-    <string name="nav_diary">Diary</string>
-    <string name="nav_weight">Weight</string>
-    <string name="nav_goals">Goals</string>
 
     <!-- Meals -->
     <string name="meal_breakfast">Breakfast</string>
     <string name="meal_lunch">Lunch</string>
     <string name="meal_dinner">Dinner</string>
     <string name="meal_snack">Snacks</string>
+    <string name="nav_today">Today</string>
+    <string name="nav_me">Me</string>
 
     <!-- Nutrients -->
     <string name="nutrient_calories">Calories</string>
@@ -56,6 +55,13 @@
     <string name="entry_removed">Removed %1$s</string>
     <string name="amount_label">Amount (g)</string>
     <string name="error_amount">Enter an amount above 0 and up to 10,000 g</string>
+    <string name="whats_new_title">What\'s new</string>
+    <string name="whats_new_body">Your goals, body and settings are now under Me. Targets can follow a goal speed, and the calculator can work out protein, fat and carbs for you. Your diary and goals are unchanged.</string>
+    <string name="got_it">Got it</string>
+    <string name="change">Change</string>
+    <string name="birth_date_confirm">Calore now uses your birth date instead of your age. Based on your age we guessed %1$s. Is that right?</string>
+    <string name="birth_date_correct">That\'s right</string>
+    <string name="numbers_hidden_note">Calories and macros are hidden. You can show them again in Me → Settings.</string>
 
     <!-- Add food -->
     <string name="add_food_title">Add to %1$s</string>
@@ -73,6 +79,7 @@
     <string name="online_no_results">No matches on Open Food Facts.</string>
     <string name="food_per_100g">%1$s kcal per 100 g</string>
     <string name="food_per_100g_brand">%1$s · %2$s kcal per 100 g</string>
+    <string name="section_basic_foods">Basic foods</string>
 
     <!-- Food detail -->
     <string name="food_not_found">This food no longer exists.</string>
@@ -87,6 +94,8 @@
     <string name="delete_food_confirm">Delete %1$s from your foods? Entries already in your diary stay as they are.</string>
     <string name="source_off">Data from Open Food Facts (ODbL)</string>
     <string name="source_custom">Your custom food</string>
+    <string name="source_generic_usda">Basic food. Data from USDA FoodData Central (public domain)</string>
+    <string name="source_generic_off">Basic food. Values from a typical Czech product label on Open Food Facts (ODbL)</string>
 
     <!-- Custom food -->
     <string name="custom_food_new">New food</string>
@@ -116,7 +125,6 @@
     <string name="goals_mismatch">That is more than a tenth away from your calorie goal.</string>
     <string name="goals_saved">Goals saved</string>
     <string name="goals_open_calculator">Calculate from my body</string>
-    <string name="goals_about">About Calore</string>
     <string name="error_goal_kcal">Enter 500 to 10,000 kcal</string>
     <string name="error_goal_macro">Enter 0 to 1,000 g</string>
 
@@ -125,10 +133,9 @@
     <string name="sex_label">Sex</string>
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
-    <string name="age_label">Age (years)</string>
     <string name="height_label">Height (cm)</string>
     <string name="weight_label">Weight (kg)</string>
-    <string name="error_age">Enter 15 to 100 years</string>
+    <string name="error_age">Age must be 15 to 100 years</string>
     <string name="error_height">Enter 100 to 250 cm</string>
     <string name="error_weight">Enter 30 to 300 kg</string>
     <string name="activity_label">Activity</string>
@@ -143,10 +150,6 @@
     <string name="activity_very_active">Extremely active</string>
     <string name="activity_very_active_desc">Physical job plus daily training</string>
     <string name="weight_goal_label">Goal</string>
-    <string name="weight_goal_lose">Lose</string>
-    <string name="weight_goal_maintain">Maintain</string>
-    <string name="weight_goal_gain">Gain</string>
-    <string name="split_label">Macro split (% of calories)</string>
     <string name="split_protein">Protein %</string>
     <string name="split_carbs">Carbs %</string>
     <string name="split_fat">Fat %</string>
@@ -154,9 +157,41 @@
     <string name="result_bmr">Resting (BMR)</string>
     <string name="result_tdee">Maintenance (TDEE)</string>
     <string name="result_target">Daily target</string>
-    <string name="calculator_incomplete">Choose your sex and fill in age, height and weight to see your numbers.</string>
+    <string name="calculator_incomplete">Choose your sex and fill in birth date, height and weight to see your numbers.</string>
     <string name="calculator_apply">Use these goals</string>
-    <string name="calculator_disclaimer">An estimate from the Mifflin-St Jeor equation, not medical advice. Weight-loss targets never go below 1,200 kcal (women) or 1,500 kcal (men).</string>
+    <string name="calculator_disclaimer">An estimate, not medical advice. Weight-loss targets never go below 1,200 kcal (women) or 1,500 kcal (men).</string>
+    <string name="not_set">Not set</string>
+    <string name="choose">Choose</string>
+    <string name="birth_date_label">Birth date</string>
+    <string name="birth_date_with_age">%1$s (%2$s)</string>
+    <string name="weight_saved_as_weigh_in">A changed weight is saved as today\'s weigh-in.</string>
+    <string name="goal_type_cut">Lose</string>
+    <string name="goal_type_maintain">Maintain</string>
+    <string name="goal_type_build">Gain</string>
+    <string name="goal_type_recomp">Recomp</string>
+    <string name="goal_type_cut_desc">Lose fat at a steady pace.</string>
+    <string name="goal_type_maintain_desc">Keep your weight where it is.</string>
+    <string name="goal_type_build_desc">Build muscle with a small calorie surplus.</string>
+    <string name="goal_type_recomp_desc">Lose fat and build muscle at the same time: eat at maintenance, with high protein.</string>
+    <string name="speed_label">Speed</string>
+    <string name="speed_option">%1$s %% of body weight per week</string>
+    <string name="speed_effect">%1$s kg per week ≈ %2$s kcal per day</string>
+    <string name="speed_effect_unknown">Enter your weight to see kg per week.</string>
+    <string name="macro_mode_label">Macros</string>
+    <string name="macro_mode_auto">Automatic</string>
+    <string name="macro_mode_split">My split</string>
+    <string name="macro_mode_auto_desc">Protein per kg of body weight, fat as a share of calories, carbs fill the rest.</string>
+    <string name="protein_per_kg_label">Protein: %1$s g per kg</string>
+    <string name="fat_pct_label">Fat: %1$d %% of calories</string>
+    <string name="formula_mifflin">Resting energy from the Mifflin-St Jeor equation.</string>
+    <string name="formula_katch">Resting energy from your body fat (%1$s %%, %2$s), Katch-McArdle equation.</string>
+    <string name="warning_fast_cut" formatted="false">Losing more than 1 % of your weight a week is hard to keep up and can cost muscle.</string>
+    <string name="warning_low_body_fat">Your body fat is already low. Think about maintaining instead of cutting.</string>
+    <string name="warning_protein_too_high">Protein is too high for this calorie target.</string>
+    <plurals name="age_years">
+        <item quantity="one">%1$d year</item>
+        <item quantity="other">%1$d years</item>
+    </plurals>
 
     <!-- Weight -->
     <string name="weight_title">Weight</string>
@@ -165,12 +200,61 @@
     <string name="weight_save">Save weight</string>
     <string name="weight_empty">No weights logged yet. Weigh yourself at the same time of day for the clearest trend.</string>
     <string name="weight_chart_need_more">Log at least two days to see a chart.</string>
-    <string name="weight_change">%1$s kg since %2$s</string>
+    <string name="weight_change">%1$s kg since %2$s (trend)</string>
     <string name="weight_range">Low %1$s kg · High %2$s kg</string>
     <string name="weight_chart_description">Weight chart from %1$s kg on %2$s to %3$s kg on %4$s</string>
     <string name="error_weight_entry">Enter 20 to 500 kg</string>
     <string name="weight_removed">Weight removed</string>
     <string name="delete_weight">Delete weight for %1$s</string>
+    <string name="weight_trend_now">Trend %1$s kg</string>
+    <string name="body_fat_none">No body-fat value yet. A tape measure is enough.</string>
+    <string name="body_fat_latest">%1$s %% on %2$s</string>
+    <string name="body_fat_history_row">%1$s: %2$s %%</string>
+    <string name="body_fat_typed_in">Typed in</string>
+    <string name="body_fat_part_neck">Neck %1$s cm</string>
+    <string name="body_fat_part_waist">Waist %1$s cm</string>
+    <string name="body_fat_part_hips">Hips %1$s cm</string>
+    <string name="body_fat_measure">Measure body fat</string>
+
+    <!-- Backup -->
+    <string name="backup_title">Backup</string>
+    <string name="backup_export_title">Save a backup</string>
+    <string name="backup_export_body">Saves your foods, diary and weights in one file, for example to move them to a new phone.</string>
+    <string name="backup_export_warning">This file contains your health data. Keep it somewhere safe.</string>
+    <string name="backup_not_included">Not in the backup yet: your daily goals and calculator inputs.</string>
+    <string name="backup_export_button">Export to a file</string>
+    <string name="backup_import_title">Restore from a backup</string>
+    <string name="backup_import_body">Pick a Calore backup file. You\'ll see what\'s in it before anything changes.</string>
+    <string name="backup_import_button">Import from a file</string>
+    <string name="backup_working_export">Saving the backup…</string>
+    <string name="backup_working_read">Checking the file…</string>
+    <string name="backup_working_import">Importing…</string>
+    <string name="backup_confirm_title">Replace your data?</string>
+    <string name="backup_confirm_contents">This backup contains:</string>
+    <string name="backup_confirm_contents_date">This backup from %1$s contains:</string>
+    <string name="backup_confirm_warning">This replaces all Calore data on this phone.</string>
+    <string name="backup_confirm_button">Replace</string>
+    <string name="backup_counts_summary">%1$s, %2$s, %3$s</string>
+    <string name="backup_exported">Backup saved: %1$s</string>
+    <string name="backup_imported">Backup imported: %1$s</string>
+    <string name="backup_error_export">Couldn\'t save the backup. Try another place.</string>
+    <string name="backup_error_read">Couldn\'t read the file.</string>
+    <string name="backup_error_not_backup">This file isn\'t a Calore backup.</string>
+    <string name="backup_error_newer">This backup is from a newer version of Calore. Update the app, then try again.</string>
+    <string name="backup_error_damaged">This backup file is damaged and can\'t be imported. Nothing was changed.</string>
+    <string name="backup_error_import">The import failed. Nothing was changed.</string>
+    <plurals name="backup_count_foods">
+        <item quantity="one">%1$s food</item>
+        <item quantity="other">%1$s foods</item>
+    </plurals>
+    <plurals name="backup_count_diary_entries">
+        <item quantity="one">%1$s diary entry</item>
+        <item quantity="other">%1$s diary entries</item>
+    </plurals>
+    <plurals name="backup_count_weights">
+        <item quantity="one">%1$s weight</item>
+        <item quantity="other">%1$s weights</item>
+    </plurals>
 
     <!-- About -->
     <string name="about_title">About</string>
@@ -181,5 +265,495 @@
     <string name="about_license_title">License</string>
     <string name="about_license">Calore is free and open source software under the BSD Zero Clause License (0BSD). You may use, copy, change, share and sell it for any purpose, with no conditions.</string>
     <string name="about_data_title">Food data</string>
-    <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL).</string>
+    <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL). Basic foods: USDA FoodData Central (public domain) and typical Czech product labels from Open Food Facts.</string>
+
+    <!-- Me -->
+    <string name="me_title">Me</string>
+    <string name="me_profile">Profile</string>
+    <string name="me_profile_desc">Body, goal, food and cooking</string>
+    <string name="me_goals">Goals and calculator</string>
+    <string name="me_goals_desc">Daily calories and macros</string>
+    <string name="me_body">Body</string>
+    <string name="me_body_desc">Weight, body fat and weekly check-ins</string>
+    <string name="me_settings">Settings</string>
+    <string name="me_settings_desc">Hide numbers, backup, language</string>
+    <string name="me_about">About</string>
+    <string name="me_about_desc">Version, privacy, licence</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_hide_numbers">Hide calories and macros</string>
+    <string name="settings_hide_numbers_desc">Log food without seeing the numbers.</string>
+    <string name="settings_backup_desc">Export or import all your data</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Choose Calore\'s language in Android settings</string>
+    <string name="settings_language_desc_system">Calore uses your phone\'s language.</string>
+
+    <!-- Setup -->
+    <string name="setup_title">Set up Calore</string>
+    <string name="setup_skip">Skip</string>
+    <string name="setup_step">Step %1$d of %2$d</string>
+    <string name="setup_next">Next</string>
+    <string name="setup_finish">Finish</string>
+    <string name="setup_body_intro">A few facts about you give better calorie targets. It takes about two minutes, and you can skip any step.</string>
+    <string name="setup_result_intro">Your daily targets:</string>
+    <string name="setup_result_missing">Without sex, birth date, height and weight, Calore keeps the default goals for now.</string>
+    <string name="setup_change_later">You can change this any time in Me.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_group_body">Body</string>
+    <string name="profile_group_goal">Goal</string>
+    <string name="profile_group_food">Food</string>
+    <string name="profile_group_cooking">Cooking</string>
+    <string name="profile_later_hint">Food and cooking settings are used by the planner. You can fill them in later.</string>
+    <string name="meal_split_label">Meals (% of the day\'s calories)</string>
+    <string name="meal_split_hint">Set a meal you skip to 0.</string>
+    <string name="error_meal_split">The meals must add up to 100 %%. Now: %1$d %%.</string>
+    <string name="diet_label">Diet</string>
+    <string name="diet_omnivore">Everything</string>
+    <string name="diet_vegetarian">Vegetarian</string>
+    <string name="diet_vegan">Vegan</string>
+    <string name="diet_pescatarian">Pescatarian (fish, no meat)</string>
+    <string name="diet_no_pork">No pork</string>
+    <string name="allergens_label">Allergies (the 14 EU allergens)</string>
+    <string name="allergen_gluten">Gluten</string>
+    <string name="allergen_crustaceans">Crustaceans</string>
+    <string name="allergen_eggs">Eggs</string>
+    <string name="allergen_fish">Fish</string>
+    <string name="allergen_peanuts">Peanuts</string>
+    <string name="allergen_soy">Soy</string>
+    <string name="allergen_milk">Milk</string>
+    <string name="allergen_nuts">Tree nuts</string>
+    <string name="allergen_celery">Celery</string>
+    <string name="allergen_mustard">Mustard</string>
+    <string name="allergen_sesame">Sesame</string>
+    <string name="allergen_sulphites">Sulphites</string>
+    <string name="allergen_lupin">Lupin</string>
+    <string name="allergen_molluscs">Molluscs</string>
+    <string name="liked_label">Foods you like</string>
+    <string name="disliked_label">Foods you don\'t like</string>
+    <string name="section_vegetables">Vegetables</string>
+    <string name="section_fruit">Fruit</string>
+    <string name="section_meat">Meat</string>
+    <string name="section_fish">Fish</string>
+    <string name="section_dairy">Dairy</string>
+    <string name="section_eggs">Eggs</string>
+    <string name="section_bakery">Bakery</string>
+    <string name="section_grains">Grains, rice and pasta</string>
+    <string name="section_legumes">Legumes</string>
+    <string name="section_canned">Canned food</string>
+    <string name="section_frozen">Frozen</string>
+    <string name="section_spices_sauces">Spices and sauces</string>
+    <string name="section_oils">Oils and fats</string>
+    <string name="section_snacks">Snacks and sweets</string>
+    <string name="section_drinks">Drinks</string>
+    <string name="section_supplements">Supplements</string>
+    <string name="section_other">Other</string>
+    <string name="cuisines_label">Favourite cuisines</string>
+    <string name="cuisine_czech">Czech</string>
+    <string name="cuisine_italian">Italian</string>
+    <string name="cuisine_mediterranean">Mediterranean</string>
+    <string name="cuisine_asian">Asian</string>
+    <string name="cuisine_indian">Indian</string>
+    <string name="cuisine_mexican">Mexican</string>
+    <string name="cuisine_middle_eastern">Middle Eastern</string>
+    <string name="cuisine_american">American</string>
+    <string name="cook_sessions_label">How many times a week you cook</string>
+    <string name="cook_days_label">Cooking days (optional)</string>
+    <string name="cook_days_hint">Leave empty and the planner picks the days.</string>
+    <string name="minutes_label">Minutes per cooking session</string>
+    <string name="error_minutes">Enter 15 to 600 minutes</string>
+    <string name="prepped_meals_label">Meals from prep boxes</string>
+    <string name="equipment_label">Kitchen equipment</string>
+    <string name="equipment_oven">Oven</string>
+    <string name="equipment_air_fryer">Air fryer</string>
+    <string name="equipment_slow_cooker">Slow cooker</string>
+    <string name="equipment_rice_cooker">Rice cooker</string>
+    <string name="equipment_microwave">Microwave</string>
+    <string name="equipment_blender">Blender</string>
+    <string name="variety_label">Variety</string>
+    <string name="variety_low">The same meals all week is fine</string>
+    <string name="variety_some">Some variety</string>
+    <string name="variety_high">Something different every day</string>
+    <string name="budget_label">Weekly food budget (optional)</string>
+    <string name="unit_czk">Kč</string>
+    <string name="error_budget">Enter an amount of 0 or more</string>
+    <string name="profile_saved">Profile saved</string>
+    <string name="profile_saved_targets">Profile saved. New daily target: %1$s kcal</string>
+
+    <!-- Body fat -->
+    <string name="unit_cm">cm</string>
+    <string name="body_fat_title">Body fat</string>
+    <string name="body_fat_label">Body fat</string>
+    <string name="body_fat_mode_tape">Tape measure</string>
+    <string name="body_fat_mode_manual">I know my number</string>
+    <string name="body_fat_manual_hint">Type the number from a smart scale, a gym or a doctor.</string>
+    <string name="error_body_fat_manual" formatted="false">Enter 3 to 60 %</string>
+    <string name="body_fat_how_to">How to measure</string>
+    <string name="body_fat_neck">Neck</string>
+    <string name="body_fat_waist_men">Waist at the belly button</string>
+    <string name="body_fat_waist_women">Waist at the narrowest point</string>
+    <string name="body_fat_hips">Hips at the widest point</string>
+    <string name="body_fat_average_hint">Measure each one 3 times and type the average.</string>
+    <string name="body_fat_result">Body fat ≈ %1$s %%</string>
+    <string name="body_fat_check">Check your measurements: the waist must be bigger than the neck.</string>
+    <string name="body_fat_out_of_range">Measurements must be 20 to 200 cm, height 100 to 250 cm.</string>
+    <string name="body_fat_estimate_note">This is an estimate. It can be off by a few percent, but it is good for following the trend.</string>
+    <string name="tutorial_title">How to measure</string>
+    <string name="tutorial_page">%1$d of %2$d</string>
+    <string name="tutorial_done">Done</string>
+    <string name="tutorial_neck_title">Neck</string>
+    <string name="tutorial_neck_text">Measure just below the Adam\'s apple. Let the tape slope slightly down towards the front.</string>
+    <string name="tutorial_waist_men_title">Waist (men)</string>
+    <string name="tutorial_waist_men_text">Measure around the belly at the belly button, after breathing out normally. Don\'t pull in your belly.</string>
+    <string name="tutorial_waist_women_title">Waist (women)</string>
+    <string name="tutorial_waist_women_text">Measure the waist at its narrowest point, usually a little above the belly button, after breathing out normally.</string>
+    <string name="tutorial_hips_title">Hips (women)</string>
+    <string name="tutorial_hips_text">Measure around the hips at the widest point of the buttocks, with your feet together.</string>
+    <string name="tutorial_tips_title">Tips</string>
+    <string name="tutorial_tips_text">• Measure in the morning, before eating.
+• Stand relaxed and don\'t pull in your belly.
+• Keep the tape flat and level, snug but not pressing into the skin.
+• Measure each place 3 times and use the average.
+
+This is an estimate. It can be off by a few percent, but it is good for following the trend.</string>
+
+    <!-- Notifications -->
+    <string name="channel_progress">Progress</string>
+    <string name="channel_progress_desc">Weekly check-ins and body-fat reminders</string>
+    <string name="channel_freshness">Freshness</string>
+    <string name="channel_freshness_desc">What to eat soon and what to thaw</string>
+    <string name="channel_cooking_timers">Cooking timers</string>
+    <string name="channel_cooking_timers_desc">Timers while you cook</string>
+    <string name="channel_supplements">Supplements</string>
+    <string name="channel_supplements_desc">Reminders to take your supplements</string>
+    <string name="channel_household">Household</string>
+    <string name="channel_household_desc">Requests and news from your household</string>
+    <string name="notify_measure_title">Time to measure</string>
+    <string name="notify_measure_text">Measure your body fat to keep your targets accurate.</string>
+    <string name="notify_permission_title">Allow notifications?</string>
+    <string name="notify_permission_text">Calore needs permission to show the reminders you switch on. It sends nothing else.</string>
+    <string name="notify_permission_allow">Continue</string>
+    <string name="not_now">Not now</string>
+    <string name="notifications_denied">Reminders need notifications. You can allow them in Android settings.</string>
+    <string name="settings_reminders">Reminders</string>
+    <string name="settings_data">Data and language</string>
+    <string name="settings_measure_reminder">Body-fat reminder</string>
+    <string name="settings_checkin_reminder">Weekly check-in reminder</string>
+    <string name="settings_checkin_reminder_desc">Monday morning, when your check-in is ready</string>
+    <string name="reminder_off">Off</string>
+    <string name="reminder_offer_title">Remind you to measure again?</string>
+    <string name="reminder_offer_text">Measuring every few weeks shows how your body changes.</string>
+    <string name="remind_me">Remind me</string>
+    <string name="no_thanks">No thanks</string>
+    <plurals name="every_weeks">
+        <item quantity="one">Every week</item>
+        <item quantity="other">Every %1$d weeks</item>
+    </plurals>
+
+    <!-- Check-in -->
+    <string name="show_numbers">Show numbers</string>
+    <string name="checkin_title">Weekly check-in</string>
+    <string name="checkin_card_text">Each Monday Calore compares your weight trend with what you ate and suggests a target in small steps.</string>
+    <string name="checkin_open">Open the check-in</string>
+    <string name="checkin_history_used">Week of %1$s: using %2$s kcal</string>
+    <string name="checkin_history_kept">Week of %1$s: kept %2$s kcal</string>
+    <string name="checkin_week_of">Week of %1$s</string>
+    <string name="checkin_trend">Weight trend</string>
+    <string name="checkin_trend_value">%1$s → %2$s kg</string>
+    <string name="checkin_trend_change">Change</string>
+    <string name="checkin_avg_intake">Average intake</string>
+    <string name="checkin_counted_days">Fully logged days</string>
+    <string name="checkin_maintenance">Estimated maintenance</string>
+    <string name="checkin_current_target">Current target</string>
+    <string name="checkin_proposed_target">Proposed target</string>
+    <string name="checkin_use_it">Use it</string>
+    <string name="checkin_keep">Keep my target</string>
+    <string name="checkin_using">Done. Your new daily target is %1$s kcal, with macros to match.</string>
+    <string name="checkin_kept">Your target stays as it is.</string>
+    <string name="checkin_unchanged">Your target stays at %1$s kcal. You are on track.</string>
+    <string name="checkin_small_steps">The target moves by at most 150 kcal a week. Days with less than half of your target logged are left out.</string>
+    <string name="checkin_not_enough">Keep logging. Your first check-in comes when there is enough data.</string>
+    <string name="checkin_how_it_works">A check-in needs 14 fully logged days and 4 weigh-ins over at least 10 days, within the last 4 weeks.</string>
+    <string name="notify_checkin_title">Your weekly check-in is ready</string>
+    <string name="notify_checkin_text">See how your weight trend and your food log compare, and your suggested target.</string>
+    <plurals name="checkin_days_missing">
+        <item quantity="one">%1$d more fully logged day needed.</item>
+        <item quantity="other">%1$d more fully logged days needed.</item>
+    </plurals>
+    <plurals name="checkin_weigh_ins_missing">
+        <item quantity="one">%1$d more weigh-in needed.</item>
+        <item quantity="other">%1$d more weigh-ins needed.</item>
+    </plurals>
+
+    <!-- Scanner -->
+    <string name="scanner_title">Scan a barcode</string>
+    <string name="scanner_hint">Hold the barcode inside the picture. It is read on the phone; pictures are never saved or sent.</string>
+    <string name="scanner_torch_on">Light</string>
+    <string name="scanner_torch_off">Light off</string>
+    <string name="scanner_permission_text">Calore uses the camera only to read barcodes. Pictures are never saved or sent. You can also type the code.</string>
+    <string name="scanner_permission_allow">Allow the camera</string>
+    <string name="scanner_looking_up">Looking for the product…</string>
+    <string name="scanner_type_code">Type the code</string>
+    <string name="scanner_code_label">Barcode (8 or 13 digits)</string>
+    <string name="scanner_code_invalid">This is not a valid barcode. Check the digits.</string>
+    <string name="scanner_look_up">Look up</string>
+    <string name="scanner_not_found">Product %1$s was not found. Add it yourself?</string>
+    <string name="scanner_add_yourself">Add it</string>
+    <string name="scanner_offline">You are offline, and this product is not on the phone yet. Try again when you are online, or add it yourself.</string>
+    <string name="scanner_scan_again">Scan again</string>
+
+    <!-- Quick add -->
+    <string name="quick_add_title">Quick add</string>
+    <string name="quick_add_edit_title">Edit quick add</string>
+    <string name="quick_add_entry_hint">Just the calories, e.g. a meal out</string>
+    <string name="quick_add_hint">For a meal out or a dish whose ingredients you don\'t know.</string>
+    <string name="quick_add_name">Name (optional)</string>
+    <string name="quick_add_macros_optional">Protein, carbs and fat in grams, if you know them.</string>
+    <string name="error_quick_kcal">Enter 0 to 10,000 kcal</string>
+    <string name="entry_subtitle_quick">Quick add · %1$s kcal</string>
+    <!-- M3: recipes -->
+    <string name="nav_plan">Plan</string>
+    <string name="recipes_title">Recipes</string>
+    <string name="recipes_search_hint">Search recipes</string>
+    <string name="recipes_new">New recipe</string>
+    <string name="recipes_fits_diet">Fits my diet</string>
+    <string name="recipes_all_meals">All</string>
+    <plurals name="recipes_hidden_allergens">
+        <item quantity="one">%d recipe is hidden because it contains one of your allergens.</item>
+        <item quantity="other">%d recipes are hidden because they contain one of your allergens.</item>
+    </plurals>
+    <string name="recipes_show_all">Show all</string>
+    <string name="recipes_no_match">No recipe matches.</string>
+    <string name="recipes_none_yet">No recipes yet. Create your first one.</string>
+    <string name="recipe_kcal_per_serving">%s kcal per serving</string>
+    <string name="recipe_kcal_protein_per_serving">%1$s kcal · %2$s g protein per serving</string>
+    <string name="recipe_contains">Contains: %s</string>
+    <plurals name="recipe_servings">
+        <item quantity="one">%d serving</item>
+        <item quantity="other">%d servings</item>
+    </plurals>
+    <string name="recipe_per_serving">Per serving</string>
+    <string name="recipe_whole_kcal">Whole recipe: %s kcal</string>
+    <string name="recipe_per_100g_cooked">Per 100 g cooked</string>
+    <string name="recipe_ingredients">Ingredients</string>
+    <string name="recipe_steps">Steps</string>
+    <string name="recipe_allergens">Allergens</string>
+    <string name="recipe_no_allergens">None of the ingredients has an allergen.</string>
+    <string name="recipe_storage">Storage</string>
+    <plurals name="recipe_fridge_days">
+        <item quantity="one">Fridge: %d day</item>
+        <item quantity="other">Fridge: %d days</item>
+    </plurals>
+    <plurals name="recipe_freezer_months">
+        <item quantity="one">Freezer: %d month</item>
+        <item quantity="other">Freezer: %d months</item>
+    </plurals>
+    <string name="recipe_not_freezable">Not for the freezer</string>
+    <string name="recipe_reheat">Reheating: %s</string>
+    <string name="recipe_meal_prep">Good for meal prep</string>
+    <string name="recipe_optional">optional</string>
+    <string name="recipe_missing_food">This food no longer exists</string>
+    <plurals name="recipe_missing_foods">
+        <item quantity="one">%d ingredient no longer exists and is not counted.</item>
+        <item quantity="other">%d ingredients no longer exist and are not counted.</item>
+    </plurals>
+    <string name="recipe_minutes">%d min</string>
+    <string name="recipe_passive">needs no attention</string>
+    <string name="recipe_edit">Edit recipe</string>
+    <string name="recipe_delete">Delete recipe</string>
+    <string name="recipe_delete_confirm">Delete %s?</string>
+    <string name="recipe_not_found">This recipe no longer exists.</string>
+    <string name="recipe_new_title">New recipe</string>
+    <string name="recipe_name">Name</string>
+    <string name="recipe_servings_label">Servings</string>
+    <string name="recipe_short_code">Box code</string>
+    <string name="recipe_short_code_hint">1 or 2 letters for box labels, like C1, C2</string>
+    <string name="recipe_add_ingredient">Add ingredient</string>
+    <string name="recipe_raw_grams">Raw weight</string>
+    <string name="recipe_note">Note</string>
+    <string name="recipe_note_hint">For example: diced</string>
+    <string name="recipe_optional_label">Optional (not counted in nutrition)</string>
+    <string name="recipe_remove">Remove</string>
+    <string name="recipe_move_up">Move up</string>
+    <string name="recipe_move_down">Move down</string>
+    <string name="recipe_add_step">Add step</string>
+    <string name="recipe_step_number">Step %d</string>
+    <string name="recipe_step_minutes">Minutes</string>
+    <string name="recipe_step_passive">Needs no attention (oven, simmering)</string>
+    <string name="recipe_step_equipment">Equipment</string>
+    <string name="recipe_equipment_none">None</string>
+    <string name="equipment_stove">Stove</string>
+    <string name="recipe_fridge_days_label">Days in the fridge</string>
+    <string name="recipe_freezable_label">Can be frozen</string>
+    <string name="recipe_freezer_months_label">Months in the freezer</string>
+    <string name="recipe_reheat_label">Reheating note</string>
+    <string name="recipe_details">Details</string>
+    <string name="recipe_meals">Meals</string>
+    <string name="recipe_cuisine">Cuisine</string>
+    <string name="recipe_cuisine_none">Not set</string>
+    <string name="recipe_tags">Tags, separated by commas</string>
+    <string name="recipe_equipment">Equipment needed</string>
+    <string name="recipe_nutrition">Nutrition</string>
+    <string name="recipe_pick_food">Choose a food</string>
+    <string name="recipe_discard_title">Discard your changes?</string>
+    <string name="recipe_discard">Discard</string>
+    <string name="recipe_keep_editing">Keep editing</string>
+    <string name="error_recipe_name">Enter a name</string>
+    <string name="error_recipe_ingredients">Add at least one ingredient</string>
+    <string name="error_recipe_grams">Enter more than 0 g</string>
+    <string name="error_recipe_servings">Enter 1 to 50</string>
+    <string name="error_recipe_short_code">Enter 1 or 2 letters</string>
+    <string name="error_recipe_days">Enter 1 to 14</string>
+    <string name="error_recipe_months">Enter 1 to 12</string>
+    <string name="recipe_fix_errors">Please fix the marked fields.</string>
+    <string name="tab_foods">Foods</string>
+    <string name="tab_dishes">Dishes</string>
+    <string name="dishes_none_yet">No recipes yet. Create one in the Plan tab.</string>
+    <string name="dish_by_servings">Servings</string>
+    <string name="dish_by_grams">Cooked weight</string>
+    <string name="dish_grams_label">Cooked weight</string>
+    <string name="error_servings">Enter 0.1 to 20 servings</string>
+    <string name="dish_log_portion">Log a portion</string>
+    <string name="dish_logged">Logged: %1$s</string>
+    <string name="entry_subtitle_servings">Servings: %1$s · %2$s kcal</string>
+    <string name="recipe_scale">Scale for this cook</string>
+    <string name="recipe_scale_servings">Servings to cook</string>
+    <string name="recipe_scaled_note">Amounts times %1$s. The saved recipe doesn\'t change.</string>
+    <string name="recipe_swap">Swap for another food</string>
+    <string name="recipe_swap_title">Swap %1$s</string>
+    <string name="recipe_swap_for">For: %1$s</string>
+    <string name="recipe_swap_before">Before</string>
+    <string name="recipe_swap_after">After</string>
+    <string name="recipe_swap_apply">Change this recipe</string>
+    <string name="recipe_swap_copy">Save as a copy</string>
+    <string name="recipe_copy_name">%1$s (copy)</string>
+    <!-- M4: kitchen -->
+    <string name="pots_title">My pots</string>
+    <string name="pots_desc">Empty weights, so the app can weigh the food in a full pot</string>
+    <string name="pots_add">Add pot</string>
+    <string name="pots_edit">Edit pot</string>
+    <string name="pots_name">Name</string>
+    <string name="pots_empty_weight">Empty weight</string>
+    <string name="pots_empty_weight_value">Empty: %1$s g</string>
+    <string name="pots_weigh_hint">Put the empty pot on the scale and type the weight.</string>
+    <string name="pots_hint">Save the pots you cook in. After cooking, weigh the full pot and Calore subtracts the pot.</string>
+    <string name="error_pot_grams">Enter 1 to 20,000 g</string>
+    <string name="settings_kitchen">Kitchen</string>
+    <string name="nav_kitchen">Kitchen</string>
+    <string name="kitchen_fridge">Fridge</string>
+    <string name="kitchen_freezer">Freezer</string>
+    <string name="kitchen_filter_mine">Mine</string>
+    <string name="kitchen_filter_all">Everyone\'s</string>
+    <string name="kitchen_empty">No boxes yet. Cook a recipe and fill some boxes.</string>
+    <string name="kitchen_thrown_away">Thrown away</string>
+    <string name="box_eat_by">Eat by %1$s</string>
+    <string name="box_planned">Planned: %1$s, %2$s</string>
+    <string name="box_left">%1$d %% left</string>
+    <string name="box_contents">Contents</string>
+    <string name="box_owner_everyone">Everyone</string>
+    <string name="box_ate_it">Ate it</string>
+    <string name="box_ate_part">Ate part</string>
+    <string name="box_freeze">Freeze</string>
+    <string name="box_thawed">Thawed</string>
+    <string name="box_throw_away">Throw away</string>
+    <string name="box_move">Move</string>
+    <string name="box_logged">%1$s logged</string>
+    <string name="box_red_confirm">This box is past its eat-by date. Eat it anyway?</string>
+    <string name="box_eat_anyway">Eat anyway</string>
+    <string name="box_cant_freeze">Too late to freeze: the eat-by date has passed.</string>
+    <string name="box_freezer_quality">Best quality is over. It is still safe while it stays frozen.</string>
+    <string name="box_ate_part_title">How much did you eat?</string>
+    <string name="box_part_grams">Grams eaten</string>
+    <string name="box_throw_away_title">Why are you throwing it away?</string>
+    <string name="box_move_title">When will you eat it?</string>
+    <string name="box_move_none">No day</string>
+    <string name="waste_expired">Too old</string>
+    <string name="waste_spoiled">Spoiled</string>
+    <string name="waste_didnt_like">Didn\'t like it</string>
+    <string name="waste_other">Other</string>
+    <plurals name="waste_month">
+        <item quantity="one">This month: %1$d box, %2$s kcal</item>
+        <item quantity="other">This month: %1$d boxes, %2$s kcal</item>
+    </plurals>
+    <string name="waste_none">Nothing thrown away. Well done!</string>
+    <string name="fresh_green">Fresh</string>
+    <string name="fresh_yellow">Eat soon</string>
+    <string name="fresh_red">Past its eat-by date</string>
+    <string name="cook_title">Cook</string>
+    <string name="cook_button">Cook</string>
+    <string name="cook_step_amount">How much?</string>
+    <string name="cook_step_cook">Cooking</string>
+    <string name="cook_step_weigh">Weigh</string>
+    <string name="cook_step_fill">Fill boxes</string>
+    <string name="cook_next">Next</string>
+    <string name="cook_add_recipe">Add a recipe</string>
+    <string name="cook_add_food">Add a single food (for example rice)</string>
+    <string name="cook_by_weight">Target cooked weight</string>
+    <string name="cook_ingredients_hint">Change the amounts to what you really used.</string>
+    <string name="cook_open_mode">Open cook mode</string>
+    <string name="cook_cooking_hint">Cook as usual. When everything is ready, weigh the food.</string>
+    <string name="cook_pot_none">No pot: type the weight of the food</string>
+    <string name="cook_full_weight">Full pot</string>
+    <string name="cook_net_weight">Cooked food</string>
+    <string name="error_cook_weight">Check the weight: more than the empty pot, and at most 5 times the raw weight.</string>
+    <string name="cook_per_100g">%1$s kcal per 100 g</string>
+    <string name="fill_mode_equal">Equal</string>
+    <string name="fill_mode_calories">By calories</string>
+    <string name="fill_mode_person">By person</string>
+    <string name="fill_count">Number of boxes</string>
+    <string name="fill_target_kcal">Calories per box</string>
+    <string name="fill_people">Who, which meal and how many boxes</string>
+    <string name="fill_leftover_box">Make the leftover an extra box</string>
+    <string name="fill_scaled_down">There is not enough food, so every box is a little smaller.</string>
+    <string name="fill_leftover">Leftover: %1$s g</string>
+    <string name="fill_mixed">Mix the batches in each box</string>
+    <string name="fill_fixed">%1$s, fixed amount (optional)</string>
+    <string name="fill_misses_target">Can\'t reach the target with these parts</string>
+    <string name="fill_not_enough">Not enough for all boxes: %1$s</string>
+    <string name="fill_plan_days">Plan one box a day</string>
+    <string name="fill_plan_from">From %1$s</string>
+    <string name="fill_to_freezer">Goes to the freezer: planned after its eat-by date</string>
+    <string name="fill_save">Fill the boxes</string>
+    <string name="fill_box_line">%1$s g · %2$s kcal · %3$s g protein</string>
+    <string name="cook_mode_title">Cook mode</string>
+    <string name="cook_now">Now</string>
+    <string name="cook_next_step">Next</string>
+    <string name="cook_total">About %1$d min in total</string>
+    <string name="cook_start">Start cooking</string>
+    <string name="cook_start_timer">Start timer</string>
+    <string name="cook_timer_left">%1$s left</string>
+    <string name="cook_timer_done">Time\'s up</string>
+    <string name="cook_finish">Done cooking</string>
+    <string name="cook_at_minute">At %1$d min</string>
+    <string name="cook_exact_hint">Timers may ring a few minutes late. To make them ring on time, allow alarms and reminders for Calore.</string>
+    <string name="cook_exact_allow">Allow</string>
+    <string name="notify_timer_title">Time\'s up: %1$s</string>
+    <string name="notify_cooling_title">Is the food in the fridge?</string>
+    <string name="notify_cooling_text">Cooked food should go into the fridge within 2 hours.</string>
+    <string name="people_title">People I cook for</string>
+    <string name="people_desc">Family members without the app, with their own targets</string>
+    <string name="people_add">Add person</string>
+    <string name="people_empty">Add the people you cook for. Their boxes are filled to their own meal targets.</string>
+    <string name="person_new">New person</string>
+    <string name="person_edit">Edit person</string>
+    <string name="person_name">Name</string>
+    <string name="person_colour">Colour</string>
+    <string name="person_targets_calc">Calculate the targets</string>
+    <string name="person_targets_typed">Type the targets</string>
+    <string name="person_remove">Remove person</string>
+    <string name="person_remove_confirm">Remove %1$s? Their boxes stay.</string>
+    <string name="person_kcal_per_day">%1$s kcal a day</string>
+    <string name="error_person_targets">Fill in sex, birth date, height and weight, or type the targets.</string>
+    <string name="error_person_name">Enter a name</string>
+    <string name="settings_freshness_reminder">Boxes to eat today</string>
+    <string name="settings_freshness_reminder_desc">A morning reminder when boxes should be eaten today</string>
+    <string name="settings_thaw_reminder">Thawing</string>
+    <string name="settings_thaw_reminder_desc">At 19:00, which frozen boxes to move to the fridge for tomorrow</string>
+    <plurals name="notify_eat_today_title">
+        <item quantity="one">%1$d box should be eaten today</item>
+        <item quantity="other">%1$d boxes should be eaten today</item>
+    </plurals>
+    <string name="notify_thaw_title">Thaw for tomorrow</string>
+    <string name="notify_thaw_text">Move %1$s from the freezer to the fridge.</string>
+    <string name="today_eat_first">Eat first</string>
 </resources>

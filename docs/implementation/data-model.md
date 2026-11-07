@@ -16,6 +16,7 @@ The database is Room, today at **version 1** (`foods`, `diary_entries`, `weight_
 - **Small lists** (allergens, tags, days of week) are JSON text, stored through a Room `TypeConverter` that uses kotlinx.serialization.
 - **Nutrients.** Where a table "has nutrients", it has these columns: `kcal REAL NOT NULL`, `protein REAL`, `carbs REAL`, `fat REAL`, `fiber REAL`, `sugar REAL`, and from M2 also `ironMg REAL`, `magnesiumMg REAL` and `vitaminCMg REAL`. `NULL` means unknown, which is different from zero (as today).
 - **Snapshots.** Anything that records what was eaten or cooked copies nutrient values at that moment, like `diary_entries` does today. History is never recalculated.
+- **Backup.** Every table is part of the backup file (M0.5). Adding a table or column means adding it to the backup DTOs and raising the backup `version`.
 - **Shared and private tables.** Tables marked **shared** will sync to the household in M11; they have `ownerMemberId TEXT NULL` (null means the whole household) and `visibility TEXT` (`MINE`, `SHARED`, `UP_FOR_GRABS`). Until M11 these just keep their defaults. Tables marked **private** never sync.
 
 ## Enums
@@ -58,7 +59,7 @@ ME is private. MANAGED rows sync in M11 only if their owner shares them.
 |---|---|---|
 | `id` | TEXT PK | |
 | `kind` | TEXT | `MemberKind` |
-| `name` | TEXT | "Me" until the user sets a name |
+| `name` | TEXT | Empty until the user sets a name; the app then shows "Me" ("Já") |
 | `colour` | INTEGER | ARGB, for name labels on boxes |
 | `sex` | TEXT NULL | `Sex` (existing enum) |
 | `birthDate` | TEXT NULL | ISO date. Replaces the stored age. |
@@ -203,6 +204,13 @@ One row per weekly check-in (algorithms A7).
 | `passive` | INTEGER | 1 = needs no attention (oven, simmering), so cook mode can run other steps meanwhile |
 | `equipment` | TEXT NULL | `Equipment`, or `STOVE` |
 
+### `diary_entries` (changed)
+
+| Change | Notes |
+|---|---|
+| Add `recipeId TEXT NULL` | `entryType = DISH` (M3.5). Added in version 5 rather than 6, because logging a dish by hand comes with M3. |
+| Add `servings REAL NULL` | `entryType = DISH` logged by servings (M3.5); null when logged by grams, then `grams` holds the cooked grams eaten. Editing scales the snapshot like grams do. |
+
 ## M4: cooking and boxes (version 6)
 
 ### `pots` (shared)
@@ -257,7 +265,6 @@ A box holds one or more batches: `id`, `boxId`, `batchId`, `grams`.
 | Change | Notes |
 |---|---|
 | Add `boxId TEXT NULL` | `entryType = BOX` |
-| Add `recipeId TEXT NULL` | `entryType = DISH` |
 
 ## M5: plan, pantry and shopping (version 7)
 

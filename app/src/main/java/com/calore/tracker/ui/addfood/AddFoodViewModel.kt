@@ -5,9 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.remote.RemoteFood
 import com.calore.tracker.data.remote.RemoteResult
+import com.calore.tracker.data.repository.DiaryRepository
 import com.calore.tracker.data.repository.FoodRepository
+import com.calore.tracker.data.repository.RecipeDetails
+import com.calore.tracker.data.repository.RecipeRepository
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.MealType
+import com.calore.tracker.domain.matchesSearch
 import com.calore.tracker.ui.navigation.dateArg
 import com.calore.tracker.ui.navigation.mealArg
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,12 +26,15 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.Clock
 import java.time.LocalDate
+import java.text.Collator
+import java.util.Locale
 
 enum class OnlineFailure { NETWORK, SERVICE }
 
@@ -59,6 +66,9 @@ class AddFoodViewModel(
     savedStateHandle: SavedStateHandle,
     private val foods: FoodRepository,
     clock: Clock,
+    private val diary: DiaryRepository? = null,
+    recipes: RecipeRepository? = null,
+    private val locale: () -> Locale = { Locale.getDefault() },
 ) : ViewModel() {
 
     val date: LocalDate = savedStateHandle.dateArg(clock)
@@ -73,6 +83,37 @@ class AddFoodViewModel(
 
     /** Ids of foods picked from online results, once they are saved locally. */
     val chosenFoodIds: Flow<Long> = chosen.receiveAsFlow()
+
+    private val quickAdded = Channel<Unit>(Channel.CONFLATED)
+
+    /** A quick add or a dish was logged; the screen goes back to the diary. */
+    val quickAddDone: Flow<Unit> = quickAdded.receiveAsFlow()
+
+    /** Logs calories without a food (M2.5). */
+    fun quickAdd(name: String, nutrients: com.calore.tracker.domain.Nutrients) {
+        viewModelScope.launch {
+            diary?.quickAdd(name, nutrients, meal, date)
+            quickAdded.send(Unit)
+        }
+    }
+
+    /** Recipes to log as a dish (M3.5), matching the search in either language. */
+    val dishes: StateFlow<List<RecipeDetails>> = (recipes?.observeAll() ?: flowOf(emptyList()))
+        .combine(query) { all, q ->
+            val locale = locale()
+            val collator = Collator.getInstance(locale)
+            all.filter { matchesSearch(q, it.recipe.displayName(locale), it.recipe.name, it.recipe.nameCs, it.recipe.nameEn) }
+                .sortedWith(compareBy(collator) { it.recipe.displayName(locale) })
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyList())
+
+    /** Logs [servings] (or cooked [grams]) of a recipe as a dish (M3.5). */
+    fun logDish(details: RecipeDetails, servings: Double?, grams: Double?) {
+        viewModelScope.launch {
+            diary?.logDish(details.recipe, details.nutrition, servings, grams, meal, date)
+            quickAdded.send(Unit)
+        }
+    }
 
     private val localFoods: Flow<List<Food>> = query
         .map { it.trim() }

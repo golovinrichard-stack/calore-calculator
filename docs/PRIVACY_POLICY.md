@@ -62,7 +62,7 @@ This policy covers the Calore app for Android and the Calore research server. It
 
 **Your control:**
 - Change or delete any entry in the app.
-- **Export** everything to a file (Me → Settings → Backup), for example to move to a new phone. The file contains health data: keep it safe.
+- **Export** everything to a file (Me → Settings → Backup), for example to move to a new phone. The file contains health data: keep it safe. Importing a backup replaces all Calore data on the phone.
 - **Delete all cycle data** with one button (Me → Cycle).
 - Uninstalling the app deletes all its data from the phone, except files you exported and Android backups.
 
@@ -75,7 +75,7 @@ There are only these cases.
 ### 4.1 Open Food Facts (food search and barcodes)
 
 - **When:** you search for a food online, scan a barcode, or open a product that isn't on your phone yet.
-- **What is sent:** the words you typed or the barcode, the language of your phone, and the app's name and version. Nothing about you, your diary or your health.
+- **What is sent:** the words you typed or the barcode, the language of your phone, the country set in the app (so products sold there come first), and the app's name and version. Nothing about you, your diary or your health.
 - **To whom:** Open Food Facts, a non-profit association in France that runs an open food database. Like any website, they see your phone's internet address. See their privacy policy at <https://world.openfoodfacts.org/privacy>.
 - **We receive nothing:** your phone talks to Open Food Facts directly.
 
@@ -172,7 +172,7 @@ If we want to collect anything new or use the data for a new purpose, the app as
 |---|---|---|
 | Internet | Open Food Facts search and barcodes; the research program if you take part | Granted at install |
 | Camera | Scanning barcodes and household QR codes. Camera images are never saved or sent. | The first time you scan |
-| Notifications | Reminders you switch on: boxes to eat, thawing, cooking timers, weekly check-in, supplements, household requests | When you switch on the first reminder |
+| Notifications | Reminders you switch on: weekly check-in, body-fat measuring, boxes to eat, thawing, cooking timers, supplements, household requests | When you switch on the first reminder |
 | Alarms and reminders (exact alarms) | Cooking timers that ring on time | Optional, only if you allow it in Android's settings |
 | Local network / nearby devices | Household sharing over Wi-Fi (Android 17 and later ask for it) | When you create or join a household |
 | Biometrics | App lock with fingerprint or face. Android handles this; we never see your fingerprint or face. | When you switch on the app lock |

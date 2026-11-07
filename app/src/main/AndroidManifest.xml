@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Used only to search the Open Food Facts database. -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Barcode scanner. Camera images are only decoded on the phone, never saved or sent. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <!-- Reminders the user switches on: weekly check-in, body-fat measuring (Android 13+ asks first). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Cook-mode timers ring on time only if the user allows exact alarms (M4.4); otherwise they may be late. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".CaloreApp"
@@ -11,9 +23,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Calore">
+        android:theme="@style/Theme.Calore"
+        tools:targetApi="33">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -23,6 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".notifications.CookTimerReceiver"
+            android:exported="false" />
     </application>
 
 </manifest>

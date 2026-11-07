@@ -202,3 +202,11 @@ fun DatePickerModal(
 
 private fun utcMillisToDate(millis: Long): LocalDate =
     Instant.ofEpochMilli(millis).atZone(ZoneOffset.UTC).toLocalDate()
+
+/** In hide-numbers mode (M1.8), Goals and Body show their numbers only after this is tapped. */
+@Composable
+fun ShowNumbersButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    androidx.compose.material3.OutlinedButton(onClick = onClick, modifier = modifier.fillMaxWidth()) {
+        Text(stringResource(R.string.show_numbers))
+    }
+}
