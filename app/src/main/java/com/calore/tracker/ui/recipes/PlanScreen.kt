@@ -48,7 +48,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.domain.Diet
 import com.calore.tracker.domain.MealType
@@ -67,18 +66,16 @@ fun PlanScreen(
     onCookFromPlan: (java.time.LocalDate) -> Unit = {},
     viewModel: RecipeListViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    var showRecipes by rememberSaveable { mutableStateOf(!FeatureFlags.weekPlan) }
+    var showRecipes by rememberSaveable { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
             Column {
-                TopAppBar(title = { Text(stringResource(if (FeatureFlags.weekPlan) R.string.nav_plan else R.string.recipes_title)) })
-                if (FeatureFlags.weekPlan) {
-                    PrimaryTabRow(selectedTabIndex = if (showRecipes) 1 else 0) {
-                        Tab(selected = !showRecipes, onClick = { showRecipes = false }, text = { Text(stringResource(R.string.plan_tab_week)) })
-                        Tab(selected = showRecipes, onClick = { showRecipes = true }, text = { Text(stringResource(R.string.recipes_title)) })
-                    }
+                TopAppBar(title = { Text(stringResource(R.string.nav_plan)) })
+                PrimaryTabRow(selectedTabIndex = if (showRecipes) 1 else 0) {
+                    Tab(selected = !showRecipes, onClick = { showRecipes = false }, text = { Text(stringResource(R.string.plan_tab_week)) })
+                    Tab(selected = showRecipes, onClick = { showRecipes = true }, text = { Text(stringResource(R.string.recipes_title)) })
                 }
             }
         },

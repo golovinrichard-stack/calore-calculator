@@ -43,7 +43,6 @@ import com.calore.tracker.ui.kitchen.PeopleScreen
 import com.calore.tracker.ui.shop.ShopsScreen
 import com.calore.tracker.ui.shop.ShoppingScreen
 import com.calore.tracker.ui.shop.StatsScreen
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.ui.kitchen.PersonScreen
 import com.calore.tracker.ui.kitchen.PotsScreen
 import com.calore.tracker.ui.kitchen.WasteScreen
@@ -65,16 +64,16 @@ import com.calore.tracker.ui.today.TodayScreen
 import com.calore.tracker.ui.weight.WeightScreen
 
 /** The bottom bar: Today · Plan · Me (M3). Kitchen and Shop join in M4–M5. */
-/** The bottom bar: Today · Plan · Kitchen · Shop · Me (Shop joins with M5). */
-private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int, val visible: Boolean = true) {
+/** The bottom bar: Today · Plan · Kitchen · Shop · Me. */
+private enum class TopLevel(val route: String, @StringRes val label: Int, @DrawableRes val icon: Int) {
     TODAY(Routes.DIARY, R.string.nav_today, R.drawable.ic_nav_diary),
     PLAN(Routes.PLAN, R.string.nav_plan, R.drawable.ic_nav_plan),
     KITCHEN(Routes.KITCHEN, R.string.nav_kitchen, R.drawable.ic_nav_kitchen),
-    SHOP(Routes.SHOP, R.string.nav_shop, R.drawable.ic_nav_shop, visible = FeatureFlags.weekPlan),
+    SHOP(Routes.SHOP, R.string.nav_shop, R.drawable.ic_nav_shop),
     ME(Routes.ME, R.string.nav_me, R.drawable.ic_nav_me),
 }
 
-private val topLevelTabs = TopLevel.entries.filter { it.visible }
+private val topLevelTabs = TopLevel.entries
 
 private val dateAndMealArgs = listOf(
     navArgument(Routes.ARG_DATE) { type = NavType.StringType },
@@ -293,17 +292,15 @@ private fun NavGraphBuilder.kitchenRoutes(navController: NavHostController) {
     }
     composable(Routes.WASTE) { WasteScreen(onBack = { navController.popBackStack() }) }
     composable(Routes.SHOPS) { ShopsScreen(onBack = { navController.popBackStack() }) }
-    if (FeatureFlags.weekPlan) {
-        composable(Routes.STATS) { StatsScreen(onBack = { navController.popBackStack() }) }
-        composable(Routes.SHOP) { entry ->
-            val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
-            ShoppingScreen(
-                onScanProduct = { navController.navigate(Routes.SCANNER_PICK) },
-                onOpenShops = { navController.navigate(Routes.SHOPS) },
-                scannedFoodId = scanned,
-                onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
-            )
-        }
+    composable(Routes.STATS) { StatsScreen(onBack = { navController.popBackStack() }) }
+    composable(Routes.SHOP) { entry ->
+        val scanned by entry.savedStateHandle.getStateFlow<Long?>(Routes.RESULT_PICKED_FOOD_ID, null).collectAsStateWithLifecycle()
+        ShoppingScreen(
+            onScanProduct = { navController.navigate(Routes.SCANNER_PICK) },
+            onOpenShops = { navController.navigate(Routes.SHOPS) },
+            scannedFoodId = scanned,
+            onScannedFoodUsed = { entry.savedStateHandle[Routes.RESULT_PICKED_FOOD_ID] = null },
+        )
     }
     composable(Routes.PEOPLE) {
         PeopleScreen(onBack = { navController.popBackStack() }, onOpen = { id -> navController.navigate(Routes.person(id)) })

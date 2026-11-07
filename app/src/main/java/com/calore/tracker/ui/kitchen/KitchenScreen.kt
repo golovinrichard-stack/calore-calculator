@@ -9,7 +9,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.PrimaryTabRow
-import com.calore.tracker.FeatureFlags
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -129,11 +128,9 @@ fun KitchenScreen(
                         }
                     },
                 )
-                if (FeatureFlags.weekPlan) {
-                    PrimaryTabRow(selectedTabIndex = if (showPantry) 1 else 0) {
-                        Tab(selected = !showPantry, onClick = { showPantry = false }, text = { Text(stringResource(R.string.kitchen_tab_boxes)) })
-                        Tab(selected = showPantry, onClick = { showPantry = true }, text = { Text(stringResource(R.string.kitchen_tab_pantry)) })
-                    }
+                PrimaryTabRow(selectedTabIndex = if (showPantry) 1 else 0) {
+                    Tab(selected = !showPantry, onClick = { showPantry = false }, text = { Text(stringResource(R.string.kitchen_tab_boxes)) })
+                    Tab(selected = showPantry, onClick = { showPantry = true }, text = { Text(stringResource(R.string.kitchen_tab_pantry)) })
                 }
             }
         },

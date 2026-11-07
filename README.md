@@ -22,6 +22,10 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Kitchen tab**: boxes in the fridge and freezer with eat-by dates and colours, Ate it (logged with one tap, with undo), Ate part, Freeze, Thawed, Move and Throw away, plus a log of what was thrown away. Today shows the boxes to eat first.
 - **People I cook for**: family members without the app, with their own targets, so their boxes get the right grams.
 - **Freshness reminders** (optional): boxes to eat today in the morning, and what to thaw at 19:00.
+- **Week plan** (Plan → Week): choose how often you cook; plan each meal for you and the people you cook for as a prep box, cook fresh, eat out or free; see each day's calories and protein against the targets and the week's cost; repeat last week or use a template. On a cooking day, **Cook** fills in the recipes and amounts and links each box to its meal.
+- **Pantry** (Kitchen → Pantry): what you have at home with best-before dates; cooking takes ingredients out, oldest first.
+- **Shopping list** (Shop tab): made from the plan minus what you have at home, in whole packs, grouped by shop; pick the exact product per shop, tick items into the pantry with the price paid, and share the list as text.
+- **Stats** (Me → Stats): money spent and thrown away per month, and the cheapest protein you bought.
 - **Portions in grams**, with one-tap serving sizes when the product has one. Tap a logged entry to change the amount or remove it (with undo).
 - **Daily goals** for calories, protein, carbs and fat, with a short setup on the first start.
 - **Calorie calculator**: Mifflin-St Jeor, or Katch-McArdle when you know your body fat; goals by speed (lose, maintain, gain or recomp) showing kg per week and kcal per day; automatic macros from protein per kg, or your own split.
@@ -30,7 +34,7 @@ Log what you eat and Calore adds up calories, protein, carbs, fat, fiber and sug
 - **Profile** under Me: body, goal, meal split, diet and allergies, cooking habits (used by the planner later).
 - **Hide-numbers mode**: log food without seeing calories and macros.
 - **Optional reminders** for the weekly check-in and for measuring body fat; a "Is the food in the fridge?" reminder 2 hours after cooking.
-- **Backup to a file:** export your foods, diary, weights, profile, body measurements, recipes, pots, batches and boxes, and import them on a new phone (Me → Settings → Backup).
+- **Backup to a file:** export everything (foods, diary, weights, profile, body, recipes, boxes, plans, pantry, shops and the shopping list), and import them on a new phone (Me → Settings → Backup).
 - **English and Czech.** The app follows the phone's language; on Android 13 and newer you can also pick the app's language in Android's settings.
 - Material You design with light and dark themes.
 

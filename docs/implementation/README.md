@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M4 are done (app version 0.6.0). Next: M5.
+> **Status:** M0–M5 are done (app version 0.7.0). Next: M6.
 > **Date:** 6 November 2026
 
 ## Files
@@ -141,7 +141,7 @@ Update this table when a milestone starts or ends.
 | M2 Foods, barcode scanner and manual logging | Done (the optional NutriDatabaze step waits for input #2) |
 | M3 Recipes and dishes | Done (the owner accepted the starter recipes as they are) |
 | M4 Cooking, prep boxes and freshness | Done |
-| M5 Weekly plan, pantry and shopping | In progress (M5.1–M5.10 done) |
+| M5 Weekly plan, pantry and shopping | Done (the product seed file waits for input #1) |
 | M6 Smart planner | Not started |
 | M7 Cycle tracking | Not started |
 | M8 Supplements | Not started |

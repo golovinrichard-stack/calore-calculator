@@ -59,7 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
@@ -140,17 +139,13 @@ fun TodayScreen(
             } else {
                 null
             },
-            planned = if (FeatureFlags.weekPlan) {
-                {
-                    PlannedTodayCard(
-                        date = state.date,
-                        snackbarHostState = snackbarHostState,
-                        onOpenRecipe = onOpenRecipe,
-                        onQuickAdd = { meal -> onAddFood(state.date, meal) },
-                    )
-                }
-            } else {
-                null
+            planned = {
+                PlannedTodayCard(
+                    date = state.date,
+                    snackbarHostState = snackbarHostState,
+                    onOpenRecipe = onOpenRecipe,
+                    onQuickAdd = { meal -> onAddFood(state.date, meal) },
+                )
             },
         )
     }

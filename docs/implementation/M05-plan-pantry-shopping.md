@@ -30,7 +30,7 @@ The user decides how many times a week to cook.
 
 **Done when:** a week can be planned for two people with 2 cooking days, and the daily totals match the slot targets.
 
-As built: a cooking session is in the afternoon (after lunch), so with Sunday and Wednesday the two sessions share the week's prepped meals exactly (see A14). A day's planned calories are the targets of its prep-box and cook-fresh slots; "Eat out" and "Free" count as unplanned. Templates keep their original dates and are moved to the chosen week when used. The Week tab stays behind `FeatureFlags.weekPlan` until M5 is finished.
+As built: a cooking session is in the afternoon (after lunch), so with Sunday and Wednesday the two sessions share the week's prepped meals exactly (see A14). A day's planned calories are the targets of its prep-box and cook-fresh slots; "Eat out" and "Free" count as unplanned. Templates keep their original dates and are moved to the chosen week when used.
 
 ### M5.4 From the plan to the pot
 
@@ -90,7 +90,7 @@ As built so far: the shops seed (names only, a general section order) imports on
 
 **Done when:** the A16 test cases pass end to end in an instrumented test (plan → list → tick → pantry).
 
-As built: the list updates from the plan when the Shop tab opens (and with the refresh button): the cooks still to do this week and next week, from today on. A product picked on a line (typed, from Open Food Facts search, or scanned) becomes that shop's preferred product for the food. The product detail on a line shows brand and barcode; prices show as an estimate on the line. The Shop tab stays behind `FeatureFlags.weekPlan` until M5 is finished.
+As built: the list updates from the plan when the Shop tab opens (and with the refresh button): the cooks still to do this week and next week, from today on. A product picked on a line (typed, from Open Food Facts search, or scanned) becomes that shop's preferred product for the food. The product detail on a line shows brand and barcode; prices show as an estimate on the line.
 
 ### M5.8 Prices and costs
 

@@ -15,13 +15,13 @@ package com.calore.tracker
  */
 object FeatureFlags {
 
-    /** M5: the week plan, pantry, shops and the shopping list. */
-    val weekPlan: Boolean = unfinished()
+    // No unfinished features right now: everything up to M5 is finished.
 
     /**
      * True only in debug builds. [BuildConfig.DEBUG] is a constant, so R8 removes code behind a
      * false flag from release builds completely.
      */
+    @Suppress("unused") // Used by the flags above as soon as a milestone adds one.
     private fun unfinished(): Boolean = isVisible(finished = false, debugBuild = BuildConfig.DEBUG)
 
     /** The rule behind every flag: finished features always show; unfinished ones only in debug builds. */
