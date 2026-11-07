@@ -222,6 +222,12 @@ class TodayWidgetReceiver : GlanceAppWidgetReceiver() {
         WidgetMidnight.schedule(context)
     }
 
+    /** Android also calls this after a restart, when alarms are gone: set the midnight update again. */
+    override fun onUpdate(context: Context, appWidgetManager: android.appwidget.AppWidgetManager, appWidgetIds: IntArray) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+        WidgetMidnight.schedule(context)
+    }
+
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
         WidgetMidnight.cancel(context)
