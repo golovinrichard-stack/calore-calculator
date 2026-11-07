@@ -405,7 +405,7 @@ Cycle settings live in DataStore (`cycle_prefs`): `enabled`, `contraception` (`N
 
 ### `supplement_logs`
 
-`id`, `supplementId`, `scheduledAt` INTEGER NULL, `takenAt` INTEGER NULL, `status` (`TAKEN`, `SKIPPED`), `diaryEntryUuid` TEXT NULL, timestamps.
+`id`, `supplementId`, `scheduledAt` INTEGER NULL, `takenAt` INTEGER NULL, `status` (`TAKEN`, `SKIPPED`), `diaryEntryUuid` TEXT NULL, `createdAt`, `updatedAt`. Unique on (`supplementId`, `scheduledAt`). *As built:* supplement rows and logs are deleted for real (private, never synced); nutrients per dose are `kcal`, `protein`, `carbs`, `fat`, `fiber`, `sugar`.
 
 ## M10: research (version 11), private
 

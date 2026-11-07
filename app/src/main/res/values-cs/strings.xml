@@ -1090,4 +1090,60 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
         <item quantity="other">další menstruace za %1$d–%2$d dní</item>
     </plurals>
 
+
+    <!-- Supplements (M8) -->
+    <string name="supplements_title">Doplňky stravy</string>
+    <string name="supplements_me_desc">Denní přehled, a připomínky, když chceš</string>
+    <string name="supplements_empty">Zatím žádné doplňky. Přidej ty, které užíváš (vitamin D, kreatin, železo …), a na Dnes se objeví přehled.</string>
+    <string name="supplements_today">Doplňky dnes</string>
+    <string name="supplement_add">Přidat doplněk</string>
+    <string name="supplement_edit">Doplněk</string>
+    <string name="supplement_taken">Vzato</string>
+    <string name="supplement_skip">Vynechat</string>
+    <string name="supplement_was_taken">Vzato</string>
+    <string name="supplement_was_skipped">Vynecháno</string>
+    <string name="supplement_regular_7">7 dní: %1$d z %2$d</string>
+    <string name="supplement_regular_30">30 dní: %1$d z %2$d</string>
+    <string name="supplement_history_legend">Posledních 14 dní: ● vzato, ✕ vynecháno, ○ nezapsáno.</string>
+    <string name="supplement_reminders_on">Připomínky</string>
+    <string name="supplement_name">Název</string>
+    <string name="supplement_kind">Druh</string>
+    <string name="supplement_dose">Dávka</string>
+    <string name="supplement_dose_error">Zadej množství na dávku</string>
+    <string name="supplement_times">Kdy během dne</string>
+    <string name="supplement_add_time">Přidat čas</string>
+    <string name="supplement_remove_time">Odebrat tento čas</string>
+    <string name="supplement_days">Dny</string>
+    <string name="supplement_days_hint">Když žádný nevybereš, platí každý den.</string>
+    <string name="supplement_from">Od %1$s</string>
+    <string name="supplement_until">Do %1$s</string>
+    <string name="supplement_no_end">Bez konce</string>
+    <string name="supplement_dates_error">Konec je dřív než začátek.</string>
+    <string name="supplement_reminders">Připomínky</string>
+    <string name="supplement_reminders_hint">Oznámení v každý čas, s tlačítky Vzato a Vynechat. Ve výchozím stavu vypnuto.</string>
+    <string name="supplement_nutrition">Výživové hodnoty na dávku (nepovinné)</string>
+    <string name="supplement_nutrition_hint">Pro proteinový prášek nebo gainery. S kaloriemi se vzatá dávka započítá i do deníku.</string>
+    <string name="supplement_nutrition_error">Zadej kalorie, nebo nech všechna tato pole prázdná.</string>
+    <string name="supplement_active">Teď užívám</string>
+    <string name="supplement_delete">Smazat</string>
+    <string name="supplement_delete_confirm">Smazat %1$s i s historií? Záznamy v deníku zůstanou.</string>
+    <string name="supplement_reminder_text">Čas na %1$s %2$s</string>
+    <string name="supplement_kind_vitamin_d">Vitamin D</string>
+    <string name="supplement_kind_iron">Železo</string>
+    <string name="supplement_kind_magnesium">Hořčík</string>
+    <string name="supplement_kind_creatine">Kreatin</string>
+    <string name="supplement_kind_protein">Proteinový prášek</string>
+    <string name="supplement_kind_omega3">Omega-3</string>
+    <string name="supplement_kind_multivitamin">Multivitamin</string>
+    <string name="supplement_kind_other">Jiný</string>
+    <string name="dose_mg">mg</string>
+    <string name="dose_ug">µg</string>
+    <string name="dose_iu">IU</string>
+    <string name="dose_g">g</string>
+    <string name="dose_ml">ml</string>
+    <string name="dose_capsule">kapsle</string>
+    <string name="dose_tablet">tableta</string>
+    <string name="dose_scoop">odměrka</string>
+    <string name="notify_permission_denied">Oznámení pro Calore jsou vypnutá. Můžeš je povolit v nastavení telefonu.</string>    <string name="supplement_entry_remove">Odebrat %1$s z deníku? Znovu ho zapíšeš tlačítkem Vzato na Dnes.</string>
+
 </resources>

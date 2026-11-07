@@ -29,6 +29,7 @@ enum class MeDestination(@StringRes val title: Int, @StringRes val description: 
     PEOPLE(R.string.people_title, R.string.people_desc, R.drawable.ic_nav_me),
     STATS(R.string.stats_title, R.string.stats_desc, R.drawable.ic_nav_shop),
     CYCLE(R.string.cycle_title, R.string.cycle_me_desc, R.drawable.ic_cycle),
+    SUPPLEMENTS(R.string.supplements_title, R.string.supplements_me_desc, R.drawable.ic_supplement),
     SETTINGS(R.string.me_settings, R.string.me_settings_desc, R.drawable.ic_settings),
     ABOUT(R.string.me_about, R.string.me_about_desc, R.drawable.ic_info),
 }

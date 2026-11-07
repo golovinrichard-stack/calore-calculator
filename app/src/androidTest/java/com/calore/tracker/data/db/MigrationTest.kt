@@ -195,6 +195,18 @@ class MigrationTest {
         }
     }
 
+    @Test
+    fun migration9To10AddsSupplements() {
+        helper.createDatabase(TEST_DB, 1).use { db -> insertVersion1Rows(db) }
+        helper.runMigrationsAndValidate(TEST_DB, 9, true, *ALL_MIGRATIONS).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 10, true, *ALL_MIGRATIONS).use { db ->
+            assertEquals(listOf("Oats", "Rice"), db.strings("SELECT name FROM foods ORDER BY id"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM supplements"))
+            assertEquals(listOf("0"), db.strings("SELECT COUNT(*) FROM supplement_logs"))
+        }
+    }
+
     private fun SupportSQLiteDatabase.nullableStrings(sql: String): List<String?> = query(sql).use { cursor ->
         buildList { while (cursor.moveToNext()) add(if (cursor.isNull(0)) null else cursor.getString(0)) }
     }

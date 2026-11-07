@@ -18,6 +18,8 @@ import com.calore.tracker.data.db.PriceEntity
 import com.calore.tracker.data.db.RecipeRatingEntity
 import com.calore.tracker.data.db.CycleDayEntity
 import com.calore.tracker.data.db.CyclePeriodEntity
+import com.calore.tracker.data.db.SupplementEntity
+import com.calore.tracker.data.db.SupplementLogEntity
 import com.calore.tracker.data.db.ShoppingItemEntity
 import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.data.db.BatchEntity
@@ -85,6 +87,8 @@ data class BackupTables(
     @SerialName("recipe_ratings") val recipeRatings: List<RecipeRatingRow>? = null,
     @SerialName("cycle_periods") val cyclePeriods: List<CyclePeriodRow>? = null,
     @SerialName("cycle_days") val cycleDays: List<CycleDayRow>? = null,
+    val supplements: List<SupplementRow>? = null,
+    @SerialName("supplement_logs") val supplementLogs: List<SupplementLogRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -536,6 +540,53 @@ internal fun CyclePeriodRow.toEntity() = CyclePeriodEntity(id, startDate, endDat
 internal fun CycleDayEntity.toRow() = CycleDayRow(id, date, flow, symptoms, note, createdAt, updatedAt)
 
 internal fun CycleDayRow.toEntity() = CycleDayEntity(id, date, flow, symptoms, note, createdAt, updatedAt)
+
+@Serializable
+data class SupplementRow(
+    val id: String,
+    val name: String,
+    val kind: String,
+    val doseAmount: Double,
+    val doseUnit: String,
+    val times: List<String> = emptyList(),
+    val daysOfWeek: List<String> = emptyList(),
+    val startDate: String,
+    val endDate: String? = null,
+    val remindersOn: Boolean = false,
+    val kcal: Double? = null,
+    val protein: Double? = null,
+    val carbs: Double? = null,
+    val fat: Double? = null,
+    val fiber: Double? = null,
+    val sugar: Double? = null,
+    val active: Boolean = true,
+    val createdAt: Long,
+    val updatedAt: Long,
+)
+
+@Serializable
+data class SupplementLogRow(
+    val id: String,
+    val supplementId: String,
+    val scheduledAt: Long? = null,
+    val takenAt: Long? = null,
+    val status: String,
+    val diaryEntryUuid: String? = null,
+    val createdAt: Long,
+    val updatedAt: Long,
+)
+
+internal fun SupplementEntity.toRow() = SupplementRow(
+    id, name, kind, doseAmount, doseUnit, times, daysOfWeek, startDate, endDate, remindersOn, kcal, protein, carbs, fat, fiber, sugar, active, createdAt, updatedAt,
+)
+
+internal fun SupplementRow.toEntity() = SupplementEntity(
+    id, name, kind, doseAmount, doseUnit, times, daysOfWeek, startDate, endDate, remindersOn, kcal, protein, carbs, fat, fiber, sugar, active, createdAt, updatedAt,
+)
+
+internal fun SupplementLogEntity.toRow() = SupplementLogRow(id, supplementId, scheduledAt, takenAt, status, diaryEntryUuid, createdAt, updatedAt)
+
+internal fun SupplementLogRow.toEntity() = SupplementLogEntity(id, supplementId, scheduledAt, takenAt, status, diaryEntryUuid, createdAt, updatedAt)
 
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,

@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import com.calore.tracker.ui.rating.RatePromptCard
 import com.calore.tracker.ui.cycle.CycleTodayCard
+import com.calore.tracker.ui.supplements.SupplementsTodayCard
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -143,6 +144,11 @@ fun TodayScreen(
                 null
             },
             rate = { RatePromptCard() },
+            supplements = if (state.date == state.today) {
+                { SupplementsTodayCard() }
+            } else {
+                null
+            },
             cycle = if (state.date == state.today) {
                 { CycleTodayCard(onOpen = onOpenCycle) }
             } else {
@@ -194,7 +200,21 @@ fun TodayScreen(
             },
         )
     }
-    editing?.takeIf { it.entryType != EntryType.QUICK_ADD }?.let { entry ->
+    // M8.5: a supplement's entry has no grams to change; it can only be removed.
+    editing?.takeIf { it.entryType == EntryType.SUPPLEMENT }?.let { entry ->
+        AlertDialog(
+            onDismissRequest = { editing = null },
+            text = { Text(stringResource(R.string.supplement_entry_remove, entry.name)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    editing = null
+                    viewModel.delete(entry)
+                }) { Text(stringResource(R.string.supplement_delete)) }
+            },
+            dismissButton = { TextButton(onClick = { editing = null }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
+    editing?.takeIf { it.entryType != EntryType.QUICK_ADD && it.entryType != EntryType.SUPPLEMENT }?.let { entry ->
         EditEntryDialog(
             entry = entry,
             onDismiss = { editing = null },
@@ -245,6 +265,8 @@ fun TodayContent(
     rate: (@Composable () -> Unit)? = null,
     /** The cycle card (M7.3), when cycle tracking is on. */
     cycle: (@Composable () -> Unit)? = null,
+    /** Today's supplements (M8.3), when there are any. */
+    supplements: (@Composable () -> Unit)? = null,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -266,6 +288,7 @@ fun TodayContent(
         }
         rate?.let { card -> item(key = "rate") { card() } }
         cycle?.let { card -> item(key = "cycle") { card() } }
+        supplements?.let { card -> item(key = "supplements") { card() } }
         planned?.let { card -> item(key = "planned") { card() } }
         eatFirst?.let { card -> item(key = "eat_first") { card() } }
         item(key = "summary") {

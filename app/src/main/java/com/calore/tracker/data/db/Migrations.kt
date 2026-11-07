@@ -297,5 +297,27 @@ val MIGRATION_8_9 = object : Migration(8, 9) {
     }
 }
 
+/** Version 10 (M8): supplements and their logs. Private, never synced. */
+val MIGRATION_9_10 = object : Migration(9, 10) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `supplements` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `kind` TEXT NOT NULL, " +
+                "`doseAmount` REAL NOT NULL, `doseUnit` TEXT NOT NULL, `times` TEXT NOT NULL, `daysOfWeek` TEXT NOT NULL, " +
+                "`startDate` TEXT NOT NULL, `endDate` TEXT, `remindersOn` INTEGER NOT NULL, `kcal` REAL, `protein` REAL, " +
+                "`carbs` REAL, `fat` REAL, `fiber` REAL, `sugar` REAL, `active` INTEGER NOT NULL, " +
+                "`createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `supplement_logs` (`id` TEXT NOT NULL, `supplementId` TEXT NOT NULL, " +
+                "`scheduledAt` INTEGER, `takenAt` INTEGER, `status` TEXT NOT NULL, `diaryEntryUuid` TEXT, " +
+                "`createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE UNIQUE INDEX IF NOT EXISTS `index_supplement_logs_supplementId_scheduledAt` " +
+                "ON `supplement_logs` (`supplementId`, `scheduledAt`)",
+        )
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)

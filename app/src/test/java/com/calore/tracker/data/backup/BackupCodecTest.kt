@@ -212,6 +212,13 @@ class BackupCodecTest {
             recipeRatings = ratings,
             cyclePeriods = cyclePeriods,
             cycleDays = listOf(CycleDayRow("6ba7b817-9dad-41d1-80b4-00c04fd430c8", "2026-10-02", "MEDIUM", listOf("CRAMPS"), "note", 12, 12)),
+            supplements = listOf(
+                SupplementRow(
+                    "6ba7b819-9dad-41d1-80b4-00c04fd430c8", "Protein", "PROTEIN_POWDER", 30.0, "G", listOf("08:00"), emptyList(), "2026-10-01",
+                    kcal = 120.0, protein = 24.0, createdAt = 13, updatedAt = 13,
+                ),
+            ),
+            supplementLogs = listOf(SupplementLogRow("6ba7b81a-9dad-41d1-80b4-00c04fd430c8", "6ba7b819-9dad-41d1-80b4-00c04fd430c8", 14, 14, "TAKEN", null, 14, 14)),
         ),
     )
 
@@ -235,7 +242,7 @@ class BackupCodecTest {
                 "recipes", "recipe_ingredients", "recipe_steps",
                 "pots", "batches", "batch_ingredients", "boxes", "box_parts",
                 "plans", "plan_slots", "plan_cooks", "pantry_items", "stores", "store_products", "prices", "shopping_items",
-                "recipe_ratings", "cycle_periods", "cycle_days",
+                "recipe_ratings", "cycle_periods", "cycle_days", "supplements", "supplement_logs",
             ),
             root["tables"]!!.jsonObject.keys,
         )

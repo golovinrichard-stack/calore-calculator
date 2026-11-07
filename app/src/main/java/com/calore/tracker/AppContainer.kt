@@ -20,6 +20,8 @@ import com.calore.tracker.data.repository.MemberRepository
 import com.calore.tracker.data.repository.PantryRepository
 import com.calore.tracker.data.repository.PlanRepository
 import com.calore.tracker.data.repository.RatingRepository
+import com.calore.tracker.data.repository.SupplementRepository
+import com.calore.tracker.notifications.SupplementReminders
 import com.calore.tracker.data.repository.CycleRepository
 import com.calore.tracker.data.prefs.CyclePrefs
 import com.calore.tracker.ui.rating.RatingPrompt
@@ -77,6 +79,10 @@ class AppContainer(context: Context) {
     val cookingRepository = CookingRepository(database.cookingDao(), clock)
     val planRepository = PlanRepository(database.planDao(), clock)
     val ratingRepository = RatingRepository(database.ratingDao(), clock)
+
+    /** Supplements (M8): private, on this phone only; reminders only when switched on. */
+    val supplementRepository = SupplementRepository(database.supplementDao(), database.diaryDao(), clock)
+    val supplementReminders = SupplementReminders(context, supplementRepository, clock)
 
     /** Cycle tracking (M7): private, on this phone only. */
     val cycleRepository = CycleRepository(

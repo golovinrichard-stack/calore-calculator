@@ -13,6 +13,8 @@ import com.calore.tracker.ui.shop.ShopsViewModel
 import com.calore.tracker.ui.today.TodayPlanViewModel
 import com.calore.tracker.ui.rating.RatePromptViewModel
 import com.calore.tracker.ui.cycle.CycleViewModel
+import com.calore.tracker.ui.supplements.SupplementEditViewModel
+import com.calore.tracker.ui.supplements.SupplementsViewModel
 import com.calore.tracker.ui.shop.StatsViewModel
 import com.calore.tracker.ui.kitchen.PersonViewModel
 import com.calore.tracker.ui.kitchen.PotsViewModel
@@ -182,6 +184,14 @@ object AppViewModelProvider {
         initializer {
             val c = container()
             CycleViewModel(c.cycleRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            SupplementsViewModel(c.supplementRepository, c.clock)
+        }
+        initializer {
+            val c = container()
+            SupplementEditViewModel(createSavedStateHandle(), c.supplementRepository, c.supplementReminders, c.clock)
         }
         initializer {
             val c = container()

@@ -33,6 +33,8 @@ data class DatabaseSnapshot(
     val recipeRatings: List<RecipeRatingEntity>? = emptyList(),
     val cyclePeriods: List<CyclePeriodEntity>? = emptyList(),
     val cycleDays: List<CycleDayEntity>? = emptyList(),
+    val supplements: List<SupplementEntity>? = emptyList(),
+    val supplementLogs: List<SupplementLogEntity>? = emptyList(),
 )
 
 /** Whole-database reads and writes for backup export and import (M0.5). */
@@ -228,6 +230,24 @@ abstract class BackupDao {
     @Insert
     protected abstract suspend fun insertCycleDays(rows: List<CycleDayEntity>)
 
+    @Query("SELECT * FROM supplements ORDER BY createdAt, id")
+    protected abstract suspend fun allSupplements(): List<SupplementEntity>
+
+    @Query("DELETE FROM supplements")
+    protected abstract suspend fun deleteAllSupplements()
+
+    @Insert
+    protected abstract suspend fun insertSupplements(rows: List<SupplementEntity>)
+
+    @Query("SELECT * FROM supplement_logs ORDER BY createdAt, id")
+    protected abstract suspend fun allSupplementLogs(): List<SupplementLogEntity>
+
+    @Query("DELETE FROM supplement_logs")
+    protected abstract suspend fun deleteAllSupplementLogs()
+
+    @Insert
+    protected abstract suspend fun insertSupplementLogs(rows: List<SupplementLogEntity>)
+
     @Query("DELETE FROM members")
     protected abstract suspend fun deleteAllMembers()
 
@@ -291,6 +311,8 @@ abstract class BackupDao {
         recipeRatings = allRecipeRatings(),
         cyclePeriods = allCyclePeriods(),
         cycleDays = allCycleDays(),
+        supplements = allSupplements(),
+        supplementLogs = allSupplementLogs(),
     )
 
     /**
@@ -393,6 +415,14 @@ abstract class BackupDao {
         snapshot.cycleDays?.let {
             deleteAllCycleDays()
             insertCycleDays(it)
+        }
+        snapshot.supplements?.let {
+            deleteAllSupplements()
+            insertSupplements(it)
+        }
+        snapshot.supplementLogs?.let {
+            deleteAllSupplementLogs()
+            insertSupplementLogs(it)
         }
     }
 }
