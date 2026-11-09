@@ -8,6 +8,7 @@ import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Nutrients
 import com.calore.tracker.domain.Pot
 import com.calore.tracker.domain.Storage
+import com.calore.tracker.domain.Visibility
 import com.calore.tracker.domain.WasteReason
 import com.calore.tracker.domain.parseIsoDate
 
@@ -53,6 +54,7 @@ internal fun BoxEntity.toDomain(): Box? {
         plannedMeal = plannedMeal?.let { JsonColumns.enumByName<MealType>(it) },
         planSlotId = planSlotId,
         wastedReason = wastedReason?.let { JsonColumns.enumByName<WasteReason>(it) },
+        visibility = JsonColumns.enumByName<Visibility>(visibility) ?: Visibility.SHARED,
         createdAt = createdAt,
         updatedAt = updatedAt,
     )
@@ -72,6 +74,7 @@ internal fun Box.toEntity(deletedAt: Long? = null) = BoxEntity(
     plannedMeal = plannedMeal?.name,
     planSlotId = planSlotId,
     wastedReason = wastedReason?.name,
+    visibility = visibility.name,
     createdAt = createdAt,
     updatedAt = updatedAt,
     deletedAt = deletedAt,

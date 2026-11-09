@@ -24,6 +24,8 @@ sealed interface BackupReadResult {
 /** Turns backups into JSON text and back, and checks a file completely before it is imported. */
 object BackupCodec {
     const val FORMAT = "calore-backup"
+    private val REQUEST_TYPES = setOf("COOK", "BUY", "CAN_I_HAVE", "OTHER")
+    private val REQUEST_STATUSES = setOf("OPEN", "ACCEPTED", "DECLINED", "DONE", "CANCELLED")
     /**
      * 1: foods, diary, weights (M0). 2: + members, body measurements, check-ins, diary memberId (M1).
      * 3: + basic-food columns and micronutrients on foods, entry type and micronutrients on diary entries (M2).
@@ -34,8 +36,10 @@ object BackupCodec {
      * 8: + cycle periods and days (M7).
      * 9: + supplements and supplement logs (M8).
      * 10: + research reports (M10).
+     * 11: + household requests and the activity feed (M11). The household, its phones and the sync
+     *     bookkeeping are never in a backup: a phone restored from one joins the household again.
      */
-    const val VERSION = 10
+    const val VERSION = 11
 
     /** Far above any real backup (10,000 diary entries are about 3 MB), and small enough to read safely. */
     const val MAX_BYTES = 64 * 1024 * 1024
@@ -131,7 +135,9 @@ object BackupCodec {
             tables.supplements.ok({ it.id }) { parseIsoDate(it.startDate) != null && it.doseAmount.isAmount() } &&
             tables.supplementLogs.ok({ it.id }) { it.status == "TAKEN" || it.status == "SKIPPED" } &&
             tables.researchReports.ok({ it.id }) { it.status in setOf("PENDING", "SENT", "FAILED") && it.attempts >= 0 } &&
-            tables.researchReports.orEmpty().isUnique { it.isoWeek }
+            tables.researchReports.orEmpty().isUnique { it.isoWeek } &&
+            tables.requests.ok({ it.id }) { it.type in REQUEST_TYPES && it.status in REQUEST_STATUSES } &&
+            tables.activity.ok({ it.id })
     }
 
     private fun areCookingTablesConsistent(tables: BackupTables): Boolean {

@@ -1,5 +1,9 @@
 package com.calore.tracker.data.repository
 
+import com.calore.tracker.data.household.ActivityLog
+import com.calore.tracker.domain.Visibility
+import com.calore.tracker.domain.household.ActivityType
+
 import com.calore.tracker.data.db.FoodDao
 import com.calore.tracker.data.db.PantryDao
 import com.calore.tracker.data.db.toDomain
@@ -22,6 +26,9 @@ data class PantryEntry(val item: PantryItem, val food: Food?)
 
 /** The pantry (M5.5): what is at home, until it is used up or thrown away. */
 class PantryRepository(private val pantryDao: PantryDao, private val foodDao: FoodDao, private val clock: Clock) {
+
+    /** M11.8: the household feed; nothing outside a household. */
+    var activity: ActivityLog = ActivityLog.NONE
 
     private fun today(): LocalDate = LocalDate.now(clock)
 
@@ -72,9 +79,22 @@ class PantryRepository(private val pantryDao: PantryDao, private val foodDao: Fo
 
     suspend fun update(item: PantryItem) = pantryDao.update(item.copy(updatedAt = clock.millis()).toEntity())
 
-    suspend fun usedUp(item: PantryItem) = update(item.copy(state = PantryState.USED_UP))
+    suspend fun usedUp(item: PantryItem) {
+        update(item.copy(state = PantryState.USED_UP))
+        activity.log(ActivityType.TOOK, "pantry_items", item.id, item.name)
+    }
 
-    suspend fun throwAway(item: PantryItem) = update(item.copy(state = PantryState.WASTED))
+    suspend fun throwAway(item: PantryItem) {
+        update(item.copy(state = PantryState.WASTED))
+        activity.log(ActivityType.THREW_AWAY, "pantry_items", item.id, item.name)
+    }
+
+    /** M11.6: whose it is and its label; M11.6 reservation for a planned cook. */
+    suspend fun setOwnership(item: PantryItem, owner: String?, visibility: Visibility) = update(item.copy(ownerMemberId = owner, visibility = visibility))
+
+    suspend fun reserve(item: PantryItem, cookId: String?) = update(item.copy(reservedForCookId = cookId))
+
+    suspend fun item(id: String): PantryItem? = pantryDao.available().firstOrNull { it.id == id }?.toDomain()
 
     /** Usable lots for the shopping list (A16), in grams. */
     suspend fun lots(): List<PantryLot> = pantryDao.available().mapNotNull { it.toDomain() }.mapNotNull { item ->

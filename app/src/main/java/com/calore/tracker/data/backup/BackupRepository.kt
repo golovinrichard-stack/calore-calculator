@@ -73,6 +73,8 @@ class BackupRepository(
                 supplements = snapshot.supplements.orEmpty().map { it.toRow() },
                 supplementLogs = snapshot.supplementLogs.orEmpty().map { it.toRow() },
                 researchReports = snapshot.researchReports.orEmpty().map { it.toRow() },
+                requests = snapshot.requests.orEmpty().map { it.toRow() },
+                activity = snapshot.activity.orEmpty().map { it.toRow() },
             ),
         )
         output.write(BackupCodec.encode(backup).toByteArray(Charsets.UTF_8))
@@ -127,6 +129,8 @@ class BackupRepository(
                 supplements = tables.supplements?.map { it.toEntity() },
                 supplementLogs = tables.supplementLogs?.map { it.toEntity() },
                 researchReports = tables.researchReports?.map { it.toEntity() },
+                requests = tables.requests?.map { it.toEntity() },
+                activity = tables.activity?.map { it.toEntity() },
             ),
         )
     }

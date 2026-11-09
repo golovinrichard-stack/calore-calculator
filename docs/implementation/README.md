@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M10 are done (app version 0.12.0); research stays switched off until owner inputs #3 and #4. M11 is in progress: the sync engine and the encrypted frames are built; the rest waits for the M11.0 spike on real phones.
+> **Status:** M0–M11 are built (app version 0.13.0). Research stays switched off until owner inputs #3 and #4. The household (M11) shows only in debug builds until its hub is measured on real phones (M11.0).
 > **Date:** 6 November 2026
 
 ## Files
@@ -147,6 +147,6 @@ Update this table when a milestone starts or ends.
 | M8 Supplements | Done |
 | M9 Home-screen widget | Done |
 | M10 Research data program | Built; switched off until hosting (#3) and the legal review (#4), M10.7 |
-| M11 Household over home Wi-Fi | In progress (A22 engine and frames done; the hub waits for the M11.0 phone spike) |
+| M11 Household over home Wi-Fi | Built; in debug builds only until the hub's battery use and discovery are measured on real phones (M11.0) |
 
 The owner ran the instrumented tests and checked the app on a phone for M0–M4 on 7 November 2026: no problems found.

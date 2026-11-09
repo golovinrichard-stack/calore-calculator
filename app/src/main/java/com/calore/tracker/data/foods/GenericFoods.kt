@@ -7,7 +7,7 @@ import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.domain.Allergen
 import com.calore.tracker.domain.AnimalFlag
 import com.calore.tracker.domain.FoodSource
-import com.calore.tracker.domain.newId
+import com.calore.tracker.domain.StableIds
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -98,7 +98,7 @@ class GenericFoodImporter(
             servingGrams = gramsPerPiece,
             source = FoodSource.CUSTOM.name,
             lastUsedAt = 0,
-            uuid = newId(),
+            uuid = StableIds.food(key),
             updatedAt = now,
             key = key,
             nameCs = nameCs,

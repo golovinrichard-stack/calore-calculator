@@ -206,7 +206,7 @@ class CookViewModel(
 
     private val state = MutableStateFlow(CookUiState(today = LocalDate.now(clock)))
 
-    val uiState: StateFlow<CookUiState> = combine(state, cooking.pots(), members.me(), members.managed(), recipes.observeAll()) { s, pots, me, managed, all ->
+    val uiState: StateFlow<CookUiState> = combine(state, cooking.pots(), members.me(), members.cookFor(), recipes.observeAll()) { s, pots, me, managed, all ->
         s.copy(pots = pots, people = listOf(me) + managed, allRecipes = all)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), state.value)
 

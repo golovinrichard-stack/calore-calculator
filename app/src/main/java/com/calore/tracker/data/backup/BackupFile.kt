@@ -20,6 +20,8 @@ import com.calore.tracker.data.db.CycleDayEntity
 import com.calore.tracker.data.db.CyclePeriodEntity
 import com.calore.tracker.data.db.SupplementEntity
 import com.calore.tracker.data.db.ResearchReportEntity
+import com.calore.tracker.data.db.RequestEntity
+import com.calore.tracker.data.db.ActivityEntity
 import com.calore.tracker.data.db.SupplementLogEntity
 import com.calore.tracker.data.db.ShoppingItemEntity
 import com.calore.tracker.domain.ShopSection
@@ -91,6 +93,8 @@ data class BackupTables(
     val supplements: List<SupplementRow>? = null,
     @SerialName("supplement_logs") val supplementLogs: List<SupplementLogRow>? = null,
     @SerialName("research_reports") val researchReports: List<ResearchReportRow>? = null,
+    val requests: List<RequestRow>? = null,
+    val activity: List<ActivityRow>? = null,
 ) {
     val counts: BackupCounts get() = BackupCounts(foods.size, diaryEntries.size, weightEntries.size)
 }
@@ -605,6 +609,35 @@ data class ResearchReportRow(
 internal fun ResearchReportEntity.toRow() = ResearchReportRow(id, isoWeek, categories, payload, status, attempts, createdAt, sentAt)
 
 internal fun ResearchReportRow.toEntity() = ResearchReportEntity(id, isoWeek, categories, payload, status, attempts, createdAt, sentAt)
+
+@Serializable
+data class RequestRow(
+    val id: String,
+    val type: String,
+    val fromMemberId: String,
+    val toMemberId: String? = null,
+    val refTable: String? = null,
+    val refId: String? = null,
+    val message: String? = null,
+    val dueDate: String? = null,
+    val meal: String? = null,
+    val portions: Int? = null,
+    val status: String,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val deletedAt: Long? = null,
+)
+
+@Serializable
+data class ActivityRow(val id: String, val memberId: String, val type: String, val refTable: String? = null, val refId: String? = null, val summary: String, val at: Long)
+
+internal fun RequestEntity.toRow() = RequestRow(id, type, fromMemberId, toMemberId, refTable, refId, message, dueDate, meal, portions, status, createdAt, updatedAt, deletedAt)
+
+internal fun RequestRow.toEntity() = RequestEntity(id, type, fromMemberId, toMemberId, refTable, refId, message, dueDate, meal, portions, status, createdAt, updatedAt, deletedAt)
+
+internal fun ActivityEntity.toRow() = ActivityRow(id, memberId, type, refTable, refId, summary, at)
+
+internal fun ActivityRow.toEntity() = ActivityEntity(id, memberId, type, refTable, refId, summary, at)
 
 internal fun FoodEntity.toRow() = FoodRow(
     id = id,

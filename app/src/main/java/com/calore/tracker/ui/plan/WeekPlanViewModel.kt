@@ -118,7 +118,7 @@ class WeekPlanViewModel(
         flow { emit(plans.planFor(start)) }.flatMapLatest { id -> combine(plans.slots(id), plans.cooked(id)) { slots, cooked -> Triple(id, slots, cooked) } }
     }
 
-    private val people: Flow<List<Member>> = combine(members.me(), members.managed()) { me, managed -> listOf(me) + managed }
+    private val people: Flow<List<Member>> = combine(members.me(), members.cookFor()) { me, managed -> listOf(me) + managed }
 
     val uiState: StateFlow<WeekPlanUiState> = combine(
         combine(weekStart, planWithSlots, ::Pair),

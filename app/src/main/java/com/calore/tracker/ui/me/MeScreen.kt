@@ -28,6 +28,7 @@ enum class MeDestination(@StringRes val title: Int, @StringRes val description: 
     GOALS(R.string.me_goals, R.string.me_goals_desc, R.drawable.ic_nav_goals),
     BODY(R.string.me_body, R.string.me_body_desc, R.drawable.ic_nav_weight),
     PEOPLE(R.string.people_title, R.string.people_desc, R.drawable.ic_nav_me),
+    HOUSEHOLD(R.string.household_title, R.string.household_me_desc, R.drawable.ic_nav_kitchen),
     STATS(R.string.stats_title, R.string.stats_desc, R.drawable.ic_nav_shop),
     CYCLE(R.string.cycle_title, R.string.cycle_me_desc, R.drawable.ic_cycle),
     SUPPLEMENTS(R.string.supplements_title, R.string.supplements_me_desc, R.drawable.ic_supplement),
@@ -53,7 +54,9 @@ fun MeContent(padding: PaddingValues, onOpen: (MeDestination) -> Unit) {
             .verticalScroll(rememberScrollState()),
     ) {
         // M10: "Help research" only exists in builds with a research server address.
-        MeDestination.entries.filter { it != MeDestination.RESEARCH || FeatureFlags.research }.forEach { destination ->
+        MeDestination.entries.filter {
+            (it != MeDestination.RESEARCH || FeatureFlags.research) && (it != MeDestination.HOUSEHOLD || FeatureFlags.household)
+        }.forEach { destination ->
             ListItem(
                 headlineContent = { Text(stringResource(destination.title)) },
                 supportingContent = { Text(stringResource(destination.description)) },

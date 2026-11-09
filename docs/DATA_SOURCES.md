@@ -135,7 +135,7 @@ The app always says: **"A guide, not a guarantee. When in doubt, throw it out."*
 |---|---|---|---|
 | Open Food Facts search | The user searches online | Search words, language | today |
 | Open Food Facts product | The user scans a barcode that is not on the phone yet | Barcode | M2 (in use) |
-| Household sync | Phones on the same home Wi-Fi, if a household was created | Shared data only (lists, pantry, boxes, recipes, plans, requests), encrypted, and it never leaves the home network | M11 |
+| Household sync | Phones on the same home Wi-Fi, if a household was created | Shared data only (lists, pantry, boxes, recipes and the foods they use, plans, requests, the activity feed), encrypted, and it never leaves the home network. The hub announces itself on the local network with a hash of the household id only | M11 |
 | Research server | Only if the user agreed, per category | Weekly summaries ([privacy policy, appendix A](PRIVACY_POLICY.md#appendix-a-research-report-fields)) | M10 |
 | Android backup | If the user has Android backup switched on | The app's data, handled by Android and the user's backup account | today |
 

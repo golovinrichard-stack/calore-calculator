@@ -82,7 +82,7 @@ There are only these cases.
 ### 4.2 Household sharing over your home Wi-Fi (only if you use it)
 
 - **When:** you create or join a household (by scanning a QR code), and your phone is on the same Wi-Fi as the household's hub phone.
-- **What is shared:** the shopping list, pantry, prep boxes and who owns them, recipes, shops and products, prices, the shared parts of plans, requests ("cook for me", "buy for me", "can I have it?"), an activity feed ("Anna bought eggs"), each member's name and colour, and **only if you allow it**, your meal targets (so someone can cook a portion that fits you).
+- **What is shared:** the shopping list, pantry, prep boxes and who owns them, recipes, the foods used in them (your own foods and scanned products, once a recipe, the pantry or the list uses them; a food that is only in your diary is not shared), shops and products, prices, the shared parts of plans, requests ("cook for me", "buy for me", "can I have it?"), an activity feed ("Anna bought eggs"), each member's name and colour, your phone's model name, and **only if you allow it**, your meal targets, diet and allergens (so someone can cook a portion that fits you).
 - **What is never shared:** your diary, weight, body measurements, check-ins, cycle data, supplements and research settings.
 - **How:** directly between the phones on your home network, encrypted with a key that only your household's phones have (from the QR code). One phone, the hub, keeps the shared data so the others can sync. **There is no server**, and the data never leaves your home network.
 - **Who can see it:** the members of your household.

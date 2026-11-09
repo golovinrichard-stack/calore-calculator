@@ -10,6 +10,7 @@ import com.calore.tracker.data.remote.RemoteResult
 import com.calore.tracker.domain.Food
 import com.calore.tracker.domain.FoodSource
 import com.calore.tracker.domain.Nutrients
+import com.calore.tracker.domain.StableIds
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -50,7 +51,7 @@ class FoodRepository(
             per100g = remote.per100g,
             servingGrams = remote.servingGrams,
             source = FoodSource.OPEN_FOOD_FACTS,
-            uuid = newId(),
+            uuid = StableIds.barcode(remote.barcode),
             section = remote.section,
             sourceRef = "off:${remote.barcode}",
             allergens = remote.allergens,
@@ -94,7 +95,7 @@ class FoodRepository(
             per100g = per100g,
             servingGrams = servingGrams,
             source = FoodSource.CUSTOM,
-            uuid = newId(),
+            uuid = barcode?.takeIf { it.isNotBlank() }?.let(StableIds::barcode) ?: newId(),
             sourceRef = SOURCE_USER,
         )
         // Keep everything the form doesn't show (section, allergens …) when editing.

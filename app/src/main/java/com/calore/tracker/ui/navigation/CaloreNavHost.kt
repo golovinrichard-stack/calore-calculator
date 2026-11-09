@@ -25,7 +25,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
+import com.calore.tracker.ui.household.HouseholdJoinScreen
+import com.calore.tracker.ui.household.HouseholdScreen
+import com.calore.tracker.ui.household.RequestsScreen
 import com.calore.tracker.ui.about.AboutScreen
 import com.calore.tracker.ui.addfood.AddFoodScreen
 import com.calore.tracker.ui.backup.BackupScreen
@@ -231,6 +235,7 @@ fun CaloreNavHost(
                             MeDestination.SETTINGS -> Routes.SETTINGS
                             MeDestination.ABOUT -> Routes.ABOUT
                             MeDestination.PEOPLE -> Routes.PEOPLE
+                            MeDestination.HOUSEHOLD -> Routes.HOUSEHOLD
                             MeDestination.STATS -> Routes.STATS
                             MeDestination.CYCLE -> Routes.CYCLE
                             MeDestination.SUPPLEMENTS -> Routes.SUPPLEMENTS
@@ -274,6 +279,19 @@ fun CaloreNavHost(
                 )
             }
             kitchenRoutes(navController)
+            if (FeatureFlags.household) {
+                composable(Routes.HOUSEHOLD) {
+                    HouseholdScreen(
+                        onBack = { navController.popBackStack() },
+                        onJoin = { navController.navigate(Routes.HOUSEHOLD_JOIN) },
+                        onOpenRequests = { navController.navigate(Routes.REQUESTS) },
+                    )
+                }
+                composable(Routes.REQUESTS) { RequestsScreen(onBack = { navController.popBackStack() }) }
+                composable(Routes.HOUSEHOLD_JOIN) {
+                    HouseholdJoinScreen(onBack = { navController.popBackStack() }, onJoined = { navController.popBackStack() })
+                }
+            }
             composable(Routes.CALCULATOR) {
                 CalculatorScreen(
                     onBack = { navController.popBackStack() },
@@ -468,7 +486,7 @@ private fun NavHostController.returnPickedFood(foodId: Long) {
 }
 
 /** Screens a notification may open. */
-private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT, Routes.CHECKIN)
+private val NOTIFICATION_ROUTES = setOf(Routes.BODY_FAT, Routes.CHECKIN, Routes.HOUSEHOLD, Routes.REQUESTS)
 
 private fun NavHostController.navigateToTopLevel(route: String) {
     navigate(route) {

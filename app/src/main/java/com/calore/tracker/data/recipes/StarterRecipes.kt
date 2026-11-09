@@ -11,7 +11,7 @@ import com.calore.tracker.data.prefs.AppPrefs
 import com.calore.tracker.domain.Equipment
 import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Recipe
-import com.calore.tracker.domain.newId
+import com.calore.tracker.domain.StableIds
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -112,7 +112,7 @@ class StarterRecipeImporter(
         /** The rows to store; keeps the id and creation time of an earlier import. */
         internal fun StarterRecipe.toStored(existing: RecipeEntity?, foodUuids: List<String>, now: Long): StoredRecipe {
             require(stepsCs.size == stepsEn.size) { "$key: Czech and English steps differ" }
-            val id = existing?.id ?: newId()
+            val id = existing?.id ?: StableIds.recipe(key)
             return StoredRecipe(
                 recipe = RecipeEntity(
                     id = id,
@@ -140,7 +140,7 @@ class StarterRecipeImporter(
                 ),
                 ingredients = ingredients.mapIndexed { index, ingredient ->
                     RecipeIngredientEntity(
-                        id = newId(),
+                        id = StableIds.recipeIngredient(key, index),
                         recipeId = id,
                         position = index,
                         foodUuid = foodUuids[index],
@@ -151,7 +151,7 @@ class StarterRecipeImporter(
                 },
                 steps = stepsCs.zip(stepsEn).mapIndexed { index, (cs, en) ->
                     RecipeStepEntity(
-                        id = newId(),
+                        id = StableIds.recipeStep(key, index),
                         recipeId = id,
                         position = index,
                         text = cs.text,

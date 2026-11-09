@@ -155,7 +155,7 @@ class PlanWeekViewModel(
         state.update { it.copy(phase = PlanWeekPhase.LOADING, weekStart = weekStart) }
         viewModelScope.launch {
             val me = members.me().first()
-            val people = listOf(me) + members.managed().first()
+            val people = listOf(me) + members.cookFor().first()
             val prices = shops.foodPrices().first()
             val (planId, existing) = plans.weekNow(weekStart)
             val previousPlan = plans.weekNow(weekStart.minusWeeks(1)).first
@@ -286,7 +286,7 @@ class PlanWeekViewModel(
         viewModelScope.launch {
             // The profile may have changed since (the checklist sends people there): read it again.
             b.me = members.me().first()
-            b.people = listOf(b.me) + members.managed().first()
+            b.people = listOf(b.me) + members.cookFor().first()
             b.ratings = ratings.all()
             // M7.4 (A20): the cycle bonus for me, only when tracking is on and not paused.
             val phase = cycle?.let { repository ->

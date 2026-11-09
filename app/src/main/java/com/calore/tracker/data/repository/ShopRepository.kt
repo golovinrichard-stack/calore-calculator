@@ -12,6 +12,7 @@ import com.calore.tracker.domain.ProductOption
 import com.calore.tracker.domain.RecipeCosts
 import com.calore.tracker.domain.ShopSection
 import com.calore.tracker.domain.StoreInfo
+import com.calore.tracker.domain.StableIds
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -173,7 +174,7 @@ class ShopRepository(
             if (shopDao.storeByKey(seed.key) != null) continue
             shopDao.upsertStore(
                 StoreEntity(
-                    id = newId(), key = seed.key, name = seed.name,
+                    id = StableIds.store(seed.key), key = seed.key, name = seed.name,
                     sectionOrder = seed.sectionOrder.mapNotNull { JsonColumns.enumByName<ShopSection>(it) },
                     favorite = false, defaultForSections = emptyList(), createdAt = now, updatedAt = now,
                 ),
@@ -198,7 +199,7 @@ class ShopRepository(
             val foodUuid = seed.food?.let { foodDao.getByKey(it)?.uuid }
             val existing = shopDao.productByKey(seed.key)
             val product = StoreProductEntity(
-                id = existing?.id ?: newId(), key = seed.key, storeId = store.id, foodUuid = foodUuid, name = seed.name, brand = seed.brand,
+                id = existing?.id ?: StableIds.product(seed.key), key = seed.key, storeId = store.id, foodUuid = foodUuid, name = seed.name, brand = seed.brand,
                 barcode = seed.barcode, packAmount = seed.packAmount, packUnit = seed.packUnit,
                 // The user's own pick stays preferred; otherwise the first seeded product for a food is.
                 preferred = existing?.preferred ?: shopDao.products().none { it.storeId == store.id && it.foodUuid == foodUuid && it.preferred },
@@ -207,7 +208,9 @@ class ShopRepository(
             shopDao.upsertProduct(product)
             if (seed.priceCzk != null) {
                 shopDao.insertPrice(
-                    PriceEntity(newId(), product.id, Math.round(seed.priceCzk * 100), "CZK", seed.priceDate ?: LocalDate.now(clock).toString(), "SEED", now, now),
+                    (seed.priceDate ?: LocalDate.now(clock).toString()).let { date ->
+                        PriceEntity(StableIds.seedPrice(seed.key, date), product.id, Math.round(seed.priceCzk * 100), "CZK", date, "SEED", now, now)
+                    },
                 )
             }
             added++

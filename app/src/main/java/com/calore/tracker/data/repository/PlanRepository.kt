@@ -1,5 +1,7 @@
 package com.calore.tracker.data.repository
 
+import com.calore.tracker.domain.parseIsoDate
+
 import com.calore.tracker.data.db.PlanDao
 import com.calore.tracker.data.db.PlanCookEntity
 import com.calore.tracker.data.db.PlanEntity
@@ -14,6 +16,7 @@ import com.calore.tracker.domain.PlanSlot
 import com.calore.tracker.domain.PlannedCook
 import com.calore.tracker.domain.ReminderSchedule
 import com.calore.tracker.domain.SlotKind
+import com.calore.tracker.domain.StableIds
 import com.calore.tracker.domain.newId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -28,11 +31,17 @@ data class PlanTemplate(val id: String, val name: String)
 class PlanRepository(private val planDao: PlanDao, private val clock: Clock) {
 
     /** The plan for the week that starts on [weekStart], created when needed. */
+    /** M11.6: planned cooks from [from] on (id, recipe, day), for "Reserved for Anna's curry on Wednesday". */
+    fun cooksFrom(from: LocalDate): Flow<List<Triple<String, String, LocalDate>>> = planDao.observeCooksFrom(from.toString()).map { rows ->
+        rows.mapNotNull { row -> parseIsoDate(row.date)?.let { Triple(row.id, row.recipeId, it) } }
+    }
+
     suspend fun planFor(weekStart: LocalDate): String {
         val monday = ReminderSchedule.weekStart(weekStart)
         planDao.planForWeek(monday.toString())?.let { return it.id }
         val now = clock.millis()
-        val plan = PlanEntity(id = newId(), weekStart = monday.toString(), templateName = null, createdAt = now, updatedAt = now)
+        // M11: one plan per week on every phone of the household.
+        val plan = PlanEntity(id = StableIds.plan(monday.toString()), weekStart = monday.toString(), templateName = null, createdAt = now, updatedAt = now)
         planDao.upsertPlan(plan)
         return plan.id
     }

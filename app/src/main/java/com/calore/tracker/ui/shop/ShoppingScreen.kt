@@ -243,6 +243,7 @@ private fun ShoppingLine(line: ShoppingItem, state: ShoppingUiState, onTick: () 
                     line.amountNeeded != null -> Text(stringResource(R.string.value_g, formatGrams(line.amountNeeded)))
                 }
                 product?.brand?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
+                line.requestedByMemberId?.let { state.names[it] }?.let { Text(stringResource(R.string.shop_for, it), style = MaterialTheme.typography.bodySmall) }
                 val price = product?.priceHalers
                 if (!hideNumbers && price != null && line.packs != null) {
                     Text(stringResource(R.string.shop_price_estimate, formatNumber(price * line.packs / 100.0, decimals = 2)), style = MaterialTheme.typography.bodySmall)

@@ -62,7 +62,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.calore.tracker.FeatureFlags
 import com.calore.tracker.R
+import com.calore.tracker.ui.household.HouseholdTodayCard
 import com.calore.tracker.domain.DiaryEntry
 import com.calore.tracker.ui.quickadd.QuickAddDialog
 import com.calore.tracker.domain.QuickAddDraft
@@ -151,6 +153,11 @@ fun TodayScreen(
             },
             cycle = if (state.date == state.today) {
                 { CycleTodayCard(onOpen = onOpenCycle) }
+            } else {
+                null
+            },
+            household = if (FeatureFlags.household && state.date == state.today) {
+                { HouseholdTodayCard() }
             } else {
                 null
             },
@@ -261,6 +268,8 @@ fun TodayContent(
     eatFirst: (@Composable () -> Unit)? = null,
     /** The day's planned meals (M5.11). */
     planned: (@Composable () -> Unit)? = null,
+    /** Household: up-for-grabs boxes and changes waiting for home Wi-Fi (M11.6, M11.10). */
+    household: (@Composable () -> Unit)? = null,
     /** "How was …? 👍 👎" after eating a box (M6.1). */
     rate: (@Composable () -> Unit)? = null,
     /** The cycle card (M7.3), when cycle tracking is on. */
@@ -291,6 +300,7 @@ fun TodayContent(
         supplements?.let { card -> item(key = "supplements") { card() } }
         planned?.let { card -> item(key = "planned") { card() } }
         eatFirst?.let { card -> item(key = "eat_first") { card() } }
+        household?.let { card -> item(key = "household") { card() } }
         item(key = "summary") {
             if (state.hideNumbers) {
                 HiddenNumbersNote()

@@ -1,5 +1,8 @@
 package com.calore.tracker.data.repository
 
+import com.calore.tracker.data.household.ActivityLog
+import com.calore.tracker.domain.household.ActivityType
+
 import com.calore.tracker.data.db.FoodDao
 import com.calore.tracker.data.db.ShoppingDao
 import com.calore.tracker.data.db.ShoppingItemEntity
@@ -34,6 +37,8 @@ data class ShoppingItem(
     val manual: Boolean,
     val checkedAt: Long?,
     val priceHalers: Long?,
+    /** "Buy for me" (M11.7): who asked for it. */
+    val requestedByMemberId: String? = null,
 )
 
 /** The shopping list (M5.7): generated from the plan with A16, plus manual items. */
@@ -46,6 +51,9 @@ class ShoppingRepository(
     private val shops: ShopRepository,
     private val clock: Clock,
 ) {
+    /** M11.8: the household feed; nothing outside a household. */
+    var activity: ActivityLog = ActivityLog.NONE
+
     fun items(): Flow<List<ShoppingItem>> = shoppingDao.observeItems().map { rows -> rows.map { it.toItem() } }
 
     /**
@@ -114,16 +122,22 @@ class ShoppingRepository(
 
     private fun dayOf(millis: Long): LocalDate = java.time.Instant.ofEpochMilli(millis).atZone(clock.zone).toLocalDate()
 
-    suspend fun addManual(name: String, section: ShopSection = ShopSection.OTHER, storeId: String? = null) {
+    /** [requestedBy]: "Buy for me" (M11.7), the line shows whose request it is. */
+    suspend fun addManual(name: String, section: ShopSection = ShopSection.OTHER, storeId: String? = null, requestedBy: String? = null): String {
         val now = clock.millis()
+        val id = newId()
         shoppingDao.insert(
             ShoppingItemEntity(
-                id = newId(), foodUuid = null, storeProductId = null, storeId = storeId, name = name.trim(), amountNeeded = null,
+                id = id, foodUuid = null, storeProductId = null, storeId = storeId, name = name.trim(), amountNeeded = null,
                 unit = null, packs = null, section = section.name, fromPlanId = null, manual = true, checkedAt = null,
-                checkedByMemberId = null, requestedByMemberId = null, priceHalers = null, createdAt = now, updatedAt = now,
+                checkedByMemberId = null, requestedByMemberId = requestedBy, priceHalers = null, createdAt = now, updatedAt = now,
             ),
         )
+        return id
     }
+
+    /** A line's name, for requests (M11.7). */
+    suspend fun itemName(id: String): String? = shoppingDao.items().firstOrNull { it.id == id }?.name
 
     /**
      * Ticks a line: it goes in the basket and becomes pantry food (packs × pack size, or the grams;
@@ -133,6 +147,7 @@ class ShoppingRepository(
         val now = clock.millis()
         val row = shoppingDao.items().firstOrNull { it.id == item.id } ?: return
         shoppingDao.update(row.copy(checkedAt = now, priceHalers = priceHalers, updatedAt = now))
+        activity.log(ActivityType.BOUGHT, "shopping_items", item.id, item.name)
         val product = item.storeProductId?.let { id -> shops.productsNow().firstOrNull { it.id == id } }
         if (product != null && priceHalers != null) shops.addPrice(product.id, priceHalers)
         val food = item.foodUuid?.let { foodDao.getByUuid(it)?.toDomain() }
@@ -164,6 +179,6 @@ class ShoppingRepository(
     private fun ShoppingItemEntity.toItem() = ShoppingItem(
         id = id, foodUuid = foodUuid, storeProductId = storeProductId, storeId = storeId, name = name, amountNeeded = amountNeeded,
         packs = packs, section = JsonColumns.enumByName<ShopSection>(section) ?: ShopSection.OTHER, manual = manual,
-        checkedAt = checkedAt, priceHalers = priceHalers,
+        checkedAt = checkedAt, priceHalers = priceHalers, requestedByMemberId = requestedByMemberId,
     )
 }

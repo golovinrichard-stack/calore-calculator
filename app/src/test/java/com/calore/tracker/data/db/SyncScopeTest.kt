@@ -9,7 +9,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
-/** M7.6: cycle tables never sync; every table of the current schema is either private or shared. */
+/** M7.6: cycle tables never sync; every table of the current schema is private, shared or local sync bookkeeping (M11). */
 class SyncScopeTest {
 
     private val schema = File("schemas/com.calore.tracker.data.db.CaloreDatabase")
@@ -29,6 +29,7 @@ class SyncScopeTest {
     @Test
     fun everyTableIsEitherPrivateOrShared() {
         assertEquals(emptySet<String>(), SyncScope.PRIVATE intersect SyncScope.SHARED)
-        assertEquals(tables, SyncScope.PRIVATE + SyncScope.SHARED)
+        assertEquals(emptySet<String>(), (SyncScope.PRIVATE + SyncScope.SHARED) intersect SyncScope.LOCAL)
+        assertEquals(tables, SyncScope.PRIVATE + SyncScope.SHARED + SyncScope.LOCAL)
     }
 }

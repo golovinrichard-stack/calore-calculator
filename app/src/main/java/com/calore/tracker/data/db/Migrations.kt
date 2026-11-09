@@ -331,5 +331,55 @@ val MIGRATION_10_11 = object : Migration(10, 11) {
     }
 }
 
+/**
+ * Version 12 (M11): the household and sync tables, and the same id on every phone for rows with a
+ * natural key (basic foods, barcode products, starter recipes with their ingredients and steps,
+ * seed shops and products, week plans), with every reference to them updated.
+ */
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `household` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `hubDeviceId` TEXT NOT NULL, " +
+                "`keyVersion` INTEGER NOT NULL DEFAULT 1, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `household_devices` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, `name` TEXT NOT NULL, " +
+                "`memberName` TEXT NOT NULL, `colour` INTEGER NOT NULL DEFAULT 0, `isHub` INTEGER NOT NULL DEFAULT 0, " +
+                "`approved` INTEGER NOT NULL DEFAULT 0, `sharesTargets` INTEGER NOT NULL DEFAULT 0, `targets` TEXT, " +
+                "`lastSeenAt` INTEGER, `seenVector` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, " +
+                "`deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_household_devices_memberId` ON `household_devices` (`memberId`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `requests` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `fromMemberId` TEXT NOT NULL, " +
+                "`toMemberId` TEXT, `refTable` TEXT, `refId` TEXT, `message` TEXT, `dueDate` TEXT, `meal` TEXT, `portions` INTEGER, " +
+                "`status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_requests_status` ON `requests` (`status`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `activity` (`id` TEXT NOT NULL, `memberId` TEXT NOT NULL, `type` TEXT NOT NULL, " +
+                "`refTable` TEXT, `refId` TEXT, `summary` TEXT NOT NULL, `at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_activity_at` ON `activity` (`at`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `sync_ops` (`opId` TEXT NOT NULL, `deviceId` TEXT NOT NULL, `seq` INTEGER NOT NULL, " +
+                "`hlc` TEXT NOT NULL, `tableName` TEXT NOT NULL, `rowId` TEXT NOT NULL, `payload` TEXT NOT NULL, " +
+                "`receivedAt` INTEGER NOT NULL, `applied` INTEGER NOT NULL DEFAULT 1, PRIMARY KEY(`opId`))",
+        )
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_sync_ops_deviceId_seq` ON `sync_ops` (`deviceId`, `seq`)")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `sync_field_clock` (`tableName` TEXT NOT NULL, `rowId` TEXT NOT NULL, " +
+                "`column` TEXT NOT NULL, `hlc` TEXT NOT NULL, PRIMARY KEY(`tableName`, `rowId`, `column`))",
+        )
+        db.execSQL("CREATE TABLE IF NOT EXISTS `sync_peers` (`deviceId` TEXT NOT NULL, `maxSeqSeen` INTEGER NOT NULL, PRIMARY KEY(`deviceId`))")
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `sync_changes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`tableName` TEXT NOT NULL, `rowId` TEXT NOT NULL, `column` TEXT NOT NULL)",
+        )
+        db.execSQL("CREATE TABLE IF NOT EXISTS `sync_state` (`id` INTEGER NOT NULL, `mode` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+        StableIdMigration.run(db)
+    }
+}
+
 /** Every migration, oldest first. Pass these to the database builder and to migration tests. */
-val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11)
+val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12)

@@ -2,8 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Used only to search the Open Food Facts database. -->
+    <!-- Searching the Open Food Facts database, and household sync between phones on the home Wi-Fi (M11). -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Household (M11): sync only on Wi-Fi; find the hub phone on the home network. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <!-- Household hub mode (M11.5): a foreground service with a visible notification; awake only while charging. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- Barcode scanner. Camera images are only decoded on the phone, never saved or sent. -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -15,7 +22,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Cook-mode timers ring on time only if the user allows exact alarms (M4.4); otherwise they may be late. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <!-- Supplement reminders (M8.4) are set again after the phone restarts. -->
+    <!-- Supplement reminders (M8.4) are set again after the phone restarts, and hub mode (M11.5) starts again if it was on. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -69,6 +76,19 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <!-- Household hub mode (M11.5, decision record 0001). -->
+        <service
+            android:name=".household.HubService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+        <receiver
+            android:name=".household.HubBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
     </application>

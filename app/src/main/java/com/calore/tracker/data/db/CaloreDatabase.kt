@@ -36,8 +36,17 @@ import androidx.room.TypeConverters
         SupplementEntity::class,
         SupplementLogEntity::class,
         ResearchReportEntity::class,
+        HouseholdEntity::class,
+        HouseholdDeviceEntity::class,
+        RequestEntity::class,
+        ActivityEntity::class,
+        SyncOpEntity::class,
+        SyncFieldClockEntity::class,
+        SyncPeerEntity::class,
+        SyncChangeEntity::class,
+        SyncStateEntity::class,
     ],
-    version = 11,
+    version = 12,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -58,6 +67,7 @@ abstract class CaloreDatabase : RoomDatabase() {
     abstract fun cycleDao(): CycleDao
     abstract fun supplementDao(): SupplementDao
     abstract fun researchDao(): ResearchDao
+    abstract fun householdDao(): HouseholdDao
 
     companion object {
         private const val FILE_NAME = "calore.db"
@@ -65,6 +75,12 @@ abstract class CaloreDatabase : RoomDatabase() {
         fun build(context: Context): CaloreDatabase =
             Room.databaseBuilder(context, CaloreDatabase::class.java, FILE_NAME)
                 .addMigrations(*ALL_MIGRATIONS)
+                .addCallback(SyncCallback)
                 .build()
+
+        /** M11.3: the change-capture triggers of the shared tables, made whenever the database opens. */
+        val SyncCallback = object : Callback() {
+            override fun onOpen(db: androidx.sqlite.db.SupportSQLiteDatabase) = com.calore.tracker.data.sync.SyncTriggers.install(db)
+        }
     }
 }

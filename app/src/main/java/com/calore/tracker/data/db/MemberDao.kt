@@ -18,6 +18,9 @@ interface MemberDao {
     @Query("SELECT * FROM members WHERE kind = 'MANAGED' AND ${SoftDelete.NOT_DELETED} ORDER BY name")
     fun observeManaged(): Flow<List<MemberEntity>>
 
+    @Query("SELECT * FROM members WHERE kind = 'HOUSEHOLD' AND ${SoftDelete.NOT_DELETED} ORDER BY name")
+    fun observeHousehold(): Flow<List<MemberEntity>>
+
     @Query("SELECT * FROM members WHERE id = :id")
     suspend fun byId(id: String): MemberEntity?
 
