@@ -1,9 +1,5 @@
 package com.calore.tracker.ui.household
 
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,15 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -48,7 +41,9 @@ import com.calore.tracker.data.household.HouseholdState
 import com.calore.tracker.data.household.HouseholdSync
 import com.calore.tracker.domain.household.HouseholdInvite
 import com.calore.tracker.ui.AppViewModelProvider
+import com.calore.tracker.ui.scanner.CameraPermissionCard
 import com.calore.tracker.ui.scanner.CameraPreview
+import com.calore.tracker.ui.scanner.rememberCameraAccess
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -120,11 +115,7 @@ fun HouseholdJoinScreen(
     viewModel: HouseholdJoinViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-    var hasCamera by remember {
-        mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-    }
-    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted -> hasCamera = granted }
+    val camera = rememberCameraAccess()
     LaunchedEffect(viewModel) { viewModel.joined.collect { onJoined() } }
 
     Scaffold(
@@ -141,20 +132,13 @@ fun HouseholdJoinScreen(
             modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            if (hasCamera) {
+            if (camera.granted) {
                 Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
                     CameraPreview(torchOn = false, onTorchAvailable = {}, onCode = viewModel::onScanned)
                 }
                 Text(stringResource(R.string.household_join_hint), style = MaterialTheme.typography.bodyMedium)
             } else {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.household_camera_text), style = MaterialTheme.typography.bodyMedium)
-                        Button(onClick = { permission.launch(Manifest.permission.CAMERA) }) {
-                            Text(stringResource(R.string.scanner_permission_allow))
-                        }
-                    }
-                }
+                CameraPermissionCard(stringResource(R.string.household_camera_text), camera)
             }
         }
     }

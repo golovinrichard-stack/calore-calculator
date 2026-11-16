@@ -1,9 +1,5 @@
 package com.calore.tracker.ui.scanner
 
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -49,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -67,14 +62,11 @@ fun ScannerScreen(
     viewModel: ScannerViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
-    var hasCamera by remember {
-        mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-    }
+    val camera = rememberCameraAccess()
+    val hasCamera = camera.granted
     var typing by rememberSaveable { mutableStateOf(false) }
     var torchOn by rememberSaveable { mutableStateOf(false) }
     var hasTorch by remember { mutableStateOf(false) }
-    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted -> hasCamera = granted }
 
     LaunchedEffect(viewModel) {
         viewModel.found.collect(onFound)
@@ -113,14 +105,7 @@ fun ScannerScreen(
                 }
                 Text(stringResource(R.string.scanner_hint), style = MaterialTheme.typography.bodyMedium)
             } else {
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.scanner_permission_text), style = MaterialTheme.typography.bodyMedium)
-                        Button(onClick = { permission.launch(Manifest.permission.CAMERA) }) {
-                            Text(stringResource(R.string.scanner_permission_allow))
-                        }
-                    }
-                }
+                CameraPermissionCard(stringResource(R.string.scanner_permission_text), camera)
             }
             if (state is ScanState.LookingUp) {
                 Text(stringResource(R.string.scanner_looking_up), style = MaterialTheme.typography.bodyMedium)
