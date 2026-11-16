@@ -74,6 +74,17 @@ class SyncStoreTest {
     }
 
     @Test
+    fun bundledDataWrittenUnrecordedNeverBecomesAnOp() = runBlocking {
+        // The recipe packs are the same on every phone (0.14): imported without recording them.
+        a.unrecorded { phoneA.addStore("bundled", "Same everywhere") }
+        assertEquals(0, a.flush("A"))
+        assertEquals("1", phoneA.text("SELECT mode FROM sync_state WHERE id = 1"))
+        // Recording goes on afterwards.
+        phoneA.addStore("s1", "Albert")
+        assertEquals(1, a.flush("A"))
+    }
+
+    @Test
     fun privateDataNeverBecomesAnOp() = runBlocking {
         phoneA.sql("INSERT INTO weight_entries (date, kg, uuid) VALUES ('2026-11-07', 80.5, 'w1')")
         phoneA.sql("INSERT INTO diary_entries (date, meal, name, grams, kcal, createdAt, uuid) VALUES ('2026-11-07', 'LUNCH', 'x', 1, 1, 1, 'd1')")

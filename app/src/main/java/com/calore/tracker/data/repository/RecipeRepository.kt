@@ -17,6 +17,8 @@ import com.calore.tracker.domain.newId
 import com.calore.tracker.domain.plan.PlannerRecipe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import java.time.Clock
 
@@ -58,7 +60,7 @@ class RecipeRepository(
                 foods = own.mapNotNull { i -> foodsByUuid[i.foodUuid]?.let { i.foodUuid to it } }.toMap(),
             )
         }
-    }
+    }.flowOn(Dispatchers.Default) // about a thousand recipes (0.14): build them off the main thread
 
     /** Every live recipe as the planner sees it (M6), with [prices] per gram by food (A18). */
     suspend fun forPlanner(prices: Map<String, Double>): List<PlannerRecipe> {

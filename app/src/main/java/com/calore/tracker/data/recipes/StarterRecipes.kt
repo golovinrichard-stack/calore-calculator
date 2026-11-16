@@ -18,6 +18,9 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.time.Clock
 
+/** Which bundled recipe file: the 30 starter recipes (M3.4), or the big pack (0.14). Each has its own imported version. */
+enum class RecipePack { STARTER, BIG }
+
 /** `assets/recipes/starter-cz.json` (M3.4). Both languages are stored, so switching the phone's language just works. */
 @Serializable
 data class StarterRecipesFile(
@@ -74,19 +77,27 @@ class StarterRecipeImporter(
     private val foodDao: FoodDao,
     private val appPrefs: AppPrefs,
     private val clock: Clock,
+    private val pack: RecipePack = RecipePack.STARTER,
     private val openAsset: () -> InputStream,
 ) {
     /** Returns how many recipes were written; 0 when the stored pack is already current. */
     suspend fun importIfNewer(): Int {
         val file = openAsset().use { parse(it) }
-        if (file.version <= appPrefs.settings.first().starterRecipesVersion) return 0
+        val settings = appPrefs.settings.first()
+        val imported = when (pack) {
+            RecipePack.STARTER -> settings.starterRecipesVersion
+            RecipePack.BIG -> settings.packRecipesVersion
+        }
+        if (file.version <= imported) return 0
         val now = clock.millis()
         var written = 0
         var complete = true
+        // A thousand recipes share a few hundred basic foods: look each one up once.
+        val uuidByKey = HashMap<String, String?>()
         for (starter in file.recipes) {
             val existing = recipeDao.byKey(starter.key)
             if (existing != null && (existing.userEdited || existing.deletedAt != null)) continue
-            val foodUuids = starter.ingredients.map { foodDao.getByKey(it.food)?.uuid }
+            val foodUuids = starter.ingredients.map { uuidByKey.getOrPut(it.food) { foodDao.getByKey(it.food)?.uuid } }
             if (foodUuids.any { it == null }) {
                 complete = false
                 continue
@@ -94,12 +105,20 @@ class StarterRecipeImporter(
             recipeDao.save(starter.toStored(existing, foodUuids.filterNotNull(), now))
             written++
         }
-        if (complete) appPrefs.setStarterRecipesVersion(file.version)
+        if (complete) {
+            when (pack) {
+                RecipePack.STARTER -> appPrefs.setStarterRecipesVersion(file.version)
+                RecipePack.BIG -> appPrefs.setPackRecipesVersion(file.version)
+            }
+        }
         return written
     }
 
     companion object {
         const val ASSET_PATH = "recipes/starter-cz.json"
+
+        /** The big pack (0.14): about a thousand recipes from food sold in Czech supermarkets, built by `tools/recipe-pack`. */
+        const val PACK_ASSET_PATH = "recipes/pack-cz.json"
         private const val FORMAT = "calore-starter-recipes"
         private val json = Json { ignoreUnknownKeys = true }
 

@@ -2,7 +2,7 @@
 
 Where Calore gets its information about foods, products, prices, recipes and health, under which licence, and what goes over the network.
 
-> **Date:** 6 November 2026. Update this file whenever a data source or a network connection is added or changed (rule 6 in [`implementation/README.md`](implementation/README.md)).
+> **Date:** 16 November 2026. Update this file whenever a data source or a network connection is added or changed (rule 6 in [`implementation/README.md`](implementation/README.md)).
 
 **Status:** *in use* = the app uses it today; *planned (Mx)* = will be added in that milestone; *waiting* = needs an input from the project owner; *candidate* = possible later.
 
@@ -16,7 +16,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
 | List of shops | Written by us | 0BSD | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
-| Recipes | Starter pack written by us; the user's own | 0BSD | Shipped seed file; the app | In use (M3): 30 starter recipes |
+| Recipes | Starter pack and big pack written for Calore; the user's own | Own work (see [LICENSE](../LICENSE)) | Shipped seed files; the app | In use: 30 starter recipes (M3) + 974 in the big pack (0.14) |
 | Storage times | Czech and EU consumer advice, USDA, NHS | Public guidance | Default values in the code | Planned (M4) |
 | Calorie and body-fat formulas | Published equations | Facts | In the code | In use; more in M1 |
 | Cycle and nutrition science | Research papers | Facts | Tip texts | Planned (M7) |
@@ -90,9 +90,10 @@ A list of common Czech chains written by us (names only): Albert, Billa, Globus,
 
 ## 7. Recipes
 
-- **Starter pack:** 30 recipes written for Calore ([M3.4](implementation/M03-recipes-and-dishes.md)), original texts, under the same licence as the app (0BSD).
+- **Starter pack:** 30 recipes written for Calore ([M3.4](implementation/M03-recipes-and-dishes.md)), original texts, under the same licence as the app.
+- **Big pack (0.14):** 974 more recipes from food sold in ordinary Czech supermarkets, 20 topics (Czech soups and classics, meal prep, fish, pasta, bowls, vegetarian, vegan, Asian, Mexican, Mediterranean, salads, breakfasts, snacks, oven and slow cooker, quick meals). Written with AI helpers from a brief ([`tools/recipe-pack`](../tools/recipe-pack/README.md)), original texts, checked by a script and unit tests; `app/src/main/assets/recipes/pack-cz.json`. Like the starter pack, it holds no nutrition values of its own. Every phone imports the same pack, so it is not sent to the household (M11).
 - **The user's recipes** stay on the phone (shared with the household in M11).
-- Nutrition is always calculated from the foods in sections 1–3: every starter ingredient is a basic food (`generic:` key, M2.2), so nothing in the pack has its own nutrition values. The file is `app/src/main/assets/recipes/starter-cz.json`; a unit test checks that every key exists and that each recipe has 150–1,200 kcal per serving.
+- Nutrition is always calculated from the foods in sections 1–3: every ingredient of both packs is a basic food (`generic:` key, M2.2), so nothing in a pack has its own nutrition values. The files are `app/src/main/assets/recipes/starter-cz.json` and `pack-cz.json`; unit tests check that every key exists and that each recipe has 150–1,200 kcal per serving.
 
 ## 8. Storage times (food-safety defaults)
 

@@ -93,27 +93,4 @@ As built: `tags` are empty in the starter pack (tags are free text the user type
 
 **Done when:** all 30 import and show plausible nutrition (a unit test checks each recipe has kcal per serving between 150 and 1,200), and every ingredient key resolves.
 
-### M3.5 Log a dish by hand
-
-- [x] Add food gets a **Dishes** tab: pick a recipe, then enter **servings** (default 1) or **grams** (only when the recipe has a learned yield).
-- [x] Saved as `entryType = DISH` with `recipeId` and a nutrient snapshot. Editing changes servings or grams and scales the snapshot, like portions today.
-
-**Done when:** logging 1.5 servings of a recipe adds exactly 1.5 × the per-serving values.
-
-### M3.6 Scale and swap
-
-- [x] **Scale** a recipe for one cook (× factor, or "for N servings"). This doesn't change the saved recipe.
-- [x] **Swap** an ingredient for another food (same grams by default), with nutrition shown before and after. **Save as a copy** keeps the original.
-
-## As built (decisions)
-
-- `diary_entries.servings REAL NULL` joined version 5 next to `recipeId`: a dish logged by servings keeps its servings, so editing shows and changes servings (not grams). A dish logged by cooked weight has `servings` null and `grams` set. Version 5 was not released before this change.
-- Logging from the recipe page goes to today; the meal is guessed from the time of day (before 10:30 breakfast, before 15:00 lunch, before 17:30 snack, then dinner) and can be changed in the dialog.
-- Scale: chips ×0.5 to ×3 or "servings to cook" (×0.1 to ×10). It changes only what the page shows.
-- Swap: picks a food from the user's foods (basic foods first), keeps the grams unless changed, shows calories and macros per serving before and after, then **Change this recipe** or **Save as a copy** ("Name (copy)", the user's own recipe, its own learned yield).
-- Editing a starter recipe keeps both languages of its name and of each step until that text is changed; after that the recipe shows the user's text in every language.
-- The **Cook** button on the recipe page comes with cook mode in M4.
-
-## Out of scope
-
-Importing recipes from websites (an idea for later), per-member ratings (M6).
+**After M3: the big pack (version 0.14).** The owner asked for about 1,000 recipes cooked from what Czech shops sell, because with 30 the planner and "use it up" found too little. `recipes/pack-cz.json` adds 974 (1,004 with the starter pack), built by [`tools/recipe-pack`](../../tools/recipe-pack/README.md) and imported by the same importer with its own version (`packRecipesVersion`). Box codes may repeat across the pack (A10 settles clashes when cooking). Both packs are imported in one transaction without recording them for the household, since every phone has the same rows. Tests: `RecipePackAssetTest` (keys, foods, 150–1,200 kcal, languages, enough for every meal and diet) and `RecipePackPlannerTest` (full weeks for every diet; about 30 ms per plan on the JVM with all 1,004 recipes).
