@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.calore.tracker.R
@@ -65,7 +66,7 @@ fun AdjustCycleDialog(state: CycleUiState, viewModel: CycleViewModel, onDismiss:
                 Text(stringResource(R.string.cycle_adjust_intro), style = MaterialTheme.typography.bodyMedium)
                 Text(
                     if (learned.lengths.size >= 2) {
-                        stringResource(R.string.cycle_adjust_learned, learned.averageDays, learnedPeriod)
+                        stringResource(R.string.cycle_adjust_learned, days(learned.averageDays), days(learnedPeriod))
                     } else {
                         stringResource(R.string.cycle_adjust_not_learned)
                     },
@@ -212,3 +213,7 @@ private fun PeriodProblem.labelRes(): Int = when (this) {
     PeriodProblem.IN_THE_FUTURE -> R.string.cycle_adjust_in_future
     PeriodProblem.OVERLAPS -> R.string.cycle_adjust_overlaps
 }
+
+/** "28 days" with the right plural form. */
+@Composable
+fun days(count: Int): String = pluralStringResource(R.plurals.cycle_days_n, count, count)

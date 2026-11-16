@@ -110,7 +110,7 @@ fun CycleScreen(
                 }
                 if (state.settings.ownLengths) {
                     Text(
-                        stringResource(R.string.cycle_adjust_using_own, state.settings.defaultCycleLength, state.settings.defaultPeriodLength),
+                        stringResource(R.string.cycle_adjust_using_own, days(state.settings.defaultCycleLength), days(state.settings.defaultPeriodLength)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

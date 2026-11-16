@@ -1348,13 +1348,13 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <!-- Cycle -->
     <string name="cycle_adjust">Adjust my cycle</string>
     <string name="cycle_adjust_intro">Every body is different. Calore learns your cycle from the periods you log, but you can set your own numbers here and fix any period.</string>
-    <string name="cycle_adjust_learned">From your logged periods: a cycle of about %1$d days and a period of about %2$d days.</string>
+    <string name="cycle_adjust_learned">From your logged periods: a cycle of about %1$s and a period of about %2$s.</string>
     <string name="cycle_adjust_not_learned">Log at least two full cycles and Calore will show what it learned from them.</string>
     <string name="cycle_adjust_cycle_range">Enter 15 to 60 days.</string>
     <string name="cycle_adjust_period_range">Enter 1 to 14 days.</string>
     <string name="cycle_adjust_own">Always use my numbers</string>
     <string name="cycle_adjust_own_on">Predictions use your numbers, whatever you log.</string>
-    <string name="cycle_adjust_using_own">Using your numbers: cycle %1$d days, period %2$d days.</string>
+    <string name="cycle_adjust_using_own">Using your numbers: cycle %1$s, period %2$s.</string>
     <string name="cycle_adjust_periods">Logged periods</string>
     <string name="cycle_adjust_no_periods">No period logged yet.</string>
     <string name="cycle_adjust_still_going">still going</string>
@@ -1367,4 +1367,11 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="cycle_adjust_end_before_start">The last day must be on or after the first day.</string>
     <string name="cycle_adjust_in_future">A period can only be logged up to today.</string>
     <string name="cycle_adjust_overlaps">These days are part of another logged period. Change or delete that one first.</string>
+    <plurals name="cycle_days_n">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <!-- Shop -->
+    <string name="product_known">Products at this shop</string>
 </resources>

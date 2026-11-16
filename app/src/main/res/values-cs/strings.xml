@@ -1407,13 +1407,13 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <!-- Cycle -->
     <string name="cycle_adjust">Upravit můj cyklus</string>
     <string name="cycle_adjust_intro">Každé tělo je jiné. Calore se učí váš cyklus ze zapsaných menstruací, ale tady si můžete nastavit vlastní čísla a opravit kteroukoli menstruaci.</string>
-    <string name="cycle_adjust_learned">Podle zapsaných menstruací: cyklus asi %1$d dní a menstruace asi %2$d dní.</string>
+    <string name="cycle_adjust_learned">Podle zapsaných menstruací: cyklus asi %1$s a menstruace asi %2$s.</string>
     <string name="cycle_adjust_not_learned">Zapište aspoň dva celé cykly a Calore ukáže, co se z nich naučila.</string>
     <string name="cycle_adjust_cycle_range">Zadejte 15 až 60 dní.</string>
     <string name="cycle_adjust_period_range">Zadejte 1 až 14 dní.</string>
     <string name="cycle_adjust_own">Vždy používat moje čísla</string>
     <string name="cycle_adjust_own_on">Předpovědi používají vaše čísla, ať zapíšete cokoli.</string>
-    <string name="cycle_adjust_using_own">Používají se vaše čísla: cyklus %1$d dní, menstruace %2$d dní.</string>
+    <string name="cycle_adjust_using_own">Používají se vaše čísla: cyklus %1$s, menstruace %2$s.</string>
     <string name="cycle_adjust_periods">Zapsané menstruace</string>
     <string name="cycle_adjust_no_periods">Zatím žádná zapsaná menstruace.</string>
     <string name="cycle_adjust_still_going">stále trvá</string>
@@ -1426,4 +1426,13 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="cycle_adjust_end_before_start">Poslední den musí být stejný nebo pozdější než první den.</string>
     <string name="cycle_adjust_in_future">Menstruaci lze zapsat jen do dneška.</string>
     <string name="cycle_adjust_overlaps">Tyto dny patří k jiné zapsané menstruaci. Nejdřív upravte nebo smažte tu.</string>
+    <plurals name="cycle_days_n">
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dne</item>
+        <item quantity="other">%d dní</item>
+    </plurals>
+
+    <!-- Shop -->
+    <string name="product_known">Výrobky v tomto obchodě</string>
 </resources>
