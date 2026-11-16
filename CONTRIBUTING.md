@@ -2,6 +2,8 @@
 
 Thanks for helping. Calore aims to stay small, private and pleasant to use.
 
+Calore is proprietary software (see [LICENSE](LICENSE)). Contributions are accepted only with the owner's agreement, and by contributing you agree that the owner may use your contribution in Calore under any licence, including commercially.
+
 ## Ground rules
 
 - **No ads, analytics, trackers or proprietary SDKs.** Pull requests that add them will not be merged.

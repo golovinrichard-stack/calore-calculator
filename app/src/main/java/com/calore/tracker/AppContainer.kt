@@ -82,7 +82,7 @@ class AppContainer(context: Context) {
     )
 
     private val openFoodFacts = OpenFoodFactsClient(
-        userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; open-source calorie tracker)",
+        userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; calorie tracker)",
     )
 
     val foodRepository = FoodRepository(database.foodDao(), openFoodFacts, clock) { appPrefs.settings.first().country }

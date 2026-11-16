@@ -15,7 +15,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | In use (M2): 6 foods; NutriDatabaze waiting |
 | Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
-| List of shops | Written by us | 0BSD | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
+| List of shops | Written by us | Own work (see [LICENSE](../LICENSE)) | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
 | Recipes | Starter pack and big pack written for Calore; the user's own | Own work (see [LICENSE](../LICENSE)) | Shipped seed files; the app | In use: 30 starter recipes (M3) + 974 in the big pack (0.14) |
 | Storage times | Czech and EU consumer advice, USDA, NHS | Public guidance | Default values in the code | Planned (M4) |
 | Calorie and body-fat formulas | Published equations | Facts | In the code | In use; more in M1 |
@@ -36,7 +36,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Search | `https://search.openfoodfacts.org/search` | today |
 | One product by barcode | `https://world.openfoodfacts.org/api/v2/product/<barcode>?fields=…` (only the fields Calore reads) | M2 (in use) |
 
-**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; open-source calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
+**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
 
 **Licence:** the database is under the Open Database License (ODbL); single entries under the Database Contents License; product photos under CC BY-SA. We must credit "Food data © Open Food Facts contributors" (README and the About screen). Data we derive from it and ship, such as Czech basic foods taken from labels, stays under ODbL.
 

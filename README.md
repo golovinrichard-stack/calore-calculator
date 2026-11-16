@@ -102,10 +102,10 @@ Diary entries store a copy of the nutrients for the portion that was eaten. Edit
 
 ## Contributing
 
-Bug reports, translations and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+The repository is private. Contributions only with the owner's agreement; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Calore is free and open source software, released under the [BSD Zero Clause License (0BSD)](LICENSE). You may use, copy, modify, distribute and sell it for any purpose, with or without changes, without asking permission and without keeping any notice or attribution.
+Calore is proprietary software: © 2026 Richard Golovin, all rights reserved. See [LICENSE](LICENSE). You may not copy, change, share or sell it without written permission. Versions published before 16 November 2026 were released under the BSD Zero Clause License, and copies people already have stay under that licence.
 
 Food data © Open Food Facts contributors, available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/).

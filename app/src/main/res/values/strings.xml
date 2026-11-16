@@ -263,7 +263,7 @@
     <string name="about_privacy_title">Your data</string>
     <string name="about_privacy">Everything you log stays on this phone. Calore goes online only to search Open Food Facts or to look up a barcode, and then it sends only the words you typed or the barcode. If you set up a household, shared lists, plans and recipes go to your other phones over your home Wi-Fi, encrypted. Your diary, weight and cycle are never shared.</string>
     <string name="about_license_title">License</string>
-    <string name="about_license">Calore is free and open source software under the BSD Zero Clause License (0BSD). You may use, copy, change, share and sell it for any purpose, with no conditions.</string>
+    <string name="about_license">© 2026 Richard Golovin. All rights reserved. Calore may not be copied, changed, shared or sold without written permission. Food data from Open Food Facts is under the Open Database License; USDA data is public domain.</string>
     <string name="about_data_title">Food data</string>
     <string name="about_data">Food search results come from Open Food Facts, a free database built by volunteers. Data © Open Food Facts contributors, available under the Open Database License (ODbL). Basic foods: USDA FoodData Central (public domain) and typical Czech product labels from Open Food Facts.</string>
 

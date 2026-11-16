@@ -272,7 +272,7 @@
     <string name="about_privacy_title">Vaše data</string>
     <string name="about_privacy">Vše, co zapíšete, zůstává v tomto telefonu. Calore jde na internet jen při hledání v Open Food Facts nebo při načtení čárového kódu a posílá jen napsaná slova nebo kód. Pokud založíte domácnost, sdílené seznamy, plány a recepty jdou do vašich dalších telefonů přes domácí Wi-Fi, šifrovaně. Deník, váha a cyklus se nikdy nesdílejí.</string>
     <string name="about_license_title">Licence</string>
-    <string name="about_license">Calore je svobodný a otevřený software pod licencí BSD Zero Clause (0BSD). Můžete ho používat, kopírovat, upravovat, sdílet i prodávat k jakémukoli účelu, bez jakýchkoli podmínek.</string>
+    <string name="about_license">© 2026 Richard Golovin. Všechna práva vyhrazena. Calore se nesmí kopírovat, upravovat, šířit ani prodávat bez písemného svolení. Údaje o potravinách z Open Food Facts jsou pod licencí Open Database License; data USDA jsou volné dílo.</string>
     <string name="about_data_title">Data o potravinách</string>
     <string name="about_data">Výsledky hledání potravin pocházejí z Open Food Facts, volné databáze, kterou tvoří dobrovolníci. Data © přispěvatelé Open Food Facts, k dispozici pod licencí Open Database License (ODbL). Základní potraviny: USDA FoodData Central (volné dílo) a typické české výrobky z Open Food Facts.</string>
 
