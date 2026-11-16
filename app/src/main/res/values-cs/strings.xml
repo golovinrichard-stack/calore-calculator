@@ -270,7 +270,7 @@
     <string name="about_version">Verze %1$s</string>
     <string name="about_tagline">Počítadlo kalorií a živin bez reklam, bez sledování a bez účtu.</string>
     <string name="about_privacy_title">Vaše data</string>
-    <string name="about_privacy">Vše, co zapíšete, zůstává v tomto telefonu. Aplikace jde online jen při hledání v Open Food Facts a pošle přitom jen slova, která hledáte.</string>
+    <string name="about_privacy">Vše, co zapíšete, zůstává v tomto telefonu. Calore jde na internet jen při hledání v Open Food Facts nebo při načtení čárového kódu a posílá jen napsaná slova nebo kód. Pokud založíte domácnost, sdílené seznamy, plány a recepty jdou do vašich dalších telefonů přes domácí Wi-Fi, šifrovaně. Deník, váha a cyklus se nikdy nesdílejí.</string>
     <string name="about_license_title">Licence</string>
     <string name="about_license">Calore je svobodný a otevřený software pod licencí BSD Zero Clause (0BSD). Můžete ho používat, kopírovat, upravovat, sdílet i prodávat k jakémukoli účelu, bez jakýchkoli podmínek.</string>
     <string name="about_data_title">Data o potravinách</string>
@@ -516,6 +516,8 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     <string name="scanner_add_yourself">Přidat</string>
     <string name="scanner_offline">Jste offline a tento výrobek zatím v telefonu není. Zkuste to znovu po připojení, nebo ho přidejte sami.</string>
     <string name="scanner_scan_again">Načíst znovu</string>
+    <string name="camera_blocked_text">Fotoaparát je pro Calore vypnutý. Otevřete nastavení, klepněte na Oprávnění, pak na Fotoaparát a zvolte Povolit.</string>
+    <string name="open_settings">Otevřít nastavení</string>
 
     <!-- Quick add -->
     <string name="quick_add_title">Rychlý záznam</string>
@@ -1401,4 +1403,27 @@ Jde o odhad. Může se lišit o několik procent, ale dobře poslouží ke sledo
     </plurals>
     <string name="activity_requested_any">%1$s poslal(a) žádost</string>
 
+
+    <!-- Cycle -->
+    <string name="cycle_adjust">Upravit můj cyklus</string>
+    <string name="cycle_adjust_intro">Každé tělo je jiné. Calore se učí váš cyklus ze zapsaných menstruací, ale tady si můžete nastavit vlastní čísla a opravit kteroukoli menstruaci.</string>
+    <string name="cycle_adjust_learned">Podle zapsaných menstruací: cyklus asi %1$d dní a menstruace asi %2$d dní.</string>
+    <string name="cycle_adjust_not_learned">Zapište aspoň dva celé cykly a Calore ukáže, co se z nich naučila.</string>
+    <string name="cycle_adjust_cycle_range">Zadejte 15 až 60 dní.</string>
+    <string name="cycle_adjust_period_range">Zadejte 1 až 14 dní.</string>
+    <string name="cycle_adjust_own">Vždy používat moje čísla</string>
+    <string name="cycle_adjust_own_on">Předpovědi používají vaše čísla, ať zapíšete cokoli.</string>
+    <string name="cycle_adjust_using_own">Používají se vaše čísla: cyklus %1$d dní, menstruace %2$d dní.</string>
+    <string name="cycle_adjust_periods">Zapsané menstruace</string>
+    <string name="cycle_adjust_no_periods">Zatím žádná zapsaná menstruace.</string>
+    <string name="cycle_adjust_still_going">stále trvá</string>
+    <string name="cycle_adjust_edit_period">Upravit tuto menstruaci</string>
+    <string name="cycle_adjust_delete_period">Smazat tuto menstruaci</string>
+    <string name="cycle_adjust_delete_confirm">Smazat menstruaci, která začala %1$s?</string>
+    <string name="cycle_adjust_add_period">Přidat starší menstruaci</string>
+    <string name="cycle_adjust_first_day">První den</string>
+    <string name="cycle_adjust_last_day">Poslední den</string>
+    <string name="cycle_adjust_end_before_start">Poslední den musí být stejný nebo pozdější než první den.</string>
+    <string name="cycle_adjust_in_future">Menstruaci lze zapsat jen do dneška.</string>
+    <string name="cycle_adjust_overlaps">Tyto dny patří k jiné zapsané menstruaci. Nejdřív upravte nebo smažte tu.</string>
 </resources>

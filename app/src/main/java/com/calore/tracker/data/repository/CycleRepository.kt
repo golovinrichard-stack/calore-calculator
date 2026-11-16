@@ -7,6 +7,8 @@ import com.calore.tracker.data.db.JsonColumns
 import com.calore.tracker.data.prefs.CyclePrefs
 import com.calore.tracker.domain.cycle.CycleDay
 import com.calore.tracker.domain.cycle.CyclePeriod
+import com.calore.tracker.domain.cycle.Cycles
+import com.calore.tracker.domain.cycle.PeriodProblem
 import com.calore.tracker.domain.cycle.CycleSettings
 import com.calore.tracker.domain.cycle.Flow
 import com.calore.tracker.domain.cycle.Symptom
@@ -61,6 +63,19 @@ class CycleRepository(private val cycleDao: CycleDao, private val prefs: CyclePr
     }
 
     suspend fun deletePeriod(id: String) = cycleDao.deletePeriod(id)
+
+    /**
+     * A period changed or added by hand (0.14): [id] null adds one. Returns why it can't be saved,
+     * or null when it was saved.
+     */
+    suspend fun savePeriod(id: String?, start: LocalDate, end: LocalDate?): PeriodProblem? {
+        val periods = periodsNow()
+        Cycles.checkPeriod(periods, id, start, end, LocalDate.now(clock))?.let { return it }
+        val now = clock.millis()
+        val existing = id?.let { key -> periods.firstOrNull { it.id == key } }
+        cycleDao.upsertPeriod(CyclePeriodEntity(existing?.id ?: newId(), start.toString(), end?.toString(), existing?.createdAt ?: now, now))
+        return null
+    }
 
     /** Flow, symptoms and a note for [date]; an empty log removes the day. */
     suspend fun logDay(date: LocalDate, flow: Flow?, symptoms: Set<Symptom>, note: String?) {

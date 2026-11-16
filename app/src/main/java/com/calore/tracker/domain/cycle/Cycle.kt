@@ -46,6 +46,11 @@ data class CycleSettings(
     val defaultCycleLength: Int = DEFAULT_CYCLE_LENGTH,
     val defaultPeriodLength: Int = DEFAULT_PERIOD_LENGTH,
     val appLock: AppLock = AppLock.OFF,
+    /**
+     * "Use my numbers" (0.14): predictions use [defaultCycleLength] and [defaultPeriodLength] even
+     * when enough periods are logged to learn other values. Off: the numbers only fill in until then.
+     */
+    val ownLengths: Boolean = false,
 ) {
     /** A19: predictions pause with hormonal contraception, pregnancy, breastfeeding, perimenopause or menopause. */
     val paused: Boolean get() = contraception.hormonal || pregnant || breastfeeding || menopause != Menopause.NO
@@ -57,6 +62,9 @@ data class CycleSettings(
         val PERIOD_LENGTHS = 1..14
     }
 }
+
+/** Why a period changed by hand can't be saved. */
+enum class PeriodProblem { END_BEFORE_START, IN_THE_FUTURE, OVERLAPS }
 
 /** Average cycle length and how sure it is (A19). */
 data class CycleStats(
@@ -140,6 +148,28 @@ object Cycles {
         return CycleStats(average, maxOf(MIN_RANGE_DAYS, sd), irregular = false, lengths = last)
     }
 
+    /** A19 with the settings: the user's own cycle length when "Use my numbers" is on; the range still comes from the logged cycles. */
+    fun stats(periods: List<CyclePeriod>, settings: CycleSettings): CycleStats {
+        val learned = stats(periods, settings.defaultCycleLength)
+        return if (settings.ownLengths) learned.copy(average = settings.defaultCycleLength.toDouble()) else learned
+    }
+
+    /** The period length for predictions: the user's own when "Use my numbers" is on, otherwise learned from logged periods. */
+    fun periodLength(periods: List<CyclePeriod>, settings: CycleSettings): Int =
+        if (settings.ownLengths) settings.defaultPeriodLength else periodLength(periods, settings.defaultPeriodLength)
+
+    /**
+     * Checks a period changed by hand (0.14): the end not before the start, nothing in the future,
+     * and no overlap with another logged period ([id] is the period being changed, null for a new one).
+     */
+    fun checkPeriod(periods: List<CyclePeriod>, id: String?, start: LocalDate, end: LocalDate?, today: LocalDate): PeriodProblem? {
+        if (end != null && end.isBefore(start)) return PeriodProblem.END_BEFORE_START
+        if (start.isAfter(today) || end?.isAfter(today) == true) return PeriodProblem.IN_THE_FUTURE
+        val last = end ?: start
+        val overlaps = periods.filter { it.id != id }.any { other -> !last.isBefore(other.start) && !start.isAfter(other.end ?: other.start) }
+        return if (overlaps) PeriodProblem.OVERLAPS else null
+    }
+
     /** Average logged period length (start to end, inclusive), or the default. */
     fun periodLength(periods: List<CyclePeriod>, defaultLength: Int = CycleSettings.DEFAULT_PERIOD_LENGTH): Int {
         val ended = periods.mapNotNull { p -> p.end?.let { ChronoUnit.DAYS.between(p.start, it).toInt() + 1 } }.filter { it > 0 }
@@ -175,8 +205,8 @@ object Cycles {
         val starts = periods.map { it.start }.distinct().sorted()
         val first = starts.firstOrNull() ?: return null
         if (date.isBefore(first)) return null
-        val stats = stats(periods, settings.defaultCycleLength)
-        val length = periodLength(periods, settings.defaultPeriodLength)
+        val stats = stats(periods, settings)
+        val length = periodLength(periods, settings)
         val i = starts.indexOfLast { !it.isAfter(date) }
         if (i < starts.size - 1) {
             val own = periods.firstOrNull { it.start == starts[i] }?.end?.let { ChronoUnit.DAYS.between(starts[i], it).toInt() + 1 }
@@ -201,7 +231,7 @@ object Cycles {
     fun waterDays(from: LocalDate, to: LocalDate, periods: List<CyclePeriod>, settings: CycleSettings): Set<LocalDate> {
         if (!settings.enabled || settings.paused || periods.isEmpty()) return emptySet()
         val starts = periods.map { it.start }.distinct().sorted().toMutableList()
-        val avg = stats(periods, settings.defaultCycleLength).averageDays.coerceAtLeast(1).toLong()
+        val avg = stats(periods, settings).averageDays.coerceAtLeast(1).toLong()
         var next = starts.last().plusDays(avg)
         while (!next.isAfter(to.plusDays(WATER_BEFORE))) {
             starts += next
@@ -215,11 +245,11 @@ object Cycles {
     /** "Day 18 · luteal phase · next period in 9–11 days" (M7.3). Null without a logged period. */
     fun today(today: LocalDate, periods: List<CyclePeriod>, settings: CycleSettings): CycleToday? {
         val last = periods.map { it.start }.filter { !it.isAfter(today) }.maxOrNull() ?: return null
-        val stats = stats(periods, settings.defaultCycleLength)
+        val stats = stats(periods, settings)
         val next = nextStart(last, stats)
         val range = stats.rangeDays
         val day = ChronoUnit.DAYS.between(last, today).toInt() + 1
-        val phase = if (!settings.enabled || settings.paused) null else days(last, next, periodLength(periods, settings.defaultPeriodLength)).phaseOn(today)
+        val phase = if (!settings.enabled || settings.paused) null else days(last, next, periodLength(periods, settings)).phaseOn(today)
         val toNext = ChronoUnit.DAYS.between(today, next)
         return CycleToday(day, phase, toNext - Math.ceil(range).toLong(), toNext + Math.ceil(range).toLong())
     }
@@ -227,7 +257,7 @@ object Cycles {
     /** The earliest and latest likely next start (A19 range), for the calendar. */
     fun nextRange(periods: List<CyclePeriod>, settings: CycleSettings): ClosedRange<LocalDate>? {
         val last = periods.maxOfOrNull { it.start } ?: return null
-        val stats = stats(periods, settings.defaultCycleLength)
+        val stats = stats(periods, settings)
         val next = nextStart(last, stats)
         val r = Math.ceil(stats.rangeDays).toLong()
         return next.minusDays(r)..next.plusDays(r)

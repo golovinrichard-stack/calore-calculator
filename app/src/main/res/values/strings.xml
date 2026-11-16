@@ -261,7 +261,7 @@
     <string name="about_version">Version %1$s</string>
     <string name="about_tagline">A calorie and macro tracker with no ads, no tracking and no account.</string>
     <string name="about_privacy_title">Your data</string>
-    <string name="about_privacy">Everything you log stays on this phone. The app only goes online when you search Open Food Facts, and then it sends only the words you searched for.</string>
+    <string name="about_privacy">Everything you log stays on this phone. Calore goes online only to search Open Food Facts or to look up a barcode, and then it sends only the words you typed or the barcode. If you set up a household, shared lists, plans and recipes go to your other phones over your home Wi-Fi, encrypted. Your diary, weight and cycle are never shared.</string>
     <string name="about_license_title">License</string>
     <string name="about_license">Calore is free and open source software under the BSD Zero Clause License (0BSD). You may use, copy, change, share and sell it for any purpose, with no conditions.</string>
     <string name="about_data_title">Food data</string>
@@ -501,6 +501,8 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     <string name="scanner_add_yourself">Add it</string>
     <string name="scanner_offline">You are offline, and this product is not on the phone yet. Try again when you are online, or add it yourself.</string>
     <string name="scanner_scan_again">Scan again</string>
+    <string name="camera_blocked_text">The camera is switched off for Calore. Open the settings, tap Permissions, then Camera, and choose Allow.</string>
+    <string name="open_settings">Open settings</string>
 
     <!-- Quick add -->
     <string name="quick_add_title">Quick add</string>
@@ -1342,4 +1344,27 @@ This is an estimate. It can be off by a few percent, but it is good for followin
     </plurals>
     <string name="activity_requested_any">%1$s sent a request</string>
 
+
+    <!-- Cycle -->
+    <string name="cycle_adjust">Adjust my cycle</string>
+    <string name="cycle_adjust_intro">Every body is different. Calore learns your cycle from the periods you log, but you can set your own numbers here and fix any period.</string>
+    <string name="cycle_adjust_learned">From your logged periods: a cycle of about %1$d days and a period of about %2$d days.</string>
+    <string name="cycle_adjust_not_learned">Log at least two full cycles and Calore will show what it learned from them.</string>
+    <string name="cycle_adjust_cycle_range">Enter 15 to 60 days.</string>
+    <string name="cycle_adjust_period_range">Enter 1 to 14 days.</string>
+    <string name="cycle_adjust_own">Always use my numbers</string>
+    <string name="cycle_adjust_own_on">Predictions use your numbers, whatever you log.</string>
+    <string name="cycle_adjust_using_own">Using your numbers: cycle %1$d days, period %2$d days.</string>
+    <string name="cycle_adjust_periods">Logged periods</string>
+    <string name="cycle_adjust_no_periods">No period logged yet.</string>
+    <string name="cycle_adjust_still_going">still going</string>
+    <string name="cycle_adjust_edit_period">Change this period</string>
+    <string name="cycle_adjust_delete_period">Delete this period</string>
+    <string name="cycle_adjust_delete_confirm">Delete the period that started on %1$s?</string>
+    <string name="cycle_adjust_add_period">Add a past period</string>
+    <string name="cycle_adjust_first_day">First day</string>
+    <string name="cycle_adjust_last_day">Last day</string>
+    <string name="cycle_adjust_end_before_start">The last day must be on or after the first day.</string>
+    <string name="cycle_adjust_in_future">A period can only be logged up to today.</string>
+    <string name="cycle_adjust_overlaps">These days are part of another logged period. Change or delete that one first.</string>
 </resources>
