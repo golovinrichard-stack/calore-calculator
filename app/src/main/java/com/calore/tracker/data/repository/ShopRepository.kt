@@ -64,7 +64,7 @@ data class StoresFile(val format: String, val version: Int, val stores: List<See
 @Serializable
 data class SeedStore(val key: String, val name: String, val sectionOrder: List<String>)
 
-/** `assets/seed/cz/store-products.json`, from the owner's research (input #1). */
+/** `assets/seed/cz/store-products.json`: shops' own-brand products from Open Food Facts (0.14), later also the owner's research (input #1). */
 @Serializable
 data class StoreProductsFile(val version: Int, val country: String = "CZ", val products: List<SeedProduct>)
 
@@ -157,6 +157,13 @@ class ShopRepository(
         return product.id
     }
 
+    /** A product already known (from the seed or an earlier pick) becomes this shop's preferred one for its food (0.14). */
+    suspend fun preferProduct(productId: String): String? {
+        val product = shopDao.products().firstOrNull { it.id == productId } ?: return null
+        shopDao.savePreferred(product, clock.millis())
+        return product.id
+    }
+
     /** A price paid or typed in (M5.8). */
     suspend fun addPrice(productId: String, priceHalers: Long, date: LocalDate = LocalDate.now(clock), source: String = "USER") {
         val now = clock.millis()
@@ -186,24 +193,31 @@ class ShopRepository(
     }
 
     /**
-     * Loads the owner's product research (input #1) once per version. Products keep their seed
-     * key; unknown shops or foods are skipped; prices only when the research has them.
+     * Loads the bundled shop products once per version: shops' own-brand products from Open Food
+     * Facts (0.14), later also the owner's research (input #1). Products keep their seed key;
+     * unknown shops are skipped; prices only when the file has them.
      */
     suspend fun importProducts(input: InputStream): Int {
         val file = json.decodeFromString(StoreProductsFile.serializer(), input.readBytes().toString(Charsets.UTF_8))
         if (file.version <= appPrefs.settings.first().productsSeedVersion) return 0
         val now = clock.millis()
         var added = 0
+        // Shop and food pairs that already have a preferred product (read once, kept up to date below).
+        val hasPreferred = shopDao.products().filter { it.preferred }.map { it.storeId to it.foodUuid }.toMutableSet()
         for (seed in file.products) {
             val store = shopDao.storeByKey(seed.store) ?: continue
             val foodUuid = seed.food?.let { foodDao.getByKey(it)?.uuid }
             val existing = shopDao.productByKey(seed.key)
+            // The user's own pick stays preferred; otherwise the first seeded product for a food is.
+            val preferred = existing?.preferred ?: ((store.id to foodUuid) !in hasPreferred)
+            if (preferred) hasPreferred += store.id to foodUuid
             val product = StoreProductEntity(
                 id = existing?.id ?: StableIds.product(seed.key), key = seed.key, storeId = store.id, foodUuid = foodUuid, name = seed.name, brand = seed.brand,
                 barcode = seed.barcode, packAmount = seed.packAmount, packUnit = seed.packUnit,
-                // The user's own pick stays preferred; otherwise the first seeded product for a food is.
-                preferred = existing?.preferred ?: shopDao.products().none { it.storeId == store.id && it.foodUuid == foodUuid && it.preferred },
-                source = ProductSource.OWNER_RESEARCH.name, sourceNote = seed.source, createdAt = existing?.createdAt ?: now, updatedAt = now,
+                preferred = preferred,
+                // Products taken from Open Food Facts (0.14) say so; anything else is the owner's research.
+                source = (if (seed.source.startsWith("off")) ProductSource.OFF else ProductSource.OWNER_RESEARCH).name,
+                sourceNote = seed.source, createdAt = existing?.createdAt ?: now, updatedAt = now,
             )
             shopDao.upsertProduct(product)
             if (seed.priceCzk != null) {

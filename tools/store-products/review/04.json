@@ -1,0 +1,77 @@
+{
+ "generic:rice_brown_raw": [],
+ "generic:pasta_dry": [
+  "20102791"
+ ],
+ "generic:pasta_wholewheat": [
+  "8590421056042"
+ ],
+ "generic:egg_noodles": [],
+ "generic:oats": [
+  "4337185506857"
+ ],
+ "generic:bulgur": [],
+ "generic:quinoa_raw": [
+  "85990421023709"
+ ],
+ "generic:buckwheat": [
+  "8590421035160"
+ ],
+ "generic:barley": [],
+ "generic:polenta": [
+  "9008684029585"
+ ],
+ "generic:granola": [
+  "8590421036815"
+ ],
+ "generic:lentils_red": [],
+ "generic:chickpeas_dry": [],
+ "generic:chickpeas_canned": [
+  "8590421060667"
+ ],
+ "generic:beans_kidney_dry": [],
+ "generic:beans_kidney_canned": [],
+ "generic:beans_white_dry": [],
+ "generic:beans_black_canned": [
+  "20084431"
+ ],
+ "generic:tofu": [
+  "2822410001860",
+  "95510729",
+  "4056489067566",
+  "4335896750729",
+  "5051007147866"
+ ],
+ "generic:tempeh": [],
+ "generic:peanut_butter": [],
+ "generic:pistachios": [
+  "8590421014844"
+ ],
+ "generic:chia": [],
+ "generic:coconut_desiccated": [
+  "5051007115483"
+ ],
+ "generic:ghee": [],
+ "generic:ketchup": [
+  "20592530"
+ ],
+ "generic:mustard": [
+  "8594010890031"
+ ],
+ "generic:mayonnaise": [
+  "8590421018071"
+ ],
+ "generic:soy_sauce": [],
+ "generic:pasta_sauce": [],
+ "generic:pesto": [
+  "5057373870902",
+  "4337185536939"
+ ],
+ "generic:hummus": [
+  "4056489196693",
+  "8590421044872",
+  "5051007107488",
+  "8590345410630",
+  "4063367203817"
+ ]
+}

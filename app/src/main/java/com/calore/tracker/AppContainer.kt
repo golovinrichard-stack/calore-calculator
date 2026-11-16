@@ -228,10 +228,12 @@ class AppContainer(context: Context) {
                 starterRecipes.importIfNewer()
                 packRecipes.importIfNewer()
             }
-            // Shops (M5.6), then the owner's products for them, once that file exists (input #1).
-            context.assets.open(ShopRepository.STORES_ASSET).use { shopRepository.importStores(it) }
-            val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
-            products?.use { shopRepository.importProducts(it) }
+            // Shops (M5.6), then the bundled products for them (0.14). Same ids on every phone: not sent to the household.
+            syncStore.unrecorded {
+                context.assets.open(ShopRepository.STORES_ASSET).use { shopRepository.importStores(it) }
+                val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
+                products?.use { shopRepository.importProducts(it) }
+            }
         }
         // M11.8: kitchen, pantry and list write the household feed (only while in a household).
         cookingRepository.activity = activityLog

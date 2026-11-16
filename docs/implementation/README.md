@@ -3,7 +3,7 @@
 This folder is the build plan for the features described in [`../PLAN.md`](../PLAN.md).
 It is written for whoever builds them: a developer or an AI coding agent.
 
-> **Status:** M0–M11 are built (app version 0.13.0). Research stays switched off until owner inputs #3 and #4. The household (M11) shows only in debug builds until its hub is measured on real phones (M11.0).
+> **Status:** M0–M11 are built (app version 0.14.0: plus the big recipe pack, shop own-brand products, adjustable cycle and the camera and privacy fixes). Research stays switched off until owner inputs #3 and #4. The household (M11) shows only in debug builds until its hub is measured on real phones (M11.0).
 > **Date:** 6 November 2026
 
 ## Files
