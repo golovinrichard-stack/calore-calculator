@@ -5,7 +5,7 @@
 **Depends on:** M4.
 **Read first:** [data-model.md](data-model.md) (M5), [algorithms.md](algorithms.md) A8, A10, A13, A14, A16–A18.
 **New dependencies:** none.
-**Waiting for:** owner input #1 (Czech shop product research) for the seed file in M5.6. Everything else can be built without it.
+**Waiting for:** owner input #1 (Czech shop product research) for prices in the seed file in M5.6. Everything else is built; since 0.14 the seed file holds shops' own-brand products from Open Food Facts.
 
 ## Tasks
 
@@ -76,6 +76,8 @@ As built: the "pantry was short" message names only foods the pantry had some of
 - [x] Store product detail: name, brand, pack size, barcode, last price and its date.
 
 As built so far: the shops seed (names only, a general section order) imports once per version; Settings → Shops sets favourites and a default shop per section. The loader for `store-products.json` is ready and runs only when the file exists (it isn't shipped until input #1); products keep their seed key, a user's pick stays preferred, and prices are stored only when the research has them. Picking a product on a shopping line comes with M5.7.
+
+As built in 0.14: `store-products.json` ships with 262 own-brand products from Open Food Facts for 102 basic foods ([`tools/store-products`](../../tools/store-products/README.md), no prices, source `off:<barcode>`). They import once per version without being sent to the household (every phone has the same ones). The first product per shop and food (the most scanned) is preferred until the user picks another; a line uses it when its section has a default shop. **Pick a product** also lists the shop's known products for that food (preferred first), so one tap makes another one preferred.
 
 **Done when:** with the seed file present, the chicken line shows the seeded product; without it, the line shows the basic food and **Pick a product**, and after one pick the product appears every time.
 

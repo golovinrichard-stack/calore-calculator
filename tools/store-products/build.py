@@ -21,6 +21,8 @@ REVIEW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "review", "*.j
 STORES = os.path.join(ROOT, "app/src/main/assets/seed/cz/stores.json")
 FOODS = os.path.join(ROOT, "app/src/main/assets/foods/generic-cz.json")
 OUT = os.path.join(ROOT, "app/src/main/assets/seed/cz/store-products.json")
+# The final check: reviewed products left out after all, with the reason ({"barcode": "reason"}).
+EXCLUDED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "excluded.json")
 PER_STORE_AND_FOOD = 3
 # Letters of other languages' alphabets (Romanian, Polish, Hungarian, German …): a product whose only
 # name on Open Food Facts is in another language would look wrong on a Czech shopping list.
@@ -50,12 +52,15 @@ def main():
             for food, codes in json.load(f).items():
                 approved.setdefault(food, set()).update(codes)
 
+    with open(EXCLUDED, encoding="utf-8") as f:
+        excluded = json.load(f)
+
     products, seen = [], set()
     for food, codes in sorted(approved.items()):
         if food not in foods:
             print(f"skipping unknown food {food}", file=sys.stderr)
             continue
-        chosen = [pool[code] for code in codes if code in pool and pool[code]["store"] in stores
+        chosen = [pool[code] for code in codes if code in pool and code not in excluded and pool[code]["store"] in stores
                   and not FOREIGN_LETTERS & set(pool[code]["name"].lower())]
         chosen.sort(key=lambda c: (-c["scans"], c["name"]))
         per_store = {}
