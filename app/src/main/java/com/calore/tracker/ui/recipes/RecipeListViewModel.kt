@@ -11,10 +11,12 @@ import com.calore.tracker.domain.MealType
 import com.calore.tracker.domain.Nutrients
 import com.calore.tracker.domain.Recipes
 import com.calore.tracker.domain.matchesSearch
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import java.text.Collator
@@ -59,7 +61,7 @@ class RecipeListViewModel(
 
     val uiState: StateFlow<RecipeListUiState> = combine(recipes.observeAll(), members.me(), filters) { all, me, filters ->
         buildRecipeList(all, me.diet, me.allergens, filters, locale())
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), RecipeListUiState())
+    }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), RecipeListUiState())
 
     fun onQueryChange(query: String) = filters.update { it.copy(query = query) }
 

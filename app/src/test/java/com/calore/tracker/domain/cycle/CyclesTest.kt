@@ -180,4 +180,41 @@ class CyclesTest {
         assertEquals(0.0, provider.bonus("kid", d("2026-10-01"), recipe), 0.0)
         assertEquals(0.0, CyclePhaseBonus("me") { null }.bonus("me", d("2026-10-01"), recipe), 0.0)
     }
+
+    // --- "Adjust my cycle" (0.14) ---
+
+    @Test
+    fun ownNumbersReplaceTheLearnedAverageButKeepTheRange() {
+        val periods = periodsWith(28, 30, 29)
+        val own = on.copy(defaultCycleLength = 35, ownLengths = true)
+        assertEquals(35, Cycles.stats(periods, own).averageDays)
+        assertEquals(Cycles.stats(periods).rangeDays, Cycles.stats(periods, own).rangeDays, 0.0)
+        // Off: the learned average wins once two cycles are logged.
+        assertEquals(29, Cycles.stats(periods, on.copy(defaultCycleLength = 35)).averageDays)
+    }
+
+    @Test
+    fun ownNumbersMoveTheNextPeriodAndItsLength() {
+        val periods = listOf(CyclePeriod("a", d("2026-09-01"), d("2026-09-04")), CyclePeriod("b", d("2026-10-01"), d("2026-10-04")))
+        val own = on.copy(defaultCycleLength = 32, defaultPeriodLength = 7, ownLengths = true)
+        assertEquals(d("2026-11-02"), Cycles.nextRange(periods, own)!!.let { r -> r.start.plusDays((r.endInclusive.toEpochDay() - r.start.toEpochDay()) / 2) })
+        assertEquals(7, Cycles.periodLength(periods, own))
+        assertEquals(4, Cycles.periodLength(periods, on.copy(defaultPeriodLength = 7)))
+        // A predicted cycle after the last logged one uses the own period length.
+        assertEquals(CyclePhase.PERIOD, Cycles.phaseOn(d("2026-11-08"), periods, own))
+    }
+
+    @Test
+    fun periodsChangedByHandAreChecked() {
+        val periods = listOf(CyclePeriod("a", d("2026-09-01"), d("2026-09-05")), CyclePeriod("b", d("2026-10-01")))
+        val today = d("2026-10-10")
+        assertNull(Cycles.checkPeriod(periods, "a", d("2026-08-30"), d("2026-09-03"), today))
+        assertNull(Cycles.checkPeriod(periods, null, d("2026-08-01"), d("2026-08-05"), today))
+        assertEquals(PeriodProblem.END_BEFORE_START, Cycles.checkPeriod(periods, "a", d("2026-09-05"), d("2026-09-01"), today))
+        assertEquals(PeriodProblem.IN_THE_FUTURE, Cycles.checkPeriod(periods, "b", d("2026-10-01"), d("2026-10-11"), today))
+        assertEquals(PeriodProblem.OVERLAPS, Cycles.checkPeriod(periods, null, d("2026-09-04"), d("2026-09-06"), today))
+        assertEquals(PeriodProblem.OVERLAPS, Cycles.checkPeriod(periods, "a", d("2026-09-28"), d("2026-10-02"), today))
+        // A running period (no end) takes only its first day.
+        assertNull(Cycles.checkPeriod(periods, null, d("2026-10-03"), d("2026-10-05"), today))
+    }
 }

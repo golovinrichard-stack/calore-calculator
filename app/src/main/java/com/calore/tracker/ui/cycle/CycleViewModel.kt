@@ -3,6 +3,7 @@ package com.calore.tracker.ui.cycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calore.tracker.data.repository.CycleRepository
+import com.calore.tracker.domain.cycle.AppLock
 import com.calore.tracker.domain.cycle.CycleDay
 import com.calore.tracker.domain.cycle.CyclePeriod
 import com.calore.tracker.domain.cycle.CyclePhase
@@ -12,6 +13,7 @@ import com.calore.tracker.domain.cycle.CycleTips
 import com.calore.tracker.domain.cycle.CycleToday
 import com.calore.tracker.domain.cycle.Cycles
 import com.calore.tracker.domain.cycle.Flow
+import com.calore.tracker.domain.cycle.PeriodProblem
 import com.calore.tracker.domain.cycle.Symptom
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,7 +42,7 @@ data class CycleUiState(
     /** The period running today, if it has no end yet. */
     val openPeriod: CyclePeriod? get() = periods.filter { !it.start.isAfter(today) }.maxByOrNull { it.start }?.takeIf { it.end == null }
 
-    private val periodLength: Int get() = Cycles.periodLength(periods, settings.defaultPeriodLength)
+    private val periodLength: Int get() = Cycles.periodLength(periods, settings)
 
     /** Days with logged bleeding: each period's days (until today for a running one) and days with a flow. */
     val bleedingDays: Set<LocalDate>
@@ -112,6 +114,22 @@ class CycleViewModel(private val cycle: CycleRepository, private val clock: Cloc
 
     fun saveSettings(settings: CycleSettings) {
         viewModelScope.launch { cycle.saveSettings(settings) }
+    }
+
+    /** "Adjust my cycle" (0.14): the user's own lengths, and whether predictions always use them. */
+    fun setLengths(cycleLength: Int, periodLength: Int, own: Boolean) {
+        val current = uiState.value.settings
+        viewModelScope.launch { cycle.saveSettings(current.copy(defaultCycleLength = cycleLength, defaultPeriodLength = periodLength, ownLengths = own)) }
+    }
+
+    /** A period changed (or added, [id] null) by hand; [onDone] gets the problem, or null when saved. */
+    fun savePeriod(id: String?, start: LocalDate, end: LocalDate?, onDone: (PeriodProblem?) -> Unit) {
+        viewModelScope.launch { onDone(cycle.savePeriod(id, start, end)) }
+    }
+
+    fun setAppLock(lock: AppLock) {
+        val current = uiState.value.settings
+        viewModelScope.launch { cycle.saveSettings(current.copy(appLock = lock)) }
     }
 
     fun periodStarted(date: LocalDate) {

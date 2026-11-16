@@ -26,6 +26,7 @@ class CyclePrefs(private val dataStore: DataStore<Preferences>) {
             defaultCycleLength = prefs[CYCLE_LENGTH]?.takeIf { it in CycleSettings.CYCLE_LENGTHS } ?: CycleSettings.DEFAULT_CYCLE_LENGTH,
             defaultPeriodLength = prefs[PERIOD_LENGTH]?.takeIf { it in CycleSettings.PERIOD_LENGTHS } ?: CycleSettings.DEFAULT_PERIOD_LENGTH,
             appLock = prefs[APP_LOCK]?.let { name -> AppLock.entries.firstOrNull { it.name == name } } ?: AppLock.OFF,
+            ownLengths = prefs[OWN_LENGTHS] ?: false,
         )
     }
 
@@ -42,6 +43,7 @@ class CyclePrefs(private val dataStore: DataStore<Preferences>) {
             prefs[CYCLE_LENGTH] = settings.defaultCycleLength.coerceIn(CycleSettings.CYCLE_LENGTHS)
             prefs[PERIOD_LENGTH] = settings.defaultPeriodLength.coerceIn(CycleSettings.PERIOD_LENGTHS)
             prefs[APP_LOCK] = settings.appLock.name
+            prefs[OWN_LENGTHS] = settings.ownLengths
         }
     }
 
@@ -55,6 +57,7 @@ class CyclePrefs(private val dataStore: DataStore<Preferences>) {
             listOf(CONTRACEPTION, MENOPAUSE).forEach { prefs.remove(it) }
             listOf(PREGNANT, BREASTFEEDING).forEach { prefs.remove(it) }
             listOf(CYCLE_LENGTH, PERIOD_LENGTH).forEach { prefs.remove(it) }
+            prefs.remove(OWN_LENGTHS)
         }
     }
 
@@ -69,5 +72,6 @@ class CyclePrefs(private val dataStore: DataStore<Preferences>) {
         private val PERIOD_LENGTH = intPreferencesKey("default_period_length")
         private val APP_LOCK = stringPreferencesKey("app_lock")
         private val ASKED = booleanPreferencesKey("asked")
+        private val OWN_LENGTHS = booleanPreferencesKey("own_lengths")
     }
 }

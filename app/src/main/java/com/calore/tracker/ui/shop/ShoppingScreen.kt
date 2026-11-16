@@ -59,6 +59,7 @@ import com.calore.tracker.R
 import com.calore.tracker.data.repository.ProductSource
 import com.calore.tracker.data.repository.ShoppingItem
 import com.calore.tracker.data.repository.Store
+import com.calore.tracker.data.repository.StoreProduct
 import com.calore.tracker.domain.parseDecimal
 import com.calore.tracker.ui.AppViewModelProvider
 import com.calore.tracker.ui.LocalHideNumbers
@@ -219,6 +220,10 @@ fun ShoppingScreen(
                 scanned = null
                 viewModel.pick(line, store, name, brand, barcode, grams, source)
             },
+            onPickKnown = { product ->
+                scanned = null
+                viewModel.pickKnown(line, product)
+            },
             onDismiss = {
                 scanned = null
                 viewModel.startPicking(null)
@@ -300,6 +305,7 @@ private fun PickProductDialog(
     onSearch: (String) -> Unit,
     onScan: () -> Unit,
     onPick: (Store, String, String?, String?, Double, ProductSource) -> Unit,
+    onPickKnown: (StoreProduct) -> Unit,
     onDismiss: () -> Unit,
 ) {
     val defaultStore = state.stores.firstOrNull { line.section in it.defaultForSections } ?: state.stores.firstOrNull { it.favorite } ?: state.stores.firstOrNull()
@@ -321,6 +327,23 @@ private fun PickProductDialog(
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     state.stores.sortedWith(compareByDescending<Store> { it.favorite }.thenBy { it.name }).forEach { option ->
                         FilterChip(selected = option.id == storeId, onClick = { storeId = option.id }, label = { Text(storeName(option)) })
+                    }
+                }
+                // Products this shop is known to sell for this food (its own brands from Open Food Facts, or earlier picks).
+                val known = state.products.values.filter { it.storeId == storeId && it.foodUuid != null && it.foodUuid == line.foodUuid }
+                    .sortedWith(compareByDescending<StoreProduct> { it.preferred }.thenBy { it.name })
+                if (known.isNotEmpty()) {
+                    Text(stringResource(R.string.product_known), style = MaterialTheme.typography.labelLarge)
+                    Column(modifier = Modifier.heightIn(max = 220.dp).verticalScroll(rememberScrollState())) {
+                        known.forEach { product ->
+                            ListItem(
+                                headlineContent = { Text(product.name) },
+                                supportingContent = {
+                                    Text(listOfNotNull(product.brand, formatGrams(product.packAmount) + " " + stringResource(unitRes(product.packUnit))).joinToString(" · "))
+                                },
+                                modifier = Modifier.fillMaxWidth().clickable { onPickKnown(product) },
+                            )
+                        }
                     }
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -414,4 +437,11 @@ private fun ProductPrices(productId: String, viewModel: ShoppingViewModel) {
             text = ""
         }, enabled = price != null) { Text(stringResource(R.string.save)) }
     }
+}
+
+/** The unit of a product's pack size. */
+private fun unitRes(packUnit: String): Int = when (packUnit) {
+    "ML" -> R.string.unit_ml
+    "PIECE" -> R.string.unit_pieces
+    else -> R.string.unit_g
 }

@@ -2,6 +2,7 @@ package com.calore.tracker.data.sync
 
 import android.database.Cursor
 import android.database.SQLException
+import androidx.room.withTransaction
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.domain.newId
@@ -43,6 +44,21 @@ class SyncStore(private val database: CaloreDatabase, private val clock: Clock) 
 
     private suspend fun <T> transaction(block: SupportSQLiteDatabase.() -> T): T = withContext(Dispatchers.IO) {
         database.runInTransaction<T> { db.block() }
+    }
+
+    /**
+     * Bundled data (the recipe packs) is the same on every phone, with the same ids, so it is not
+     * sent to the household: [block] runs in one transaction with recording paused (mode 2, as
+     * while applying ops). Other writes wait for the transaction, so none of them goes unrecorded.
+     */
+    suspend fun <T> unrecorded(block: suspend () -> T): T = database.withTransaction {
+        val mode = db.query("SELECT mode FROM sync_state WHERE id = 1").use { c -> if (c.moveToFirst()) c.getInt(0) else 0 }
+        if (mode == 1) db.execSQL("UPDATE sync_state SET mode = 2 WHERE id = 1")
+        try {
+            block()
+        } finally {
+            if (mode == 1) db.execSQL("UPDATE sync_state SET mode = 1 WHERE id = 1")
+        }
     }
 
     /** 0: not in a household (nothing recorded), 1: record local changes. */

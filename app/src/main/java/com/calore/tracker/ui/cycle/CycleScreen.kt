@@ -66,9 +66,9 @@ import com.calore.tracker.domain.cycle.Flow
 import com.calore.tracker.domain.cycle.Menopause
 import com.calore.tracker.domain.cycle.Symptom
 import com.calore.tracker.ui.AppViewModelProvider
-import com.calore.tracker.ui.components.NumberField
 import com.calore.tracker.ui.components.SectionHeader
 import com.calore.tracker.ui.rememberMediumDateFormatter
+import com.calore.tracker.ui.scanner.openSecuritySettings
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -83,6 +83,7 @@ fun CycleScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val unlocked by lockState.unlocked.collectAsStateWithLifecycle()
+    var adjusting by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -107,11 +108,20 @@ fun CycleScreen(
                 if (state.settings.paused) {
                     Text(stringResource(R.string.cycle_paused), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
+                if (state.settings.ownLengths) {
+                    Text(
+                        stringResource(R.string.cycle_adjust_using_own, days(state.settings.defaultCycleLength), days(state.settings.defaultPeriodLength)),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                OutlinedButton(onClick = { adjusting = true }) { Text(stringResource(R.string.cycle_adjust)) }
+                if (adjusting) AdjustCycleDialog(state, viewModel, onDismiss = { adjusting = false })
                 TipsCard(state.tips)
                 Calendar(state, viewModel)
                 DayActions(state, viewModel)
                 HorizontalDivider()
-                SettingsSection(state.settings, viewModel)
+                SettingsSection(state.settings, viewModel, lockState)
                 Text(stringResource(R.string.cycle_disclaimer), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
@@ -369,12 +379,11 @@ private fun LogDayDialog(state: CycleUiState, date: LocalDate, onSave: (Flow?, S
 /** M7.1 settings and M7.6 privacy. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SettingsSection(settings: CycleSettings, viewModel: CycleViewModel) {
+private fun SettingsSection(settings: CycleSettings, viewModel: CycleViewModel, lockState: AppLockState) {
     val context = LocalContext.current
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     var noScreenLock by rememberSaveable { mutableStateOf(false) }
-    var cycleLength by rememberSaveable(settings.defaultCycleLength) { mutableStateOf(settings.defaultCycleLength.toString()) }
-    var periodLength by rememberSaveable(settings.defaultPeriodLength) { mutableStateOf(settings.defaultPeriodLength.toString()) }
+    val lockTitle = stringResource(R.string.lock_title)
     Text(stringResource(R.string.cycle_settings), style = MaterialTheme.typography.titleMedium)
     SectionHeader(stringResource(R.string.cycle_contraception))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -390,29 +399,6 @@ private fun SettingsSection(settings: CycleSettings, viewModel: CycleViewModel) 
             FilterChip(selected = settings.menopause == option, onClick = { viewModel.saveSettings(settings.copy(menopause = option)) }, label = { Text(stringResource(option.labelRes())) })
         }
     }
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        NumberField(
-            value = cycleLength,
-            onValueChange = { text ->
-                cycleLength = text
-                text.toIntOrNull()?.takeIf { it in CycleSettings.CYCLE_LENGTHS }?.let { viewModel.saveSettings(settings.copy(defaultCycleLength = it)) }
-            },
-            label = stringResource(R.string.cycle_usual_length),
-            decimal = false,
-            modifier = Modifier.weight(1f),
-        )
-        NumberField(
-            value = periodLength,
-            onValueChange = { text ->
-                periodLength = text
-                text.toIntOrNull()?.takeIf { it in CycleSettings.PERIOD_LENGTHS }?.let { viewModel.saveSettings(settings.copy(defaultPeriodLength = it)) }
-            },
-            label = stringResource(R.string.cycle_usual_period),
-            decimal = false,
-            modifier = Modifier.weight(1f),
-        )
-    }
-    Text(stringResource(R.string.cycle_lengths_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
     SectionHeader(stringResource(R.string.cycle_privacy))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -420,13 +406,36 @@ private fun SettingsSection(settings: CycleSettings, viewModel: CycleViewModel) 
             FilterChip(
                 selected = settings.appLock == option,
                 onClick = {
-                    if (option != AppLock.OFF && !AppLocks.canLock(context)) noScreenLock = true else viewModel.saveSettings(settings.copy(appLock = option))
+                    when {
+                        option == settings.appLock -> Unit
+                        option == AppLock.OFF -> viewModel.setAppLock(AppLock.OFF)
+                        !AppLocks.canLock(context) -> noScreenLock = true
+                        // Unlock once first: it shows the lock works, and the section stays open afterwards.
+                        else -> with(AppLocks) { context.findActivity() }?.let { activity ->
+                            AppLocks.prompt(activity, lockTitle) {
+                                lockState.unlock()
+                                viewModel.setAppLock(option)
+                            }
+                        }
+                    }
                 },
                 label = { Text(stringResource(option.labelRes())) },
             )
         }
     }
-    if (noScreenLock) Text(stringResource(R.string.lock_needs_screen_lock), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+    if (noScreenLock) {
+        AlertDialog(
+            onDismissRequest = { noScreenLock = false },
+            text = { Text(stringResource(R.string.lock_needs_screen_lock)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    noScreenLock = false
+                    openSecuritySettings(context)
+                }) { Text(stringResource(R.string.open_settings)) }
+            },
+            dismissButton = { TextButton(onClick = { noScreenLock = false }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
     Text(stringResource(R.string.cycle_private_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     OutlinedButton(onClick = { confirmDelete = true }) { Text(stringResource(R.string.cycle_delete_all), color = MaterialTheme.colorScheme.error) }
     OutlinedButton(onClick = { viewModel.setEnabled(false) }) { Text(stringResource(R.string.cycle_switch_off)) }

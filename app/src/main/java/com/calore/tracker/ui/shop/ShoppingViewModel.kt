@@ -130,6 +130,14 @@ class ShoppingViewModel(
         viewModelScope.launch { shops.addPrice(productId, halers, LocalDate.now(clock)) }
     }
 
+    /** A known product of the shop (0.14): it becomes the preferred one, and this line uses it. */
+    fun pickKnown(item: ShoppingItem, product: StoreProduct) {
+        viewModelScope.launch {
+            shops.preferProduct(product.id)?.let { shopping.useProduct(item, it) }
+            picking.value = null
+        }
+    }
+
     /** Saves the pick as this shop's product for the food and uses it on the line (M5.6). */
     fun pick(item: ShoppingItem, store: Store, name: String, brand: String?, barcode: String?, packGrams: Double, source: ProductSource) {
         viewModelScope.launch {

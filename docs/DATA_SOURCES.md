@@ -2,7 +2,7 @@
 
 Where Calore gets its information about foods, products, prices, recipes and health, under which licence, and what goes over the network.
 
-> **Date:** 6 November 2026. Update this file whenever a data source or a network connection is added or changed (rule 6 in [`implementation/README.md`](implementation/README.md)).
+> **Date:** 16 November 2026. Update this file whenever a data source or a network connection is added or changed (rule 6 in [`implementation/README.md`](implementation/README.md)).
 
 **Status:** *in use* = the app uses it today; *planned (Mx)* = will be added in that milestone; *waiting* = needs an input from the project owner; *candidate* = possible later.
 
@@ -13,10 +13,10 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Branded products, barcodes, nutrition | Open Food Facts | ODbL | Online, from the phone | Search and barcode: in use |
 | Basic foods (raw chicken, rice, vegetables …) | USDA FoodData Central | Public domain (CC0) | Shipped inside the app | In use (M2): 278 foods |
 | Czech basic foods missing in USDA (tvaroh, Czech bread …) | Czech product labels on Open Food Facts; maybe NutriDatabaze.cz | ODbL; NutriDatabaze unknown | Shipped inside the app | In use (M2): 6 foods; NutriDatabaze waiting |
-| Exact products in Czech shops | The owner's research; the user's own picks; Open Food Facts | Own data; ODbL | Shipped seed file; picked in the app | Waiting (M5) |
+| Exact products in Czech shops | Shops' own-brand products on Open Food Facts; the user's own picks; later the owner's research | ODbL; own data | Shipped seed file; picked in the app | In use (0.14): 262 own-brand products for 102 basic foods; owner's research waiting |
 | Prices | What the user paid; the owner's research | Own data | Typed in the app; seed file | Planned (M5) |
-| List of shops | Written by us | 0BSD | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
-| Recipes | Starter pack written by us; the user's own | 0BSD | Shipped seed file; the app | In use (M3): 30 starter recipes |
+| List of shops | Written by us | Own work (see [LICENSE](../LICENSE)) | Shipped seed file | In use (M5.6): 10 shops in `assets/seed/cz/stores.json` |
+| Recipes | Starter pack and big pack written for Calore; the user's own | Own work (see [LICENSE](../LICENSE)) | Shipped seed files; the app | In use: 30 starter recipes (M3) + 974 in the big pack (0.14) |
 | Storage times | Czech and EU consumer advice, USDA, NHS | Public guidance | Default values in the code | Planned (M4) |
 | Calorie and body-fat formulas | Published equations | Facts | In the code | In use; more in M1 |
 | Cycle and nutrition science | Research papers | Facts | Tip texts | Planned (M7) |
@@ -27,7 +27,7 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 
 **What:** a free, community-built database of food products from all over the world: product names (in Czech when someone entered them), brands, barcodes, nutrition per 100 g, serving and pack sizes, shops, categories and allergens.
 
-**Used for:** the food search (today), the barcode scanner (M2), picking exact products for the shopping list (M5), and the values of some Czech basic foods (M2).
+**Used for:** the food search (today), the barcode scanner (M2), picking exact products for the shopping list (M5), the shops' own-brand products shipped with the app (0.14, section 4), and the values of some Czech basic foods (M2).
 
 **How:** the phone talks to Open Food Facts directly:
 
@@ -36,9 +36,9 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 | Search | `https://search.openfoodfacts.org/search` | today |
 | One product by barcode | `https://world.openfoodfacts.org/api/v2/product/<barcode>?fields=…` (only the fields Calore reads) | M2 (in use) |
 
-**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; open-source calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
+**What is sent:** only the words typed, or the barcode; the language (`cs,en` for Czech phones); the app's country as a search filter (`countries_tags:"en:czech-republic"`); and the app name in the user agent (`Calore/<version> (Android; calorie tracker)`). Like any website, Open Food Facts sees the phone's internet address.
 
-**Licence:** the database is under the Open Database License (ODbL); single entries under the Database Contents License; product photos under CC BY-SA. We must credit "Food data © Open Food Facts contributors" (README and the About screen). Data we derive from it and ship, such as Czech basic foods taken from labels, stays under ODbL.
+**Licence:** the database is under the Open Database License (ODbL); single entries under the Database Contents License; product photos under CC BY-SA. We must credit "Food data © Open Food Facts contributors" (README and the About screen). Data we derive from it and ship, such as Czech basic foods taken from labels and the shops' own-brand products (section 4), stays under ODbL.
 
 **Quality:** anyone can edit Open Food Facts, so values can be missing or wrong, and Czech products are not all there. Missing values show as "—", never as zero. Users can fix products on openfoodfacts.org, and can always create their own foods.
 
@@ -68,9 +68,10 @@ Where Calore gets its information about foods, products, prices, recipes and hea
 
 **Sources, in this order:**
 
-1. **The owner's research** (done in a separate conversation). It will be turned into `app/src/main/assets/seed/cz/store-products.json` (format in [M5.6](implementation/M05-plan-pantry-shopping.md)). Every product records its source and date. *Status: waiting for the research (input #1).*
-2. **The user's own picks:** on any shopping line, search Open Food Facts, scan the barcode in the shop, or type the name and pack size. Saved on the phone, and shared with the household in M11.
-3. **Open Food Facts** data for scanned products (pack size, brand).
+1. **Shops' own-brand products from Open Food Facts (0.14).** An own brand is sold only in its chain (Pilos, Milbona, Chef Select … at Lidl; K-Classic at Kaufland; Tesco; Albert; Clever and Billa at Billa; Penny), so the brand tells the shop for certain. [`tools/store-products`](../tools/store-products/README.md) collected once (16 November 2026) the own-brand products sold in Czechia from Open Food Facts, by food name and by brand; AI helpers kept only the products that really are a basic food (plain chicken breast, not breaded), and a final check left out unsure matches and names only in other languages. The result is `app/src/main/assets/seed/cz/store-products.json`: 262 products for 102 basic foods, with name, brand, barcode and pack size from the label, and the source `off:<barcode>`. **No prices.** Labels can be out of date (a pack size changes, a product is discontinued); the user can always pick another product. The file stays under ODbL (section 1). The phone does not go online for it: it is shipped inside the app.
+2. **The owner's research** (input #1), in the same file format (format in [M5.6](implementation/M05-plan-pantry-shopping.md)), with prices if the research has them. Every product records its source and date. *Status: waiting for the research.*
+3. **The user's own picks:** on any shopping line, search Open Food Facts, scan the barcode in the shop, or type the name and pack size. Saved on the phone, and shared with the household in M11.
+4. **Open Food Facts** data for scanned products (pack size, brand).
 
 **Rules:**
 - We don't copy product lists or prices from shop websites or apps without permission. Their terms of use usually forbid it, and in the EU databases are protected by the *sui generis* database right. If the owner's research used such a source, check its terms before the data is shipped in the app.
@@ -90,9 +91,10 @@ A list of common Czech chains written by us (names only): Albert, Billa, Globus,
 
 ## 7. Recipes
 
-- **Starter pack:** 30 recipes written for Calore ([M3.4](implementation/M03-recipes-and-dishes.md)), original texts, under the same licence as the app (0BSD).
+- **Starter pack:** 30 recipes written for Calore ([M3.4](implementation/M03-recipes-and-dishes.md)), original texts, under the same licence as the app.
+- **Big pack (0.14):** 974 more recipes from food sold in ordinary Czech supermarkets, 20 topics (Czech soups and classics, meal prep, fish, pasta, bowls, vegetarian, vegan, Asian, Mexican, Mediterranean, salads, breakfasts, snacks, oven and slow cooker, quick meals). Written with AI helpers from a brief ([`tools/recipe-pack`](../tools/recipe-pack/README.md)), original texts, checked by a script and unit tests; `app/src/main/assets/recipes/pack-cz.json`. Like the starter pack, it holds no nutrition values of its own. Every phone imports the same pack, so it is not sent to the household (M11).
 - **The user's recipes** stay on the phone (shared with the household in M11).
-- Nutrition is always calculated from the foods in sections 1–3: every starter ingredient is a basic food (`generic:` key, M2.2), so nothing in the pack has its own nutrition values. The file is `app/src/main/assets/recipes/starter-cz.json`; a unit test checks that every key exists and that each recipe has 150–1,200 kcal per serving.
+- Nutrition is always calculated from the foods in sections 1–3: every ingredient of both packs is a basic food (`generic:` key, M2.2), so nothing in a pack has its own nutrition values. The files are `app/src/main/assets/recipes/starter-cz.json` and `pack-cz.json`; unit tests check that every key exists and that each recipe has 150–1,200 kcal per serving.
 
 ## 8. Storage times (food-safety defaults)
 

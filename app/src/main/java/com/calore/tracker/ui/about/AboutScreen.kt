@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,8 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.calore.tracker.BuildConfig
 import com.calore.tracker.R
-import com.calore.tracker.FeatureFlags
-import androidx.compose.material3.TextButton
 import com.calore.tracker.ui.components.SectionHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,10 +56,8 @@ fun AboutScreen(onBack: () -> Unit, onOpenPolicy: () -> Unit = {}) {
             Text(stringResource(R.string.about_tagline), style = MaterialTheme.typography.bodyLarge)
 
             AboutSection(R.string.about_privacy_title, R.string.about_privacy)
-            // M10.1: the full policy; a draft until the owner's legal review, so shown with the research feature.
-            if (FeatureFlags.research) {
-                TextButton(onClick = onOpenPolicy) { Text(stringResource(R.string.about_policy_open)) }
-            }
+            // M10.1: the full policy, always reachable from here (0.14: it was shown only with the research feature).
+            Button(onClick = onOpenPolicy) { Text(stringResource(R.string.about_policy_open)) }
             AboutSection(R.string.about_data_title, R.string.about_data)
             // M7.7: cycle tracking is not for birth control or getting pregnant.
             AboutSection(R.string.about_health_title, R.string.cycle_disclaimer)

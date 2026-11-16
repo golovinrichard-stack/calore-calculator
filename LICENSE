@@ -1,14 +1,37 @@
-BSD Zero Clause License
+Calore
+Copyright (c) 2026 Richard Golovin. All rights reserved.
 
-Copyright (c) 2026 Richard Golovin
+This software, including its source code, documentation, recipes, texts, images
+and data written for Calore (together, the "Software"), is the property of the
+copyright holder and is protected by copyright law.
 
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
+No licence is granted. Without the prior written permission of the copyright
+holder, you may not use, copy, modify, merge, publish, distribute, sublicense,
+rent, sell or otherwise make available the Software or any part of it, or
+create works based on it. Installing and using an app build that the copyright
+holder gave you is allowed for your own personal use only.
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
+Parts that are not owned by the copyright holder keep their own licences:
+
+- Food data from Open Food Facts (https://world.openfoodfacts.org/) is
+  available under the Open Database License (ODbL) 1.0. Databases derived from
+  it that ship with the app (Czech basic foods taken from product labels, and
+  shop products) stay under the ODbL.
+- USDA FoodData Central data is in the public domain (CC0 1.0).
+- The libraries the app is built with (Android Jetpack, Kotlin, ZXing and
+  others listed in the build files) are used under their own licences, mostly
+  the Apache License 2.0.
+
+Versions of Calore published before 16 November 2026 were released under the
+BSD Zero Clause License. Copies of those versions that people already received
+stay under that licence; this licence applies to everything published on or
+after that date.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR OR
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For permission or licensing questions, contact the copyright holder.

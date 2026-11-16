@@ -23,6 +23,7 @@ import com.calore.tracker.data.backup.BackupRepository
 import com.calore.tracker.data.db.CaloreDatabase
 import com.calore.tracker.data.foods.GenericFoodImporter
 import com.calore.tracker.data.prefs.AppPrefs
+import com.calore.tracker.data.recipes.RecipePack
 import com.calore.tracker.data.recipes.StarterRecipeImporter
 import com.calore.tracker.data.prefs.SettingsStore
 import com.calore.tracker.data.remote.OpenFoodFactsClient
@@ -81,7 +82,7 @@ class AppContainer(context: Context) {
     )
 
     private val openFoodFacts = OpenFoodFactsClient(
-        userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; open-source calorie tracker)",
+        userAgent = "Calore/${BuildConfig.VERSION_NAME} (Android; calorie tracker)",
     )
 
     val foodRepository = FoodRepository(database.foodDao(), openFoodFacts, clock) { appPrefs.settings.first().country }
@@ -131,6 +132,9 @@ class AppContainer(context: Context) {
     }
     private val starterRecipes = StarterRecipeImporter(database.recipeDao(), database.foodDao(), appPrefs, clock) {
         context.assets.open(StarterRecipeImporter.ASSET_PATH)
+    }
+    private val packRecipes = StarterRecipeImporter(database.recipeDao(), database.foodDao(), appPrefs, clock, RecipePack.BIG) {
+        context.assets.open(StarterRecipeImporter.PACK_ASSET_PATH)
     }
     /** M10: research reports, only when the user agreed (and the build has a server address). */
     val researchRepository = ResearchRepository(
@@ -216,14 +220,20 @@ class AppContainer(context: Context) {
         WidgetUpdates.observe(context, database.invalidationTracker, applicationScope)
         // Create the phone's user's profile (and move the 0.x settings into it) before it is needed.
         applicationScope.launch { memberRepository.ensureMe() }
-        // Bundled basic foods, then the starter recipes that use them: once per version, in the background.
+        // Bundled basic foods, then the recipe packs that use them: once per version, in the background.
         applicationScope.launch {
             genericFoods.importIfNewer()
-            starterRecipes.importIfNewer()
-            // Shops (M5.6), then the owner's products for them, once that file exists (input #1).
-            context.assets.open(ShopRepository.STORES_ASSET).use { shopRepository.importStores(it) }
-            val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
-            products?.use { shopRepository.importProducts(it) }
+            // Every phone has the same packs (same ids): never sent to the household (M11).
+            syncStore.unrecorded {
+                starterRecipes.importIfNewer()
+                packRecipes.importIfNewer()
+            }
+            // Shops (M5.6), then the bundled products for them (0.14). Same ids on every phone: not sent to the household.
+            syncStore.unrecorded {
+                context.assets.open(ShopRepository.STORES_ASSET).use { shopRepository.importStores(it) }
+                val products = runCatching { context.assets.open(ShopRepository.PRODUCTS_ASSET) }.getOrNull()
+                products?.use { shopRepository.importProducts(it) }
+            }
         }
         // M11.8: kitchen, pantry and list write the household feed (only while in a household).
         cookingRepository.activity = activityLog

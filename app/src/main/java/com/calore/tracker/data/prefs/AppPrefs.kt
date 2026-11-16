@@ -49,6 +49,8 @@ data class AppSettings(
     /** Seed versions of the shops and the owner's products (M5.6); 0 = never imported. */
     val storesSeedVersion: Int = 0,
     val productsSeedVersion: Int = 0,
+    /** Version of the big recipe pack (`recipes/pack-cz.json`, 0.14) imported; 0 = never. */
+    val packRecipesVersion: Int = 0,
 ) {
     companion object {
         const val DEFAULT_COUNTRY = "CZ"
@@ -81,6 +83,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
                 plannerPrefsAsked = prefs[PLANNER_PREFS_ASKED] ?: false,
                 storesSeedVersion = prefs[STORES_SEED_VERSION] ?: 0,
                 productsSeedVersion = prefs[PRODUCTS_SEED_VERSION] ?: 0,
+                packRecipesVersion = prefs[PACK_RECIPES_VERSION] ?: 0,
             )
         }
 
@@ -152,6 +155,10 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[STARTER_RECIPES_VERSION] = version }
     }
 
+    suspend fun setPackRecipesVersion(version: Int) {
+        dataStore.edit { it[PACK_RECIPES_VERSION] = version }
+    }
+
     /** The flags set once when the profile moves out of the old settings (M1.1), in one write. */
     suspend fun markProfileMoved(existingUser: Boolean, birthDateToConfirm: Boolean) {
         dataStore.edit {
@@ -174,6 +181,7 @@ class AppPrefs(private val dataStore: DataStore<Preferences>) {
         private val CHECKIN_REMINDERS = booleanPreferencesKey("checkin_reminders")
         private val GENERIC_FOODS_VERSION = intPreferencesKey("generic_foods_version")
         private val STARTER_RECIPES_VERSION = intPreferencesKey("starter_recipes_version")
+        private val PACK_RECIPES_VERSION = intPreferencesKey("pack_recipes_version")
         private val EXACT_ALARM_HINT_SHOWN = booleanPreferencesKey("exact_alarm_hint_shown")
         private val FRESHNESS_REMINDERS = booleanPreferencesKey("freshness_reminders")
         private val THAW_REMINDERS = booleanPreferencesKey("thaw_reminders")

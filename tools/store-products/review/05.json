@@ -1,0 +1,45 @@
+{
+ "generic:coconut_milk": [],
+ "generic:paprika_spice": [],
+ "generic:black_pepper": [],
+ "generic:basil_dried": [],
+ "generic:garlic_powder": [],
+ "generic:chili_powder": [],
+ "generic:dark_chocolate": [
+  "4063367194320",
+  "20261368"
+ ],
+ "generic:milk_chocolate": [],
+ "generic:hazelnut_spread": [],
+ "generic:potato_chips": [],
+ "generic:popcorn": [
+  "8590421061787",
+  "5051007083720"
+ ],
+ "generic:butter_cookies": [],
+ "generic:rice_cakes": [],
+ "generic:granola_bar": [
+  "20535407"
+ ],
+ "generic:ice_cream": [],
+ "generic:orange_juice": [],
+ "generic:apple_juice": [],
+ "generic:soy_drink": [
+  "8590421062661"
+ ],
+ "generic:almond_drink": [],
+ "generic:tvaroh_semi": [],
+ "generic:tvaroh_full": [
+  "8590421044025",
+  "8594003967894",
+  "4056489413905",
+  "20105754"
+ ],
+ "generic:tvaroh_low": [
+  "8590421036266",
+  "8594003963391",
+  "8590421335192",
+  "20074043"
+ ],
+ "generic:butter_spread": []
+}

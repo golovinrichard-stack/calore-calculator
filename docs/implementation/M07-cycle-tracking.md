@@ -54,6 +54,15 @@
 - [x] "Not for birth control or for getting pregnant. Not medical advice." on the intro and in About.
 - [x] Neutral wording throughout; no "you should eat less/more because of your cycle".
 
+### After M7: adjust by hand (version 0.14)
+
+The owner asked for a way to adjust the cycle by hand, because every body is different.
+
+- [x] **Adjust my cycle** button under today's line: own cycle length (15–60 days) and period length (1–14 days), a switch **Always use my numbers** (predictions then use them even when enough cycles are logged; otherwise they only fill in until two full cycles exist, as before), and what the app learned from the logged periods.
+- [x] **Logged periods** list in the same dialog: change the first and last day of any period, mark it "still going", delete it, or add a past period. A change is refused when the last day is before the first, a day is in the future, or the days overlap another logged period (`Cycles.checkPeriod`, unit-tested).
+- [x] The usual-length fields moved from the settings section into this dialog. The "use my numbers" choice is stored in `cycle_prefs` (`own_lengths`); "Delete all cycle data" resets it too.
+- [x] **Lock (privacy):** choosing a lock first asks the user to unlock once, so they see it works and the section stays open; without a screen lock, a dialog explains it and opens the phone's security settings.
+
 ## Out of scope
 
 Fertility predictions, a calorie bonus for the luteal phase, and sharing cycle data with the household.

@@ -249,7 +249,7 @@ M7, M8 and M9 can be built at any time after their dependencies, in parallel wit
 |---|---|---|
 | 1 | Platforms | **Android only** for this implementation. |
 | 2 | Household sync | **Home Wi-Fi, with one family phone as the hub.** No paid server. Keep the hub's work light and tell users why it works this way. |
-| 3 | Who is it for | **For now, an APK on GitHub** for family and friends. A stable version first; then decide on the licence and the business model, and maybe Google Play or F-Droid. |
+| 3 | Who is it for | **For now, an APK on GitHub** for family and friends. Licence decided on 16 November 2026: **proprietary, all rights reserved** (the owner may sell it later, for example as a subscription); the repository becomes private. The business model and the store (maybe Google Play) come later. |
 | 4 | Country, shops, language | **Czech Republic first** (Czech and English, Kč, Czech shops). The rest of the world later; the code keeps country data separate so it can be added. |
 | 5 | Order | **The smart planner comes before the household**: it is about five times more important. |
 | 6 | Food-safety rules | **EU / Czech advice:** cooked food 3 days in the fridge by default, into the fridge within 2 hours, eat within 24 hours after thawing. |
@@ -263,7 +263,7 @@ M7, M8 and M9 can be built at any time after their dependencies, in parallel wit
 - Permission from ÚZEI to use the Czech food composition database (optional).
 - Hosting for the research server, and the controller's details for the privacy policy (M10).
 - A legal review and Czech translation of the privacy policy (M10).
-- The licence and business model, after a stable version.
+- The business model (for example a subscription), after a stable version. The licence is decided: proprietary.
 
 ## 7. Risks
 
