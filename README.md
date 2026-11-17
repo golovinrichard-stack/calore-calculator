@@ -106,6 +106,6 @@ The repository is private. Contributions only with the owner's agreement; see [C
 
 ## License
 
-Calore is proprietary software: © 2026 Richard Golovin, all rights reserved. See [LICENSE](LICENSE). You may not copy, change, share or sell it without written permission. Versions published before 16 November 2026 were released under the BSD Zero Clause License, and copies people already have stay under that licence.
+Calore is proprietary software: © 2026 Monoreel, all rights reserved. See [LICENSE](LICENSE). You may not copy, change, share or sell it without written permission. Versions published before 16 November 2026 were released under the BSD Zero Clause License, and copies people already have stay under that licence.
 
 Food data © Open Food Facts contributors, available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/).
